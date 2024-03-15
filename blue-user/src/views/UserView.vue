@@ -49,8 +49,8 @@
 </template>
 
 <script setup>
-import {ref, reactive, onMounted} from 'vue'
-import {login, getCodeImg} from '@/api/login'
+import {onMounted, reactive, ref} from 'vue'
+import {getCodeImg, login} from '@/api/login'
 
 let openAvater = ref(false)
 let avaterUrls = ref([
@@ -295,6 +295,7 @@ function goRegister() {
     img {
       padding-left: 10px;
       width: 100px;
+      object-fit: cover;
     }
   }
 
