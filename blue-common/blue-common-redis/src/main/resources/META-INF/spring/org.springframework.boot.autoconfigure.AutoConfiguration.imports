@@ -1,0 +1,2 @@
+com.blue.common.redis.configure.RedisConfig
+com.blue.common.redis.service.RedisService

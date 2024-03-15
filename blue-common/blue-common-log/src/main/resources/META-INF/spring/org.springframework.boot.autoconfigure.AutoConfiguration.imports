@@ -1,0 +1,2 @@
+com.blue.common.log.service.AsyncLogService
+com.blue.common.log.aspect.LogAspect

@@ -1,0 +1,119 @@
+* {
+  /* 默认有边距，都要清除 */
+  margin: 0;
+  padding: 0;
+  /*文字样式*/
+  font-family: "Regular", "Microsoft Yahei" !important;
+}
+
+/**默认字体*/
+@font-face {
+  font-family: "Regular";
+  font-weight: 400;
+  src: url("./fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff2"),
+  url("./fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff");
+  font-display: swap;
+}
+
+input {
+  background: none;
+  outline: none;
+  border: 0;
+}
+
+/**渐变色*/
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #F5F5F5;
+  opacity: 0.3;
+}
+
+/**渐变色*/
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
+}
+
+/**圆角*/
+*::-webkit-scrollbar-track {
+  border-radius: 20px;
+}
+
+/**盒子阴影*/
+.box_shadow {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/**盒子阴影*/
+.box_shadow:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+/**图标*/
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+/**鼠标点击效果*/
+.pointer {
+  cursor: pointer;
+}
+
+/**盒子圆角*/
+.box_radius {
+  border-radius: 5px 5px 8px 8px;
+}
+
+/**黑夜模式*/
+.bg_black {
+  background-color: #323232;
+  color: #676767;
+  transition: color 1s ease;
+  transition: background-color 0.8s ease;
+}
+
+/**白昼模式*/
+.bg_white {
+  background-color: #ffffff;
+  color: #212121;
+  transition: background-color 0.8s ease;
+}
+
+/**弹幕样式*/
+.Barrage {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  border-radius: 15px;
+  position: absolute;
+  cursor: default;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px 10px 3px 10px;
+}
+
+.BarrageSpan {
+  white-space: nowrap;
+  font-size: 16px;
+}
+
+.BarrageImg {
+  width: 100%;
+  height: 100%;
+  padding-right: 5px;
+}
+
+//一张旋转
+.rotateAll {
+  animation-name: rotateAll;
+  /*关键帧名称*/
+  animation-timing-function: linear;
+  /*动画的速度曲线*/
+  animation-iteration-count: infinite;
+  /*动画所花费的时间*/
+  animation-duration: 2s;
+}

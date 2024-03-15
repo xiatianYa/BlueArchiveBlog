@@ -1,0 +1,3 @@
+com.blue.system.api.factory.RemoteUserFallbackFactory
+com.blue.system.api.factory.RemoteLogFallbackFactory
+com.blue.system.api.factory.RemoteFileFallbackFactory

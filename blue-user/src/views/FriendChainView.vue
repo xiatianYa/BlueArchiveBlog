@@ -1,0 +1,364 @@
+<template>
+  <div class="friend">
+    <div class="banner">
+      <div class="animate__animated animate__slideInDown banner_video">
+        <video autoplay loop>
+          <source
+              src="https://outin-eeb8d5f20db011eebcc500163e1c60dc.oss-cn-shanghai.aliyuncs.com/c0df1d2edbd971eea7ec6632b68f0102/31cd75a57e6540579204bfa4db347079-d0f2b791b1a336f08ae072ea21bf175b-fd.mp4?Expires=1709871859&OSSAccessKeyId=LTAIxSaOfEzCnBOj&Signature=u4NgzOwaE8ug2OBtegrA8mJWokI%3D"
+              type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="container animate__animated animate__fadeInLeft">
+      <div class="content">
+        <div class="info">
+          <div class="info_msg">
+            <svg class="icon pointer" aria-hidden="true" @click="goDown">
+              <use xlink:href="#icon-faxian"></use>
+            </svg>
+            <span>
+              本站信息
+            </span>
+            <div class="msg">
+              <div class="msg_name">网站名称: BlueAchiveBlog</div>
+              <div class="msg_link">网址: https://baidu.com</div>
+              <div class="msg_img">头像: https://baidu.com</div>
+              <div class="msg_detail">描述: 这是一个Vue3+SpringCloud结合的产物~</div>
+              <div class="msg_cover">封面: https://www.baidu.com</div>
+            </div>
+          </div>
+          <div class="apply_msg">
+            <svg class="icon pointer" aria-hidden="true" @click="goDown">
+              <use xlink:href="#icon-faxian"></use>
+            </svg>
+            <span>
+              本站信息
+            </span>
+            <div class="msg">
+              <div class="controller">
+                接口地址: https://xxx.xxx:6379/apply/add
+              </div>
+              <div class="jinzhi">
+                禁止友链带广告or色情or政治
+              </div>
+              <div class="tongzhi">
+                申请之前请先添加本站友链
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="friends">
+          <div class="friend_segmentation">
+            <div class="segmentation">
+
+            </div>
+            <svg class="icon pointer" aria-hidden="true">
+              <use xlink:href="#icon-xiangsu-xuehua"></use>
+            </svg>
+          </div>
+          <div class="friend box_shadow pointer">
+            <div class="friend_img">
+              <img src="/static/images/liuyan.png" alt="">
+            </div>
+            <div class="friend_name">啦啦啦</div>
+            <div class="friend_detail">心之所向,热爱生活</div>
+            <div class="friend_time">
+              <svg class="icon pointer" aria-hidden="true">
+                <use xlink:href="#icon-shalou"></use>
+              </svg>
+              <span>发布于 2024-03-08</span>
+            </div>
+          </div>
+          <div class="friend box_shadow pointer">
+            <div class="friend_img">
+              <img src="/static/images/liuyan.png" alt="">
+            </div>
+            <div class="friend_name">啦啦啦</div>
+            <div class="friend_detail">心之所向,热爱生活</div>
+            <div class="friend_time">
+              <svg class="icon pointer" aria-hidden="true">
+                <use xlink:href="#icon-shalou"></use>
+              </svg>
+              <span>发布于 2024-03-08</span>
+            </div>
+          </div>
+          <div class="friend box_shadow pointer">
+            <div class="friend_img">
+              <img src="/static/images/liuyan.png" alt="">
+            </div>
+            <div class="friend_name">啦啦啦</div>
+            <div class="friend_detail">心之所向,热爱生活</div>
+            <div class="friend_time">
+              <svg class="icon pointer" aria-hidden="true">
+                <use xlink:href="#icon-shalou"></use>
+              </svg>
+              <span>发布于 2024-03-08</span>
+            </div>
+          </div>
+          <div class="friend box_shadow pointer">
+            <div class="friend_img">
+              <img src="/static/images/liuyan.png" alt="">
+            </div>
+            <div class="friend_name">啦啦啦</div>
+            <div class="friend_detail">心之所向,热爱生活</div>
+            <div class="friend_time">
+              <svg class="icon pointer" aria-hidden="true">
+                <use xlink:href="#icon-shalou"></use>
+              </svg>
+              <span>发布于 2024-03-08</span>
+            </div>
+          </div>
+          <div class="friend box_shadow pointer">
+            <div class="friend_img">
+              <img src="/static/images/liuyan.png" alt="">
+            </div>
+            <div class="friend_name">啦啦啦</div>
+            <div class="friend_detail">心之所向,热爱生活</div>
+            <div class="friend_time">
+              <svg class="icon pointer" aria-hidden="true">
+                <use xlink:href="#icon-shalou"></use>
+              </svg>
+              <span>发布于 2024-03-08</span>
+            </div>
+          </div>
+          <div class="friend box_shadow pointer">
+            <div class="friend_img">
+              <img src="/static/images/liuyan.png" alt="">
+            </div>
+            <div class="friend_name">啦啦啦</div>
+            <div class="friend_detail">心之所向,热爱生活</div>
+            <div class="friend_time">
+              <svg class="icon pointer" aria-hidden="true">
+                <use xlink:href="#icon-shalou"></use>
+              </svg>
+              <span>发布于 2024-03-08</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import {} from "vue"
+</script>
+
+<style lang="scss" scoped>
+.friend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+
+  .banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+    padding-top: 60px;
+
+    .banner_video {
+      width: 80%;
+      height: 100%;
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+
+      video {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        z-index: -1;
+      }
+    }
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+
+    .content {
+      width: 80%;
+      height: 100%;
+
+      .info {
+        display: flex;
+        flex-wrap: wrap;
+
+        .info_msg {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          width: 100%;
+          margin-top: 30px;
+          background-color: #ffe2e2;
+          border-left: 3px solid #ff9999;
+          border-radius: 10px;
+          padding: 5px;
+
+          .icon {
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+            font-size: 26px;
+            padding-left: 10px;
+          }
+
+          span {
+            font-size: 18px;
+          }
+
+          .msg {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-top: 20px;
+            margin-left: 10px;
+
+            div {
+              width: 100%;
+              padding-bottom: 10px;
+            }
+          }
+        }
+
+        .apply_msg {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          width: 100%;
+          margin-top: 30px;
+          background-color: #ffe2e2;
+          border-left: 3px solid #ff9999;
+          border-radius: 10px;
+          padding: 5px;
+
+          .icon {
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+            font-size: 26px;
+            margin-left: 5px;
+          }
+
+          span {
+            font-size: 18px;
+          }
+
+          .msg {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-top: 20px;
+            margin-left: 10px;
+
+            div {
+              width: 100%;
+              padding-bottom: 10px;
+            }
+          }
+        }
+      }
+
+      .friends {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding-top: 30px;
+
+        .friend_segmentation {
+          width: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          .segmentation {
+            width: 100%;
+            border-bottom: 4px dashed #c9d6df;
+          }
+
+          .icon {
+            position: absolute;
+            padding-left: 20px;
+            font-size: 32px;
+            overflow: hidden;
+            transition: all 5s ease;
+            transform: translateX(0%) rotate(360deg);
+          }
+
+          .icon:hover {
+            transition: all 5s ease;
+            transform: translateX(70vw) rotate(1080deg);
+          }
+        }
+
+        .friend {
+          display: flex;
+          border-radius: 10px;
+          width: 30%;
+          height: 100%;
+          margin-top: 40px;
+          overflow: hidden;
+
+          .friend_img {
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              transition: all .3s ease-in 0s;
+            }
+
+            img:hover {
+              object-fit: cover;
+              transform: scale(1.1);
+              transition: all 0.3s ease-in;
+            }
+          }
+
+          .friend_name {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: start;
+            font-size: 18px;
+            padding: 10px 0px 10px 15px;
+          }
+
+          .friend_detail {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: start;
+            font-size: 14px;
+            padding: 10px 0px 10px 15px;
+          }
+
+          .friend_time {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            font-size: 12px;
+            padding: 10px 0px 10px 15px;
+
+            .icon {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</style>

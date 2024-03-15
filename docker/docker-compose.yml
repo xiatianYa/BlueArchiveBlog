@@ -1,0 +1,140 @@
+version: '3.8'
+services:
+  blue-nacos:
+    container_name: blue-nacos
+    image: nacos/nacos-server
+    build:
+      context: ./nacos
+    environment:
+      - MODE=standalone
+    volumes:
+      - ./nacos/logs/:/home/nacos/logs
+      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+    depends_on:
+      - blue-mysql
+  blue-mysql:
+    container_name: blue-mysql
+    image: mysql:5.7
+    build:
+      context: ./mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+    command: [
+      'mysqld',
+      '--innodb-buffer-pool-size=80M',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--default-time-zone=+8:00',
+      '--lower-case-table-names=1'
+    ]
+    environment:
+      MYSQL_DATABASE: 'ry-cloud'
+      MYSQL_ROOT_PASSWORD: password
+  blue-redis:
+    container_name: blue-redis
+    image: redis
+    build:
+      context: ./redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/conf/redis.conf:/home/blue/redis/redis.conf
+      - ./redis/data:/data
+    command: redis-server /home/blue/redis/redis.conf
+  blue-nginx:
+    container_name: blue-nginx
+    image: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/html/dist:/home/blue/projects/blue-ui
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/logs:/var/log/nginx
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - blue-gateway
+    links:
+      - blue-gateway
+  blue-gateway:
+    container_name: blue-gateway
+    build:
+      context: ./blue/gateway
+      dockerfile: dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - blue-redis
+    links:
+      - blue-redis
+  blue-auth:
+    container_name: blue-auth
+    build:
+      context: ./blue/auth
+      dockerfile: dockerfile
+    ports:
+      - "9200:9200"
+    depends_on:
+      - blue-redis
+    links:
+      - blue-redis
+  blue-modules-system:
+    container_name: blue-modules-system
+    build:
+      context: ./blue/modules/system
+      dockerfile: dockerfile
+    ports:
+      - "9201:9201"
+    depends_on:
+      - blue-redis
+      - blue-mysql
+    links:
+      - blue-redis
+      - blue-mysql
+  blue-modules-gen:
+    container_name: blue-modules-gen
+    build:
+      context: ./blue/modules/gen
+      dockerfile: dockerfile
+    ports:
+      - "9202:9202"
+    depends_on:
+      - blue-mysql
+    links:
+      - blue-mysql
+  blue-modules-job:
+    container_name: blue-modules-job
+    build:
+      context: ./blue/modules/job
+      dockerfile: dockerfile
+    ports:
+      - "9203:9203"
+    depends_on:
+      - blue-mysql
+    links:
+      - blue-mysql
+  blue-modules-file:
+    container_name: blue-modules-file
+    build:
+      context: ./blue/modules/file
+      dockerfile: dockerfile
+    ports:
+      - "9300:9300"
+    volumes:
+      - ./blue/uploadPath:/home/blue/uploadPath
+  blue-visual-monitor:
+    container_name: blue-visual-monitor
+    build:
+      context: ./blue/visual/monitor
+      dockerfile: dockerfile
+    ports:
+      - "9100:9100"
