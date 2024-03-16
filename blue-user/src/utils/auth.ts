@@ -8,7 +8,7 @@ export function getToken() {
     return Cookies.get(TokenKey)
 }
 
-export function setToken(token) {
+export function setToken(token: string) {
     return Cookies.set(TokenKey, token)
 }
 
@@ -20,7 +20,7 @@ export function getExpiresIn() {
     return Cookies.get(ExpiresInKey) || -1
 }
 
-export function setExpiresIn(time) {
+export function setExpiresIn(time: any) {
     return Cookies.set(ExpiresInKey, time)
 }
 

@@ -7,7 +7,7 @@
           <h1>注册</h1>
           <div class="avater_box">
             <img :src="userInfo.avater">
-            <a class="pointer avater_select" @click="selectAvater(openAvater)">选择头像</a>
+            <a class="pointer avater_select" @click="selectAvatar(openAvater)">选择头像</a>
           </div>
           <input type="text" placeholder="用户名">
           <input type="email" placeholder="邮箱">
@@ -22,7 +22,7 @@
           <input type="password" placeholder="密码" v-model="userInfo.password">
           <div class="verification">
             <input type="text" placeholder="请输入验证码" v-model="userInfo.code">
-            <img :src="'data:image/gif;base64,'+codeImg" @click="getCode">
+            <img :src="'data:image/gif;base64,' + codeImg" @click="getCode">
           </div>
           <button @click="userLogin">登录</button>
         </div>
@@ -42,7 +42,7 @@
         <button id="register" @click="goRegister">去注册</button>
       </div>
       <div class="selectAvater animate__animated animate__fadeInLeft" v-show="openAvater">
-        <img :src="imgUrl" v-for="imgUrl, index in avaterUrls" :key="index" @click="exchangeAvater(imgUrl)">
+        <img v-for="(imgUrl, index) in avaterUrls" :key="index" :src="imgUrl" @click="exchangeAvater(imgUrl)">
       </div>
     </div>
   </div>
@@ -51,8 +51,16 @@
 <script setup>
 import {onMounted, reactive, ref} from 'vue'
 import {getCodeImg, login} from '@/api/login'
-
+import {useUserStore} from '@/store/user'
+import {setExpiresIn, setToken} from '@/utils/auth'
+import {useRouter} from "vue-router";
+//路由
+const router = useRouter()
+//Pinia
+const UserStore = useUserStore()
+//是否打开头像选择
 let openAvater = ref(false)
+//存储头像的地址列表
 let avaterUrls = ref([
   "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png",
   "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater02.png",
@@ -115,10 +123,12 @@ let avaterUrls = ref([
   "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater19.png",
   "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater20.png",
 ])
+//验证码
 let codeImg = ref([""])
+//用户信息
 let userInfo = reactive({
-  username: "",
-  password: "",
+  username: "admin",
+  password: "admin123",
   code: "",
   uuid: "",
   avater: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png"
@@ -128,19 +138,37 @@ onMounted(() => {
 })
 
 //用户选择头像
-function selectAvater(isOpen) {
+function selectAvatar(isOpen) {
   openAvater.value = !isOpen
 }
 
 //获取验证码
-async function getCode() {
-  let result = await getCodeImg()
-  codeImg.value = result.data.img
-  userInfo.uuid = result.data.uuid
+function getCode() {
+  getCodeImg().then(res => {
+    codeImg.value = res.img
+    userInfo.uuid = res.uuid
+  })
 }
 
-async function userLogin() {
-  let result = await login(userInfo.username, userInfo.password, userInfo.code, userInfo.uuid)
+function userLogin() {
+  const username = userInfo.username.trim()
+  const password = userInfo.password
+  const code = userInfo.code
+  const uuid = userInfo.uuid
+  login(username, password, code, uuid).then(res => {
+    let result = res.data
+    //设置Token
+    setToken(result.access_token)
+    //设置Token过期时间
+    setExpiresIn(result.expires_in)
+    //设置Token
+    UserStore.SET_TOKEN(result.access_token)
+    UserStore.SET_USERINFO()
+    router.push({path: "/"})
+  }).catch(error => {
+    getCode()
+    alert(error)
+  })
 }
 
 //前往登录
@@ -438,4 +466,4 @@ input:focus::placeholder {
   background-color: #d3b7d8;
   color: #fff;
 }
-</style>
+</style>@/store/user

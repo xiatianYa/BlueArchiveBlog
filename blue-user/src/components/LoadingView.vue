@@ -10,8 +10,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import {useGloBalStore} from '@/stores/global'
-import {ref, onMounted} from 'vue'
+import {useGloBalStore} from '@/store/global'
+import {onMounted, ref} from 'vue'
 
 let AlonaList = ref(['/static/images/Alona01.png', '/static/images/Alona02.png', '/static/images/Alona03.png', '/static/images/Alona04.png'])
 let AlonaUrl = ref("/static/images/Alona01.png")
@@ -38,7 +38,7 @@ onMounted(() => {
       timer.value = []
     }
     Percentages.value += 1;
-  }, 50))
+  }, 10))
 })
 </script>
 <style scoped>
@@ -86,4 +86,4 @@ onMounted(() => {
   }
 }
 </style>
-  
+@/store/global@/store/global

@@ -6,8 +6,13 @@
   <setUpView></setUpView>
 </template>
 <script setup lang="ts">
-import {watch, ref} from 'vue'
-import {useRouter} from 'vue-router'
+import {ref, watch} from 'vue'
+import {RouterView, useRouter} from 'vue-router'
+import NavView from '@/views/NavView.vue'
+import LoadingView from '@/components/LoadingView.vue'
+import FooterView from '@/components/FooterView.vue'
+import setUpView from '@/components/SetUpView.vue'
+import {useGloBalStore} from '@/store/global'
 
 let isShow: any = ref(true)
 let router = useRouter()
@@ -23,14 +28,8 @@ watch(
     },
     {immediate: true}
 )
-import NavView from '@/views/NavView.vue'
-import LoadingView from '@/components/LoadingView.vue'
-import FooterView from '@/components/FooterView.vue'
-import {RouterView} from 'vue-router'
-import setUpView from '@/components/SetUpView.vue'
-import {useGloBalStore} from '@/stores/global'
 
 const gloBalStore = useGloBalStore()
 </script>
 <style scoped>
-</style>
+</style>@/store/global

@@ -7,54 +7,74 @@
         </div>
         <div class="header_menu">
           <ul class="menus">
-            <router-link to="/" class="li">
-              <svg class="icon pointer" aria-hidden="true">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/">
+              <svg aria-hidden="true" class="icon pointer">
                 <use xlink:href="#icon-shouye"></use>
               </svg>
               <span class="pointer">首页</span>
             </router-link>
-            <router-link to="/found" class="li">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/found">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-faxian"></use>
               </svg>
               <span class="pointer">发现</span>
             </router-link>
-            <router-link to="/sort" class="li">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/sort">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-fenlei"></use>
               </svg>
               <span class="pointer">分类</span>
             </router-link>
-            <router-link to="/photo" class="li">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/photo">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiangce"></use>
               </svg>
               <span class="pointer">相册</span>
             </router-link>
-            <router-link to="/friend" class="li">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/friend">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-jiqiren"></use>
               </svg>
               <span class="pointer">友链</span>
             </router-link>
-            <router-link to="/leave" class="li">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/leave">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiaoxi"></use>
               </svg>
               <span class="pointer">留言</span>
             </router-link>
-            <router-link to="/song" class="li">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/song">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-jita"></use>
               </svg>
               <span class="pointer">听歌</span>
             </router-link>
-            <router-link to="/user" class="li">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/user">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-wode"></use>
               </svg>
               <span class="pointer">登录</span>
             </router-link>
+            <div class="nav-item">
+              <a :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
+                <img :src="UserStore.avatar" alt="">
+                <span>{{ UserStore.name }}</span>
+              </a>
+              <div class="nav-drop-down-wrapper">
+                <div :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="nav-drop-down">
+                  <div class="down-item">
+                    <div class="down-item-wrapper">
+                      <span>个人信息</span>
+                    </div>
+                  </div>
+                  <div class="down-item">
+                    <div class="down-item-wrapper">
+                      <span>退出登录</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </ul>
         </div>
       </div>
@@ -62,9 +82,11 @@
   </transition>
 </template>
 <script setup lang="ts">
-import {ref, reactive, onMounted, onBeforeMount} from 'vue'
-import {useGloBalStore} from '@/stores/global'
+import {onBeforeMount, onMounted, reactive, ref} from 'vue'
+import {useGloBalStore} from '@/store/global'
+import {useUserStore} from '@/store/user'
 
+const UserStore = useUserStore()
 const gloBalStore = useGloBalStore()
 const scrollPosition = reactive({x: 0, y: 0})
 const NavShow = ref(true)
@@ -82,6 +104,13 @@ function updateScrollPosition() {
 }
 </script>
 <style lang="scss" scoped>
+.color_white {
+  color: #212121;
+}
+
+.color_black {
+  color: #676767;
+}
 .header_box {
   z-index: 1;
   width: 100%;
@@ -111,6 +140,93 @@ function updateScrollPosition() {
         margin: 0;
         padding: 0;
 
+        .nav-item {
+          display: flex;
+          cursor: pointer;
+          font-weight: 800;
+          position: relative;
+          display: inline-block;
+
+          &:hover {
+            animation: jump 0.3s ease-in-out;
+
+            .nav-drop-down-wrapper {
+              display: block;
+              opacity: 0;
+              animation: show 0.4s ease-in-out;
+              animation-delay: 0.1s;
+              animation-fill-mode: forwards;
+            }
+          }
+
+          .alink {
+            widows: 100%;
+            height: 100%;
+            padding-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            display: flex;
+            flex-wrap: nowrap;
+
+            img {
+              width: 35px;
+              height: 35px;
+              padding-right: 5px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+
+          .nav-drop-down-wrapper {
+            padding-top: 10px;
+            width: 100%;
+            position: absolute;
+            display: none;
+            right: 5px;
+
+
+            .nav-drop-down {
+              background-color: #fff;
+              border-radius: 10px;
+              box-sizing: border-box;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              font-size: 12px;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+              .down-item {
+                margin: 10px 0;
+                box-sizing: border-box;
+                width: 90%;
+                border-radius: 10px;
+
+                &:hover {
+                  background-color: rgb(255, 229, 241);
+                  color: #727272;
+                }
+
+                .down-item-wrapper {
+                  padding: 5px;
+
+                  img {
+                    width: 20px;
+                    height: 20px;
+                    vertical-align: middle;
+                  }
+
+                  span {
+                    vertical-align: middle;
+                  }
+                }
+              }
+            }
+          }
+        }
+
         .li {
           display: flex;
           width: 100%;
@@ -118,6 +234,8 @@ function updateScrollPosition() {
           align-items: center;
           background: none;
           text-decoration: none;
+          position: relative;
+
 
           .icon {
             flex: 1;
@@ -134,7 +252,6 @@ function updateScrollPosition() {
             align-items: center;
             height: 100%;
             flex: 2;
-            color: #212121;
           }
 
           span:hover {
@@ -164,4 +281,4 @@ function updateScrollPosition() {
 .fade-leave-to {
   opacity: 0
 }
-</style>
+</style>@/store/global@/store/user

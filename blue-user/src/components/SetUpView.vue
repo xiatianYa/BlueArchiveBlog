@@ -21,7 +21,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {useGloBalStore} from '@/stores/global'
+import {useGloBalStore} from '@/store/global'
 
 const gloBalStore = useGloBalStore()
 
@@ -77,4 +77,4 @@ function goTop() {
   opacity: 1;
 }
 </style>
-  
+@/store/global@/store/global

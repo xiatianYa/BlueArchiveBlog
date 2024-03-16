@@ -1,3 +1,4 @@
+<script src="../store/modules/user.js"></script>
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
@@ -64,7 +65,7 @@
 <script>
 import {getCodeImg} from "@/api/login";
 import Cookies from "js-cookie";
-import {encrypt, decrypt} from '@/utils/jsencrypt'
+import {decrypt, encrypt} from '@/utils/jsencrypt'
 
 export default {
   name: "Login",

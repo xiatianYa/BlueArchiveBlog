@@ -21,8 +21,8 @@
 </template>
 
 <script setup>
-import {ref, reactive} from "vue"
-import {useGloBalStore} from '@/stores/global'
+import {ref} from "vue"
+import {useGloBalStore} from '@/store/global'
 
 const gloBalStore = useGloBalStore()
 // 定义弹幕数据
@@ -156,4 +156,4 @@ function addBarrage() {
     }
   }
 }
-</style>
+</style>@/store/global
