@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.system.mapper.BlueBgMapper">
+
+    <resultMap type="BlueBg" id="BlueBgResult">
+        <result property="id" column="id"/>
+        <result property="bgType" column="bg_type"/>
+        <result property="bgUrl" column="bg_url"/>
+        <result property="bgPosition" column="bg_position"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <sql id="selectBlueBgVo">
+        select id, bg_type, bg_url, bg_position, create_time, update_time, is_delete
+        from blue_bg
+    </sql>
+
+    <select id="selectBlueBgList" parameterType="BlueBg" resultMap="BlueBgResult">
+        <include refid="selectBlueBgVo"/>
+        <where>
+            <if test="bgType != null  and bgType != ''">and bg_type = #{bgType}</if>
+            <if test="bgUrl != null  and bgUrl != ''">and bg_url = #{bgUrl}</if>
+            <if test="bgPosition != null  and bgPosition != ''">and bg_position = #{bgPosition}</if>
+            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+            <if test="isDelete != null  and isDelete != ''">and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+
+    <select id="selectBlueBgById" parameterType="Long" resultMap="BlueBgResult">
+        <include refid="selectBlueBgVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBlueBg" parameterType="BlueBg" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_bg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bgType != null and bgType != ''">bg_type,</if>
+            <if test="bgUrl != null and bgUrl != ''">bg_url,</if>
+            <if test="bgPosition != null and bgPosition != ''">bg_position,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDelete != null and isDelete != ''">is_delete,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bgType != null and bgType != ''">#{bgType},</if>
+            <if test="bgUrl != null and bgUrl != ''">#{bgUrl},</if>
+            <if test="bgPosition != null and bgPosition != ''">#{bgPosition},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDelete != null and isDelete != ''">#{isDelete},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBlueBg" parameterType="BlueBg">
+        update blue_bg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bgType != null and bgType != ''">bg_type = #{bgType},</if>
+            <if test="bgUrl != null and bgUrl != ''">bg_url = #{bgUrl},</if>
+            <if test="bgPosition != null and bgPosition != ''">bg_position = #{bgPosition},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDelete != null and isDelete != ''">is_delete = #{isDelete},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueBgById" parameterType="Long">
+        delete
+        from blue_bg
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueBgByIds" parameterType="String">
+        delete from blue_bg where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

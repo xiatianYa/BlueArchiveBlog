@@ -6,7 +6,7 @@
       </div>
       <div class="leave_input">
         <div class="search_box">
-          <input type="text" placeholder="留下点什么吧~" class="search_txt" v-model="BarrageText">
+          <input v-model="BarrageInfo.content" class="search_txt" placeholder="留下点什么吧~" type="text">
           <svg class="icon pointer" aria-hidden="true" @click="addBarrage">
             <use xlink:href="#icon-daohang"></use>
           </svg>
@@ -23,11 +23,16 @@
 <script setup>
 import {ref} from "vue"
 import {useGloBalStore} from '@/store/global'
-
+import {useUserStore} from '@/store/user'
+import {addMessage} from '@/api/message'
 const gloBalStore = useGloBalStore()
 // 定义弹幕数据
-const BarrageText = ref("")
-
+const BarrageInfo = ref({
+  userId: "",
+  content: "",
+  barrageHeight: 0,
+})
+const UserStore = useUserStore()
 //添加弹幕函数
 function addBarrage() {
   var container = document.getElementsByClassName("leave_header")[0]
@@ -46,7 +51,7 @@ function addBarrage() {
   //设置BarrageImg的ClassName
   BarrageImg.className = "BarrageImg";
   // 设置其文本内容为参数值
-  BarrageSpan.innerText = BarrageText.value;
+  BarrageSpan.innerText = BarrageInfo.value.content;
   // 设置其随机的高度
   var BarrageHeight = Math.floor(Math.random() * container.clientHeight);
   if (BarrageHeight < 53) {
@@ -55,6 +60,16 @@ function addBarrage() {
     BarrageHeight = container.clientHeight - 30
   }
   Barrage.style.top = BarrageHeight + "px";
+
+  //添加到弹幕表中
+  BarrageInfo.value.userId = UserStore.id
+  BarrageInfo.value.barrageHeight = BarrageHeight
+  addMessage(BarrageInfo.value).then(res => {
+
+  }).catch(error => {
+
+  })
+  BarrageInfo.value.content = ""
   // 设置其随机的颜色
   Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
   //将Img元素插入到容器元素中

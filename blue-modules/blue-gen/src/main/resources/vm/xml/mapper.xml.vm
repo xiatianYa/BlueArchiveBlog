@@ -135,7 +135,7 @@
     </delete>
 
     <delete id="delete${ClassName}By${pkColumn.capJavaField}s" parameterType="String">
-        delete from ${tableName} where ${pkColumn.columnName} in
+        delete from ${tableName} where ${pkColumn.columnName} in 
         <foreach item="${pkColumn.javaField}" collection="array" open="(" separator="," close=")">
             #{${pkColumn.javaField}}
         </foreach>
@@ -150,7 +150,8 @@
         </delete>
 
         <delete id="delete${subClassName}By${subTableFkClassName}" parameterType="${pkColumn.javaType}">
-            delete from ${subTableName} where ${subTableFkName} = #{${subTableFkclassName}}
+            delete
+            from ${subTableName} where ${subTableFkName} = #{${subTableFkclassName}}
         </delete>
 
         <insert id="batch${subClassName}">

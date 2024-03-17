@@ -49,13 +49,14 @@
               </svg>
               <span class="pointer">听歌</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/user">
+            <router-link v-show="!UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li"
+                         to="/user">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-wode"></use>
               </svg>
               <span class="pointer">登录</span>
             </router-link>
-            <div class="nav-item">
+            <div v-show="UserStore.token" class="nav-item">
               <a :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
                 <img :src="UserStore.avatar" alt="">
                 <span>{{ UserStore.name }}</span>
@@ -68,7 +69,7 @@
                     </div>
                   </div>
                   <div class="down-item">
-                    <div class="down-item-wrapper">
+                    <div class="down-item-wrapper" @click="logOut()">
                       <span>退出登录</span>
                     </div>
                   </div>
@@ -102,6 +103,10 @@ function updateScrollPosition() {
   scrollPosition.y = window.scrollY;
   NavShow.value = scrollPosition.y <= 53;
 }
+
+function logOut() {
+  UserStore.LogOut()
+}
 </script>
 <style lang="scss" scoped>
 .color_white {
@@ -111,6 +116,7 @@ function updateScrollPosition() {
 .color_black {
   color: #676767;
 }
+
 .header_box {
   z-index: 1;
   width: 100%;

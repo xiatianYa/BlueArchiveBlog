@@ -163,7 +163,6 @@ function userLogin() {
     setExpiresIn(result.expires_in)
     //设置Token
     UserStore.SET_TOKEN(result.access_token)
-    UserStore.SET_USERINFO()
     router.push({path: "/"})
   }).catch(error => {
     getCode()
@@ -321,8 +320,9 @@ function goRegister() {
     }
 
     img {
-      padding-left: 10px;
-      width: 100px;
+      margin-left: 10px;
+      border-radius: 10px;
+      width: 80px;
       object-fit: cover;
     }
   }

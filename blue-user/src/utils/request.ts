@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {getToken} from '@/utils/auth.js'
-
+import {useUserStore} from '@/store/user'
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
@@ -30,6 +30,8 @@ service.interceptors.response.use(res => {
         // 获取错误信息
         const msg = res.data.msg
         if (code === 401) {
+            const UserStore = useUserStore()
+            UserStore.SET_TOKEN("");
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         } else if (code === 500) {
             return Promise.reject(new Error(msg))

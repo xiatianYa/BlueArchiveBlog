@@ -4,6 +4,13 @@
   padding: 0;
   /*文字样式*/
   font-family: "Regular", "Microsoft Yahei" !important;
+  //设置文字不被点击选中
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard syntax */
 }
 
 /**默认字体*/
