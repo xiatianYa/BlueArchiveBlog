@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.sort.mapper.BlueSortTagMapper">
+
+    <resultMap type="BlueSortTag" id="BlueSortTagResult">
+        <result property="id" column="id"/>
+        <result property="sortId" column="sort_id"/>
+        <result property="tagName" column="tag_name"/>
+    </resultMap>
+
+    <sql id="selectBlueSortTagVo">
+        select id, sort_id, tag_name
+        from blue_sort_tag
+    </sql>
+
+    <select id="selectBlueSortTagList" parameterType="BlueSortTag" resultMap="BlueSortTagResult">
+        <include refid="selectBlueSortTagVo"/>
+        <where>
+            <if test="sortId != null ">and sort_id = #{sortId}</if>
+            <if test="tagName != null  and tagName != ''">and tag_name like concat('%', #{tagName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBlueSortTagById" parameterType="Long" resultMap="BlueSortTagResult">
+        <include refid="selectBlueSortTagVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBlueSortTag" parameterType="BlueSortTag" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_sort_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sortId != null">sort_id,</if>
+            <if test="tagName != null and tagName != ''">tag_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sortId != null">#{sortId},</if>
+            <if test="tagName != null and tagName != ''">#{tagName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBlueSortTag" parameterType="BlueSortTag">
+        update blue_sort_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sortId != null">sort_id = #{sortId},</if>
+            <if test="tagName != null and tagName != ''">tag_name = #{tagName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueSortTagById" parameterType="Long">
+        delete
+        from blue_sort_tag
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueSortTagByIds" parameterType="String">
+        delete from blue_sort_tag where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

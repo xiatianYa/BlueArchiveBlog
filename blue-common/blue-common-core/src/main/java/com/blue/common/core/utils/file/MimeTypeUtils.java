@@ -34,6 +34,8 @@ public class MimeTypeUtils {
             "rar", "zip", "gz", "bz2",
             // 视频格式
             "mp4", "avi", "rmvb",
+            //音乐
+            "mp3",
             // pdf
             "pdf"};
 
