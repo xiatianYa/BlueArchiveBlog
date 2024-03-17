@@ -11,11 +11,10 @@
         <result property="bgPosition" column="bg_position"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <sql id="selectBlueBgVo">
-        select id, bg_type, bg_url, bg_position, create_time, update_time, is_delete
+        select id, bg_type, bg_url, bg_position, create_time, update_time
         from blue_bg
     </sql>
 
@@ -27,7 +26,6 @@
             <if test="bgPosition != null  and bgPosition != ''">and bg_position = #{bgPosition}</if>
             <if test="createTime != null ">and create_time = #{createTime}</if>
             <if test="updateTime != null ">and update_time = #{updateTime}</if>
-            <if test="isDelete != null  and isDelete != ''">and is_delete = #{isDelete}</if>
         </where>
     </select>
 
@@ -44,7 +42,6 @@
             <if test="bgPosition != null and bgPosition != ''">bg_position,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-            <if test="isDelete != null and isDelete != ''">is_delete,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="bgType != null and bgType != ''">#{bgType},</if>
@@ -52,7 +49,6 @@
             <if test="bgPosition != null and bgPosition != ''">#{bgPosition},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-            <if test="isDelete != null and isDelete != ''">#{isDelete},</if>
         </trim>
     </insert>
 
@@ -64,7 +60,6 @@
             <if test="bgPosition != null and bgPosition != ''">bg_position = #{bgPosition},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="isDelete != null and isDelete != ''">is_delete = #{isDelete},</if>
         </trim>
         where id = #{id}
     </update>
@@ -76,7 +71,7 @@
     </delete>
 
     <delete id="deleteBlueBgByIds" parameterType="String">
-        delete from blue_bg where id in
+        delete from blue_bg where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

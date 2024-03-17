@@ -1,9 +1,9 @@
 <template>
   <div class="home_box">
     <div class="animate__animated animate__slideInDown video_bg">
-      <video class="video-background" autoplay loop>
+      <video autoplay class="video-background" loop muted>
         <source
-            src="https://outin-eeb8d5f20db011eebcc500163e1c60dc.oss-cn-shanghai.aliyuncs.com/c0921c72d7e271eebfe00764b3ec0102/a7aa0c43e9d5812543f5924181bc6132-fd.mp4?Expires=1709869132&OSSAccessKeyId=LTAIxSaOfEzCnBOj&Signature=61%2BIBGjjcBL6GASbmpIjHEVIkxc%3D"
+            :src="'http://127.0.0.1:9300/statics/2024/03/17/a7aa0c43e9d5812543f5924181bc6132-fd_20240317155200A005.mp4'"
             type="video/mp4">
       </video>
     </div>
@@ -201,8 +201,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import {ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
+import {useBgStore} from '@/store/bg'
 
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
 function goDown() {
   let dom = document.documentElement;
   window.scrollTo({behavior: 'smooth', top: dom.scrollHeight});

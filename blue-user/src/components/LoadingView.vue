@@ -12,7 +12,9 @@
 <script setup lang="ts">
 import {useGloBalStore} from '@/store/global'
 import {onMounted, ref} from 'vue'
-
+import {useRouter} from "vue-router";
+//路由
+const router = useRouter()
 let AlonaList = ref(['/static/images/Alona01.png', '/static/images/Alona02.png', '/static/images/Alona03.png', '/static/images/Alona04.png'])
 let AlonaUrl = ref("/static/images/Alona01.png")
 let Percentages = ref(0)
@@ -36,6 +38,7 @@ onMounted(() => {
         clearInterval(timerElement)
       }
       timer.value = []
+      router.push({path: "/home"})
     }
     Percentages.value += 1;
   }, 10))

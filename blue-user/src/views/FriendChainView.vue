@@ -2,9 +2,9 @@
   <div class="friend">
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop>
+        <video autoplay loop muted>
           <source
-              src="https://outin-eeb8d5f20db011eebcc500163e1c60dc.oss-cn-shanghai.aliyuncs.com/c0df1d2edbd971eea7ec6632b68f0102/31cd75a57e6540579204bfa4db347079-d0f2b791b1a336f08ae072ea21bf175b-fd.mp4?Expires=1709871859&OSSAccessKeyId=LTAIxSaOfEzCnBOj&Signature=u4NgzOwaE8ug2OBtegrA8mJWokI%3D"
+              :src="bgUrl"
               type="video/mp4">
         </video>
       </div>
@@ -141,7 +141,10 @@
 </template>
 
 <script setup>
-import {} from "vue"
+import {ref} from "vue"
+import {useBgStore} from '@/store/bg'
+
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4"))
 </script>
 
 <style lang="scss" scoped>

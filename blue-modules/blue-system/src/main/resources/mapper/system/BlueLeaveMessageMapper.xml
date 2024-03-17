@@ -10,11 +10,10 @@
         <result property="content" column="content"/>
         <result property="barrageHeight" column="barrage_height"/>
         <result property="createTime" column="create_time"/>
-        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <sql id="selectBlueLeaveMessageVo">
-        select id, user_id, content, barrage_height, create_time, is_delete
+        select id, user_id, content, barrage_height, create_time
         from blue_leave_message
     </sql>
 
@@ -25,7 +24,6 @@
             <if test="content != null  and content != ''">and content = #{content}</if>
             <if test="barrageHeight != null ">and barrage_height = #{barrageHeight}</if>
             <if test="createTime != null ">and create_time = #{createTime}</if>
-            <if test="isDelete != null  and isDelete != ''">and is_delete = #{isDelete}</if>
         </where>
     </select>
 
@@ -41,14 +39,12 @@
             <if test="content != null and content != ''">content,</if>
             <if test="barrageHeight != null">barrage_height,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="isDelete != null and isDelete != ''">is_delete,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="content != null and content != ''">#{content},</if>
             <if test="barrageHeight != null">#{barrageHeight},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="isDelete != null and isDelete != ''">#{isDelete},</if>
         </trim>
     </insert>
 
@@ -59,7 +55,6 @@
             <if test="content != null and content != ''">content = #{content},</if>
             <if test="barrageHeight != null">barrage_height = #{barrageHeight},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="isDelete != null and isDelete != ''">is_delete = #{isDelete},</if>
         </trim>
         where id = #{id}
     </update>
@@ -71,7 +66,7 @@
     </delete>
 
     <delete id="deleteBlueLeaveMessageByIds" parameterType="String">
-        delete from blue_leave_message where id in
+        delete from blue_leave_message where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

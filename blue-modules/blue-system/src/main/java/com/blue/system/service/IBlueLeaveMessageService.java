@@ -1,19 +1,18 @@
 package com.blue.system.service;
 
 import java.util.List;
-
 import com.blue.system.domain.BlueLeaveMessage;
 
 /**
  * 弹幕Service接口
- *
+ * 
  * @author ruoyi
  * @date 2024-03-17
  */
 public interface IBlueLeaveMessageService {
     /**
      * 查询弹幕
-     *
+     * 
      * @param id 弹幕主键
      * @return 弹幕
      */
@@ -21,7 +20,7 @@ public interface IBlueLeaveMessageService {
 
     /**
      * 查询弹幕列表
-     *
+     * 
      * @param blueLeaveMessage 弹幕
      * @return 弹幕集合
      */
@@ -29,7 +28,7 @@ public interface IBlueLeaveMessageService {
 
     /**
      * 新增弹幕
-     *
+     * 
      * @param blueLeaveMessage 弹幕
      * @return 结果
      */
@@ -37,7 +36,7 @@ public interface IBlueLeaveMessageService {
 
     /**
      * 修改弹幕
-     *
+     * 
      * @param blueLeaveMessage 弹幕
      * @return 结果
      */
@@ -45,7 +44,7 @@ public interface IBlueLeaveMessageService {
 
     /**
      * 批量删除弹幕
-     *
+     * 
      * @param ids 需要删除的弹幕主键集合
      * @return 结果
      */
@@ -53,7 +52,7 @@ public interface IBlueLeaveMessageService {
 
     /**
      * 删除弹幕信息
-     *
+     * 
      * @param id 弹幕主键
      * @return 结果
      */

@@ -1,7 +1,6 @@
 package com.blue.system.service.impl;
 
 import java.util.List;
-
 import com.blue.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,7 @@ import com.blue.system.service.IBlueBgService;
 
 /**
  * 网站背景资源信息Service业务层处理
- *
+ * 
  * @author ruoyi
  * @date 2024-03-17
  */
@@ -22,7 +21,7 @@ public class BlueBgServiceImpl implements IBlueBgService {
 
     /**
      * 查询网站背景资源信息
-     *
+     * 
      * @param id 网站背景资源信息主键
      * @return 网站背景资源信息
      */
@@ -33,7 +32,7 @@ public class BlueBgServiceImpl implements IBlueBgService {
 
     /**
      * 查询网站背景资源信息列表
-     *
+     * 
      * @param blueBg 网站背景资源信息
      * @return 网站背景资源信息
      */
@@ -44,19 +43,20 @@ public class BlueBgServiceImpl implements IBlueBgService {
 
     /**
      * 新增网站背景资源信息
-     *
+     * 
      * @param blueBg 网站背景资源信息
      * @return 结果
      */
     @Override
     public int insertBlueBg(BlueBg blueBg) {
         blueBg.setCreateTime(DateUtils.getNowDate());
+        blueBg.setUpdateTime(DateUtils.getNowDate());
         return blueBgMapper.insertBlueBg(blueBg);
     }
 
     /**
      * 修改网站背景资源信息
-     *
+     * 
      * @param blueBg 网站背景资源信息
      * @return 结果
      */
@@ -68,7 +68,7 @@ public class BlueBgServiceImpl implements IBlueBgService {
 
     /**
      * 批量删除网站背景资源信息
-     *
+     * 
      * @param ids 需要删除的网站背景资源信息主键
      * @return 结果
      */
@@ -79,7 +79,7 @@ public class BlueBgServiceImpl implements IBlueBgService {
 
     /**
      * 删除网站背景资源信息信息
-     *
+     * 
      * @param id 网站背景资源信息主键
      * @return 结果
      */

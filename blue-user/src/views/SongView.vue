@@ -2,10 +2,8 @@
   <div class="song">
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop>
-          <source
-              src="https://outin-eeb8d5f20db011eebcc500163e1c60dc.oss-cn-shanghai.aliyuncs.com/80702878dd3771eea6d36723a78f0102/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd.mp4?Expires=1709897734&OSSAccessKeyId=LTAIxSaOfEzCnBOj&Signature=a1o2P2jGG2FhClwNEukro1gDahc%3D"
-              type="video/mp4">
+        <video id="myVideo" autoplay loop>
+          <source :src="bgUrl" type="video/mp4">
         </video>
       </div>
     </div>
@@ -194,10 +192,17 @@
 
 <script setup>
 import {ref, reactive} from "vue"
+import {useBgStore} from '@/store/bg'
+
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("5"))
 //存储上一个img图片
 let BeforeImg = reactive({})
 
 function startMusic(event) {
+  //关闭视频音乐
+  var video = document.getElementById("myVideo");
+  // 静音视频
+  video.muted = true;
   //获取音乐标签
   let music = document.getElementById("music");
   //清除img图片的旋转样式
@@ -206,6 +211,10 @@ function startMusic(event) {
   let img = event.target;
   //判断是不是点击正在播放的音乐
   if (img === BeforeImg) {
+    //关闭视频音乐
+    var video = document.getElementById("myVideo");
+    // 静音视频
+    video.muted = false;
     //清除BeforeImg
     BeforeImg = {};
     //停止音乐

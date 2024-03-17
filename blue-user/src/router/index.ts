@@ -7,12 +7,18 @@ import FriendChainView from '../views/FriendChainView.vue'
 import LeaveMessageView from '../views/LeaveMessageView.vue'
 import SongView from '../views/SongView.vue'
 import UserView from '../views/UserView.vue'
+import LoadingVuew from '../components/LoadingView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
+            name: 'loading',
+            component: LoadingVuew
+        },
+        {
+            path: '/home',
             name: 'home',
             component: HomeView
         },

@@ -2,31 +2,31 @@
   <div class="found">
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop>
+        <video autoplay loop muted>
           <source
-              src="https://outin-eeb8d5f20db011eebcc500163e1c60dc.oss-cn-shanghai.aliyuncs.com/50bd1172d7e271ee802c5017f0f90102/025e209ea69efabe1cd56a1c73b90866-fd.mp4?Expires=1709576469&OSSAccessKeyId=LTAIxSaOfEzCnBOj&Signature=vCdvO3F%2Bwye5uSKxez3PYYplDPc%3D"
+              :src="bgUrl"
               type="video/mp4">
         </video>
         <div class="menus">
           <div class="menu pointer">
-                        <span class="title">
-                            追番
-                        </span>
+            <span class="title">
+              追番
+            </span>
           </div>
           <div class="menu pointer">
-                        <span class="title">
-                            二创
-                        </span>
+            <span class="title">
+              二创
+            </span>
           </div>
           <div class="menu pointer">
-                        <span class="title">
-                            编程工具
-                        </span>
+            <span class="title">
+              编程工具
+            </span>
           </div>
           <div class="menu pointer">
-                        <span class="title">
-                            小游戏
-                        </span>
+            <span class="title">
+              小游戏
+            </span>
           </div>
         </div>
       </div>
@@ -38,8 +38,8 @@
             <use xlink:href="#icon-fenlei"></use>
           </svg>
           <span>
-                        学习人生
-                    </span>
+            学习人生
+          </span>
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-icon-gengduo"></use>
           </svg>
@@ -56,7 +56,11 @@
 </template>
 
 <script setup lang="ts">
+import {ref} from 'vue'
 import FoundDetail from '@/components/FoundDetail.vue'
+import {useBgStore} from '@/store/bg'
+
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
 </script>
 
 <style lang="scss" scoped>

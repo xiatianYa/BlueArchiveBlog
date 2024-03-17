@@ -1,19 +1,18 @@
 package com.blue.system.mapper;
 
 import java.util.List;
-
 import com.blue.system.domain.BlueBg;
 
 /**
  * 网站背景资源信息Mapper接口
- *
+ * 
  * @author ruoyi
  * @date 2024-03-17
  */
 public interface BlueBgMapper {
     /**
      * 查询网站背景资源信息
-     *
+     * 
      * @param id 网站背景资源信息主键
      * @return 网站背景资源信息
      */
@@ -21,7 +20,7 @@ public interface BlueBgMapper {
 
     /**
      * 查询网站背景资源信息列表
-     *
+     * 
      * @param blueBg 网站背景资源信息
      * @return 网站背景资源信息集合
      */
@@ -29,7 +28,7 @@ public interface BlueBgMapper {
 
     /**
      * 新增网站背景资源信息
-     *
+     * 
      * @param blueBg 网站背景资源信息
      * @return 结果
      */
@@ -37,7 +36,7 @@ public interface BlueBgMapper {
 
     /**
      * 修改网站背景资源信息
-     *
+     * 
      * @param blueBg 网站背景资源信息
      * @return 结果
      */
@@ -45,7 +44,7 @@ public interface BlueBgMapper {
 
     /**
      * 删除网站背景资源信息
-     *
+     * 
      * @param id 网站背景资源信息主键
      * @return 结果
      */
@@ -53,7 +52,7 @@ public interface BlueBgMapper {
 
     /**
      * 批量删除网站背景资源信息
-     *
+     * 
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */

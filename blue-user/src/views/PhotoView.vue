@@ -2,9 +2,9 @@
   <div class="photo">
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop>
+        <video autoplay loop muted>
           <source
-              src="https://outin-eeb8d5f20db011eebcc500163e1c60dc.oss-cn-shanghai.aliyuncs.com/f0084257dcb971eeacf96733a68f0102/0b08c99240c44092ba518281c55e322e-a3a62dda6c4fa75ad613f959a3f67689-fd.mp4?Expires=1709843649&OSSAccessKeyId=LTAIxSaOfEzCnBOj&Signature=bUijZmQDS22FrEDuIpkamXiM6h8%3D"
+              :src="bgUrl"
               type="video/mp4">
         </video>
         <div class="banner_nav">
@@ -278,7 +278,10 @@
 </template>
 
 <script setup>
-import {} from "vue"
+import {ref} from "vue"
+import {useBgStore} from '@/store/bg'
+
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
 </script>
 
 <style lang="scss" scoped>
@@ -318,7 +321,7 @@ import {} from "vue"
       flex-wrap: wrap;
       width: 25%;
       height: 100%;
-      right: 0;
+      right: 20px;
       top: 0%;
 
       .top {

@@ -7,7 +7,7 @@ import com.blue.common.core.web.domain.BaseEntity;
 
 /**
  * 弹幕对象 blue_leave_message
- *
+ * 
  * @author ruoyi
  * @date 2024-03-17
  */
@@ -19,68 +19,55 @@ public class BlueLeaveMessage extends BaseEntity {
      */
     private Long id;
 
-    /**
-     * 用户ID
-     */
+    /** 用户ID */
     @Excel(name = "用户ID")
     private Long userId;
 
     /**
-     * 内容
+     * 弹幕的具体内容
      */
-    @Excel(name = "内容")
+    @Excel(name = "弹幕的具体内容")
     private String content;
 
     /**
-     * 高度
+     * 弹幕的高度位置
      */
-    @Excel(name = "高度")
+    @Excel(name = "弹幕的高度位置")
     private Long barrageHeight;
 
-    /**
-     * 是否删除（0表示未删除，1表示已删除）
-     */
-    @Excel(name = "是否删除", readConverterExp = "0=表示未删除，1表示已删除")
-    private String isDelete;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId)
+    {
+        this.userId = userId;
     }
 
     public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setContent(String content)
+    {
+        this.content = content;
     }
 
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setBarrageHeight(Long barrageHeight)
+    {
+        this.barrageHeight = barrageHeight;
     }
 
     public Long getBarrageHeight() {
         return barrageHeight;
-    }
-
-    public void setBarrageHeight(Long barrageHeight) {
-        this.barrageHeight = barrageHeight;
-    }
-
-    public String getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(String isDelete) {
-        this.isDelete = isDelete;
     }
 
     @Override
@@ -91,7 +78,6 @@ public class BlueLeaveMessage extends BaseEntity {
                 .append("content", getContent())
                 .append("barrageHeight", getBarrageHeight())
                 .append("createTime", getCreateTime())
-                .append("isDelete", getIsDelete())
-                .toString();
+            .toString();
     }
 }

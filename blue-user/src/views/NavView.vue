@@ -1,13 +1,13 @@
 <template>
   <transition name="fade">
-    <div class="header_box header_fixed" v-show="!gloBalStore.loading && NavShow">
+    <div class="header_box header_fixed">
       <div class="pc_menu">
         <div class="header_log">
           <img src="\static\images\logo.png" alt="碧蓝档案log"/>
         </div>
         <div class="header_menu">
           <ul class="menus">
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/home">
               <svg aria-hidden="true" class="icon pointer">
                 <use xlink:href="#icon-shouye"></use>
               </svg>

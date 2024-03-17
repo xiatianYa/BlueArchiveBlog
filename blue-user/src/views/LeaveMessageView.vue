@@ -62,13 +62,9 @@ function addBarrage() {
   Barrage.style.top = BarrageHeight + "px";
 
   //添加到弹幕表中
-  BarrageInfo.value.userId = UserStore.id
+  BarrageInfo.value.userId = UserStore.id || 0
   BarrageInfo.value.barrageHeight = BarrageHeight
-  addMessage(BarrageInfo.value).then(res => {
-
-  }).catch(error => {
-
-  })
+  addMessage(BarrageInfo.value)
   BarrageInfo.value.content = ""
   // 设置其随机的颜色
   Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";

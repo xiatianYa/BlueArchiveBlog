@@ -2,9 +2,9 @@
   <div class="sort">
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop>
+        <video autoplay loop muted>
           <source
-              src="https://outin-eeb8d5f20db011eebcc500163e1c60dc.oss-cn-shanghai.aliyuncs.com/90a04c02da4c71ee897f5017f0f80102/1aa6ac2cad0a40ffa18ab013d79c39fc-9b86ab1e939744350afd8a05835d25b1-fd.mp4?Expires=1709576918&OSSAccessKeyId=LTAIxSaOfEzCnBOj&Signature=leiUlhuSduKy8CfmbOC4USI3wTo%3D"
+              :src="bgUrl"
               type="video/mp4">
         </video>
         <div class="sorts">
@@ -81,8 +81,11 @@
 </template>
 
 <script setup>
-import {} from "vue"
+import {ref} from "vue"
 import SortDetail from '@/components/SortDetail.vue'
+import {useBgStore} from '@/store/bg'
+
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
 </script>
 
 <style lang="scss" scoped>
