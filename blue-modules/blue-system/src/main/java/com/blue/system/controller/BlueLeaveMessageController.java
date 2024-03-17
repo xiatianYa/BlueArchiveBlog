@@ -1,26 +1,19 @@
 package com.blue.system.controller;
 
-import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.blue.common.core.utils.poi.ExcelUtil;
+import com.blue.common.core.web.controller.BaseController;
+import com.blue.common.core.web.domain.AjaxResult;
+import com.blue.common.core.web.page.TableDataInfo;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
 import com.blue.system.domain.BlueLeaveMessage;
 import com.blue.system.service.IBlueLeaveMessageService;
-import com.blue.common.core.web.controller.BaseController;
-import com.blue.common.core.web.domain.AjaxResult;
-import com.blue.common.core.utils.poi.ExcelUtil;
-import com.blue.common.core.web.page.TableDataInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 弹幕Controller
@@ -37,7 +30,6 @@ public class BlueLeaveMessageController extends BaseController {
     /**
      * 查询弹幕列表
      */
-    @RequiresPermissions("system:message:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueLeaveMessage blueLeaveMessage) {
         startPage();

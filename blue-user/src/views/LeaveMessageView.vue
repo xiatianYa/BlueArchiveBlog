@@ -21,11 +21,39 @@
 </template>
 
 <script setup>
-import {ref} from "vue"
+import {onMounted, onUnmounted, ref} from "vue";
 import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'
-import {addMessage} from '@/api/message'
+import {addMessage, listMessage} from '@/api/message'
+
 const gloBalStore = useGloBalStore()
+const timer = ref([])
+// 设置定时器  
+const startTimer = () => {
+  let result = []
+  listMessage().then(res => {
+    result = res.rows;
+  })
+  timer.value.push(setInterval(() => {
+    let barrage = getRandomItem(result)
+    showBarrage(barrage)
+  }, 1000))
+};
+
+// 清除定时器  
+const clearTimer = () => {
+  for (let index = 0; index < timer.value.length; index++) {
+    clearInterval(timer.value[index])
+  }
+};
+//自定义加载弹幕
+onMounted(() => {
+  startTimer();
+})
+//销毁时清理定时器
+onUnmounted(() => {
+  clearTimer();
+})
 // 定义弹幕数据
 const BarrageInfo = ref({
   userId: "",
@@ -43,7 +71,7 @@ function addBarrage() {
   //创建一个img元素
   var BarrageImg = new Image();
   //设置img图片地址
-  BarrageImg.src = "/static/images/Alona01.png";
+  BarrageImg.src = UserStore.avatar || "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png";
   //设置Barrage的ClassName
   Barrage.className = "Barrage";
   //设置BarrageSpan的ClassName
@@ -62,8 +90,9 @@ function addBarrage() {
   Barrage.style.top = BarrageHeight + "px";
 
   //添加到弹幕表中
-  BarrageInfo.value.userId = UserStore.id || 0
-  BarrageInfo.value.barrageHeight = BarrageHeight
+  BarrageInfo.value.userId = UserStore.id || 0;
+  BarrageInfo.value.userAvater = UserStore.avatar || "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png";
+  BarrageInfo.value.barrageHeight = BarrageHeight;
   addMessage(BarrageInfo.value)
   BarrageInfo.value.content = ""
   // 设置其随机的颜色
@@ -82,6 +111,53 @@ function addBarrage() {
     container.removeChild(Barrage)
   }, startTime * 1000)
 }
+
+//展示弹幕
+function showBarrage(barrage) {
+  var container = document.getElementsByClassName("leave_header")[0]
+  //创建一个div元素
+  var Barrage = document.createElement("div");
+  //创建一个span元素
+  var BarrageSpan = document.createElement("span");
+  //创建一个img元素
+  var BarrageImg = new Image();
+  //设置img图片地址
+  BarrageImg.src = barrage.userAvater;
+  //设置Barrage的ClassName
+  Barrage.className = "Barrage";
+  //设置BarrageSpan的ClassName
+  BarrageSpan.className = "BarrageSpan";
+  //设置BarrageImg的ClassName
+  BarrageImg.className = "BarrageImg";
+  // 设置其文本内容为参数值
+  BarrageSpan.innerText = barrage.content;
+  // 设置其的高度
+  Barrage.style.top = barrage.barrageHeight + "px";
+  // 设置其随机的颜色
+  Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
+  //将Img元素插入到容器元素中
+  Barrage.appendChild(BarrageImg)
+  //将Span元素插入到Barrage中
+  Barrage.appendChild(BarrageSpan)
+  //将Barrage元素插入到容器元素中
+  container.appendChild(Barrage);
+  //获取动画时间
+  var startTime = (7 + Math.random() * 5);
+  // 使用CSS动画来让span元素从右向左移动
+  Barrage.style.animation = "BarrageMove " + startTime + "s linear infinite";
+  setTimeout(() => {
+    container.removeChild(Barrage)
+  }, startTime * 1000)
+}
+
+//从数组中随机抽取一条弹幕
+function getRandomItem(array) {
+  if (array.length === 0) {
+    return null; // 或者可以抛出错误，如果数组为空且不应该抽取任何内容  
+  }
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}  
 </script>
 
 <style lang="scss" scoped>

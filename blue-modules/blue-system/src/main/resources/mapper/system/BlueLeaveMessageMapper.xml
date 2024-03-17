@@ -8,53 +8,90 @@
         <result property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="content" column="content"/>
+        <result property="userAvater" column="user_avater"/>
         <result property="barrageHeight" column="barrage_height"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectBlueLeaveMessageVo">
-        select id, user_id, content, barrage_height, create_time
+        select id, user_id, content, user_avater, barrage_height, create_time
         from blue_leave_message
     </sql>
 
     <select id="selectBlueLeaveMessageList" parameterType="BlueLeaveMessage" resultMap="BlueLeaveMessageResult">
         <include refid="selectBlueLeaveMessageVo"/>
         <where>
-            <if test="userId != null ">and user_id = #{userId}</if>
-            <if test="content != null  and content != ''">and content = #{content}</if>
-            <if test="barrageHeight != null ">and barrage_height = #{barrageHeight}</if>
-            <if test="createTime != null ">and create_time = #{createTime}</if>
+            <if test="userId != null ">
+                and user_id = #{userId}
+            </if>
+            <if test="content != null  and content != ''">
+                and content = #{content}
+            </if>
+            <if test="userAvater != null  and userAvater != ''">
+                and user_avater = #{userAvater}
+            </if>
+            <if test="barrageHeight != null ">
+                and barrage_height = #{barrageHeight}
+            </if>
+            <if test="createTime != null ">
+                and create_time = #{createTime}
+            </if>
         </where>
     </select>
 
-    <select id="selectBlueLeaveMessageById" parameterType="Long" resultMap="BlueLeaveMessageResult">
+    <select id="selectBlueLeaveMessageById" parameterType="Long"
+            resultMap="BlueLeaveMessageResult">
         <include refid="selectBlueLeaveMessageVo"/>
         where id = #{id}
     </select>
 
-    <insert id="insertBlueLeaveMessage" parameterType="BlueLeaveMessage" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertBlueLeaveMessage" parameterType="BlueLeaveMessage" useGeneratedKeys="true"
+            keyProperty="id">
         insert into blue_leave_message
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">user_id,</if>
-            <if test="content != null and content != ''">content,</if>
-            <if test="barrageHeight != null">barrage_height,</if>
-            <if test="createTime != null">create_time,</if>
+            <if test="userId != null">user_id,
+            </if>
+            <if test="content != null and content != ''">content,
+            </if>
+            <if test="userAvater != null and userAvater != ''">user_avater,
+            </if>
+            <if test="barrageHeight != null">barrage_height,
+            </if>
+            <if test="createTime != null">create_time,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">#{userId},</if>
-            <if test="content != null and content != ''">#{content},</if>
-            <if test="barrageHeight != null">#{barrageHeight},</if>
-            <if test="createTime != null">#{createTime},</if>
+            <if test="userId != null">#{userId},
+            </if>
+            <if test="content != null and content != ''">#{content},
+            </if>
+            <if test="userAvater != null and userAvater != ''">#{userAvater},
+            </if>
+            <if test="barrageHeight != null">#{barrageHeight},
+            </if>
+            <if test="createTime != null">#{createTime},
+            </if>
         </trim>
     </insert>
 
     <update id="updateBlueLeaveMessage" parameterType="BlueLeaveMessage">
         update blue_leave_message
         <trim prefix="SET" suffixOverrides=",">
-            <if test="userId != null">user_id = #{userId},</if>
-            <if test="content != null and content != ''">content = #{content},</if>
-            <if test="barrageHeight != null">barrage_height = #{barrageHeight},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="userId != null">user_id =
+                #{userId},
+            </if>
+            <if test="content != null and content != ''">content =
+                #{content},
+            </if>
+            <if test="userAvater != null and userAvater != ''">user_avater =
+                #{userAvater},
+            </if>
+            <if test="barrageHeight != null">barrage_height =
+                #{barrageHeight},
+            </if>
+            <if test="createTime != null">create_time =
+                #{createTime},
+            </if>
         </trim>
         where id = #{id}
     </update>

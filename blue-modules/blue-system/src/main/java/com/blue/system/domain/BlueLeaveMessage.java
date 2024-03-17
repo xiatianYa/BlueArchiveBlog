@@ -1,9 +1,9 @@
 package com.blue.system.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 弹幕对象 blue_leave_message
@@ -19,7 +19,9 @@ public class BlueLeaveMessage extends BaseEntity {
      */
     private Long id;
 
-    /** 用户ID */
+    /**
+     * 用户ID
+     */
     @Excel(name = "用户ID")
     private Long userId;
 
@@ -28,6 +30,12 @@ public class BlueLeaveMessage extends BaseEntity {
      */
     @Excel(name = "弹幕的具体内容")
     private String content;
+
+    /**
+     * 用户头像
+     */
+    @Excel(name = "用户头像")
+    private String userAvater;
 
     /**
      * 弹幕的高度位置
@@ -43,8 +51,7 @@ public class BlueLeaveMessage extends BaseEntity {
         return id;
     }
 
-    public void setUserId(Long userId)
-    {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -52,8 +59,7 @@ public class BlueLeaveMessage extends BaseEntity {
         return userId;
     }
 
-    public void setContent(String content)
-    {
+    public void setContent(String content) {
         this.content = content;
     }
 
@@ -61,8 +67,15 @@ public class BlueLeaveMessage extends BaseEntity {
         return content;
     }
 
-    public void setBarrageHeight(Long barrageHeight)
-    {
+    public String getUserAvater() {
+        return userAvater;
+    }
+
+    public void setUserAvater(String userAvater) {
+        this.userAvater = userAvater;
+    }
+
+    public void setBarrageHeight(Long barrageHeight) {
         this.barrageHeight = barrageHeight;
     }
 
@@ -76,6 +89,7 @@ public class BlueLeaveMessage extends BaseEntity {
                 .append("id", getId())
                 .append("userId", getUserId())
                 .append("content", getContent())
+                .append("userAvater", getUserAvater())
                 .append("barrageHeight", getBarrageHeight())
                 .append("createTime", getCreateTime())
             .toString();
