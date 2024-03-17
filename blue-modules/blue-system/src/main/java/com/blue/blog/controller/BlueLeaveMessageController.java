@@ -1,5 +1,7 @@
-package com.blue.system.controller;
+package com.blue.blog.controller;
 
+import com.blue.blog.domain.BlueLeaveMessage;
+import com.blue.blog.service.IBlueLeaveMessageService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;
 import com.blue.common.core.web.domain.AjaxResult;
@@ -7,8 +9,6 @@ import com.blue.common.core.web.page.TableDataInfo;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
-import com.blue.system.domain.BlueLeaveMessage;
-import com.blue.system.service.IBlueLeaveMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

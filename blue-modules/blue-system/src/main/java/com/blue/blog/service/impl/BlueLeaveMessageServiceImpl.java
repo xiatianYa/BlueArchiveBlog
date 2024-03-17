@@ -1,12 +1,13 @@
-package com.blue.system.service.impl;
+package com.blue.blog.service.impl;
 
-import java.util.List;
+import com.blue.blog.domain.BlueLeaveMessage;
+import com.blue.blog.mapper.BlueLeaveMessageMapper;
+import com.blue.blog.service.IBlueLeaveMessageService;
 import com.blue.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.blue.system.mapper.BlueLeaveMessageMapper;
-import com.blue.system.domain.BlueLeaveMessage;
-import com.blue.system.service.IBlueLeaveMessageService;
+
+import java.util.List;
 
 /**
  * 弹幕Service业务层处理

@@ -1,26 +1,19 @@
-package com.blue.system.controller;
+package com.blue.blog.controller;
 
-import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.blue.blog.domain.BlueBg;
+import com.blue.blog.service.IBlueBgService;
+import com.blue.common.core.utils.poi.ExcelUtil;
+import com.blue.common.core.web.controller.BaseController;
+import com.blue.common.core.web.domain.AjaxResult;
+import com.blue.common.core.web.page.TableDataInfo;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
-import com.blue.system.domain.BlueBg;
-import com.blue.system.service.IBlueBgService;
-import com.blue.common.core.web.controller.BaseController;
-import com.blue.common.core.web.domain.AjaxResult;
-import com.blue.common.core.utils.poi.ExcelUtil;
-import com.blue.common.core.web.page.TableDataInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 网站背景资源信息Controller

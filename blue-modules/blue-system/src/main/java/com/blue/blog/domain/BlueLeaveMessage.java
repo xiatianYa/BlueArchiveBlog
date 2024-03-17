@@ -1,4 +1,4 @@
-package com.blue.system.domain;
+package com.blue.blog.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;

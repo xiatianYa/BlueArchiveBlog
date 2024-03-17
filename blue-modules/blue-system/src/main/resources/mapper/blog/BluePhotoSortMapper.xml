@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BluePhotoSortMapper">
+
+    <resultMap type="BluePhotoSort" id="BluePhotoSortResult">
+        <result property="id" column="id"/>
+        <result property="sortName" column="sort_name"/>
+    </resultMap>
+
+    <sql id="selectBluePhotoSortVo">
+        select id, sort_name
+        from blue_photo_sort
+    </sql>
+
+    <select id="selectBluePhotoSortList" parameterType="BluePhotoSort" resultMap="BluePhotoSortResult">
+        <include refid="selectBluePhotoSortVo"/>
+        <where>
+            <if test="sortName != null  and sortName != ''">
+                and sort_name like concat('%', #{sortName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBluePhotoSortById" parameterType="Long"
+            resultMap="BluePhotoSortResult">
+        <include refid="selectBluePhotoSortVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBluePhotoSort" parameterType="BluePhotoSort" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into blue_photo_sort
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sortName != null and sortName != ''">sort_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sortName != null and sortName != ''">#{sortName},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateBluePhotoSort" parameterType="BluePhotoSort">
+        update blue_photo_sort
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sortName != null and sortName != ''">sort_name =
+                #{sortName},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBluePhotoSortById" parameterType="Long">
+        delete
+        from blue_photo_sort
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBluePhotoSortByIds" parameterType="String">
+        delete from blue_photo_sort where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

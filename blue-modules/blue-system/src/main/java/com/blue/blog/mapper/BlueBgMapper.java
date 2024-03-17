@@ -1,7 +1,8 @@
-package com.blue.system.mapper;
+package com.blue.blog.mapper;
+
+import com.blue.blog.domain.BlueBg;
 
 import java.util.List;
-import com.blue.system.domain.BlueBg;
 
 /**
  * 网站背景资源信息Mapper接口

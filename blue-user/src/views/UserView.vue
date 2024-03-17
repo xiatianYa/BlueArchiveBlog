@@ -163,7 +163,7 @@ function userLogin() {
     setExpiresIn(result.expires_in)
     //设置Token
     UserStore.SET_TOKEN(result.access_token)
-    router.push({path: "/"})
+    router.push({path: "/home"})
   }).catch(error => {
     getCode()
     alert(error)

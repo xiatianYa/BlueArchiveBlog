@@ -1,7 +1,8 @@
-package com.blue.system.mapper;
+package com.blue.blog.mapper;
+
+import com.blue.blog.domain.BlueLeaveMessage;
 
 import java.util.List;
-import com.blue.system.domain.BlueLeaveMessage;
 
 /**
  * 弹幕Mapper接口

@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="header_box header_fixed">
+    <div v-show="NavShow" class="header_box header_fixed">
       <div class="pc_menu">
         <div class="header_log">
           <img src="\static\images\logo.png" alt="碧蓝档案log"/>
@@ -101,7 +101,11 @@ onBeforeMount(() => {
 function updateScrollPosition() {
   scrollPosition.x = window.scrollX;
   scrollPosition.y = window.scrollY;
-  NavShow.value = scrollPosition.y <= 53;
+  if (scrollPosition.y >= 53) {
+    NavShow.value = false
+  } else {
+    NavShow.value = true
+  }
 }
 
 function logOut() {
@@ -122,6 +126,7 @@ function logOut() {
   width: 100%;
   height: 53px;
   background-color: rgba(0, 0, 0, 0.1);
+  transition-duration: 0.5s;
 
   .pc_menu {
     display: flex;

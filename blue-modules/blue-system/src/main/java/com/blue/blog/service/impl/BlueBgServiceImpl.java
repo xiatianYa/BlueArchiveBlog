@@ -1,12 +1,13 @@
-package com.blue.system.service.impl;
+package com.blue.blog.service.impl;
 
-import java.util.List;
+import com.blue.blog.domain.BlueBg;
+import com.blue.blog.mapper.BlueBgMapper;
+import com.blue.blog.service.IBlueBgService;
 import com.blue.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.blue.system.mapper.BlueBgMapper;
-import com.blue.system.domain.BlueBg;
-import com.blue.system.service.IBlueBgService;
+
+import java.util.List;
 
 /**
  * 网站背景资源信息Service业务层处理
