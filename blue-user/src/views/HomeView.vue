@@ -3,7 +3,7 @@
     <div class="animate__animated animate__slideInDown video_bg">
       <video autoplay class="video-background" loop muted>
         <source
-            :src="'http://127.0.0.1:9300/statics/2024/03/17/a7aa0c43e9d5812543f5924181bc6132-fd_20240317155200A005.mp4'"
+            :src="bgUrl || 'http://127.0.0.1:9300/statics/2024/03/17/a7aa0c43e9d5812543f5924181bc6132-fd_20240317155200A005.mp4'"
             type="video/mp4">
       </video>
     </div>
@@ -198,24 +198,21 @@
         </div>
       </div>
     </div>
-    <PromptBox v-show="openPrompt"></PromptBox>
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
-import PromptBox from '@/components/PromptBoxView.vue';
 import {useBgStore} from '@/store/bg'
 
-const openPrompt = ref(false)
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
+onMounted(() => {
+  //通知用法
+  // popmessage({ type: "success", msg: "成功" })
+})
 function goDown() {
   let dom = document.documentElement;
   window.scrollTo({behavior: 'smooth', top: dom.scrollHeight});
-}
-
-function openPromptBox() {
-  openPrompt.value = true;
 }
 </script>
 <style lang="scss" scoped>
@@ -253,7 +250,6 @@ function openPromptBox() {
       top: -35%;
       transform: translate(-50%, 0%);
       margin-left: 18px;
-
       span {
         width: 325px;
         font-size: 28px;

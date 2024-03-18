@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "21823741",
+      "name": "error",
+      "font_class": "error",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "21823835",
+      "name": "info",
+      "font_class": "info",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "21823918",
+      "name": "success",
+      "font_class": "success",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
+      "icon_id": "21823942",
+      "name": "warning",
+      "font_class": "warning",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
       "icon_id": "25222974",
       "name": "小风车",
       "font_class": "xiaofengche",
