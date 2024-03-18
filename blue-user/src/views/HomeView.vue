@@ -22,7 +22,7 @@
           </g>
         </svg>
       </div>
-      <div class="typewriter animation_writer">
+      <div class="typewriter animation_writer" @click="openPromptBox">
         <span>眼 前 所 见 ， 皆 为 奇 迹 .</span>
       </div>
       <div class="down pointer">
@@ -198,17 +198,24 @@
         </div>
       </div>
     </div>
+    <PromptBox v-show="openPrompt"></PromptBox>
   </div>
 </template>
 <script setup lang="ts">
 import {ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
+import PromptBox from '@/components/PromptBoxView.vue';
 import {useBgStore} from '@/store/bg'
 
+const openPrompt = ref(false)
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
 function goDown() {
   let dom = document.documentElement;
   window.scrollTo({behavior: 'smooth', top: dom.scrollHeight});
+}
+
+function openPromptBox() {
+  openPrompt.value = true;
 }
 </script>
 <style lang="scss" scoped>

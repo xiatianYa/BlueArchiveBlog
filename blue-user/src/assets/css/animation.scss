@@ -145,14 +145,17 @@
   0% {
     background-color: #ffcccc;
   }
+
   /* 开始颜色 */
   50% {
     background-color: #66ccff;
   }
+
   /* 中间颜色 */
   100% {
     background-color: #ffcccc;
   }
+
   /* 结束颜色 */
 }
 
@@ -161,7 +164,19 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
+  }
+}
+
+//提示框动画
+@keyframes moveTop {
+  0% {
+    top: 0%;
+  }
+
+  100% {
+    top: 25%;
   }
 }

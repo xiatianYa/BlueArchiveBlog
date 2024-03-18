@@ -7,8 +7,70 @@
               :src="bgUrl"
               type="video/mp4">
         </video>
+
         <div class="sorts">
           <svg class="icon pointer" aria-hidden="true" @click="goDown">
+            <use xlink:href="#icon-fenlei"></use>
+          </svg>
+          <div id="select" class="sort">
+            <span class="sort_name">
+              Java
+            </span>
+            <span class="sort_num">
+              3
+            </span>
+          </div>
+          <div class="sort">
+            <span class="sort_name">
+              Java
+            </span>
+            <span class="sort_num">
+              3
+            </span>
+          </div>
+          <div class="sort">
+            <span class="sort_name">
+              Java
+            </span>
+            <span class="sort_num">
+              3
+            </span>
+          </div>
+          <div class="sort">
+            <span class="sort_name">
+              Java
+            </span>
+            <span class="sort_num">
+              3
+            </span>
+          </div>
+          <div class="sort">
+            <span class="sort_name">
+              Java
+            </span>
+            <span class="sort_num">
+              3
+            </span>
+          </div>
+          <div class="sort">
+            <span class="sort_name">
+              Java
+            </span>
+            <span class="sort_num">
+              3
+            </span>
+          </div>
+          <div class="sort">
+            <span class="sort_name">
+              Java
+            </span>
+            <span class="sort_num">
+              3
+            </span>
+          </div>
+        </div>
+        <div class="sorts_tags">
+          <svg aria-hidden="true" class="icon pointer" @click="goDown">
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
           <div id="select" class="sort">
@@ -126,10 +188,10 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
         height: 15%;
         padding: 0 20px;
         left: 5%;
-        top: 80%;
+        top: 60%;
         box-sizing: border-box;
         border-radius: 10px;
-        border: 2px dashed #c9d6df;
+        border: 2px dashed black;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
 
@@ -169,6 +231,61 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
         }
       }
 
+      .sorts_tags {
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        height: 15%;
+        padding: 0 20px;
+        left: 5%;
+        top: 80%;
+        box-sizing: border-box;
+        border-radius: 10px;
+        border: 2px dashed black;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+        .icon {
+          vertical-align: -0.15em;
+          fill: currentColor;
+          overflow: hidden;
+          font-size: 22px;
+        }
+
+        .sort {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          width: 50px;
+          margin-right: 20px;
+          border-radius: 5px;
+          padding: 0;
+
+          .sort_name {
+            display: flex;
+            align-items: center;
+            color: #ff9a00;
+          }
+
+          .sort_num {
+            display: flex;
+            align-items: center;
+            padding-bottom: 5px;
+            color: #ff9a00;
+          }
+        }
+
+        .sort:hover {
+          background-color: #74f9ff;
+        }
+      }
+
+      .sorts_tags::-webkit-scrollbar {
+        display: none;
+      }
       .sorts::-webkit-scrollbar {
         display: none;
       }
