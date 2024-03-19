@@ -22,6 +22,13 @@ export const useUserStore = defineStore('user', {
         SET_PERMISSIONS(value: []) {
             this.permissions = value;
         },
+        CLEAR_USERINFO() {
+            this.id = ""
+            this.name = ""
+            this.avatar = ""
+            this.roles = []
+            this.permissions = []
+        },
         SET_USERINFO() {
             //获取用户信息
             getInfo().then((res: any) => {
@@ -31,8 +38,6 @@ export const useUserStore = defineStore('user', {
                 this.avatar = user.avatar
                 this.roles = res.roles
                 this.permissions = res.permissions
-            }).catch((error: any) => {
-                console.log(error);
             })
             //获取后刷新令牌过期时间
             refreshToken()
