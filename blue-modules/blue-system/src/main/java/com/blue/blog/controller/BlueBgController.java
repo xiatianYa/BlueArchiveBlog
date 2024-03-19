@@ -19,11 +19,12 @@ import java.util.List;
  * 网站背景资源信息Controller
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
 @RestController
 @RequestMapping("/bg")
-public class BlueBgController extends BaseController {
+public class BlueBgController extends BaseController
+{
     @Autowired
     private IBlueBgService blueBgService;
 
@@ -31,7 +32,8 @@ public class BlueBgController extends BaseController {
      * 查询网站背景资源信息列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(BlueBg blueBg) {
+    public TableDataInfo list(BlueBg blueBg)
+    {
         startPage();
         List<BlueBg> list = blueBgService.selectBlueBgList(blueBg);
         return getDataTable(list);
@@ -43,7 +45,8 @@ public class BlueBgController extends BaseController {
     @RequiresPermissions("system:bg:export")
     @Log(title = "网站背景资源信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, BlueBg blueBg) {
+    public void export(HttpServletResponse response, BlueBg blueBg)
+    {
         List<BlueBg> list = blueBgService.selectBlueBgList(blueBg);
         ExcelUtil<BlueBg> util = new ExcelUtil<BlueBg>(BlueBg.class);
         util.exportExcel(response, list, "网站背景资源信息数据");
@@ -54,7 +57,8 @@ public class BlueBgController extends BaseController {
      */
     @RequiresPermissions("system:bg:query")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
+    public AjaxResult getInfo(@PathVariable("id") Long id)
+    {
         return success(blueBgService.selectBlueBgById(id));
     }
 
@@ -64,7 +68,8 @@ public class BlueBgController extends BaseController {
     @RequiresPermissions("system:bg:add")
     @Log(title = "网站背景资源信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BlueBg blueBg) {
+    public AjaxResult add(@RequestBody BlueBg blueBg)
+    {
         return toAjax(blueBgService.insertBlueBg(blueBg));
     }
 
@@ -74,7 +79,8 @@ public class BlueBgController extends BaseController {
     @RequiresPermissions("system:bg:edit")
     @Log(title = "网站背景资源信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BlueBg blueBg) {
+    public AjaxResult edit(@RequestBody BlueBg blueBg)
+    {
         return toAjax(blueBgService.updateBlueBg(blueBg));
     }
 
@@ -83,8 +89,9 @@ public class BlueBgController extends BaseController {
      */
     @RequiresPermissions("system:bg:remove")
     @Log(title = "网站背景资源信息", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
+	@DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids)
+    {
         return toAjax(blueBgService.deleteBlueBgByIds(ids));
     }
 }

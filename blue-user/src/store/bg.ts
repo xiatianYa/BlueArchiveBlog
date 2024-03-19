@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
-import { listBg } from '@/api/bg'
+import {defineStore} from 'pinia'
+import {listBg} from '@/api/bg'
 
 export const useBgStore = defineStore('bg', {
     actions: {
@@ -21,14 +21,7 @@ export const useBgStore = defineStore('bg', {
     // 真正存储数据的地方
     state() {
         return {
-            bgList: [{
-                "createTime": "2024-03-17 15:48:36",
-                "updateTime": "2024-03-17 15:48:36",
-                "id": 1,
-                "bgType": "1",
-                "bgUrl": "http://127.0.0.1:9300/statics/2024/03/17/miyu_swimsuit_20240317154608A002.mp4",
-                "bgPosition": "2"
-            }]
+            bgList:[]
         }
     }
 })

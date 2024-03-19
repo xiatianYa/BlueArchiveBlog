@@ -9,77 +9,76 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * 网站背景资源信息对象 blue_bg
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public class BlueBg extends BaseEntity {
+public class BlueBg extends BaseEntity
+{
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 背景表ID
-     */
+    /** id */
     private Long id;
 
-    /**
-     * 资料类型
-     */
-    @Excel(name = "资料类型")
+    /** 背景类型 */
+    @Excel(name = "背景类型")
     private String bgType;
 
-    /**
-     * 资料路径
-     */
-    @Excel(name = "资料路径")
+    /** 背景路径 */
+    @Excel(name = "背景路径")
     private String bgUrl;
 
-    /** 资源位置类型 */
-    @Excel(name = "资源位置类型")
+    /** 背景位置类型 */
+    @Excel(name = "背景位置类型")
     private String bgPosition;
 
-    public void setId(Long id) {
+    public void setId(Long id) 
+    {
         this.id = id;
     }
 
-    public Long getId() {
+    public Long getId() 
+    {
         return id;
     }
-
-    public String getBgType() {
-        return bgType;
-    }
-
-    public void setBgType(String bgType)
+    public void setBgType(String bgType) 
     {
         this.bgType = bgType;
     }
 
-    public String getBgUrl() {
-        return bgUrl;
+    public String getBgType() 
+    {
+        return bgType;
     }
-
-    public void setBgUrl(String bgUrl)
+    public void setBgUrl(String bgUrl) 
     {
         this.bgUrl = bgUrl;
     }
 
-    public String getBgPosition()
+    public String getBgUrl() 
     {
-        return bgPosition;
+        return bgUrl;
     }
-
-    public void setBgPosition(String bgPosition)
+    public void setBgPosition(String bgPosition) 
     {
         this.bgPosition = bgPosition;
     }
 
+    public String getBgPosition() 
+    {
+        return bgPosition;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("bgType", getBgType())
-                .append("bgUrl", getBgUrl())
-                .append("bgPosition", getBgPosition())
-                .append("createTime", getCreateTime())
-                .append("updateTime", getUpdateTime())
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("id", getId())
+            .append("bgType", getBgType())
+            .append("bgUrl", getBgUrl())
+            .append("bgPosition", getBgPosition())
+            .append("createTime", getCreateTime())
+            .append("updateTime", getUpdateTime())
+            .append("createBy", getCreateBy())
+            .append("updateBy", getUpdateBy())
+            .append("remark", getRemark())
             .toString();
     }
 }

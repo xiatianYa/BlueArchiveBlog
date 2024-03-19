@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blue.blog.mapper.BlueBgMapper">
-
+    
     <resultMap type="BlueBg" id="BlueBgResult">
-        <result property="id" column="id"/>
-        <result property="bgType" column="bg_type"/>
-        <result property="bgUrl" column="bg_url"/>
-        <result property="bgPosition" column="bg_position"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
+        <result property="id"    column="id"    />
+        <result property="bgType"    column="bg_type"    />
+        <result property="bgUrl"    column="bg_url"    />
+        <result property="bgPosition"    column="bg_position"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectBlueBgVo">
-        select id, bg_type, bg_url, bg_position, create_time, update_time
-        from blue_bg
+        select id, bg_type, bg_url, bg_position, create_time, update_time, create_by, update_by, remark from blue_bg
     </sql>
 
     <select id="selectBlueBgList" parameterType="BlueBg" resultMap="BlueBgResult">
         <include refid="selectBlueBgVo"/>
-        <where>
-            <if test="bgType != null  and bgType != ''">and bg_type = #{bgType}</if>
-            <if test="bgUrl != null  and bgUrl != ''">and bg_url = #{bgUrl}</if>
-            <if test="bgPosition != null  and bgPosition != ''">and bg_position = #{bgPosition}</if>
-            <if test="createTime != null ">and create_time = #{createTime}</if>
-            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        <where>  
+            <if test="bgType != null  and bgType != ''"> and bg_type = #{bgType}</if>
+            <if test="bgUrl != null  and bgUrl != ''"> and bg_url = #{bgUrl}</if>
+            <if test="bgPosition != null  and bgPosition != ''"> and bg_position = #{bgPosition}</if>
         </where>
     </select>
-
+    
     <select id="selectBlueBgById" parameterType="Long" resultMap="BlueBgResult">
         <include refid="selectBlueBgVo"/>
         where id = #{id}
     </select>
-
+        
     <insert id="insertBlueBg" parameterType="BlueBg" useGeneratedKeys="true" keyProperty="id">
         insert into blue_bg
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -42,14 +42,20 @@
             <if test="bgPosition != null and bgPosition != ''">bg_position,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-        </trim>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="bgType != null and bgType != ''">#{bgType},</if>
             <if test="bgUrl != null and bgUrl != ''">#{bgUrl},</if>
             <if test="bgPosition != null and bgPosition != ''">#{bgPosition},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-        </trim>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
     </insert>
 
     <update id="updateBlueBg" parameterType="BlueBg">
@@ -60,14 +66,15 @@
             <if test="bgPosition != null and bgPosition != ''">bg_position = #{bgPosition},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}
     </update>
 
     <delete id="deleteBlueBgById" parameterType="Long">
-        delete
-        from blue_bg
-        where id = #{id}
+        delete from blue_bg where id = #{id}
     </delete>
 
     <delete id="deleteBlueBgByIds" parameterType="String">

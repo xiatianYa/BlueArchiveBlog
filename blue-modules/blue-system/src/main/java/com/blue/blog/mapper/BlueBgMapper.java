@@ -8,9 +8,10 @@ import java.util.List;
  * 网站背景资源信息Mapper接口
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface BlueBgMapper {
+public interface BlueBgMapper 
+{
     /**
      * 查询网站背景资源信息
      * 

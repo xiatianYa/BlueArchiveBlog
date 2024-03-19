@@ -22,7 +22,7 @@
           </g>
         </svg>
       </div>
-      <div class="typewriter animation_writer" @click="openPromptBox">
+      <div class="typewriter animation_writer">
         <span>眼 前 所 见 ， 皆 为 奇 迹 .</span>
       </div>
       <div class="down pointer">
@@ -201,15 +201,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
+import {ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import {useBgStore} from '@/store/bg'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
-onMounted(() => {
-  //通知用法
-  // popmessage({ type: "success", msg: "成功" })
-})
 function goDown() {
   let dom = document.documentElement;
   window.scrollTo({behavior: 'smooth', top: dom.scrollHeight});

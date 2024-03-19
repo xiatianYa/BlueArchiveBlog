@@ -8,9 +8,10 @@ import java.util.List;
  * 弹幕Mapper接口
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface BlueLeaveMessageMapper {
+public interface BlueLeaveMessageMapper 
+{
     /**
      * 查询弹幕
      * 

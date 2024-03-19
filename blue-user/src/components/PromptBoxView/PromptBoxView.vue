@@ -73,7 +73,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: auto;
+  min-width: 150px;
   height: 40px;
   border: 1px solid #e4e4e4;
   background: #f5f5f5;

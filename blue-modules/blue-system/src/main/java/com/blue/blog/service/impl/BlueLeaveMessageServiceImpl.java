@@ -4,6 +4,8 @@ import com.blue.blog.domain.BlueLeaveMessage;
 import com.blue.blog.mapper.BlueLeaveMessageMapper;
 import com.blue.blog.service.IBlueLeaveMessageService;
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,11 @@ import java.util.List;
  * 弹幕Service业务层处理
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
 @Service
-public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService {
+public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService 
+{
     @Autowired
     private BlueLeaveMessageMapper blueLeaveMessageMapper;
 
@@ -27,7 +30,8 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService {
      * @return 弹幕
      */
     @Override
-    public BlueLeaveMessage selectBlueLeaveMessageById(Long id) {
+    public BlueLeaveMessage selectBlueLeaveMessageById(Long id)
+    {
         return blueLeaveMessageMapper.selectBlueLeaveMessageById(id);
     }
 
@@ -38,7 +42,8 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService {
      * @return 弹幕
      */
     @Override
-    public List<BlueLeaveMessage> selectBlueLeaveMessageList(BlueLeaveMessage blueLeaveMessage) {
+    public List<BlueLeaveMessage> selectBlueLeaveMessageList(BlueLeaveMessage blueLeaveMessage)
+    {
         return blueLeaveMessageMapper.selectBlueLeaveMessageList(blueLeaveMessage);
     }
 
@@ -49,7 +54,12 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService {
      * @return 结果
      */
     @Override
-    public int insertBlueLeaveMessage(BlueLeaveMessage blueLeaveMessage) {
+    public int insertBlueLeaveMessage(BlueLeaveMessage blueLeaveMessage)
+    {
+        Long userId = SecurityUtils.getUserId();
+        if(StringUtils.isNotNull(userId)){
+            blueLeaveMessage.setCreateBy(userId.toString());
+        }
         blueLeaveMessage.setCreateTime(DateUtils.getNowDate());
         return blueLeaveMessageMapper.insertBlueLeaveMessage(blueLeaveMessage);
     }
@@ -61,7 +71,13 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService {
      * @return 结果
      */
     @Override
-    public int updateBlueLeaveMessage(BlueLeaveMessage blueLeaveMessage) {
+    public int updateBlueLeaveMessage(BlueLeaveMessage blueLeaveMessage)
+    {
+        Long userId = SecurityUtils.getUserId();
+        if(StringUtils.isNotNull(userId)){
+            blueLeaveMessage.setUpdateBy(userId.toString());
+        }
+        blueLeaveMessage.setUpdateTime(DateUtils.getNowDate());
         return blueLeaveMessageMapper.updateBlueLeaveMessage(blueLeaveMessage);
     }
 
@@ -72,7 +88,8 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService {
      * @return 结果
      */
     @Override
-    public int deleteBlueLeaveMessageByIds(Long[] ids) {
+    public int deleteBlueLeaveMessageByIds(Long[] ids)
+    {
         return blueLeaveMessageMapper.deleteBlueLeaveMessageByIds(ids);
     }
 
@@ -83,7 +100,8 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService {
      * @return 结果
      */
     @Override
-    public int deleteBlueLeaveMessageById(Long id) {
+    public int deleteBlueLeaveMessageById(Long id)
+    {
         return blueLeaveMessageMapper.deleteBlueLeaveMessageById(id);
     }
 }

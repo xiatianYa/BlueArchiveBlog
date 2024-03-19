@@ -1,31 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类ID" prop="sortId">
-        <el-select v-model="queryParams.sortId" placeholder="请选择分类ID" clearable>
+      <el-form-item label="音乐分类" prop="sortId">
+        <el-select v-model="queryParams.sortId" placeholder="请选择音乐分类" clearable>
           <el-option
-            v-for="dict in dict.type.sys_music_type"
+            v-for="dict in musicDict"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker clearable
-          v-model="queryParams.createTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择创建时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="修改时间" prop="updateTime">
-        <el-date-picker clearable
-          v-model="queryParams.updateTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择修改时间">
-        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -41,7 +25,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:music:add']"
+          v-hasPermi="['blog:music:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -52,7 +36,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:music:edit']"
+          v-hasPermi="['blog:music:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -63,7 +47,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:music:remove']"
+          v-hasPermi="['blog:music:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -73,7 +57,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:music:export']"
+          v-hasPermi="['blog:music:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -81,28 +65,15 @@
 
     <el-table v-loading="loading" :data="musicList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="音乐ID" align="center" prop="id" />
+      <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="图片路径" align="center" prop="imgUrl" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="路径" align="center" prop="musicUrl" />
-      <el-table-column label="分类ID" align="center" prop="sortId">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_music_type" :value="scope.row.sortId"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="修改时间" align="center" prop="updateTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="音乐路径" align="center" prop="musicUrl" />
+      <el-table-column label="音乐分类" align="center" prop="sortName"/>
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -110,19 +81,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:music:edit']"
+            v-hasPermi="['blog:music:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:music:remove']"
+            v-hasPermi="['blog:music:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -137,18 +108,21 @@
         <el-form-item label="图片路径" prop="imgUrl">
           <image-upload v-model="form.imgUrl"/>
         </el-form-item>
-        <el-form-item label="路径" prop="musicUrl">
+        <el-form-item label="音乐路径" prop="musicUrl">
           <file-upload v-model="form.musicUrl"/>
         </el-form-item>
-        <el-form-item label="分类ID" prop="sortId">
-          <el-select v-model="form.sortId" placeholder="请选择分类ID">
+        <el-form-item label="音乐分类" prop="sortId">
+          <el-select v-model="form.sortId" placeholder="请选择音乐分类">
             <el-option
-              v-for="dict in dict.type.sys_music_type"
+              v-for="dict in musicDict"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
             ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -160,13 +134,15 @@
 </template>
 
 <script>
-import { listMusic, getMusic, delMusic, addMusic, updateMusic } from "@/api/blog/music";
+import {addMusic, delMusic, getMusic, listMusic, updateMusic} from "@/api/blog/music";
+import {listSort} from "@/api/sort/music";
 
 export default {
   name: "Music",
-  dicts: ['sys_music_type'],
   data() {
     return {
+      //音乐分类列表
+      musicDict:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -192,29 +168,27 @@ export default {
         imgUrl: null,
         musicUrl: null,
         sortId: null,
-        createTime: null,
-        updateTime: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         musicUrl: [
-          { required: true, message: "路径不能为空", trigger: "blur" }
+          { required: true, message: "音乐路径不能为空", trigger: "blur" }
         ],
         sortId: [
-          { required: true, message: "分类ID不能为空", trigger: "change" }
+          { required: true, message: "音乐分类不能为空", trigger: "change" }
         ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
-        ],
-        updateTime: [
-          { required: true, message: "修改时间不能为空", trigger: "blur" }
-        ]
       }
     };
   },
   created() {
+    //获取音乐分类列表
+    listSort().then(res => {
+      for (const item of res.rows) {
+        this.musicDict.push({ value: item.id, label: item.sortName })
+      }
+    })
     this.getList();
   },
   methods: {
@@ -223,6 +197,15 @@ export default {
       this.loading = true;
       listMusic(this.queryParams).then(response => {
         this.musicList = response.rows;
+        //循环查找出分类
+        for (let index = 0; index < this.musicList.length; index++) {
+          let item=this.musicDict.find(n => n.value === this.musicList[index].sortId)
+          //如果未查询到
+          if (!item) {
+            item.label="未知分类";
+          }
+          this.musicList[index].sortName = item.label
+        }
         this.total = response.total;
         this.loading = false;
       });
@@ -240,7 +223,10 @@ export default {
         musicUrl: null,
         sortId: null,
         createTime: null,
-        updateTime: null
+        updateTime: null,
+        createBy: null,
+        updateBy: null,
+        remark: null
       };
       this.resetForm("form");
     },
@@ -308,7 +294,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/music/export', {
+      this.download('blog/music/export', {
         ...this.queryParams
       }, `music_${new Date().getTime()}.xlsx`)
     }

@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="标签分类" prop="sortId">
-        <el-select v-model="queryParams.sortId" placeholder="请选择标签分类" clearable>
+      <el-form-item label="分类名词" prop="sortId">
+        <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
           <el-option
             v-for="dict in dict.type.sys_blog_type"
             :key="dict.value"
@@ -11,10 +11,10 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="标签名称" prop="tagName">
+      <el-form-item label="标签的名称" prop="tagName">
         <el-input
           v-model="queryParams.tagName"
-          placeholder="请输入标签名称"
+          placeholder="请输入标签的名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -33,7 +33,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:tag:add']"
+          v-hasPermi="['sort:tag:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -44,7 +44,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:tag:edit']"
+          v-hasPermi="['sort:tag:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -55,7 +55,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:tag:remove']"
+          v-hasPermi="['sort:tag:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,7 +65,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:tag:export']"
+          v-hasPermi="['sort:tag:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -73,13 +73,14 @@
 
     <el-table v-loading="loading" :data="tagList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="标签id" align="center" prop="id" />
-      <el-table-column label="标签分类" align="center" prop="sortId">
+      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="分类名词" align="center" prop="sortId">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_blog_type" :value="scope.row.sortId"/>
         </template>
       </el-table-column>
-      <el-table-column label="标签名称" align="center" prop="tagName" />
+      <el-table-column label="标签的名称" align="center" prop="tagName" />
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -87,19 +88,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:tag:edit']"
+            v-hasPermi="['sort:tag:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:tag:remove']"
+            v-hasPermi="['sort:tag:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -111,8 +112,8 @@
     <!-- 添加或修改标签对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="标签分类" prop="sortId">
-          <el-select v-model="form.sortId" placeholder="请选择标签分类">
+        <el-form-item label="分类名词" prop="sortId">
+          <el-select v-model="form.sortId" placeholder="请选择分类名词">
             <el-option
               v-for="dict in dict.type.sys_blog_type"
               :key="dict.value"
@@ -121,8 +122,11 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="标签名称" prop="tagName">
-          <el-input v-model="form.tagName" placeholder="请输入标签名称" />
+        <el-form-item label="标签的名称" prop="tagName">
+          <el-input v-model="form.tagName" placeholder="请输入标签的名称" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -134,7 +138,7 @@
 </template>
 
 <script>
-import { listTag, getTag, delTag, addTag, updateTag } from "@/api/sort/tag";
+import {addTag, delTag, getTag, listTag, updateTag} from "@/api/sort/tag";
 
 export default {
   name: "Tag",
@@ -164,18 +168,18 @@ export default {
         pageNum: 1,
         pageSize: 10,
         sortId: null,
-        tagName: null
+        tagName: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         sortId: [
-          { required: true, message: "标签分类不能为空", trigger: "change" }
+          { required: true, message: "分类名词不能为空", trigger: "change" }
         ],
         tagName: [
-          { required: true, message: "标签名称不能为空", trigger: "blur" }
-        ]
+          { required: true, message: "标签的名称不能为空", trigger: "blur" }
+        ],
       }
     };
   },
@@ -202,7 +206,12 @@ export default {
       this.form = {
         id: null,
         sortId: null,
-        tagName: null
+        tagName: null,
+        createTime: null,
+        updateTime: null,
+        createBy: null,
+        updateBy: null,
+        remark: null
       };
       this.resetForm("form");
     },
@@ -270,7 +279,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/tag/export', {
+      this.download('sort/tag/export', {
         ...this.queryParams
       }, `tag_${new Date().getTime()}.xlsx`)
     }

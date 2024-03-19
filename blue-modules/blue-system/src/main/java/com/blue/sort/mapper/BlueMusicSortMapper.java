@@ -1,20 +1,20 @@
 package com.blue.sort.mapper;
 
-import java.util.List;
-
-import com.blue.blog.domain.BlueMusic;
 import com.blue.sort.domain.BlueMusicSort;
+
+import java.util.List;
 
 /**
  * 音乐分类Mapper接口
- *
+ * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface BlueMusicSortMapper {
+public interface BlueMusicSortMapper 
+{
     /**
      * 查询音乐分类
-     *
+     * 
      * @param id 音乐分类主键
      * @return 音乐分类
      */
@@ -22,7 +22,7 @@ public interface BlueMusicSortMapper {
 
     /**
      * 查询音乐分类列表
-     *
+     * 
      * @param blueMusicSort 音乐分类
      * @return 音乐分类集合
      */
@@ -30,7 +30,7 @@ public interface BlueMusicSortMapper {
 
     /**
      * 新增音乐分类
-     *
+     * 
      * @param blueMusicSort 音乐分类
      * @return 结果
      */
@@ -38,7 +38,7 @@ public interface BlueMusicSortMapper {
 
     /**
      * 修改音乐分类
-     *
+     * 
      * @param blueMusicSort 音乐分类
      * @return 结果
      */
@@ -46,7 +46,7 @@ public interface BlueMusicSortMapper {
 
     /**
      * 删除音乐分类
-     *
+     * 
      * @param id 音乐分类主键
      * @return 结果
      */
@@ -54,34 +54,9 @@ public interface BlueMusicSortMapper {
 
     /**
      * 批量删除音乐分类
-     *
+     * 
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteBlueMusicSortByIds(Long[] ids);
-
-    /**
-     * 批量删除音乐
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    public int deleteBlueMusicBySortIds(Long[] ids);
-
-    /**
-     * 批量新增音乐
-     *
-     * @param blueMusicList 音乐列表
-     * @return 结果
-     */
-    public int batchBlueMusic(List<BlueMusic> blueMusicList);
-
-
-    /**
-     * 通过音乐分类主键删除音乐信息
-     *
-     * @param id 音乐分类ID
-     * @return 结果
-     */
-    public int deleteBlueMusicBySortId(Long id);
 }

@@ -1,15 +1,17 @@
 package com.blue.blog.service;
 
-import java.util.List;
 import com.blue.blog.domain.BlueBg;
+
+import java.util.List;
 
 /**
  * 网站背景资源信息Service接口
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface IBlueBgService {
+public interface IBlueBgService 
+{
     /**
      * 查询网站背景资源信息
      * 

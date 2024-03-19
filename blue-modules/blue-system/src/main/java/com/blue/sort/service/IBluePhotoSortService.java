@@ -1,19 +1,20 @@
 package com.blue.sort.service;
 
-import java.util.List;
-
 import com.blue.sort.domain.BluePhotoSort;
+
+import java.util.List;
 
 /**
  * 相册分类信息Service接口
- *
+ * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface IBluePhotoSortService {
+public interface IBluePhotoSortService 
+{
     /**
      * 查询相册分类信息
-     *
+     * 
      * @param id 相册分类信息主键
      * @return 相册分类信息
      */
@@ -21,7 +22,7 @@ public interface IBluePhotoSortService {
 
     /**
      * 查询相册分类信息列表
-     *
+     * 
      * @param bluePhotoSort 相册分类信息
      * @return 相册分类信息集合
      */
@@ -29,7 +30,7 @@ public interface IBluePhotoSortService {
 
     /**
      * 新增相册分类信息
-     *
+     * 
      * @param bluePhotoSort 相册分类信息
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface IBluePhotoSortService {
 
     /**
      * 修改相册分类信息
-     *
+     * 
      * @param bluePhotoSort 相册分类信息
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface IBluePhotoSortService {
 
     /**
      * 批量删除相册分类信息
-     *
+     * 
      * @param ids 需要删除的相册分类信息主键集合
      * @return 结果
      */
@@ -53,7 +54,7 @@ public interface IBluePhotoSortService {
 
     /**
      * 删除相册分类信息信息
-     *
+     * 
      * @param id 相册分类信息主键
      * @return 结果
      */

@@ -3,9 +3,7 @@
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
         <video autoplay loop muted>
-          <source
-              :src="bgUrl"
-              type="video/mp4">
+          <source :src="bgUrl" type="video/mp4">
         </video>
 
         <div class="sorts">
@@ -286,6 +284,7 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
       .sorts_tags::-webkit-scrollbar {
         display: none;
       }
+
       .sorts::-webkit-scrollbar {
         display: none;
       }

@@ -1,32 +1,25 @@
 package com.blue.sort.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
 import com.blue.common.core.utils.poi.ExcelUtil;
-import com.blue.sort.domain.BlueSortTag;
-import com.blue.sort.service.IBlueSortTagService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.blue.common.log.annotation.Log;
-import com.blue.common.log.enums.BusinessType;
-import com.blue.common.security.annotation.RequiresPermissions;
 import com.blue.common.core.web.controller.BaseController;
 import com.blue.common.core.web.domain.AjaxResult;
 import com.blue.common.core.web.page.TableDataInfo;
+import com.blue.common.log.annotation.Log;
+import com.blue.common.log.enums.BusinessType;
+import com.blue.common.security.annotation.RequiresPermissions;
+import com.blue.sort.domain.BlueSortTag;
+import com.blue.sort.service.IBlueSortTagService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 标签Controller
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
 @RestController
 @RequestMapping("/tag")
@@ -38,7 +31,7 @@ public class BlueSortTagController extends BaseController
     /**
      * 查询标签列表
      */
-    @RequiresPermissions("system:tag:list")
+    @RequiresPermissions("sort:tag:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueSortTag blueSortTag)
     {
@@ -50,7 +43,7 @@ public class BlueSortTagController extends BaseController
     /**
      * 导出标签列表
      */
-    @RequiresPermissions("system:tag:export")
+    @RequiresPermissions("sort:tag:export")
     @Log(title = "标签", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, BlueSortTag blueSortTag)
@@ -63,7 +56,7 @@ public class BlueSortTagController extends BaseController
     /**
      * 获取标签详细信息
      */
-    @RequiresPermissions("system:tag:query")
+    @RequiresPermissions("sort:tag:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -73,7 +66,7 @@ public class BlueSortTagController extends BaseController
     /**
      * 新增标签
      */
-    @RequiresPermissions("system:tag:add")
+    @RequiresPermissions("sort:tag:add")
     @Log(title = "标签", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlueSortTag blueSortTag)
@@ -84,7 +77,7 @@ public class BlueSortTagController extends BaseController
     /**
      * 修改标签
      */
-    @RequiresPermissions("system:tag:edit")
+    @RequiresPermissions("sort:tag:edit")
     @Log(title = "标签", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BlueSortTag blueSortTag)
@@ -95,7 +88,7 @@ public class BlueSortTagController extends BaseController
     /**
      * 删除标签
      */
-    @RequiresPermissions("system:tag:remove")
+    @RequiresPermissions("sort:tag:remove")
     @Log(title = "标签", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

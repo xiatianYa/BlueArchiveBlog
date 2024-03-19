@@ -1,15 +1,17 @@
 package com.blue.blog.service;
 
-import java.util.List;
 import com.blue.blog.domain.BlueLeaveMessage;
+
+import java.util.List;
 
 /**
  * 弹幕Service接口
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface IBlueLeaveMessageService {
+public interface IBlueLeaveMessageService 
+{
     /**
      * 查询弹幕
      * 

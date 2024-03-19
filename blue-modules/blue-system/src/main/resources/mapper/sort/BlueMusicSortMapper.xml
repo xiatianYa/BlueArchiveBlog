@@ -1,72 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blue.sort.mapper.BlueMusicSortMapper">
-
+    
     <resultMap type="BlueMusicSort" id="BlueMusicSortResult">
-        <result property="id" column="id"/>
-        <result property="sortName" column="sort_name"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-    </resultMap>
-
-    <resultMap id="BlueMusicSortBlueMusicResult" type="BlueMusicSort" extends="BlueMusicSortResult">
-        <collection property="blueMusicList" notNullColumn="sub_id" javaType="java.util.List"
-                    resultMap="BlueMusicResult"/>
-    </resultMap>
-
-    <resultMap type="BlueMusic" id="BlueMusicResult">
-        <result property="id" column="sub_id"/>
-        <result property="imgUrl" column="sub_img_url"/>
-        <result property="musicUrl" column="sub_music_url"/>
-        <result property="sortId" column="sub_sort_id"/>
-        <result property="createTime" column="sub_create_time"/>
-        <result property="updateTime" column="sub_update_time"/>
+        <result property="id"    column="id"    />
+        <result property="sortName"    column="sort_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectBlueMusicSortVo">
-        select id, sort_name, create_time, update_time
-        from blue_music_sort
+        select id, sort_name, create_time, update_time, create_by, update_by, remark from blue_music_sort
     </sql>
 
     <select id="selectBlueMusicSortList" parameterType="BlueMusicSort" resultMap="BlueMusicSortResult">
         <include refid="selectBlueMusicSortVo"/>
-        <where>
-            <if test="sortName != null  and sortName != ''">and sort_name like concat('%', #{sortName}, '%')</if>
-            <if test="createTime != null ">and create_time = #{createTime}</if>
-            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        <where>  
+            <if test="sortName != null  and sortName != ''"> and sort_name like concat('%', #{sortName}, '%')</if>
         </where>
     </select>
-
-    <select id="selectBlueMusicSortById" parameterType="Long" resultMap="BlueMusicSortBlueMusicResult">
-        select a.id,
-               a.sort_name,
-               a.create_time,
-               a.update_time,
-               b.id          as sub_id,
-               b.img_url     as sub_img_url,
-               b.music_url   as sub_music_url,
-               b.sort_id     as sub_sort_id,
-               b.create_time as sub_create_time,
-               b.update_time as sub_update_time
-        from blue_music_sort a
-                 left join blue_music b on b.sort_id = a.id
-        where a.id = #{id}
+    
+    <select id="selectBlueMusicSortById" parameterType="Long" resultMap="BlueMusicSortResult">
+        <include refid="selectBlueMusicSortVo"/>
+        where id = #{id}
     </select>
-
+        
     <insert id="insertBlueMusicSort" parameterType="BlueMusicSort" useGeneratedKeys="true" keyProperty="id">
         insert into blue_music_sort
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="sortName != null and sortName != ''">sort_name,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-        </trim>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="sortName != null and sortName != ''">#{sortName},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-        </trim>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
     </insert>
 
     <update id="updateBlueMusicSort" parameterType="BlueMusicSort">
@@ -75,40 +56,21 @@
             <if test="sortName != null and sortName != ''">sort_name = #{sortName},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}
     </update>
 
     <delete id="deleteBlueMusicSortById" parameterType="Long">
-        delete
-        from blue_music_sort
-        where id = #{id}
+        delete from blue_music_sort where id = #{id}
     </delete>
 
     <delete id="deleteBlueMusicSortByIds" parameterType="String">
-        delete from blue_music_sort where id in
+        delete from blue_music_sort where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-
-    <delete id="deleteBlueMusicBySortIds" parameterType="String">
-        delete from blue_music where sort_id in
-        <foreach item="sortId" collection="array" open="(" separator="," close=")">
-            #{sortId}
-        </foreach>
-    </delete>
-
-    <delete id="deleteBlueMusicBySortId" parameterType="Long">
-        delete
-        from blue_music
-        where sort_id = #{sortId}
-    </delete>
-
-    <insert id="batchBlueMusic">
-        insert into blue_music( id, img_url, music_url, sort_id, create_time, update_time) values
-        <foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.id}, #{item.imgUrl}, #{item.musicUrl}, #{item.sortId}, #{item.createTime}, #{item.updateTime})
-        </foreach>
-    </insert>
 </mapper>

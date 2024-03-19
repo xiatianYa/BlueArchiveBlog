@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类名称" prop="sortName">
+      <el-form-item label="相册分类名称" prop="sortName">
         <el-input
           v-model="queryParams.sortName"
-          placeholder="请输入分类名称"
+          placeholder="请输入相册分类名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -23,7 +23,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['sort:photo:add']"
+          v-hasPermi="['sort:sort:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -34,7 +34,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['sort:photo:edit']"
+          v-hasPermi="['sort:sort:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -45,7 +45,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['sort:photo:remove']"
+          v-hasPermi="['sort:sort:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -55,16 +55,17 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['sort:photo:export']"
+          v-hasPermi="['sort:sort:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="photoList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="sortList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="相册分类id" align="center" prop="id" />
-      <el-table-column label="分类名称" align="center" prop="sortName" />
+      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="相册分类名称" align="center" prop="sortName" />
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -72,19 +73,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['sort:photo:edit']"
+            v-hasPermi="['sort:sort:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['sort:photo:remove']"
+            v-hasPermi="['sort:sort:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -96,8 +97,11 @@
     <!-- 添加或修改相册分类信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="sortName">
-          <el-input v-model="form.sortName" placeholder="请输入分类名称" />
+        <el-form-item label="相册分类名称" prop="sortName">
+          <el-input v-model="form.sortName" placeholder="请输入相册分类名称" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -109,10 +113,10 @@
 </template>
 
 <script>
-import { listPhoto, getPhoto, delPhoto, addPhoto, updatePhoto } from "@/api/sort/photo.js";
+import {addSort, delSort, getSort, listSort, updateSort} from "@/api/sort/photo";
 
 export default {
-  name: "Photo",
+  name: "Sort",
   data() {
     return {
       // 遮罩层
@@ -128,7 +132,7 @@ export default {
       // 总条数
       total: 0,
       // 相册分类信息表格数据
-      photoList: [],
+      sortList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -137,15 +141,15 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        sortName: null
+        sortName: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         sortName: [
-          { required: true, message: "分类名称不能为空", trigger: "blur" }
-        ]
+          { required: true, message: "相册分类名称不能为空", trigger: "blur" }
+        ],
       }
     };
   },
@@ -156,8 +160,8 @@ export default {
     /** 查询相册分类信息列表 */
     getList() {
       this.loading = true;
-      listPhoto(this.queryParams).then(response => {
-        this.photoList = response.rows;
+      listSort(this.queryParams).then(response => {
+        this.sortList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -171,7 +175,12 @@ export default {
     reset() {
       this.form = {
         id: null,
-        sortName: null
+        sortName: null,
+        createTime: null,
+        updateTime: null,
+        createBy: null,
+        updateBy: null,
+        remark: null
       };
       this.resetForm("form");
     },
@@ -201,7 +210,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getPhoto(id).then(response => {
+      getSort(id).then(response => {
         this.form = response.data;
         this.open = true;
         this.title = "修改相册分类信息";
@@ -212,13 +221,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updatePhoto(this.form).then(response => {
+            updateSort(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addPhoto(this.form).then(response => {
+            addSort(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -231,7 +240,7 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal.confirm('是否确认删除相册分类信息编号为"' + ids + '"的数据项？').then(function() {
-        return delPhoto(ids);
+        return delSort(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -239,9 +248,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('sort/photo/export', {
+      this.download('sort/sort/export', {
         ...this.queryParams
-      }, `photo_${new Date().getTime()}.xlsx`)
+      }, `sort_${new Date().getTime()}.xlsx`)
     }
   }
 };

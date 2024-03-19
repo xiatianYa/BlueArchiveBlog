@@ -5,19 +5,24 @@ import {useBgStore} from '@/store/bg'
 
 router.beforeEach((to, from, next) => {
     const BgStore = useBgStore()
-    //获取背景
+    //如果没有背景则去查询背景
     if (BgStore.bgList.length <= 1) {
         BgStore.SET_BGLIST()
     }
-    //有token
-    if (getToken()) {
-        const UserStore = useUserStore()
-        //获取用户信息 重新加载
-        UserStore.SET_USERINFO()
+    //没有token
+    if (!getToken()) {
         next()
     } else {
-        // 没有token
-        next()
+        //有Token 我们则查看有没有用户信息
+        const UserStore = useUserStore()
+        //没有用户信息 我们就去查询
+        if (!UserStore.id) {
+            //获取用户信息 重新加载
+            UserStore.SET_USERINFO()
+            next()
+        }
+        //如果有我们就直接跳过
+        next();
     }
 })
 //路由跳转后

@@ -23,7 +23,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['sort:sort:add']"
+          v-hasPermi="['blog:sort:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -34,7 +34,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['sort:sort:edit']"
+          v-hasPermi="['blog:sort:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -45,7 +45,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['sort:sort:remove']"
+          v-hasPermi="['blog:sort:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -55,7 +55,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['sort:sort:export']"
+          v-hasPermi="['blog:sort:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -65,6 +65,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="分类id" align="center" prop="id" />
       <el-table-column label="分类的名称" align="center" prop="sortName" />
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -72,19 +73,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['sort:sort:edit']"
+            v-hasPermi="['blog:sort:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['sort:sort:remove']"
+            v-hasPermi="['blog:sort:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -99,24 +100,9 @@
         <el-form-item label="分类的名称" prop="sortName">
           <el-input v-model="form.sortName" placeholder="请输入分类的名称" />
         </el-form-item>
-        <el-divider content-position="center">标签信息</el-divider>
-        <el-row :gutter="10" class="mb8">
-          <el-col :span="1.5">
-            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddBlueSortTag">添加</el-button>
-          </el-col>
-          <el-col :span="1.5">
-            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDeleteBlueSortTag">删除</el-button>
-          </el-col>
-        </el-row>
-        <el-table :data="blueSortTagList" :row-class-name="rowBlueSortTagIndex" @selection-change="handleBlueSortTagSelectionChange" ref="blueSortTag">
-          <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="序号" align="center" prop="index" width="50"/>
-          <el-table-column label="标签的名称" prop="tagName" width="150">
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.tagName" placeholder="请输入标签的名称" />
-            </template>
-          </el-table-column>
-        </el-table>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -127,7 +113,7 @@
 </template>
 
 <script>
-import { listSort, getSort, delSort, addSort, updateSort } from "@/api/sort/sort";
+import {addSort, delSort, getSort, listSort, updateSort} from "@/api/sort/sort";
 
 export default {
   name: "Sort",
@@ -137,8 +123,6 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
-      // 子表选中数据
-      checkedBlueSortTag: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -149,8 +133,6 @@ export default {
       total: 0,
       // 分类表格数据
       sortList: [],
-      // 标签表格数据
-      blueSortTagList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -159,7 +141,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        sortName: null
+        sortName: null,
       },
       // 表单参数
       form: {},
@@ -167,7 +149,7 @@ export default {
       rules: {
         sortName: [
           { required: true, message: "分类的名称不能为空", trigger: "blur" }
-        ]
+        ],
       }
     };
   },
@@ -193,9 +175,13 @@ export default {
     reset() {
       this.form = {
         id: null,
-        sortName: null
+        sortName: null,
+        createTime: null,
+        updateTime: null,
+        createBy: null,
+        updateBy: null,
+        remark: null
       };
-      this.blueSortTagList = [];
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -226,7 +212,6 @@ export default {
       const id = row.id || this.ids
       getSort(id).then(response => {
         this.form = response.data;
-        this.blueSortTagList = response.data.blueSortTagList;
         this.open = true;
         this.title = "修改分类";
       });
@@ -235,7 +220,6 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          this.form.blueSortTagList = this.blueSortTagList;
           if (this.form.id != null) {
             updateSort(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
@@ -262,35 +246,9 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-	/** 标签序号 */
-    rowBlueSortTagIndex({ row, rowIndex }) {
-      row.index = rowIndex + 1;
-    },
-    /** 标签添加按钮操作 */
-    handleAddBlueSortTag() {
-      let obj = {};
-      obj.tagName = "";
-      this.blueSortTagList.push(obj);
-    },
-    /** 标签删除按钮操作 */
-    handleDeleteBlueSortTag() {
-      if (this.checkedBlueSortTag.length == 0) {
-        this.$modal.msgError("请先选择要删除的标签数据");
-      } else {
-        const blueSortTagList = this.blueSortTagList;
-        const checkedBlueSortTag = this.checkedBlueSortTag;
-        this.blueSortTagList = blueSortTagList.filter(function(item) {
-          return checkedBlueSortTag.indexOf(item.index) == -1
-        });
-      }
-    },
-    /** 复选框选中数据 */
-    handleBlueSortTagSelectionChange(selection) {
-      this.checkedBlueSortTag = selection.map(item => item.index)
-    },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('sort/sort/export', {
+      this.download('blog/sort/export', {
         ...this.queryParams
       }, `sort_${new Date().getTime()}.xlsx`)
     }

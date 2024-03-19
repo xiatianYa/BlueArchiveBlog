@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blue.blog.mapper.BlueMusicMapper">
-
+    
     <resultMap type="BlueMusic" id="BlueMusicResult">
-        <result property="id" column="id"/>
-        <result property="imgUrl" column="img_url"/>
-        <result property="musicUrl" column="music_url"/>
-        <result property="sortId" column="sort_id"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
+        <result property="id"    column="id"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="musicUrl"    column="music_url"    />
+        <result property="sortId"    column="sort_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectBlueMusicVo">
-        select id, img_url, music_url, sort_id, create_time, update_time
-        from blue_music
+        select id, img_url, music_url, sort_id, create_time, update_time, create_by, update_by, remark from blue_music
     </sql>
 
     <select id="selectBlueMusicList" parameterType="BlueMusic" resultMap="BlueMusicResult">
         <include refid="selectBlueMusicVo"/>
-        <where>
-            <if test="imgUrl != null  and imgUrl != ''">and img_url = #{imgUrl}</if>
-            <if test="musicUrl != null  and musicUrl != ''">and music_url = #{musicUrl}</if>
-            <if test="sortId != null ">and sort_id = #{sortId}</if>
-            <if test="createTime != null ">and create_time = #{createTime}</if>
-            <if test="updateTime != null ">and update_time = #{updateTime}</if>
+        <where>  
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="musicUrl != null  and musicUrl != ''"> and music_url = #{musicUrl}</if>
+            <if test="sortId != null "> and sort_id = #{sortId}</if>
         </where>
     </select>
-
+    
     <select id="selectBlueMusicById" parameterType="Long" resultMap="BlueMusicResult">
         <include refid="selectBlueMusicVo"/>
         where id = #{id}
     </select>
-
+        
     <insert id="insertBlueMusic" parameterType="BlueMusic" useGeneratedKeys="true" keyProperty="id">
         insert into blue_music
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -42,14 +42,20 @@
             <if test="sortId != null">sort_id,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-        </trim>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="imgUrl != null">#{imgUrl},</if>
             <if test="musicUrl != null and musicUrl != ''">#{musicUrl},</if>
             <if test="sortId != null">#{sortId},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-        </trim>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
     </insert>
 
     <update id="updateBlueMusic" parameterType="BlueMusic">
@@ -60,18 +66,19 @@
             <if test="sortId != null">sort_id = #{sortId},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}
     </update>
 
     <delete id="deleteBlueMusicById" parameterType="Long">
-        delete
-        from blue_music
-        where id = #{id}
+        delete from blue_music where id = #{id}
     </delete>
 
     <delete id="deleteBlueMusicByIds" parameterType="String">
-        delete from blue_music where id in
+        delete from blue_music where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="资料类型" prop="bgType">
-        <el-select v-model="queryParams.bgType" placeholder="请选择资料类型" clearable>
+      <el-form-item label="背景类型" prop="bgType">
+        <el-select v-model="queryParams.bgType" placeholder="请选择背景类型" clearable>
           <el-option
             v-for="dict in dict.type.sys_bg_type"
             :key="dict.value"
@@ -11,8 +11,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="资源位置类型" prop="bgPosition">
-        <el-select v-model="queryParams.bgPosition" placeholder="请选择资源位置类型" clearable>
+      <el-form-item label="背景位置类型" prop="bgPosition">
+        <el-select v-model="queryParams.bgPosition" placeholder="请选择背景位置类型" clearable>
           <el-option
             v-for="dict in dict.type.sys_bg_use"
             :key="dict.value"
@@ -20,22 +20,6 @@
             :value="dict.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker clearable
-          v-model="queryParams.createTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择创建时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="修改时间" prop="updateTime">
-        <el-date-picker clearable
-          v-model="queryParams.updateTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择修改时间">
-        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -91,32 +75,23 @@
 
     <el-table v-loading="loading" :data="bgList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="背景表ID" align="center" prop="id" />
-      <el-table-column label="资料类型" align="center" prop="bgType">
+      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="背景类型" align="center" prop="bgType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_bg_type" :value="scope.row.bgType"/>
         </template>
       </el-table-column>
-      <el-table-column label="资料路径" align="center" prop="bgUrl" width="100">
+      <el-table-column label="背景路径" align="center" prop="bgUrl" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.bgUrl" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="资源位置类型" align="center" prop="bgPosition">
+      <el-table-column label="背景位置类型" align="center" prop="bgPosition">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_bg_use" :value="scope.row.bgPosition"/>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="修改时间" align="center" prop="updateTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -136,7 +111,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -148,8 +123,8 @@
     <!-- 添加或修改网站背景资源信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="资料类型" prop="bgType">
-          <el-select v-model="form.bgType" placeholder="请选择资料类型">
+        <el-form-item label="背景类型" prop="bgType">
+          <el-select v-model="form.bgType" placeholder="请选择背景类型">
             <el-option
               v-for="dict in dict.type.sys_bg_type"
               :key="dict.value"
@@ -158,11 +133,11 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="资料路径" prop="bgUrl">
+        <el-form-item label="背景路径" prop="bgUrl">
           <image-upload v-model="form.bgUrl"/>
         </el-form-item>
-        <el-form-item label="资源位置类型" prop="bgPosition">
-          <el-select v-model="form.bgPosition" placeholder="请选择资源位置类型">
+        <el-form-item label="背景位置类型" prop="bgPosition">
+          <el-select v-model="form.bgPosition" placeholder="请选择背景位置类型">
             <el-option
               v-for="dict in dict.type.sys_bg_use"
               :key="dict.value"
@@ -170,6 +145,9 @@
               :value="dict.value"
             ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -181,7 +159,7 @@
 </template>
 
 <script>
-import { listBg, getBg, delBg, addBg, updateBg } from "@/api/blog/bg";
+import {addBg, delBg, getBg, listBg, updateBg} from "@/api/blog/bg";
 
 export default {
   name: "Bg",
@@ -213,28 +191,20 @@ export default {
         bgType: null,
         bgUrl: null,
         bgPosition: null,
-        createTime: null,
-        updateTime: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         bgType: [
-          { required: true, message: "资料类型不能为空", trigger: "change" }
+          { required: true, message: "背景类型不能为空", trigger: "change" }
         ],
         bgUrl: [
-          { required: true, message: "资料路径不能为空", trigger: "blur" }
+          { required: true, message: "背景路径不能为空", trigger: "blur" }
         ],
         bgPosition: [
-          { required: true, message: "资源位置类型不能为空", trigger: "change" }
+          { required: true, message: "背景位置类型不能为空", trigger: "change" }
         ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
-        ],
-        updateTime: [
-          { required: true, message: "修改时间不能为空", trigger: "blur" }
-        ]
       }
     };
   },
@@ -264,7 +234,10 @@ export default {
         bgUrl: null,
         bgPosition: null,
         createTime: null,
-        updateTime: null
+        updateTime: null,
+        createBy: null,
+        updateBy: null,
+        remark: null
       };
       this.resetForm("form");
     },

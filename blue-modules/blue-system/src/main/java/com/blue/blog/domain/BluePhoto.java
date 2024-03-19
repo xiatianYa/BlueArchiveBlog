@@ -1,98 +1,98 @@
-package com.blue.system.domain;
+package com.blue.blog.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 相册对象 blue_photo
- *
+ * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public class BluePhoto extends BaseEntity {
+public class BluePhoto extends BaseEntity
+{
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 相册表ID
-     */
+    /** id */
     private Long id;
 
-    /**
-     * 用户id
-     */
+    /** 用户id */
     @Excel(name = "用户id")
     private Long userId;
 
-    /**
-     * 相册分类
-     */
-    @Excel(name = "相册分类")
+    /** 分类id */
+    @Excel(name = "分类id")
     private Long sortId;
 
-    /**
-     * 图片地址
-     */
-    @Excel(name = "图片地址")
+    /** 相册图片地址 */
+    @Excel(name = "相册图片地址")
     private String photoUrl;
 
-    /**
-     * 审核状态
-     */
+    /** 审核状态 */
     @Excel(name = "审核状态")
     private Long status;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public void setId(Long id) 
+    {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() 
+    {
+        return id;
     }
-
-    public void setUserId(Long userId) {
+    public void setUserId(Long userId) 
+    {
         this.userId = userId;
     }
 
-    public Long getSortId() {
-        return sortId;
+    public Long getUserId() 
+    {
+        return userId;
     }
-
-    public void setSortId(Long sortId) {
+    public void setSortId(Long sortId) 
+    {
         this.sortId = sortId;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public Long getSortId() 
+    {
+        return sortId;
     }
-
-    public void setPhotoUrl(String photoUrl) {
+    public void setPhotoUrl(String photoUrl) 
+    {
         this.photoUrl = photoUrl;
     }
 
-    public Long getStatus() {
-        return status;
+    public String getPhotoUrl() 
+    {
+        return photoUrl;
+    }
+    public void setStatus(Long status) 
+    {
+        this.status = status;
     }
 
-    public void setStatus(Long status) {
-        this.status = status;
+    public Long getStatus() 
+    {
+        return status;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("userId", getUserId())
-                .append("sortId", getSortId())
-                .append("photoUrl", getPhotoUrl())
-                .append("createTime", getCreateTime())
-                .append("updateTime", getUpdateTime())
-                .append("status", getStatus())
-                .toString();
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("id", getId())
+            .append("userId", getUserId())
+            .append("sortId", getSortId())
+            .append("photoUrl", getPhotoUrl())
+            .append("status", getStatus())
+            .append("createTime", getCreateTime())
+            .append("updateTime", getUpdateTime())
+            .append("createBy", getCreateBy())
+            .append("updateBy", getUpdateBy())
+            .append("remark", getRemark())
+            .toString();
     }
 }

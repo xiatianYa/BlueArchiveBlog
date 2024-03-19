@@ -10,8 +10,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -22,16 +22,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -50,8 +50,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -62,16 +62,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -90,8 +90,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -102,16 +102,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -130,8 +130,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -142,16 +142,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -170,8 +170,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -182,16 +182,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -210,8 +210,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -222,16 +222,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -250,8 +250,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -262,16 +262,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -290,8 +290,8 @@
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-                        2024-02-23 1:11
-                    </span>
+            2024-02-23 1:11
+          </span>
         </div>
         <div class="sort_title">
           Java...........
@@ -302,16 +302,16 @@
               <use xlink:href="#icon-remaituijian"></use>
             </svg>
             <span>
-                            0 热度
-                        </span>
+              0 热度
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-                            0 评论
-                        </span>
+              0 评论
+            </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
@@ -325,9 +325,7 @@
   </div>
 </template>
 
-<script setup>
-import {} from "vue"
-</script>
+<script setup></script>
 
 <style lang="scss" scoped>
 .sort_detail {

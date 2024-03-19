@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询相册分类信息列表
-export function listPhoto(query) {
+export function listSort(query) {
   return request({
     url: '/system/photosort/list',
     method: 'get',
@@ -10,7 +10,7 @@ export function listPhoto(query) {
 }
 
 // 查询相册分类信息详细
-export function getPhoto(id) {
+export function getSort(id) {
   return request({
     url: '/system/photosort/' + id,
     method: 'get'
@@ -18,7 +18,7 @@ export function getPhoto(id) {
 }
 
 // 新增相册分类信息
-export function addPhoto(data) {
+export function addSort(data) {
   return request({
     url: '/system/photosort',
     method: 'post',
@@ -27,7 +27,7 @@ export function addPhoto(data) {
 }
 
 // 修改相册分类信息
-export function updatePhoto(data) {
+export function updateSort(data) {
   return request({
     url: '/system/photosort',
     method: 'put',
@@ -36,7 +36,7 @@ export function updatePhoto(data) {
 }
 
 // 删除相册分类信息
-export function delPhoto(id) {
+export function delSort(id) {
   return request({
     url: '/system/photosort/' + id,
     method: 'delete'

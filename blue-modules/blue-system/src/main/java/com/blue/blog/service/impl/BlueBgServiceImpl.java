@@ -4,6 +4,8 @@ import com.blue.blog.domain.BlueBg;
 import com.blue.blog.mapper.BlueBgMapper;
 import com.blue.blog.service.IBlueBgService;
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,11 @@ import java.util.List;
  * 网站背景资源信息Service业务层处理
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
 @Service
-public class BlueBgServiceImpl implements IBlueBgService {
+public class BlueBgServiceImpl implements IBlueBgService 
+{
     @Autowired
     private BlueBgMapper blueBgMapper;
 
@@ -27,7 +30,8 @@ public class BlueBgServiceImpl implements IBlueBgService {
      * @return 网站背景资源信息
      */
     @Override
-    public BlueBg selectBlueBgById(Long id) {
+    public BlueBg selectBlueBgById(Long id)
+    {
         return blueBgMapper.selectBlueBgById(id);
     }
 
@@ -38,7 +42,8 @@ public class BlueBgServiceImpl implements IBlueBgService {
      * @return 网站背景资源信息
      */
     @Override
-    public List<BlueBg> selectBlueBgList(BlueBg blueBg) {
+    public List<BlueBg> selectBlueBgList(BlueBg blueBg)
+    {
         return blueBgMapper.selectBlueBgList(blueBg);
     }
 
@@ -49,9 +54,13 @@ public class BlueBgServiceImpl implements IBlueBgService {
      * @return 结果
      */
     @Override
-    public int insertBlueBg(BlueBg blueBg) {
+    public int insertBlueBg(BlueBg blueBg)
+    {
+        Long userId = SecurityUtils.getUserId();
+        if(StringUtils.isNotNull(userId)){
+            blueBg.setCreateBy(userId.toString());
+        }
         blueBg.setCreateTime(DateUtils.getNowDate());
-        blueBg.setUpdateTime(DateUtils.getNowDate());
         return blueBgMapper.insertBlueBg(blueBg);
     }
 
@@ -62,7 +71,12 @@ public class BlueBgServiceImpl implements IBlueBgService {
      * @return 结果
      */
     @Override
-    public int updateBlueBg(BlueBg blueBg) {
+    public int updateBlueBg(BlueBg blueBg)
+    {
+        Long userId = SecurityUtils.getUserId();
+        if(StringUtils.isNotNull(userId)){
+            blueBg.setUpdateBy(userId.toString());
+        }
         blueBg.setUpdateTime(DateUtils.getNowDate());
         return blueBgMapper.updateBlueBg(blueBg);
     }
@@ -74,7 +88,8 @@ public class BlueBgServiceImpl implements IBlueBgService {
      * @return 结果
      */
     @Override
-    public int deleteBlueBgByIds(Long[] ids) {
+    public int deleteBlueBgByIds(Long[] ids)
+    {
         return blueBgMapper.deleteBlueBgByIds(ids);
     }
 
@@ -85,7 +100,8 @@ public class BlueBgServiceImpl implements IBlueBgService {
      * @return 结果
      */
     @Override
-    public int deleteBlueBgById(Long id) {
+    public int deleteBlueBgById(Long id)
+    {
         return blueBgMapper.deleteBlueBgById(id);
     }
 }

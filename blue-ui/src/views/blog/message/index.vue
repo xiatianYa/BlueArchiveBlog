@@ -9,21 +9,29 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="弹幕的高度位置" prop="barrageHeight">
+      <el-form-item label="弹幕内容" prop="content">
         <el-input
-          v-model="queryParams.barrageHeight"
-          placeholder="请输入弹幕的高度位置"
+          v-model="queryParams.content"
+          placeholder="请输入弹幕内容"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="弹幕的发送时间" prop="createTime">
-        <el-date-picker clearable
-          v-model="queryParams.createTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择弹幕的发送时间">
-        </el-date-picker>
+      <el-form-item label="用户头像" prop="userAvater">
+        <el-input
+          v-model="queryParams.userAvater"
+          placeholder="请输入用户头像"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="弹幕高度" prop="barrageHeight">
+        <el-input
+          v-model="queryParams.barrageHeight"
+          placeholder="请输入弹幕高度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -34,23 +42,13 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['system:message:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:message:edit']"
+          v-hasPermi="['blog:message:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -61,7 +59,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:message:remove']"
+          v-hasPermi="['blog:message:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -71,7 +69,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:message:export']"
+          v-hasPermi="['blog:message:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -79,15 +77,12 @@
 
     <el-table v-loading="loading" :data="messageList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="弹幕ID" align="center" prop="id" />
+      <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="用户ID" align="center" prop="userId" />
-      <el-table-column label="弹幕的具体内容" align="center" prop="content" />
-      <el-table-column label="弹幕的高度位置" align="center" prop="barrageHeight" />
-      <el-table-column label="弹幕的发送时间" align="center" prop="createTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="弹幕内容" align="center" prop="content" />
+      <el-table-column label="用户头像" align="center" prop="userAvater" />
+      <el-table-column label="弹幕高度" align="center" prop="barrageHeight" />
+      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -95,19 +90,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:message:edit']"
+            v-hasPermi="['blog:message:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:message:remove']"
+            v-hasPermi="['blog:message:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -119,14 +114,11 @@
     <!-- 添加或修改弹幕对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="用户ID" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入用户ID" />
+        <el-form-item label="弹幕内容" prop="content">
+          <el-input v-model="form.content" placeholder="请输入弹幕内容" />
         </el-form-item>
-        <el-form-item label="弹幕的具体内容" prop="content">
-          <el-input v-model="form.content" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="弹幕的高度位置" prop="barrageHeight">
-          <el-input v-model="form.barrageHeight" placeholder="请输入弹幕的高度位置" />
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -138,7 +130,7 @@
 </template>
 
 <script>
-import { listMessage, getMessage, delMessage, addMessage, updateMessage } from "@/api/blog/message";
+import {addMessage, delMessage, getMessage, listMessage, updateMessage} from "@/api/blog/message";
 
 export default {
   name: "Message",
@@ -168,8 +160,8 @@ export default {
         pageSize: 10,
         userId: null,
         content: null,
+        userAvater: null,
         barrageHeight: null,
-        createTime: null
       },
       // 表单参数
       form: {},
@@ -179,14 +171,14 @@ export default {
           { required: true, message: "用户ID不能为空", trigger: "blur" }
         ],
         content: [
-          { required: true, message: "弹幕的具体内容不能为空", trigger: "blur" }
+          { required: true, message: "弹幕内容不能为空", trigger: "blur" }
+        ],
+        userAvater: [
+          { required: true, message: "用户头像不能为空", trigger: "blur" }
         ],
         barrageHeight: [
-          { required: true, message: "弹幕的高度位置不能为空", trigger: "blur" }
+          { required: true, message: "弹幕高度不能为空", trigger: "blur" }
         ],
-        createTime: [
-          { required: true, message: "弹幕的发送时间不能为空", trigger: "blur" }
-        ]
       }
     };
   },
@@ -214,8 +206,13 @@ export default {
         id: null,
         userId: null,
         content: null,
+        userAvater: null,
         barrageHeight: null,
-        createTime: null
+        createTime: null,
+        updateTime: null,
+        createBy: null,
+        updateBy: null,
+        remark: null
       };
       this.resetForm("form");
     },
@@ -234,12 +231,6 @@ export default {
       this.ids = selection.map(item => item.id)
       this.single = selection.length!==1
       this.multiple = !selection.length
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加弹幕";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -283,7 +274,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/message/export', {
+      this.download('blog/message/export', {
         ...this.queryParams
       }, `message_${new Date().getTime()}.xlsx`)
     }

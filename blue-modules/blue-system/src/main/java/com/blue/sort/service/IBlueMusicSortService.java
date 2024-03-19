@@ -1,19 +1,20 @@
 package com.blue.sort.service;
 
-import java.util.List;
-
 import com.blue.sort.domain.BlueMusicSort;
+
+import java.util.List;
 
 /**
  * 音乐分类Service接口
- *
+ * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface IBlueMusicSortService {
+public interface IBlueMusicSortService 
+{
     /**
      * 查询音乐分类
-     *
+     * 
      * @param id 音乐分类主键
      * @return 音乐分类
      */
@@ -21,7 +22,7 @@ public interface IBlueMusicSortService {
 
     /**
      * 查询音乐分类列表
-     *
+     * 
      * @param blueMusicSort 音乐分类
      * @return 音乐分类集合
      */
@@ -29,7 +30,7 @@ public interface IBlueMusicSortService {
 
     /**
      * 新增音乐分类
-     *
+     * 
      * @param blueMusicSort 音乐分类
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface IBlueMusicSortService {
 
     /**
      * 修改音乐分类
-     *
+     * 
      * @param blueMusicSort 音乐分类
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface IBlueMusicSortService {
 
     /**
      * 批量删除音乐分类
-     *
+     * 
      * @param ids 需要删除的音乐分类主键集合
      * @return 结果
      */
@@ -53,7 +54,7 @@ public interface IBlueMusicSortService {
 
     /**
      * 删除音乐分类信息
-     *
+     * 
      * @param id 音乐分类主键
      * @return 结果
      */

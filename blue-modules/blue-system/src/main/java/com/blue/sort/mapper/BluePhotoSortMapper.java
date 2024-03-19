@@ -1,16 +1,17 @@
 package com.blue.sort.mapper;
 
-import java.util.List;
-
 import com.blue.sort.domain.BluePhotoSort;
+
+import java.util.List;
 
 /**
  * 相册分类信息Mapper接口
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface BluePhotoSortMapper {
+public interface BluePhotoSortMapper 
+{
     /**
      * 查询相册分类信息
      * 

@@ -19,19 +19,22 @@ import java.util.List;
  * 弹幕Controller
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
 @RestController
 @RequestMapping("/message")
-public class BlueLeaveMessageController extends BaseController {
+public class BlueLeaveMessageController extends BaseController
+{
     @Autowired
     private IBlueLeaveMessageService blueLeaveMessageService;
 
     /**
      * 查询弹幕列表
      */
+    @RequiresPermissions("blog:message:list")
     @GetMapping("/list")
-    public TableDataInfo list(BlueLeaveMessage blueLeaveMessage) {
+    public TableDataInfo list(BlueLeaveMessage blueLeaveMessage)
+    {
         startPage();
         List<BlueLeaveMessage> list = blueLeaveMessageService.selectBlueLeaveMessageList(blueLeaveMessage);
         return getDataTable(list);
@@ -40,10 +43,11 @@ public class BlueLeaveMessageController extends BaseController {
     /**
      * 导出弹幕列表
      */
-    @RequiresPermissions("system:message:export")
+    @RequiresPermissions("blog:message:export")
     @Log(title = "弹幕", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, BlueLeaveMessage blueLeaveMessage) {
+    public void export(HttpServletResponse response, BlueLeaveMessage blueLeaveMessage)
+    {
         List<BlueLeaveMessage> list = blueLeaveMessageService.selectBlueLeaveMessageList(blueLeaveMessage);
         ExcelUtil<BlueLeaveMessage> util = new ExcelUtil<BlueLeaveMessage>(BlueLeaveMessage.class);
         util.exportExcel(response, list, "弹幕数据");
@@ -52,38 +56,43 @@ public class BlueLeaveMessageController extends BaseController {
     /**
      * 获取弹幕详细信息
      */
-    @RequiresPermissions("system:message:query")
+    @RequiresPermissions("blog:message:query")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
+    public AjaxResult getInfo(@PathVariable("id") Long id)
+    {
         return success(blueLeaveMessageService.selectBlueLeaveMessageById(id));
     }
 
     /**
      * 新增弹幕
      */
+    @RequiresPermissions("blog:message:add")
     @Log(title = "弹幕", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BlueLeaveMessage blueLeaveMessage) {
+    public AjaxResult add(@RequestBody BlueLeaveMessage blueLeaveMessage)
+    {
         return toAjax(blueLeaveMessageService.insertBlueLeaveMessage(blueLeaveMessage));
     }
 
     /**
      * 修改弹幕
      */
-    @RequiresPermissions("system:message:edit")
+    @RequiresPermissions("blog:message:edit")
     @Log(title = "弹幕", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BlueLeaveMessage blueLeaveMessage) {
+    public AjaxResult edit(@RequestBody BlueLeaveMessage blueLeaveMessage)
+    {
         return toAjax(blueLeaveMessageService.updateBlueLeaveMessage(blueLeaveMessage));
     }
 
     /**
      * 删除弹幕
      */
-    @RequiresPermissions("system:message:remove")
+    @RequiresPermissions("blog:message:remove")
     @Log(title = "弹幕", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
+	@DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids)
+    {
         return toAjax(blueLeaveMessageService.deleteBlueLeaveMessageByIds(ids));
     }
 }

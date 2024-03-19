@@ -1,20 +1,25 @@
 package com.blue.sort.service.impl;
 
-import java.util.List;
+import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
+import com.blue.sort.domain.BluePhotoSort;
+import com.blue.sort.mapper.BluePhotoSortMapper;
+import com.blue.sort.service.IBluePhotoSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.blue.sort.mapper.BluePhotoSortMapper;
-import com.blue.sort.domain.BluePhotoSort;
-import com.blue.sort.service.IBluePhotoSortService;
+
+import java.util.List;
 
 /**
  * 相册分类信息Service业务层处理
  * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
 @Service
-public class BluePhotoSortServiceImpl implements IBluePhotoSortService {
+public class BluePhotoSortServiceImpl implements IBluePhotoSortService 
+{
     @Autowired
     private BluePhotoSortMapper bluePhotoSortMapper;
 
@@ -25,7 +30,8 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService {
      * @return 相册分类信息
      */
     @Override
-    public BluePhotoSort selectBluePhotoSortById(Long id) {
+    public BluePhotoSort selectBluePhotoSortById(Long id)
+    {
         return bluePhotoSortMapper.selectBluePhotoSortById(id);
     }
 
@@ -36,7 +42,8 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService {
      * @return 相册分类信息
      */
     @Override
-    public List<BluePhotoSort> selectBluePhotoSortList(BluePhotoSort bluePhotoSort) {
+    public List<BluePhotoSort> selectBluePhotoSortList(BluePhotoSort bluePhotoSort)
+    {
         return bluePhotoSortMapper.selectBluePhotoSortList(bluePhotoSort);
     }
 
@@ -47,7 +54,13 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService {
      * @return 结果
      */
     @Override
-    public int insertBluePhotoSort(BluePhotoSort bluePhotoSort) {
+    public int insertBluePhotoSort(BluePhotoSort bluePhotoSort)
+    {
+        Long userId = SecurityUtils.getUserId();
+        if(StringUtils.isNotNull(userId)){
+            bluePhotoSort.setCreateBy(userId.toString());
+        }
+        bluePhotoSort.setCreateTime(DateUtils.getNowDate());
         return bluePhotoSortMapper.insertBluePhotoSort(bluePhotoSort);
     }
 
@@ -58,7 +71,13 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService {
      * @return 结果
      */
     @Override
-    public int updateBluePhotoSort(BluePhotoSort bluePhotoSort) {
+    public int updateBluePhotoSort(BluePhotoSort bluePhotoSort)
+    {
+        Long userId = SecurityUtils.getUserId();
+        if(StringUtils.isNotNull(userId)){
+            bluePhotoSort.setUpdateBy(userId.toString());
+        }
+        bluePhotoSort.setUpdateTime(DateUtils.getNowDate());
         return bluePhotoSortMapper.updateBluePhotoSort(bluePhotoSort);
     }
 
@@ -69,7 +88,8 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService {
      * @return 结果
      */
     @Override
-    public int deleteBluePhotoSortByIds(Long[] ids) {
+    public int deleteBluePhotoSortByIds(Long[] ids)
+    {
         return bluePhotoSortMapper.deleteBluePhotoSortByIds(ids);
     }
 
@@ -80,7 +100,8 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService {
      * @return 结果
      */
     @Override
-    public int deleteBluePhotoSortById(Long id) {
+    public int deleteBluePhotoSortById(Long id)
+    {
         return bluePhotoSortMapper.deleteBluePhotoSortById(id);
     }
 }

@@ -1,19 +1,20 @@
-package com.blue.system.mapper;
+package com.blue.blog.mapper;
+
+import com.blue.blog.domain.BluePhoto;
 
 import java.util.List;
 
-import com.blue.system.domain.BluePhoto;
-
 /**
  * 相册Mapper接口
- *
+ * 
  * @author ruoyi
- * @date 2024-03-17
+ * @date 2024-03-19
  */
-public interface BluePhotoMapper {
+public interface BluePhotoMapper 
+{
     /**
      * 查询相册
-     *
+     * 
      * @param id 相册主键
      * @return 相册
      */
@@ -21,7 +22,7 @@ public interface BluePhotoMapper {
 
     /**
      * 查询相册列表
-     *
+     * 
      * @param bluePhoto 相册
      * @return 相册集合
      */
@@ -29,7 +30,7 @@ public interface BluePhotoMapper {
 
     /**
      * 新增相册
-     *
+     * 
      * @param bluePhoto 相册
      * @return 结果
      */
@@ -37,7 +38,7 @@ public interface BluePhotoMapper {
 
     /**
      * 修改相册
-     *
+     * 
      * @param bluePhoto 相册
      * @return 结果
      */
@@ -45,7 +46,7 @@ public interface BluePhotoMapper {
 
     /**
      * 删除相册
-     *
+     * 
      * @param id 相册主键
      * @return 结果
      */
@@ -53,7 +54,7 @@ public interface BluePhotoMapper {
 
     /**
      * 批量删除相册
-     *
+     * 
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
