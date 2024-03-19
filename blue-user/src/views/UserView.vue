@@ -9,11 +9,10 @@
             <img :src="userInfo.avater">
             <a class="pointer avater_select" @click="selectAvatar(openAvater)">选择头像</a>
           </div>
-          <input type="text" placeholder="用户名">
-          <input type="email" placeholder="邮箱">
-          <input type="password" placeholder="密码">
-          <input type="password" placeholder="确认密码">
-          <button>注册</button>
+          <input type="text" placeholder="用户名" v-model="userInfo.username">
+          <input type="password" placeholder="密码" v-model="userInfo.password">
+          <input type="password" placeholder="确认密码" v-model="userInfo.entryPassword">
+          <button @click="userRegister">注册</button>
         </div>
         <!-- 登录 -->
         <div class="login-box">
@@ -42,7 +41,8 @@
         <button id="register" @click="goRegister">去注册</button>
       </div>
       <div class="selectAvater animate__animated animate__fadeInLeft" v-show="openAvater">
-        <img v-for="(imgUrl, index) in avaterUrls" :key="index" :src="imgUrl" @click="exchangeAvater(imgUrl)">
+        <img v-for="(imgUrl, index) in avaterUrls" :key="index" :src="imgUrl.avaterUrl"
+          @click="exchangeAvater(imgUrl.avaterUrl)">
       </div>
     </div>
   </div>
@@ -51,6 +51,7 @@
 <script setup>
 import {onMounted, reactive, ref} from 'vue'
 import {getCodeImg, login} from '@/api/login'
+import {listAvater} from '@/api/avater'
 import {useUserStore} from '@/store/user'
 import {setExpiresIn, setToken} from '@/utils/auth'
 import {useRouter} from "vue-router";
@@ -69,11 +70,15 @@ let codeImg = ref([""])
 let userInfo = reactive({
   username: "admin",
   password: "admin123",
-  code: "",
-  uuid: "",
-  avater: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png"
+  code: null,
+  uuid: null,
+  avater: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png",
+  entryPassword: null
 })
 onMounted(() => {
+  listAvater().then(res => {
+    avaterUrls.value = res.rows
+  })
   getCode()
 })
 
@@ -89,7 +94,7 @@ function getCode() {
     userInfo.uuid = res.uuid
   })
 }
-
+//用户登录
 function userLogin() {
   const username = userInfo.username.trim()
   const password = userInfo.password
@@ -105,16 +110,28 @@ function userLogin() {
     UserStore.SET_TOKEN(result.access_token)
     //提示用户信息
     promptMsg({ type: "success", msg: "登录成功" })
-    router.push({path: "/home"})
+    router.push({ path: "/home" })
   }).catch(error => {
     //提示用户信息
     promptMsg({ type: "success", msg: error })
     getCode()
   })
 }
+//用户注册
+function userRegister() {
 
+}
+//清空表单
+function clearUserInfo() {
+  userInfo.username=""
+  userInfo.password=""
+  userInfo.entryPassword=""
+  userInfo.code=""
+  userInfo.uuid=""
+}
 //前往登录
 function goLogin() {
+  clearUserInfo()
   var formBox = document.querySelector('.form-box');
   var registerBox = document.querySelector('.register-box');
   var loginBox = document.querySelector('.login-box');
@@ -134,6 +151,7 @@ function exchangeAvater(imgUrl) {
 
 //前往注册
 function goRegister() {
+  clearUserInfo()
   var formBox = document.querySelector('.form-box');
   var registerBox = document.querySelector('.register-box');
   var loginBox = document.querySelector('.login-box');

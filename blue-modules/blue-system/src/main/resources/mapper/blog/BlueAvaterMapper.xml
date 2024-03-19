@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BlueAvaterMapper">
+    
+    <resultMap type="BlueAvater" id="BlueAvaterResult">
+        <result property="id"    column="id"    />
+        <result property="avaterUrl"    column="avater_url"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBlueAvaterVo">
+        select id, avater_url, create_time, update_time, create_by, update_by, remark from blue_avater
+    </sql>
+
+    <select id="selectBlueAvaterList" parameterType="BlueAvater" resultMap="BlueAvaterResult">
+        <include refid="selectBlueAvaterVo"/>
+        <where>  
+            <if test="avaterUrl != null  and avaterUrl != ''"> and avater_url = #{avaterUrl}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueAvaterById" parameterType="Long" resultMap="BlueAvaterResult">
+        <include refid="selectBlueAvaterVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueAvater" parameterType="BlueAvater" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_avater
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="avaterUrl != null and avaterUrl != ''">avater_url,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="avaterUrl != null and avaterUrl != ''">#{avaterUrl},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueAvater" parameterType="BlueAvater">
+        update blue_avater
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="avaterUrl != null and avaterUrl != ''">avater_url = #{avaterUrl},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueAvaterById" parameterType="Long">
+        delete from blue_avater where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueAvaterByIds" parameterType="String">
+        delete from blue_avater where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
