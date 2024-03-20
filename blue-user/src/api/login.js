@@ -16,7 +16,7 @@ export function login(username, password, code, uuid) {
 // 注册方法
 export function register(data) {
     return request({
-        url: '/auth/register',
+        url: '/auth/userRegister',
         headers: {
             isToken: false
         },
@@ -58,5 +58,16 @@ export function getCodeImg() {
         },
         method: 'get',
         timeout: 20000
+    })
+}
+// 获取短信验证码
+export function getSms(phone) {
+    return request({
+        url: '/auth/code',
+        headers: {
+            isToken: false
+        },
+        method: 'post',
+        data:phone
     })
 }

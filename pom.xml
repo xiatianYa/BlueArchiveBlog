@@ -216,6 +216,7 @@
         <module>blue-modules</module>
         <module>blue-api</module>
         <module>blue-common</module>
+        <module>blue-rabbit</module>
     </modules>
     <packaging>pom</packaging>
 

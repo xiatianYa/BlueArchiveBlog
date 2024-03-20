@@ -12,6 +12,11 @@
           <input type="text" placeholder="用户名" v-model="userInfo.username">
           <input type="password" placeholder="密码" v-model="userInfo.password">
           <input type="password" placeholder="确认密码" v-model="userInfo.entryPassword">
+          <div class="Sms_box">
+            <input type="password" placeholder="请填写手机号" v-model="userInfo.phone">
+            <a class="pointer code_select" @click="getPhoneCode()">发送</a>
+          </div>
+          <input type="text" placeholder="请输入验证码" v-model="userInfo.sms">
           <button @click="userRegister">注册</button>
         </div>
         <!-- 登录 -->
@@ -50,7 +55,7 @@
 
 <script setup>
 import {onMounted, reactive, ref} from 'vue'
-import {getCodeImg, login} from '@/api/login'
+import {getCodeImg, getSms, login, register} from '@/api/login'
 import {listAvater} from '@/api/avater'
 import {useUserStore} from '@/store/user'
 import {setExpiresIn, setToken} from '@/utils/auth'
@@ -70,10 +75,12 @@ let codeImg = ref([""])
 let userInfo = reactive({
   username: "admin",
   password: "admin123",
+  entryPassword: null,
+  avater: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png",
+  phone: "",
+  sms: null,
   code: null,
   uuid: null,
-  avater: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png",
-  entryPassword: null
 })
 onMounted(() => {
   listAvater().then(res => {
@@ -81,7 +88,14 @@ onMounted(() => {
   })
   getCode()
 })
-
+//获取注册短信验证码
+function getPhoneCode(){
+  getSms(userInfo.phone).then(res=>{
+    promptMsg({ type: "warn", msg: res.data })
+  }).catch(error=>{
+    promptMsg({ type: "warn", msg: error })
+  })
+}
 //用户选择头像
 function selectAvatar(isOpen) {
   openAvater.value = !isOpen
@@ -119,15 +133,21 @@ function userLogin() {
 }
 //用户注册
 function userRegister() {
-
+  register(userInfo).then(res=>{
+    console.log(res);
+    promptMsg({ type: "success", msg: res })
+  }).catch(error=>{
+    promptMsg({ type: "warn", msg: error })
+  })
 }
 //清空表单
 function clearUserInfo() {
-  userInfo.username=""
-  userInfo.password=""
-  userInfo.entryPassword=""
-  userInfo.code=""
-  userInfo.uuid=""
+  userInfo.username = ""
+  userInfo.password = ""
+  userInfo.entryPassword = ""
+  userInfo.code = ""
+  userInfo.uuid = ""
+  userInfo.phone = ""
 }
 //前往登录
 function goLogin() {
@@ -245,7 +265,15 @@ function goRegister() {
   flex-direction: column;
   align-items: center;
   width: 100%;
-
+  .Sms_box{
+    display: flex;
+    align-items: center;
+    .code_select{
+      text-align: center;
+      flex-grow: 1;
+      color: #fff;
+    }
+  }
   .avater_box {
     display: flex;
     justify-content: center;

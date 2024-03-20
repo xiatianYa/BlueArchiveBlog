@@ -1,5 +1,5 @@
 <template>
-  <div class="setup" v-show="!gloBalStore.loading">
+  <div class="setup">
     <svg class="icon pointer" aria-hidden="true">
       <use xlink:href="#icon-shezhi"></use>
     </svg>

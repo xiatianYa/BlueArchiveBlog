@@ -1,12 +1,5 @@
 package com.blue.auth.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import com.blue.auth.form.LoginBody;
 import com.blue.auth.form.RegisterBody;
 import com.blue.auth.service.SysLoginService;
@@ -17,6 +10,13 @@ import com.blue.common.security.auth.AuthUtil;
 import com.blue.common.security.service.TokenService;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.model.LoginUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * token 控制
@@ -30,7 +30,6 @@ public class TokenController {
 
     @Autowired
     private SysLoginService sysLoginService;
-
     @PostMapping("login")
     public R<?> login(@RequestBody LoginBody form) {
         // 用户登录
@@ -63,10 +62,15 @@ public class TokenController {
         return R.ok();
     }
 
-    @PostMapping("register")
+    @PostMapping("userRegister")
     public R<?> register(@RequestBody RegisterBody registerBody) {
         // 用户注册
-        sysLoginService.register(registerBody.getUsername(), registerBody.getPassword());
-        return R.ok();
+        String msg = sysLoginService.register(registerBody);
+        return R.ok(msg);
+    }
+    @PostMapping("code")
+    public R<?> getPhoneCode(@RequestBody String phone){
+        String phoneCode=sysLoginService.getPhoneCode(phone);
+        return R.ok(phoneCode);
     }
 }
