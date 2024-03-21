@@ -86,6 +86,7 @@
 import {onBeforeMount, onMounted, reactive, ref} from 'vue'
 import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'
+import promptMsg from "@/components/PromptBoxView"
 
 const UserStore = useUserStore()
 const gloBalStore = useGloBalStore()
@@ -110,6 +111,7 @@ function updateScrollPosition() {
 //用户退出登录
 function logOut() {
   UserStore.LogOut()
+  promptMsg({ type: "success", msg: "退出成功" })
 }
 </script>
 <style lang="scss" scoped>

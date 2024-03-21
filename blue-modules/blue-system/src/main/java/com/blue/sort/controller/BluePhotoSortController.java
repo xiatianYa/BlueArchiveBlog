@@ -31,7 +31,6 @@ public class BluePhotoSortController extends BaseController
     /**
      * 查询相册分类信息列表
      */
-    @RequiresPermissions("sort:sort:list")
     @GetMapping("/list")
     public TableDataInfo list(BluePhotoSort bluePhotoSort)
     {
