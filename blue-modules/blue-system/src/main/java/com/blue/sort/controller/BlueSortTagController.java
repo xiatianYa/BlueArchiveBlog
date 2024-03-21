@@ -31,7 +31,6 @@ public class BlueSortTagController extends BaseController
     /**
      * 查询标签列表
      */
-    @RequiresPermissions("sort:tag:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueSortTag blueSortTag)
     {

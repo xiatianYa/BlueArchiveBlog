@@ -31,7 +31,6 @@ public class BlueSortController extends BaseController
     /**
      * 查询分类列表
      */
-    @RequiresPermissions("blog:sort:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueSort blueSort)
     {

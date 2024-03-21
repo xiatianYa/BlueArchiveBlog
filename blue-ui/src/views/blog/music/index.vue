@@ -167,6 +167,7 @@ export default {
         pageSize: 10,
         imgUrl: null,
         musicUrl: null,
+        musicName: null,
         sortId: null,
       },
       // 表单参数

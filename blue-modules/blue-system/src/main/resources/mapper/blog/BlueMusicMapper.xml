@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="imgUrl"    column="img_url"    />
         <result property="musicUrl"    column="music_url"    />
+        <result property="musicName"    column="music_name"    />
         <result property="sortId"    column="sort_id"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
@@ -17,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBlueMusicVo">
-        select id, img_url, music_url, sort_id, create_time, update_time, create_by, update_by, remark from blue_music
+        select id, img_url, music_url,music_name, sort_id, create_time, update_time, create_by, update_by, remark from blue_music
     </sql>
 
     <select id="selectBlueMusicList" parameterType="BlueMusic" resultMap="BlueMusicResult">
@@ -25,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
             <if test="musicUrl != null  and musicUrl != ''"> and music_url = #{musicUrl}</if>
+            <if test="musicName != null  and musicName != ''"> and music_name = #{musicUrl}</if>
             <if test="sortId != null "> and sort_id = #{sortId}</if>
         </where>
     </select>
@@ -39,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="imgUrl != null">img_url,</if>
             <if test="musicUrl != null and musicUrl != ''">music_url,</if>
+            <if test="musicName != null and musicName != ''">music_name,</if>
             <if test="sortId != null">sort_id,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
@@ -49,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="imgUrl != null">#{imgUrl},</if>
             <if test="musicUrl != null and musicUrl != ''">#{musicUrl},</if>
+            <if test="musicName != null and musicName != ''">#{musicName},</if>
             <if test="sortId != null">#{sortId},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -63,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="imgUrl != null">img_url = #{imgUrl},</if>
             <if test="musicUrl != null and musicUrl != ''">music_url = #{musicUrl},</if>
+            <if test="musicName != null and musicName != ''">music_name = #{musicName},</if>
             <if test="sortId != null">sort_id = #{sortId},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>

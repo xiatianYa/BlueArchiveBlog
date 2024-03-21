@@ -31,7 +31,6 @@ public class BlueMusicSortController extends BaseController
     /**
      * 查询音乐分类列表
      */
-    @RequiresPermissions("sort:sort:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueMusicSort blueMusicSort)
     {
@@ -39,6 +38,7 @@ public class BlueMusicSortController extends BaseController
         List<BlueMusicSort> list = blueMusicSortService.selectBlueMusicSortList(blueMusicSort);
         return getDataTable(list);
     }
+
 
     /**
      * 导出音乐分类列表

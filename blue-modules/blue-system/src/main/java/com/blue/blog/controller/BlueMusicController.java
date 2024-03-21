@@ -1,6 +1,7 @@
 package com.blue.blog.controller;
 
 import com.blue.blog.domain.BlueMusic;
+import com.blue.blog.domain.dto.BlueMusicListBySort;
 import com.blue.blog.service.IBlueMusicService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;
@@ -28,10 +29,14 @@ public class BlueMusicController extends BaseController
     @Autowired
     private IBlueMusicService blueMusicService;
 
+
+    @GetMapping("/bySortList")
+    public List<BlueMusicListBySort> getMusicListBySort(BlueMusic blueMusic){
+        return blueMusicService.getMusicListBySort(blueMusic.getSortId());
+    }
     /**
      * 查询音乐列表
      */
-    @RequiresPermissions("blog:music:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueMusic blueMusic)
     {

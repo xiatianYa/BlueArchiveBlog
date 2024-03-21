@@ -1,6 +1,7 @@
 package com.blue.blog.service;
 
 import com.blue.blog.domain.BlueMusic;
+import com.blue.blog.domain.dto.BlueMusicListBySort;
 
 import java.util.List;
 
@@ -59,4 +60,6 @@ public interface IBlueMusicService
      * @return 结果
      */
     public int deleteBlueMusicById(Long id);
+
+    List<BlueMusicListBySort> getMusicListBySort(Long type);
 }

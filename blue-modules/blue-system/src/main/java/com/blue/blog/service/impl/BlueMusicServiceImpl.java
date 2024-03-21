@@ -1,14 +1,18 @@
 package com.blue.blog.service.impl;
 
 import com.blue.blog.domain.BlueMusic;
+import com.blue.blog.domain.dto.BlueMusicListBySort;
 import com.blue.blog.mapper.BlueMusicMapper;
 import com.blue.blog.service.IBlueMusicService;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.sort.domain.BlueMusicSort;
+import com.blue.sort.mapper.BlueMusicSortMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +26,8 @@ public class BlueMusicServiceImpl implements IBlueMusicService
 {
     @Autowired
     private BlueMusicMapper blueMusicMapper;
+    @Autowired
+    private BlueMusicSortMapper blueMusicSortMapper;
 
     /**
      * 查询音乐
@@ -103,5 +109,39 @@ public class BlueMusicServiceImpl implements IBlueMusicService
     public int deleteBlueMusicById(Long id)
     {
         return blueMusicMapper.deleteBlueMusicById(id);
+    }
+
+    @Override
+    public List<BlueMusicListBySort> getMusicListBySort(Long type) {
+        //获取全部音乐分类
+        List<BlueMusicSort> blueMusicSorts = blueMusicSortMapper.selectBlueMusicSortList(new BlueMusicSort());
+        //获取全部音乐列表
+        List<BlueMusic> blueMusics = blueMusicMapper.selectBlueMusicList(new BlueMusic());
+        //返回列表
+        List<BlueMusicListBySort> musicListBySorts=new ArrayList<>();
+        for (BlueMusicSort blueMusicSort : blueMusicSorts) {
+            BlueMusicListBySort musicByType = getMusicByType(blueMusics,blueMusicSort.getSortName(),blueMusicSort.getId());
+            musicListBySorts.add(musicByType);
+        }
+        return musicListBySorts;
+    }
+    //根据音乐类型 获取列表
+    public BlueMusicListBySort getMusicByType(List<BlueMusic> blueMusics,String sortName,Long type){
+        BlueMusicListBySort blueMusicListBySort = new BlueMusicListBySort();
+        blueMusicListBySort.setMusicList(new ArrayList<>());
+        List<BlueMusic> musicList = blueMusicListBySort.getMusicList();
+        blueMusicListBySort.setSortName(sortName);
+        for (BlueMusic blueMusic : blueMusics) {
+            if (StringUtils.isNotNull(type)){
+                //匹配 则添加
+                if (blueMusic.getSortId().equals(type)){
+                    musicList.add(blueMusic);
+                }
+            }else {
+                //type为空 则全部查询
+                musicList.add(blueMusic);
+            }
+        }
+        return blueMusicListBySort;
     }
 }

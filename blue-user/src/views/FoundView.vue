@@ -141,7 +141,7 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
         justify-content: space-between;
         align-items: center;
         padding-bottom: 5px;
-        border-bottom: 1px dashed #c9d6df;
+        border-bottom: 2px dashed #c9d6df;
 
         .icon {
           font-size: 32px;

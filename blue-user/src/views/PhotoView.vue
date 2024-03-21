@@ -79,7 +79,6 @@ const queryParam = ref({
 onMounted(() => {
   listPhoto().then(res => {
     PhotoList.value = res.rows;
-    console.log(PhotoList.value);
   })
   listSort().then(res => {
     PhotoSort.value = res.rows;
