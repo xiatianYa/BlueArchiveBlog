@@ -7,6 +7,8 @@ import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.system.api.domain.SysUser;
+import com.blue.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,8 @@ public class BluePhotoServiceImpl implements IBluePhotoService
 {
     @Autowired
     private BluePhotoMapper bluePhotoMapper;
-
+    @Autowired
+    private ISysUserService userService;
     /**
      * 查询相册
      * 
@@ -49,7 +52,16 @@ public class BluePhotoServiceImpl implements IBluePhotoService
         if (!StringUtils.isNotNull(bluePhoto.getStatus())){
              bluePhoto.setStatus(AuditingStatus.DISABLE.getCode());
         }
-        return bluePhotoMapper.selectBluePhotoList(bluePhoto);
+        List<BluePhoto> bluePhotos = bluePhotoMapper.selectBluePhotoList(bluePhoto);
+        List<SysUser> sysUsers = userService.selectUserList(new SysUser());
+        for (BluePhoto photo : bluePhotos) {
+            for (SysUser sysUser : sysUsers) {
+                if (sysUser.getUserId().equals(photo.getUserId())){
+                    photo.setUserName(sysUser.getUserName());
+                }
+            }
+        }
+        return bluePhotos;
     }
 
     /**

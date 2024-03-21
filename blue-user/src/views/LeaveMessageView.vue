@@ -35,11 +35,13 @@ const startTimer = () => {
   listMessage().then(res => {
     result = res.rows;
   })
+  //每0.5秒添加一条随机弹幕
   timer.value.push(setInterval(() => {
     let barrage = getRandomItem(result)
     showBarrage(barrage)
-  }, 1000))
+  }, 500))
 };
+
 
 // 清除定时器  
 const clearTimer = () => {
@@ -94,9 +96,9 @@ function addBarrage() {
   BarrageInfo.value.userId = UserStore.id || 0;
   BarrageInfo.value.userAvater = UserStore.avatar || "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png";
   BarrageInfo.value.barrageHeight = BarrageHeight;
-  addMessage(BarrageInfo.value).then(res=>{
+  addMessage(BarrageInfo.value).then(res => {
     promptMsg({ type: "success", msg: res.msg })
-  }).catch(error=>{
+  }).catch(error => {
     promptMsg({ type: "warn", msg: error })
   })
   BarrageInfo.value.content = ""
@@ -191,6 +193,7 @@ function getRandomItem(array) {
     }
 
     .leave_input {
+      z-index: 10;
       position: absolute;
       top: 40%;
       left: 50%;

@@ -3,9 +3,7 @@
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
         <video autoplay loop muted>
-          <source
-              :src="bgUrl"
-              type="video/mp4">
+          <source :src="bgUrl" type="video/mp4">
         </video>
         <div class="banner_nav">
           <div class="top">
@@ -20,50 +18,26 @@
             </span>
           </div>
           <div class="botton">
-            <div class="target pointer scaleDraw">
+            <div class="target pointer scaleDraw" v-for="item in PhotoSort" :key="item.id" @click="searchSort(item.id)">
               <svg class="icon pointer" aria-hidden="true" @click="goDown">
                 <use xlink:href="#icon-sekuaibiaoqian"></use>
               </svg>
               <span>
-                美好时刻
+                {{ item.sortName }}
               </span>
-            </div>
-            <div class="target pointer">
-              <svg class="icon pointer" aria-hidden="true" @click="goDown">
-                <use xlink:href="#icon-sekuaibiaoqian"></use>
-              </svg>
-              <span>
-                美好时刻
-              </span>
-            </div>
-            <div class="target pointer">
-              <svg class="icon pointer" aria-hidden="true" @click="goDown">
-                <use xlink:href="#icon-sekuaibiaoqian"></use>
-              </svg>
-              <span>
-                美好时刻
-              </span>
-            </div>
-            <div class="target pointer">
-              <svg class="icon pointer" aria-hidden="true" @click="goDown">
-                <use xlink:href="#icon-sekuaibiaoqian"></use>
-              </svg>
-              <span>
-                美好时刻
-              </span>
-            </div>
+            </div>  
           </div>
         </div>
       </div>
     </div>
     <div class="photos animate__animated animate__zoomIn">
-      <div class="photo box_shadow pointer">
+      <div class="photo box_shadow pointer" v-for="item in PhotoList" :key="item.id">
         <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
+          <img class="box_shadow" :src="item.photoUrl">
         </div>
         <div class="photo_msg">
           <span>
-            长沙
+            {{ item.remark }}
           </span>
         </div>
         <div class="photo_time">
@@ -71,205 +45,12 @@
             <use xlink:href="#icon-shalou"></use>
           </svg>
           <span>
-            2024-03-07
+            {{ item.createTime }}
           </span>
         </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
+        <div class="photo_name">
           <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
-          </span>
-        </div>
-      </div>
-      <div class="photo box_shadow">
-        <div class="photo_img">
-          <img class="box_shadow" src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="photo_msg">
-          <span>
-            长沙
-          </span>
-        </div>
-        <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
-            <use xlink:href="#icon-shalou"></use>
-          </svg>
-          <span>
-            2024-03-07
+            发布者: {{ item.userName }}
           </span>
         </div>
       </div>
@@ -278,10 +59,39 @@
 </template>
 
 <script setup>
-import {ref} from "vue"
+import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
+import {listPhoto} from '@/api/photo'
+import {listSort} from '@/api/sort/photo'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
+const PhotoList = ref([])
+const PhotoSort = ref([])
+//查询参数
+const queryParam = ref({
+    pageNum: 1,
+    pageSize: 10,
+    userId: null,
+    sortId: null,
+    photoUrl: null,
+    status: null,
+  })
+onMounted(() => {
+  listPhoto().then(res => {
+    PhotoList.value = res.rows;
+    console.log(PhotoList.value);
+  })
+  listSort().then(res => {
+    PhotoSort.value = res.rows;
+  })
+})
+//切换分类
+function searchSort(sortId) {
+  queryParam.value.sortId=sortId
+  listPhoto(queryParam.value).then(res => {
+    PhotoList.value = res.rows
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -390,6 +200,7 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
     flex-wrap: wrap;
     justify-content: space-between;
     width: 90%;
+    height: 100%;
     margin-top: 30px;
 
     .photo {
@@ -444,7 +255,14 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
         width: 80%;
         height: 10%;
         font-size: 14px;
-        color: #bfbfbf;
+      }
+
+      .photo_name {
+        display: flex;
+        align-items: center;
+        width: 80%;
+        height: 10%;
+        font-size: 14px;
       }
     }
   }

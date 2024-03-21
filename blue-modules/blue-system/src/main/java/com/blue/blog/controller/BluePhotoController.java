@@ -31,7 +31,6 @@ public class BluePhotoController extends BaseController
     /**
      * 查询相册列表
      */
-    @RequiresPermissions("blog:photo:list")
     @GetMapping("/list")
     public TableDataInfo list(BluePhoto bluePhoto)
     {

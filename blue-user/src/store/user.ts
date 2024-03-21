@@ -51,7 +51,6 @@ export const useUserStore = defineStore('user', {
             this.permissions=[]
             this.token = ""
             removeToken()
-            alert("退出成功")
         }
     },
     // 真正存储数据的地方
