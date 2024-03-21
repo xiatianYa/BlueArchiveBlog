@@ -1,4 +1,4 @@
-package com.blue.auth.aliyun;
+package com.blue.cloud.aliyun;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class    AliYunSmsService {
-    private final String regionId="cn-shanghai";
+public class AliYunSmsService {
     @Value("${aliyun.sms.AccessKeyId}")
     private String AccessKeyId;
     @Value("${aliyun.sms.Secret}")
@@ -20,6 +19,7 @@ public class    AliYunSmsService {
     @Value("${aliyun.sms.TemplateCode}")
     private String TemplateCode;
     public void sendSms(String phone,String phoneCode) throws ClientException {
+        String regionId = "cn-shanghai";
         DefaultProfile profile = DefaultProfile.getProfile(regionId,AccessKeyId,Secret);
         IAcsClient client = new DefaultAcsClient(profile);
         SendSmsRequest request = new SendSmsRequest();

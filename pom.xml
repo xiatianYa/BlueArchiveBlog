@@ -40,7 +40,6 @@
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
-
             <!-- SpringCloud 微服务 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -198,7 +197,6 @@
                 <artifactId>blue-common-redis</artifactId>
                 <version>${blue.version}</version>
             </dependency>
-
             <!-- 系统接口 -->
             <dependency>
                 <groupId>com.blue</groupId>

@@ -1,12 +1,12 @@
 package com.blue.auth.service;
 
-import com.blue.auth.aliyun.AliYunSmsService;
 import com.blue.auth.form.RegisterBody;
 import com.blue.common.core.constant.CacheConstants;
 import com.blue.common.core.constant.Constants;
 import com.blue.common.core.constant.SecurityConstants;
 import com.blue.common.core.constant.UserConstants;
 import com.blue.common.core.domain.R;
+import com.blue.common.core.enums.ExchangeStatus;
 import com.blue.common.core.enums.UserStatus;
 import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.text.Convert;
@@ -18,9 +18,12 @@ import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,7 +45,7 @@ public class SysLoginService {
     @Autowired
     private RedisService redisService;
     @Autowired
-    private AliYunSmsService aliYunSmsService;
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 登录
@@ -195,12 +198,11 @@ public class SysLoginService {
             throw new ServiceException("验证码已发送,请稍后再试");
         }
         String phoneCode = RandomUtils.getRandom(6);
+        Map<String,String> map=new HashMap<>(2);
+        map.put("phone",phone);
+        map.put("phoneCode",phoneCode);
+        rabbitTemplate.convertAndSend(ExchangeStatus.SMS_EXCHANGE_SEND.getExchangeName(),ExchangeStatus.SMS_EXCHANGE_SEND.getRoutingKey(),map);
         redisService.setCacheObject(phone, phoneCode,(long)3*60, TimeUnit.SECONDS);
-        try {
-            aliYunSmsService.sendSms(phone,phoneCode);
-        }catch (Exception e){
-            throw new ServiceException("获取验证码失败");
-        }
         return "短信验证码发送成功";
     }
 }
