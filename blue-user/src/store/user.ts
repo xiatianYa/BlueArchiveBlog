@@ -43,6 +43,12 @@ export const useUserStore = defineStore('user', {
             refreshToken()
         },
         LogOut() {
+            //清除TOKEN 清除用户消息
+            this.id=""
+            this.name=""
+            this.avatar=""
+            this.roles=[]
+            this.permissions=[]
             this.token = ""
             removeToken()
             alert("退出成功")

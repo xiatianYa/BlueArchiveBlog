@@ -31,7 +31,6 @@ public class BlueLeaveMessageController extends BaseController
     /**
      * 查询弹幕列表
      */
-    @RequiresPermissions("blog:message:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueLeaveMessage blueLeaveMessage)
     {
@@ -66,12 +65,12 @@ public class BlueLeaveMessageController extends BaseController
     /**
      * 新增弹幕
      */
-    @RequiresPermissions("blog:message:add")
     @Log(title = "弹幕", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlueLeaveMessage blueLeaveMessage)
     {
-        return toAjax(blueLeaveMessageService.insertBlueLeaveMessage(blueLeaveMessage));
+        blueLeaveMessageService.insertBlueLeaveMessage(blueLeaveMessage);
+        return AjaxResult.success("添加成功");
     }
 
     /**

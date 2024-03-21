@@ -3,6 +3,7 @@ package com.blue.blog.service.impl;
 import com.blue.blog.domain.BlueLeaveMessage;
 import com.blue.blog.mapper.BlueLeaveMessageMapper;
 import com.blue.blog.service.IBlueLeaveMessageService;
+import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -56,6 +57,16 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
     @Override
     public int insertBlueLeaveMessage(BlueLeaveMessage blueLeaveMessage)
     {
+        //判断弹幕是否为空
+        if (!StringUtils.isNotEmpty(blueLeaveMessage.getContent())){
+            throw new ServiceException("请填写弹幕内容");
+        }
+
+        if (!StringUtils.isNotNull(blueLeaveMessage.getUserId()) ||
+                !StringUtils.isNotEmpty(blueLeaveMessage.getBarrageHeight().toString()) ||
+                !StringUtils.isNotEmpty(blueLeaveMessage.getUserAvater())){
+            throw new ServiceException("出错了,请刷新页面");
+        }
         Long userId = SecurityUtils.getUserId();
         if(StringUtils.isNotNull(userId)){
             blueLeaveMessage.setCreateBy(userId.toString());

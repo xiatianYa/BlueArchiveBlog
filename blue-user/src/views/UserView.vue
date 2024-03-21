@@ -91,7 +91,7 @@ onMounted(() => {
 //获取注册短信验证码
 function getPhoneCode(){
   getSms(userInfo.phone).then(res=>{
-    promptMsg({ type: "warn", msg: res.data })
+    promptMsg({ type: "success", msg: res.data })
   }).catch(error=>{
     promptMsg({ type: "warn", msg: error })
   })
@@ -134,7 +134,6 @@ function userLogin() {
 //用户注册
 function userRegister() {
   register(userInfo).then(res=>{
-    console.log(res);
     promptMsg({ type: "success", msg: res })
   }).catch(error=>{
     promptMsg({ type: "warn", msg: error })

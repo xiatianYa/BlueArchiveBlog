@@ -25,6 +25,7 @@ import {onMounted, onUnmounted, ref} from "vue";
 import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'
 import {addMessage, listMessage} from '@/api/message'
+import promptMsg from "@/components/PromptBoxView"
 
 const gloBalStore = useGloBalStore()
 const timer = ref([])
@@ -93,7 +94,11 @@ function addBarrage() {
   BarrageInfo.value.userId = UserStore.id || 0;
   BarrageInfo.value.userAvater = UserStore.avatar || "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png";
   BarrageInfo.value.barrageHeight = BarrageHeight;
-  addMessage(BarrageInfo.value)
+  addMessage(BarrageInfo.value).then(res=>{
+    promptMsg({ type: "success", msg: res.msg })
+  }).catch(error=>{
+    promptMsg({ type: "warn", msg: error })
+  })
   BarrageInfo.value.content = ""
   // 设置其随机的颜色
   Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
