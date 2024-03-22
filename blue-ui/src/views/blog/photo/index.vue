@@ -2,17 +2,39 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="用户id" prop="userId">
-        <el-input v-model="queryParams.userId" placeholder="请输入用户id" clearable @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.userId"
+          placeholder="请输入用户id"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="分类id" prop="sortId">
         <el-select v-model="queryParams.sortId" placeholder="请选择分类id" clearable>
-          <el-option v-for="dict in dict.type.sys_photo_sort" :key="dict.value" :label="dict.label"
-            :value="dict.value" />
+          <el-option
+            v-for="dict in dict.type.sys_photo_sort"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
         </el-select>
+      </el-form-item>
+      <el-form-item label="图片名称" prop="photoName">
+        <el-input
+          v-model="queryParams.photoName"
+          placeholder="请输入图片名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>
-          <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label" :value="dict.value" />
+          <el-option
+            v-for="dict in dict.type.sys_shenhe"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -23,20 +45,46 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['blog:photo:add']">新增</el-button>
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['blog:photo:add']"
+        >新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['blog:photo:edit']">修改</el-button>
+        <el-button
+          type="success"
+          plain
+          icon="el-icon-edit"
+          size="mini"
+          :disabled="single"
+          @click="handleUpdate"
+          v-hasPermi="['blog:photo:edit']"
+        >修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['blog:photo:remove']">删除</el-button>
+        <el-button
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          :disabled="multiple"
+          @click="handleDelete"
+          v-hasPermi="['blog:photo:remove']"
+        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['blog:photo:export']">导出</el-button>
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['blog:photo:export']"
+        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -45,47 +93,81 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="用户id" align="center" prop="userId" />
-      <el-table-column label="分类名称" align="center" prop="sortName" />
-      <el-table-column label="相册图片地址" align="center" prop="photoUrl" width="100">
+      <el-table-column label="分类id" align="center" prop="sortId">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.photoUrl" :width="50" :height="50" />
+          <dict-tag :options="dict.type.sys_photo_sort" :value="scope.row.sortId"/>
         </template>
       </el-table-column>
+      <el-table-column label="相册图片地址" align="center" prop="photoUrl" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.photoUrl" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="图片名称" align="center" prop="photoName" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_shenhe" :value="scope.row.status" />
+          <dict-tag :options="dict.type.sys_shenhe" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['blog:photo:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['blog:photo:remove']">删除</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['blog:photo:edit']"
+          >修改</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['blog:photo:remove']"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
 
     <!-- 添加或修改相册对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="sortId">
+        <el-form-item label="用户id" prop="userId">
+          <el-input v-model="form.userId" placeholder="请输入用户id" />
+        </el-form-item>
+        <el-form-item label="分类id" prop="sortId">
           <el-select v-model="form.sortId" placeholder="请选择分类id">
-            <el-option v-for="dict in photoDict" :key="dict.value" :label="dict.label"
-              :value="parseInt(dict.value)"></el-option>
+            <el-option
+              v-for="dict in dict.type.sys_photo_sort"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="相册图片地址" prop="photoUrl">
-          <image-upload v-model="form.photoUrl" />
+          <image-upload v-model="form.photoUrl"/>
+        </el-form-item>
+        <el-form-item label="图片名称" prop="photoName">
+          <el-input v-model="form.photoName" placeholder="请输入图片名称" />
         </el-form-item>
         <el-form-item label="审核状态" prop="status">
           <el-select v-model="form.status" placeholder="请选择审核状态">
-            <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label"
-              :value="parseInt(dict.value)"></el-option>
+            <el-option
+              v-for="dict in dict.type.sys_shenhe"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -102,16 +184,12 @@
 
 <script>
 import {addPhoto, delPhoto, getPhoto, listPhoto, updatePhoto} from "@/api/blog/photo";
-import {listSort} from "@/api/sort/photo";
-import store from '@/store'
 
 export default {
   name: "Photo",
-  dicts: ['sys_shenhe'],
+  dicts: ['sys_photo_sort', 'sys_shenhe'],
   data() {
     return {
-      //相册分类Dict
-      photoDict: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -137,6 +215,7 @@ export default {
         userId: null,
         sortId: null,
         photoUrl: null,
+        photoName: null,
         status: null,
       },
       // 表单参数
@@ -152,6 +231,9 @@ export default {
         photoUrl: [
           { required: true, message: "相册图片地址不能为空", trigger: "blur" }
         ],
+        photoName: [
+          { required: true, message: "图片名称不能为空", trigger: "blur" }
+        ],
         status: [
           { required: true, message: "审核状态不能为空", trigger: "change" }
         ],
@@ -159,12 +241,6 @@ export default {
     };
   },
   created() {
-    //获取相册分类列表
-    listSort().then(res => {
-      for (const item of res.rows) {
-        this.photoDict.push({ value: item.id, label: item.sortName })
-      }
-    })
     this.getList();
   },
   methods: {
@@ -173,14 +249,6 @@ export default {
       this.loading = true;
       listPhoto(this.queryParams).then(response => {
         this.photoList = response.rows;
-        //循环查找出分类
-        for (let index = 0; index < this.photoList.length; index++) {
-          let item=this.photoDict.find(n => n.value === this.photoList[index].sortId)
-          if (!item) {
-            item.label="未知分类";
-          }
-          this.photoList[index].sortName = item.label
-        }
         this.total = response.total;
         this.loading = false;
       });
@@ -197,6 +265,7 @@ export default {
         userId: null,
         sortId: null,
         photoUrl: null,
+        photoName: null,
         status: null,
         createTime: null,
         updateTime: null,
@@ -219,7 +288,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length !== 1
+      this.single = selection.length!==1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -249,8 +318,6 @@ export default {
               this.getList();
             });
           } else {
-            this.form.userId = store.getters.userId
-            this.createBy = store.getters.userId
             addPhoto(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
@@ -263,12 +330,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除相册编号为"' + ids + '"的数据项？').then(function () {
+      this.$modal.confirm('是否确认删除相册编号为"' + ids + '"的数据项？').then(function() {
         return delPhoto(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => { });
+      }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {

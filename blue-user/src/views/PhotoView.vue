@@ -37,7 +37,7 @@
         </div>
         <div class="photo_msg">
           <span>
-            {{ item.remark }}
+            {{ item.photoName }}
           </span>
         </div>
         <div class="photo_time">

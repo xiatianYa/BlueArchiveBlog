@@ -27,8 +27,10 @@ public class BluePhoto extends BaseEntity
 
     /** 用户名称 */
     @Excel(name = "用户名称")
-    private String UserName;
-
+    private String userName;
+    /** 图片名称 */
+    @Excel(name = "图片名称")
+    private String photoName;
     /** 相册图片地址 */
     @Excel(name = "相册图片地址")
     private String photoUrl;
@@ -84,11 +86,19 @@ public class BluePhoto extends BaseEntity
     }
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
+    }
+
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 
     @Override
@@ -97,7 +107,8 @@ public class BluePhoto extends BaseEntity
                 "id=" + id +
                 ", userId=" + userId +
                 ", sortId=" + sortId +
-                ", UserName=" + UserName +
+                ", userName='" + userName + '\'' +
+                ", photoName='" + photoName + '\'' +
                 ", photoUrl='" + photoUrl + '\'' +
                 ", status=" + status +
                 '}';

@@ -1,10 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="音乐分类" prop="sortId">
-        <el-select v-model="queryParams.sortId" placeholder="请选择音乐分类" clearable>
+      <el-form-item label="音乐名称" prop="musicName">
+        <el-input
+          v-model="queryParams.musicName"
+          placeholder="请输入音乐名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="音乐分类ID" prop="sortId">
+        <el-select v-model="queryParams.sortId" placeholder="请选择音乐分类ID" clearable>
           <el-option
-            v-for="dict in musicDict"
+            v-for="dict in dict.type.sys_music_type"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -71,8 +79,13 @@
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="音乐路径" align="center" prop="musicUrl" />
-      <el-table-column label="音乐分类" align="center" prop="sortName"/>
+      <el-table-column label="音乐的路径" align="center" prop="musicUrl" />
+      <el-table-column label="音乐名称" align="center" prop="musicName" />
+      <el-table-column label="音乐分类ID" align="center" prop="sortId">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_music_type" :value="scope.row.sortId"/>
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -108,13 +121,16 @@
         <el-form-item label="图片路径" prop="imgUrl">
           <image-upload v-model="form.imgUrl"/>
         </el-form-item>
-        <el-form-item label="音乐路径" prop="musicUrl">
+        <el-form-item label="音乐的路径" prop="musicUrl">
           <file-upload v-model="form.musicUrl"/>
         </el-form-item>
-        <el-form-item label="音乐分类" prop="sortId">
-          <el-select v-model="form.sortId" placeholder="请选择音乐分类">
+        <el-form-item label="音乐名称" prop="musicName">
+          <el-input v-model="form.musicName" placeholder="请输入音乐名称" />
+        </el-form-item>
+        <el-form-item label="音乐分类ID" prop="sortId">
+          <el-select v-model="form.sortId" placeholder="请选择音乐分类ID">
             <el-option
-              v-for="dict in musicDict"
+              v-for="dict in dict.type.sys_music_type"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -135,14 +151,12 @@
 
 <script>
 import {addMusic, delMusic, getMusic, listMusic, updateMusic} from "@/api/blog/music";
-import {listSort} from "@/api/sort/music";
 
 export default {
   name: "Music",
+  dicts: ['sys_music_type'],
   data() {
     return {
-      //音乐分类列表
-      musicDict:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -175,21 +189,18 @@ export default {
       // 表单校验
       rules: {
         musicUrl: [
-          { required: true, message: "音乐路径不能为空", trigger: "blur" }
+          { required: true, message: "音乐的路径不能为空", trigger: "blur" }
+        ],
+        musicName: [
+          { required: true, message: "音乐名称不能为空", trigger: "blur" }
         ],
         sortId: [
-          { required: true, message: "音乐分类不能为空", trigger: "change" }
+          { required: true, message: "音乐分类ID不能为空", trigger: "change" }
         ],
       }
     };
   },
   created() {
-    //获取音乐分类列表
-    listSort().then(res => {
-      for (const item of res.rows) {
-        this.musicDict.push({ value: item.id, label: item.sortName })
-      }
-    })
     this.getList();
   },
   methods: {
@@ -198,15 +209,6 @@ export default {
       this.loading = true;
       listMusic(this.queryParams).then(response => {
         this.musicList = response.rows;
-        //循环查找出分类
-        for (let index = 0; index < this.musicList.length; index++) {
-          let item=this.musicDict.find(n => n.value === this.musicList[index].sortId)
-          //如果未查询到
-          if (!item) {
-            item.label="未知分类";
-          }
-          this.musicList[index].sortName = item.label
-        }
         this.total = response.total;
         this.loading = false;
       });
@@ -222,6 +224,7 @@ export default {
         id: null,
         imgUrl: null,
         musicUrl: null,
+        musicName: null,
         sortId: null,
         createTime: null,
         updateTime: null,

@@ -29,17 +29,17 @@
         <span>{{ item.sortName }}</span>
       </div>
       <div class="musics" v-for="music in item.musicList" :key="music.id">
-        <div class="music" @click="startMusic($event)">
+        <div class="music" @click="startMusic($event,music.musicUrl)">
           <div class="music_img">
-            <img src="/static/images/6667438510952720.png" alt="">
+            <img :src="music.imgUrl">
           </div>
           <div class="music_name">
-            <span>East if Eden</span>
+            <span>{{ music.musicName }}</span>
           </div>
         </div>
       </div>
     </div>
-    <audio id="music" src="/static/music/East of Eden-Zella Day.mp3">
+    <audio id="music" src="">
     </audio>
   </div>
 </template>
@@ -59,7 +59,7 @@ onMounted(() => {
     musicList.value = res;
   })
 })
-function startMusic(event) {
+function startMusic(event,musicUrl) {
   //关闭视频音乐
   var video = document.getElementById("myVideo");
   // 静音视频
@@ -86,7 +86,7 @@ function startMusic(event) {
   //停止音乐
   music.pause();
   //设置新的音乐地址
-  music.src = "/static/music/East of Eden-Zella Day.mp3"
+  music.src = musicUrl
   //设置img图片旋转
   img.className = "rotateAll";
   //设置ImgNBefore
