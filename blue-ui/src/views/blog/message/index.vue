@@ -78,7 +78,7 @@
     <el-table v-loading="loading" :data="messageList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="用户ID" align="center" prop="userId" />
+      <el-table-column label="用户名称" align="center" prop="userName" />
       <el-table-column label="弹幕内容" align="center" prop="content" />
       <el-table-column label="用户头像" align="center" prop="userAvater" />
       <el-table-column label="弹幕高度" align="center" prop="barrageHeight" />

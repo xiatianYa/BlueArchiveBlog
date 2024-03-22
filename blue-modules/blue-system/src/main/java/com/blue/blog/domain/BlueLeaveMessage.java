@@ -2,8 +2,6 @@ package com.blue.blog.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 弹幕对象 blue_leave_message
@@ -21,6 +19,10 @@ public class BlueLeaveMessage extends BaseEntity
     /** 用户ID */
     @Excel(name = "用户ID")
     private Long userId;
+
+    /** 用户ID */
+    @Excel(name = "用户名称")
+    private String userName;
 
     /** 弹幕内容 */
     @Excel(name = "弹幕内容")
@@ -80,19 +82,11 @@ public class BlueLeaveMessage extends BaseEntity
         return barrageHeight;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("userId", getUserId())
-            .append("content", getContent())
-            .append("userAvater", getUserAvater())
-            .append("barrageHeight", getBarrageHeight())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .append("remark", getRemark())
-            .toString();
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

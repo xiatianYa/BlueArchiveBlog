@@ -9,10 +9,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="音乐分类ID" prop="sortId">
-        <el-select v-model="queryParams.sortId" placeholder="请选择音乐分类ID" clearable>
+      <el-form-item label="音乐分类名称" prop="sortId">
+        <el-select v-model="queryParams.sortId" placeholder="请选择音乐分类名称" clearable>
           <el-option
-            v-for="dict in dict.type.sys_music_type"
+            v-for="dict in musicDict"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -81,11 +81,7 @@
       </el-table-column>
       <el-table-column label="音乐的路径" align="center" prop="musicUrl" />
       <el-table-column label="音乐名称" align="center" prop="musicName" />
-      <el-table-column label="音乐分类ID" align="center" prop="sortId">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_music_type" :value="scope.row.sortId"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="音乐分类名称" align="center" prop="sortName"/>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -130,7 +126,7 @@
         <el-form-item label="音乐分类ID" prop="sortId">
           <el-select v-model="form.sortId" placeholder="请选择音乐分类ID">
             <el-option
-              v-for="dict in dict.type.sys_music_type"
+              v-for="dict in musicDict"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -151,12 +147,14 @@
 
 <script>
 import {addMusic, delMusic, getMusic, listMusic, updateMusic} from "@/api/blog/music";
+import {listSort} from "@/api/sort/music";
 
 export default {
   name: "Music",
-  dicts: ['sys_music_type'],
   data() {
     return {
+      //音乐分类字典
+      musicDict:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -201,6 +199,12 @@ export default {
     };
   },
   created() {
+    listSort().then(res=>{
+      for (const item of res.rows) {
+        this.musicDict.push({ value: item.id, label: item.sortName })
+      }
+      console.log(this.musicDict);
+    })
     this.getList();
   },
   methods: {
@@ -209,6 +213,14 @@ export default {
       this.loading = true;
       listMusic(this.queryParams).then(response => {
         this.musicList = response.rows;
+        //循环查找出分类
+        for (let index = 0; index < this.musicList.length; index++) {
+          let item = this.musicDict.find(n => n.value === this.musicList[index].sortId)
+          if (!item) {
+            item.label = "未知分类";
+          }
+          this.musicList[index].sortName = item.label
+        }
         this.total = response.total;
         this.loading = false;
       });

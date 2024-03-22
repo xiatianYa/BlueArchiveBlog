@@ -52,6 +52,7 @@ public class BluePhotoServiceImpl implements IBluePhotoService
         if (!StringUtils.isNotNull(bluePhoto.getStatus())){
              bluePhoto.setStatus(AuditingStatus.DISABLE.getCode());
         }
+        //查询用户设置用户名称
         List<BluePhoto> bluePhotos = bluePhotoMapper.selectBluePhotoList(bluePhoto);
         List<SysUser> sysUsers = userService.selectUserList(new SysUser());
         for (BluePhoto photo : bluePhotos) {

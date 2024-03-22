@@ -7,6 +7,8 @@ import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.system.api.domain.SysUser;
+import com.blue.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
 {
     @Autowired
     private BlueLeaveMessageMapper blueLeaveMessageMapper;
+    @Autowired
+    private ISysUserService userService;
 
     /**
      * 查询弹幕
@@ -45,7 +49,19 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
     @Override
     public List<BlueLeaveMessage> selectBlueLeaveMessageList(BlueLeaveMessage blueLeaveMessage)
     {
-        return blueLeaveMessageMapper.selectBlueLeaveMessageList(blueLeaveMessage);
+        List<BlueLeaveMessage> blueLeaveMessages = blueLeaveMessageMapper.selectBlueLeaveMessageList(blueLeaveMessage);
+        List<SysUser> UserList = userService.selectUserList(new SysUser());
+        //遍历获取用户名称
+        for (BlueLeaveMessage leaveMessage : blueLeaveMessages) {
+            for (SysUser user : UserList) {
+                if (user.getUserId().equals(leaveMessage.getUserId())){
+                    leaveMessage.setUserName(user.getUserName());
+                }else{
+                    leaveMessage.setUserName("游客");
+                }
+            }
+        }
+        return blueLeaveMessages;
     }
 
     /**
