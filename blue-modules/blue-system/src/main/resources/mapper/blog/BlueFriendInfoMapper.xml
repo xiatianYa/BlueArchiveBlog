@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BlueFriendInfoMapper">
+    
+    <resultMap type="BlueFriendInfo" id="BlueFriendInfoResult">
+        <result property="id"    column="id"    />
+        <result property="friendUrl"    column="friend_url"    />
+        <result property="friendContent"    column="friend_content"    />
+        <result property="friendDetail"    column="friend_detail"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBlueFriendInfoVo">
+        select id, friend_url, friend_content, friend_detail, create_time, update_time, create_by, update_by, remark from blue_friend_info
+    </sql>
+
+    <select id="selectBlueFriendInfoList" parameterType="BlueFriendInfo" resultMap="BlueFriendInfoResult">
+        <include refid="selectBlueFriendInfoVo"/>
+        <where>  
+            <if test="friendUrl != null  and friendUrl != ''"> and friend_url = #{friendUrl}</if>
+            <if test="friendContent != null  and friendContent != ''"> and friend_content = #{friendContent}</if>
+            <if test="friendDetail != null  and friendDetail != ''"> and friend_detail = #{friendDetail}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueFriendInfoById" parameterType="Long" resultMap="BlueFriendInfoResult">
+        <include refid="selectBlueFriendInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueFriendInfo" parameterType="BlueFriendInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_friend_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="friendUrl != null and friendUrl != ''">friend_url,</if>
+            <if test="friendContent != null">friend_content,</if>
+            <if test="friendDetail != null">friend_detail,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="friendUrl != null and friendUrl != ''">#{friendUrl},</if>
+            <if test="friendContent != null">#{friendContent},</if>
+            <if test="friendDetail != null">#{friendDetail},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueFriendInfo" parameterType="BlueFriendInfo">
+        update blue_friend_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="friendUrl != null and friendUrl != ''">friend_url = #{friendUrl},</if>
+            <if test="friendContent != null">friend_content = #{friendContent},</if>
+            <if test="friendDetail != null">friend_detail = #{friendDetail},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueFriendInfoById" parameterType="Long">
+        delete from blue_friend_info where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueFriendInfoByIds" parameterType="String">
+        delete from blue_friend_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

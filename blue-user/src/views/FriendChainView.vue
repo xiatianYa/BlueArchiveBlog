@@ -32,7 +32,7 @@
               <use xlink:href="#icon-faxian"></use>
             </svg>
             <span>
-              本站信息
+              友链申请信息
             </span>
             <div class="msg">
               <div class="controller">

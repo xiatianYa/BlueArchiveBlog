@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BlueWebsiteMapper">
+    
+    <resultMap type="BlueWebsite" id="BlueWebsiteResult">
+        <result property="id"    column="id"    />
+        <result property="websiteName"    column="website_name"    />
+        <result property="websiteCover"    column="website_cover"    />
+        <result property="websiteUrl"    column="website_url"    />
+        <result property="websiteDetail"    column="website_detail"    />
+        <result property="websiteRemark"    column="website_remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBlueWebsiteVo">
+        select id, website_name, website_cover, website_url, website_detail, website_remark, create_time, update_time, create_by, update_by, remark from blue_website
+    </sql>
+
+    <select id="selectBlueWebsiteList" parameterType="BlueWebsite" resultMap="BlueWebsiteResult">
+        <include refid="selectBlueWebsiteVo"/>
+        <where>  
+            <if test="websiteName != null  and websiteName != ''"> and website_name like concat('%', #{websiteName}, '%')</if>
+            <if test="websiteCover != null  and websiteCover != ''"> and website_cover = #{websiteCover}</if>
+            <if test="websiteUrl != null  and websiteUrl != ''"> and website_url = #{websiteUrl}</if>
+            <if test="websiteDetail != null  and websiteDetail != ''"> and website_detail = #{websiteDetail}</if>
+            <if test="websiteRemark != null  and websiteRemark != ''"> and website_remark = #{websiteRemark}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueWebsiteById" parameterType="Long" resultMap="BlueWebsiteResult">
+        <include refid="selectBlueWebsiteVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueWebsite" parameterType="BlueWebsite" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_website
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="websiteName != null and websiteName != ''">website_name,</if>
+            <if test="websiteCover != null and websiteCover != ''">website_cover,</if>
+            <if test="websiteUrl != null and websiteUrl != ''">website_url,</if>
+            <if test="websiteDetail != null and websiteDetail != ''">website_detail,</if>
+            <if test="websiteRemark != null and websiteRemark != ''">website_remark,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="websiteName != null and websiteName != ''">#{websiteName},</if>
+            <if test="websiteCover != null and websiteCover != ''">#{websiteCover},</if>
+            <if test="websiteUrl != null and websiteUrl != ''">#{websiteUrl},</if>
+            <if test="websiteDetail != null and websiteDetail != ''">#{websiteDetail},</if>
+            <if test="websiteRemark != null and websiteRemark != ''">#{websiteRemark},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueWebsite" parameterType="BlueWebsite">
+        update blue_website
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="websiteName != null and websiteName != ''">website_name = #{websiteName},</if>
+            <if test="websiteCover != null and websiteCover != ''">website_cover = #{websiteCover},</if>
+            <if test="websiteUrl != null and websiteUrl != ''">website_url = #{websiteUrl},</if>
+            <if test="websiteDetail != null and websiteDetail != ''">website_detail = #{websiteDetail},</if>
+            <if test="websiteRemark != null and websiteRemark != ''">website_remark = #{websiteRemark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueWebsiteById" parameterType="Long">
+        delete from blue_website where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueWebsiteByIds" parameterType="String">
+        delete from blue_website where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
