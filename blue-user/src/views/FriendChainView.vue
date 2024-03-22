@@ -56,82 +56,17 @@
               <use xlink:href="#icon-xiangsu-xuehua"></use>
             </svg>
           </div>
-          <div class="friend box_shadow pointer">
+          <div class="friend box_shadow pointer" v-for="friend in FriednList">
             <div class="friend_img">
-              <img src="/static/images/liuyan.png" alt="">
+              <img :src="friend.friendUrl">
             </div>
-            <div class="friend_name">啦啦啦</div>
-            <div class="friend_detail">心之所向,热爱生活</div>
+            <div class="friend_name">{{ friend.friendName }}</div>
+            <div class="friend_detail">{{ friend.friendIntroduce }}</div>
             <div class="friend_time">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-shalou"></use>
               </svg>
-              <span>发布于 2024-03-08</span>
-            </div>
-          </div>
-          <div class="friend box_shadow pointer">
-            <div class="friend_img">
-              <img src="/static/images/liuyan.png" alt="">
-            </div>
-            <div class="friend_name">啦啦啦</div>
-            <div class="friend_detail">心之所向,热爱生活</div>
-            <div class="friend_time">
-              <svg class="icon pointer" aria-hidden="true">
-                <use xlink:href="#icon-shalou"></use>
-              </svg>
-              <span>发布于 2024-03-08</span>
-            </div>
-          </div>
-          <div class="friend box_shadow pointer">
-            <div class="friend_img">
-              <img src="/static/images/liuyan.png" alt="">
-            </div>
-            <div class="friend_name">啦啦啦</div>
-            <div class="friend_detail">心之所向,热爱生活</div>
-            <div class="friend_time">
-              <svg class="icon pointer" aria-hidden="true">
-                <use xlink:href="#icon-shalou"></use>
-              </svg>
-              <span>发布于 2024-03-08</span>
-            </div>
-          </div>
-          <div class="friend box_shadow pointer">
-            <div class="friend_img">
-              <img src="/static/images/liuyan.png" alt="">
-            </div>
-            <div class="friend_name">啦啦啦</div>
-            <div class="friend_detail">心之所向,热爱生活</div>
-            <div class="friend_time">
-              <svg class="icon pointer" aria-hidden="true">
-                <use xlink:href="#icon-shalou"></use>
-              </svg>
-              <span>发布于 2024-03-08</span>
-            </div>
-          </div>
-          <div class="friend box_shadow pointer">
-            <div class="friend_img">
-              <img src="/static/images/liuyan.png" alt="">
-            </div>
-            <div class="friend_name">啦啦啦</div>
-            <div class="friend_detail">心之所向,热爱生活</div>
-            <div class="friend_time">
-              <svg class="icon pointer" aria-hidden="true">
-                <use xlink:href="#icon-shalou"></use>
-              </svg>
-              <span>发布于 2024-03-08</span>
-            </div>
-          </div>
-          <div class="friend box_shadow pointer">
-            <div class="friend_img">
-              <img src="/static/images/liuyan.png" alt="">
-            </div>
-            <div class="friend_name">啦啦啦</div>
-            <div class="friend_detail">心之所向,热爱生活</div>
-            <div class="friend_time">
-              <svg class="icon pointer" aria-hidden="true">
-                <use xlink:href="#icon-shalou"></use>
-              </svg>
-              <span>发布于 2024-03-08</span>
+              <span>发布于 {{ friend.pleaseTime }}</span>
             </div>
           </div>
         </div>
@@ -141,10 +76,20 @@
 </template>
 
 <script setup>
-import {ref} from "vue"
+import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
+import {listFriend} from '@/api/friend'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4"))
+//友链列表
+const FriednList=ref([])
+onMounted(()=>{
+  //获取友链列表
+  listFriend().then(res=>{
+    FriednList.value=res.rows
+  })
+})
+
 </script>
 
 <style lang="scss" scoped>
