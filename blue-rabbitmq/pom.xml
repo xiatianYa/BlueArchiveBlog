@@ -9,12 +9,7 @@
         <version>3.6.3</version>
     </parent>
 
-    <groupId>com.blue.cloud</groupId>
-    <artifactId>blue-rabbit</artifactId>
-
-    <description>
-        blue-rabbit
-    </description>
+    <artifactId>blue-rabbitmq</artifactId>
 
     <dependencies>
         <!--AMQP依赖，包含RabbitMQ-->
@@ -71,4 +66,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
