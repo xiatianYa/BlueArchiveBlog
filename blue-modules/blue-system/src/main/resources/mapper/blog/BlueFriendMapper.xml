@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="friendName != null  and friendName != ''"> and friend_name like concat('%', #{friendName}, '%')</if>
             <if test="friendUrl != null  and friendUrl != ''"> and friend_url = #{friendUrl}</if>
             <if test="friendIntroduce != null  and friendIntroduce != ''"> and friend_introduce = #{friendIntroduce}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="status != null"> and status = #{status}</if>
             <if test="pleaseTime != null "> and please_time = #{pleaseTime}</if>
         </where>
     </select>
@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="friendName != null and friendName != ''">friend_name,</if>
             <if test="friendUrl != null and friendUrl != ''">friend_url,</if>
             <if test="friendIntroduce != null and friendIntroduce != ''">friend_introduce,</if>
-            <if test="status != null and status != ''">status,</if>
+            <if test="status != null">status,</if>
             <if test="pleaseTime != null">please_time,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="friendName != null and friendName != ''">#{friendName},</if>
             <if test="friendUrl != null and friendUrl != ''">#{friendUrl},</if>
             <if test="friendIntroduce != null and friendIntroduce != ''">#{friendIntroduce},</if>
-            <if test="status != null and status != ''">#{status},</if>
+            <if test="status != null">#{status},</if>
             <if test="pleaseTime != null">#{pleaseTime},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="friendName != null and friendName != ''">friend_name = #{friendName},</if>
             <if test="friendUrl != null and friendUrl != ''">friend_url = #{friendUrl},</if>
             <if test="friendIntroduce != null and friendIntroduce != ''">friend_introduce = #{friendIntroduce},</if>
-            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="status != null">status = #{status},</if>
             <if test="pleaseTime != null">please_time = #{pleaseTime},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>

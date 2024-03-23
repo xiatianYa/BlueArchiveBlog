@@ -10,7 +10,8 @@
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
-          <div :id="sort.id == sortIndex ? 'select' : ''" class="sort" v-for="sort in sortList">
+          <div :id="sort.id == sortIndex ? 'select' : ''" class="sort" v-for="sort in sortList"
+            @click="selectSort(sort)">
             <span class="sort_name">
               {{ sort.sortName }}
             </span>
@@ -23,7 +24,7 @@
           <svg aria-hidden="true" class="icon pointer" @click="goDown">
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
-          <div class="sort" v-for="tag in tagList">
+          <div :id="tag.id == tagIndex ? 'select' : ''" class="sort" v-for="tag in tagList">
             <span class="sort_name">
               {{ tag.tagName }}
             </span>
@@ -44,7 +45,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from "vue"
 import SortDetail from '@/components/SortDetail.vue'
 import {useBgStore} from '@/store/bg'
@@ -53,6 +54,7 @@ import {listTag} from '@/api/sort/tag'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
 const sortIndex = ref(0)
+const tagIndex = ref(0)
 const sortList = ref({})
 const tagList = ref({})
 onMounted(() => {
@@ -64,24 +66,44 @@ onMounted(() => {
       //遍历标签列表 放入分类列表中
       for (let index = 0; index < sortList.value.length; index++) {
         const sort = sortList.value[index];
+        //遍历所有标签1
         for (const tag of res.rows) {
+          //如果标签的分类ID和分类ID匹配则进入
           if (tag.sortId == sortList.value[index].id) {
-
+            //如果sortList.value[index].tagList未空 则添加一个空列表
             if (!sortList.value[index].tagList) {
+              //如果分类列表中标签列表为空 则为空列表
               sortList.value[index].tagList = []
             }
+            //如果不为空则添加入标签列表中
             sortList.value[index].tagList.push(tag)
           }
         }
       }
-      //设置第一个分类
+      //设置第一个分类下标
       sortIndex.value = sortList.value[0].id
       //设置标签列表
       tagList.value = sortList.value[0].tagList
+      //设置第一个标签下标
+      if (tagList.value) {
+        tagIndex.value = tagList.value[0].id
+      } 
     })
 
   })
 })
+function selectSort(sort) {
+  //设置下标
+  sortIndex.value = sort.id
+  //如果列表未空 则添加空列表
+  if (!sort.tagList) {
+    tagList.value = []
+  } else {
+    //设置标签列表    
+    tagList.value = sort.tagList
+    tagIndex.value=tagList.value[0].id
+  }
+}
 </script>
 
 <style lang="scss">
@@ -167,7 +189,7 @@ onMounted(() => {
       .tags {
         position: absolute;
         display: flex;
-        justify-content:left;
+        justify-content: left;
         align-items: center;
         width: 90%;
         height: 15%;

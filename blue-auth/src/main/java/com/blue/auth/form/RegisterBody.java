@@ -1,17 +1,11 @@
 package com.blue.auth.form;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 用户注册对象
  *
  * @author ruoyi
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class RegisterBody extends LoginBody {
     /**
      * 用户名
@@ -38,4 +32,56 @@ public class RegisterBody extends LoginBody {
      * 用户手机验证码
      */
     private String sms;
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEntryPassword() {
+        return entryPassword;
+    }
+
+    public void setEntryPassword(String entryPassword) {
+        this.entryPassword = entryPassword;
+    }
+
+    public String getAvater() {
+        return avater;
+    }
+
+    public void setAvater(String avater) {
+        this.avater = avater;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSms() {
+        return sms;
+    }
+
+    public void setSms(String sms) {
+        this.sms = sms;
+    }
 }
