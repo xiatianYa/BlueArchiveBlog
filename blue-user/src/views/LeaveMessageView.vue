@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {onMounted, onUnmounted, ref} from "vue";
 import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'

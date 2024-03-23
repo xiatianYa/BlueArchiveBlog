@@ -75,7 +75,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listFriend} from '@/api/friend'

@@ -55,7 +55,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {ref} from 'vue'
 import FoundDetail from '@/components/FoundDetail.vue'
 import {useBgStore} from '@/store/bg'

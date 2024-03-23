@@ -82,7 +82,7 @@
     </div>
   </transition>
 </template>
-<script setup lang="ts">
+<script setup>
 import {onBeforeMount, onMounted, reactive, ref} from 'vue'
 import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'

@@ -39,12 +39,12 @@
         </div>
       </div>
     </div>
-    <audio id="music" src="">
+    <audio id="music">
     </audio>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {bySortList} from '@/api/music'

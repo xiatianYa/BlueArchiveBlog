@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {onMounted, ref} from "vue"
 import SortDetail from '@/components/SortDetail.vue'
 import {useBgStore} from '@/store/bg'

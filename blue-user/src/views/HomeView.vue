@@ -200,7 +200,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import {onMounted, ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import {useBgStore} from '@/store/bg'
