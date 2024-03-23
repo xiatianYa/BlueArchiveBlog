@@ -223,9 +223,6 @@ function goDown() {
   width: 100%;
   height: auto;
   overflow: hidden;
-  background: url("/static/images/loading_bg.png") no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
   padding-bottom: 40px;
 
   .video_bg {
@@ -678,7 +675,7 @@ function goDown() {
           height: 100px;
           padding: 15px;
           box-sizing: border-box;
-          border: 1px dashed #c9d6df;
+          border: 2px dashed #c9d6df;
         }
 
         .icon {
@@ -726,7 +723,7 @@ function goDown() {
             .category_header {
               display: flex;
               justify-content: space-between;
-              border-bottom: 1px dashed #c9d6df;
+              border-bottom: 2px dashed #c9d6df;
               padding-bottom: 5px;
 
               .icon {

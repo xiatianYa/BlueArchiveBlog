@@ -1,7 +1,6 @@
 import axios from 'axios'
 import {getToken} from '@/utils/auth.js'
 import {useUserStore} from '@/store/user'
-import {useRouter} from "vue-router";
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -35,9 +34,6 @@ service.interceptors.response.use(res => {
             //验证码失效 清空用户数据 前往登录页面
             const UserStore = useUserStore()
             UserStore.CLEAR_USERINFO()
-            //创建路由 前往登录页面
-            const router = useRouter()
-            router.push({path: "/login"})
             return Promise.reject(msg)
         } else if (code === 500) {
             return Promise.reject(msg)

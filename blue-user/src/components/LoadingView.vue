@@ -89,4 +89,3 @@ onMounted(() => {
   }
 }
 </style>
-@/store/global@/store/global
