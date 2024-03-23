@@ -10,7 +10,7 @@
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
-          <div id="select" class="sort" v-for="sort in sortList">
+          <div :id="sort.id == sortIndex ? 'select' : ''" class="sort" v-for="sort in sortList">
             <span class="sort_name">
               {{ sort.sortName }}
             </span>
@@ -23,60 +23,12 @@
           <svg aria-hidden="true" class="icon pointer" @click="goDown">
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
-          <div id="select" class="sort">
+          <div class="sort" v-for="tag in tagList">
             <span class="sort_name">
-              Java
+              {{ tag.tagName }}
             </span>
             <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
+              {{ tag.articleTagNumber }}
             </span>
           </div>
         </div>
@@ -100,18 +52,34 @@ import {listSort} from '@/api/sort/sort'
 import {listTag} from '@/api/sort/tag'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
-const sortIndex=ref(0)
-const tagIndex=ref(0)
-const sortList=ref({})
-const tagList=ref({})
+const sortIndex = ref(0)
+const sortList = ref({})
+const tagList = ref({})
 onMounted(() => {
   //获取分类列表
   listSort().then(res => {
-    sortList.value=res.rows
+    sortList.value = res.rows
     //获取标签列表
     listTag().then(res => {
-      console.log(res.rows);
+      //遍历标签列表 放入分类列表中
+      for (let index = 0; index < sortList.value.length; index++) {
+        const sort = sortList.value[index];
+        for (const tag of res.rows) {
+          if (tag.sortId == sortList.value[index].id) {
+
+            if (!sortList.value[index].tagList) {
+              sortList.value[index].tagList = []
+            }
+            sortList.value[index].tagList.push(tag)
+          }
+        }
+      }
+      //设置第一个分类
+      sortIndex.value = sortList.value[0].id
+      //设置标签列表
+      tagList.value = sortList.value[0].tagList
     })
+
   })
 })
 </script>
@@ -199,7 +167,7 @@ onMounted(() => {
       .tags {
         position: absolute;
         display: flex;
-        justify-content: space-between;
+        justify-content:left;
         align-items: center;
         width: 90%;
         height: 15%;

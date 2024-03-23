@@ -2,8 +2,6 @@ package com.blue.sort.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 标签对象 blue_sort_tag
@@ -19,12 +17,15 @@ public class BlueSortTag extends BaseEntity
     private Long id;
 
     /** 分类名词 */
-    @Excel(name = "分类名词")
+    @Excel(name = "分类名称")
     private Long sortId;
 
     /** 标签的名称 */
     @Excel(name = "标签的名称")
     private String tagName;
+    /** 标签名称 */
+    @Excel(name = "文章标签包含数量")
+    private Integer articleTagNumber;
 
     public void setId(Long id) 
     {
@@ -54,17 +55,11 @@ public class BlueSortTag extends BaseEntity
         return tagName;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("sortId", getSortId())
-            .append("tagName", getTagName())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .append("remark", getRemark())
-            .toString();
+    public Integer getArticleTagNumber() {
+        return articleTagNumber;
+    }
+
+    public void setArticleTagNumber(Integer articleTagNumber) {
+        this.articleTagNumber = articleTagNumber;
     }
 }

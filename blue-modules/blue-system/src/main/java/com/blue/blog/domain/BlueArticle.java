@@ -26,6 +26,9 @@ public class BlueArticle extends BaseEntity
     /** 用户名称 */
     @Excel(name = "用户名称")
     private String userName;
+    /** 文章名称 */
+    @Excel(name = "文章名称")
+    private String Name;
 
     /** 分类名称 */
     @Excel(name = "分类名称")
@@ -117,5 +120,13 @@ public class BlueArticle extends BaseEntity
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
     }
 }

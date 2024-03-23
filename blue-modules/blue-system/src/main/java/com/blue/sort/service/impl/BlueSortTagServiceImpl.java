@@ -3,7 +3,9 @@ package com.blue.sort.service.impl;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.sort.domain.BlueArticleTag;
 import com.blue.sort.domain.BlueSortTag;
+import com.blue.sort.mapper.BlueArticleTagMapper;
 import com.blue.sort.mapper.BlueSortTagMapper;
 import com.blue.sort.service.IBlueSortTagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
 {
     @Autowired
     private BlueSortTagMapper blueSortTagMapper;
+    @Autowired
+    private BlueArticleTagMapper blueArticleTagMapper;
 
     /**
      * 查询标签
@@ -44,8 +48,22 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
     @Override
     public List<BlueSortTag> selectBlueSortTagList(BlueSortTag blueSortTag)
     {
-
-        return blueSortTagMapper.selectBlueSortTagList(blueSortTag);
+        //所有标签列表
+        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectBlueSortTagList(blueSortTag);
+        //所有文章标签列表
+        List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectBlueArticleTagList(new BlueArticleTag());
+        for (BlueSortTag sortTag : blueSortTags) {
+            //初始化参数
+            sortTag.setArticleTagNumber(0);
+            //获取标签列表中 某个表现下有多少文章
+            for (BlueArticleTag blueArticleTag : blueArticleTags) {
+                //文章标签列表有匹配Id
+                if (blueArticleTag.getTagId().equals(sortTag.getId())){
+                    sortTag.setArticleTagNumber(sortTag.getArticleTagNumber()+1);
+                }
+            }
+        }
+        return blueSortTags;
     }
 
     /**

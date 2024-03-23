@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类名词" prop="sortId">
+      <el-form-item label="分类名称" prop="sortId">
         <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
           <el-option
-            v-for="dict in dict.type.sys_blog_type"
+            v-for="dict in sortDict"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -74,11 +74,7 @@
     <el-table v-loading="loading" :data="tagList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="分类名词" align="center" prop="sortId">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_blog_type" :value="scope.row.sortId"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="分类名称" align="center" prop="sortName"/>
       <el-table-column label="标签的名称" align="center" prop="tagName" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -112,10 +108,10 @@
     <!-- 添加或修改标签对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名词" prop="sortId">
-          <el-select v-model="form.sortId" placeholder="请选择分类名词">
+        <el-form-item label="分类名称" prop="sortId">
+          <el-select v-model="form.sortId" placeholder="请选择分类名称">
             <el-option
-              v-for="dict in dict.type.sys_blog_type"
+              v-for="dict in sortDict"
               :key="dict.value"
               :label="dict.label"
               :value="parseInt(dict.value)"
@@ -139,12 +135,14 @@
 
 <script>
 import {addTag, delTag, getTag, listTag, updateTag} from "@/api/sort/tag";
+import {listSort} from '@/api/sort/sort'
 
 export default {
   name: "Tag",
-  dicts: ['sys_blog_type'],
   data() {
     return {
+      //分类字典
+      sortDict:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -184,6 +182,12 @@ export default {
     };
   },
   created() {
+    //获取分类列表
+    listSort().then(res => {
+      for (const item of res.rows) {
+        this.sortDict.push({ value: item.id, label: item.sortName })
+      }
+    })
     this.getList();
   },
   methods: {
@@ -192,6 +196,14 @@ export default {
       this.loading = true;
       listTag(this.queryParams).then(response => {
         this.tagList = response.rows;
+        //循环查找出分类
+        for (let index = 0; index < this.tagList.length; index++) {
+          let item = this.sortDict.find(n => n.value === this.tagList[index].sortId)
+          if (!item) {
+            item.label = "未知分类";
+          }
+          this.tagList[index].sortName = item.label
+        }
         this.total = response.total;
         this.loading = false;
       });

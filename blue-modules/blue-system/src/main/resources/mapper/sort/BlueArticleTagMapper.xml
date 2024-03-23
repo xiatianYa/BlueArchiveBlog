@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.sort.mapper.BlueArticleTagMapper">
+    
+    <resultMap type="BlueArticleTag" id="BlueArticleTagResult">
+        <result property="id"    column="id"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="tagId"    column="tag_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBlueArticleTagVo">
+        select id, article_id, tag_id, create_time, update_time, create_by, update_by, remark from blue_article_tag
+    </sql>
+
+    <select id="selectBlueArticleTagList" parameterType="BlueArticleTag" resultMap="BlueArticleTagResult">
+        <include refid="selectBlueArticleTagVo"/>
+        <where>  
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="tagId != null "> and tag_id = #{tagId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueArticleTagById" parameterType="Long" resultMap="BlueArticleTagResult">
+        <include refid="selectBlueArticleTagVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueArticleTag" parameterType="BlueArticleTag" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_article_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">article_id,</if>
+            <if test="tagId != null">tag_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">#{articleId},</if>
+            <if test="tagId != null">#{tagId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueArticleTag" parameterType="BlueArticleTag">
+        update blue_article_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="tagId != null">tag_id = #{tagId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueArticleTagById" parameterType="Long">
+        delete from blue_article_tag where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueArticleTagByIds" parameterType="String">
+        delete from blue_article_tag where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

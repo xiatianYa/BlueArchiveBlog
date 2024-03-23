@@ -3,6 +3,7 @@ package com.blue.blog.service.impl;
 import com.blue.blog.domain.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.blog.service.IBlueArticleService;
+import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -52,6 +53,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Override
     public List<BlueArticle> selectBlueArticleList(BlueArticle blueArticle)
     {
+        //如果文章列表默认是没有带审核状态 则默认显示以审核
+        if (!StringUtils.isNotNull(blueArticle.getStatus())){
+            blueArticle.setStatus(AuditingStatus.DISABLE.getCode());
+        }
         //文章列表
         List<BlueArticle> blueArticles = blueArticleMapper.selectBlueArticleList(blueArticle);
         //分类列表
@@ -87,6 +92,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         Long userId = SecurityUtils.getUserId();
         if (StringUtils.isNotNull(userId)){
             blueArticle.setCreateBy(userId.toString());
+            blueArticle.setUserId(userId);
+            blueArticle.setStatus(AuditingStatus.OK.getCode());
         }
         blueArticle.setCreateTime(DateUtils.getNowDate());
         return blueArticleMapper.insertBlueArticle(blueArticle);
