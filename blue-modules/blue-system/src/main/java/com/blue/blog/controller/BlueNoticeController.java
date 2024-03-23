@@ -31,7 +31,6 @@ public class BlueNoticeController extends BaseController
     /**
      * 查询公告信息列表
      */
-    @RequiresPermissions("blog:notice:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueNotice blueNotice)
     {

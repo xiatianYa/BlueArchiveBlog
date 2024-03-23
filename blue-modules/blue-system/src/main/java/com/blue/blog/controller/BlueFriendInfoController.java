@@ -31,7 +31,6 @@ public class BlueFriendInfoController extends BaseController
     /**
      * 查询友链申请信息列表
      */
-    @RequiresPermissions("blog:info:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueFriendInfo blueFriendInfo)
     {

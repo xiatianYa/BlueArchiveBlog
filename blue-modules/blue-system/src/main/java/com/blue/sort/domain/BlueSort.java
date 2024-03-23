@@ -2,8 +2,6 @@ package com.blue.sort.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 分类对象 blue_sort
@@ -21,6 +19,9 @@ public class BlueSort extends BaseEntity
     /** 分类的名称 */
     @Excel(name = "分类的名称")
     private String sortName;
+    /** 当前分类下文章的数量 */
+    @Excel(name = "分类的数量")
+    private Integer sortNumber;
 
     public void setId(Long id) 
     {
@@ -41,16 +42,11 @@ public class BlueSort extends BaseEntity
         return sortName;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("sortName", getSortName())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .append("remark", getRemark())
-            .toString();
+    public Integer getSortNumber() {
+        return sortNumber;
+    }
+
+    public void setSortNumber(Integer sortNumber) {
+        this.sortNumber = sortNumber;
     }
 }

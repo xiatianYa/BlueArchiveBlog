@@ -33,7 +33,6 @@ public class BlueWebsiteController extends BaseController
     /**
      * 查询网站信息列表
      */
-    @RequiresPermissions("blog:website:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueWebsite blueWebsite)
     {

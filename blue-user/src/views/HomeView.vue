@@ -166,8 +166,8 @@
               <use xlink:href="#icon-tongzhi1"></use>
             </svg>
             <div class="content">
-              <span class="title">欢迎光临 !</span>
-              <span class="body">部属文档 : www.baidu.com</span>
+              <span class="title">{{ noticeInfo.noticeTitle }}</span>
+              <span class="body">{{ noticeInfo.noticeContent }}</span>
             </div>
           </div>
           <div class="container">
@@ -201,11 +201,18 @@
   </div>
 </template>
 <script setup lang="ts">
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import {useBgStore} from '@/store/bg'
+import {listNotice} from '@/api/notice'
 
+const noticeInfo=ref({})
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
+onMounted(()=>{
+  listNotice().then(res=>{
+    noticeInfo.value=res.rows[0]
+  })
+})
 function goDown() {
   let dom = document.documentElement;
   window.scrollTo({behavior: 'smooth', top: dom.scrollHeight});

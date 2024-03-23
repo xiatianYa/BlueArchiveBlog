@@ -7,67 +7,19 @@
         </video>
 
         <div class="sorts">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
+          <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
-          <div id="select" class="sort">
+          <div id="select" class="sort" v-for="sort in sortList">
             <span class="sort_name">
-              Java
+              {{ sort.sortName }}
             </span>
             <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
-            </span>
-          </div>
-          <div class="sort">
-            <span class="sort_name">
-              Java
-            </span>
-            <span class="sort_num">
-              3
+              {{ sort.sortNumber }}
             </span>
           </div>
         </div>
-        <div class="sorts_tags">
+        <div class="tags">
           <svg aria-hidden="true" class="icon pointer" @click="goDown">
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
@@ -140,15 +92,31 @@
   </div>
 </template>
 
-<script setup>
-import {ref} from "vue"
+<script setup lang="ts">
+import {onMounted, ref} from "vue"
 import SortDetail from '@/components/SortDetail.vue'
 import {useBgStore} from '@/store/bg'
+import {listSort} from '@/api/sort/sort'
+import {listTag} from '@/api/sort/tag'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
+const sortIndex=ref(0)
+const tagIndex=ref(0)
+const sortList=ref({})
+const tagList=ref({})
+onMounted(() => {
+  //获取分类列表
+  listSort().then(res => {
+    sortList.value=res.rows
+    //获取标签列表
+    listTag().then(res => {
+      console.log(res.rows);
+    })
+  })
+})
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .sort {
   display: flex;
   flex-direction: column;
@@ -205,7 +173,6 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          width: 50px;
           margin-right: 20px;
           border-radius: 5px;
           padding: 0;
@@ -229,7 +196,7 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
         }
       }
 
-      .sorts_tags {
+      .tags {
         position: absolute;
         display: flex;
         justify-content: space-between;

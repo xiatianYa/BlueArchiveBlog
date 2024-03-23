@@ -44,7 +44,7 @@ onMounted(() => {
   }, 10))
 })
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .loading {
   width: 100%;
   height: 100vh;

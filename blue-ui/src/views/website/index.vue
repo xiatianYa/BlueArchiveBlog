@@ -8,7 +8,7 @@
                             <el-input v-model="websiteInfo.websiteName"></el-input>
                         </el-form-item>
                         <el-form-item label="头像">
-                            <el-input v-model="websiteInfo.websiteCover"></el-input>
+                            <image-upload v-model="websiteInfo.websiteCover" />
                         </el-form-item>
                         <el-form-item label="地址">
                             <el-input v-model="websiteInfo.websiteUrl"></el-input>

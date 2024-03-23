@@ -58,7 +58,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listPhoto} from '@/api/photo'

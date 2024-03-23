@@ -1,5 +1,7 @@
 package com.blue.sort.service.impl;
 
+import com.blue.blog.domain.BlueArticle;
+import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -22,6 +24,8 @@ public class BlueSortServiceImpl implements IBlueSortService
 {
     @Autowired
     private BlueSortMapper blueSortMapper;
+    @Autowired
+    private BlueArticleMapper blueArticleMapper;
 
     /**
      * 查询分类
@@ -44,7 +48,22 @@ public class BlueSortServiceImpl implements IBlueSortService
     @Override
     public List<BlueSort> selectBlueSortList(BlueSort blueSort)
     {
-        return blueSortMapper.selectBlueSortList(blueSort);
+        //获取分类列表
+        List<BlueSort> blueSorts = blueSortMapper.selectBlueSortList(blueSort);
+        //获取文章列表
+        List<BlueArticle> blueArticles = blueArticleMapper.selectBlueArticleList(new BlueArticle());
+        //获取分类下文章数量
+        for (BlueSort sort : blueSorts) {
+            //初始化数量
+            sort.setSortNumber(0);
+            for (BlueArticle blueArticle : blueArticles) {
+                //分类ID相同
+                if (blueArticle.getSortId().equals(sort.getId())){
+                    sort.setSortNumber(sort.getSortNumber()+1);
+                }
+            }
+        }
+        return blueSorts;
     }
 
     /**

@@ -20,11 +20,11 @@
               本站信息
             </span>
             <div class="msg">
-              <div class="msg_name">网站名称: BlueAchiveBlog</div>
-              <div class="msg_link">网址: https://baidu.com</div>
-              <div class="msg_img">头像: https://baidu.com</div>
-              <div class="msg_detail">描述: 这是一个Vue3+SpringCloud结合的产物~</div>
-              <div class="msg_cover">封面: https://www.baidu.com</div>
+              <div class="msg_name">网站名称: {{ websiteInfo.websiteName }}</div>
+              <div class="msg_link">网址: {{ websiteInfo.websiteUrl }}</div>
+              <div class="msg_img select">图标: {{ websiteInfo.websiteCover }}</div>
+              <div class="msg_detail">描述: {{ websiteInfo.websiteDetail }}</div>
+              <div class="msg_detail">备注: {{ websiteInfo.websiteRemark }}</div>
             </div>
           </div>
           <div class="apply_msg">
@@ -36,13 +36,13 @@
             </span>
             <div class="msg">
               <div class="controller">
-                接口地址: https://xxx.xxx:6379/apply/add
+                接口地址: {{ FirendInfo.friendUrl }}
               </div>
               <div class="jinzhi">
-                禁止友链带广告or色情or政治
+                {{ FirendInfo.friendContent }}
               </div>
               <div class="tongzhi">
-                申请之前请先添加本站友链
+                {{ FirendInfo.friendDetail }}
               </div>
             </div>
           </div>
@@ -75,18 +75,32 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listFriend} from '@/api/friend'
+import {listInfo} from '@/api/info'
+import {listWebsite} from '@/api/website'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4"))
 //友链列表
 const FriednList=ref([])
+//网站信息
+const websiteInfo=ref({})
+//友链信息
+const FirendInfo=ref({})
 onMounted(()=>{
   //获取友链列表
   listFriend().then(res=>{
     FriednList.value=res.rows
+  })
+  //获取网站信息
+  listWebsite().then(res=>{
+    websiteInfo.value=res.rows[0]
+  })
+  //获取友链信息
+  listInfo().then(res=>{
+    FirendInfo.value=res.rows[0]
   })
 })
 
