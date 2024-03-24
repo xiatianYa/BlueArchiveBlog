@@ -36,7 +36,6 @@
     "url": "https://gitee.com/y_project/RuoYi-Cloud.git"
   },
   "dependencies": {
-    "@kangc/v-md-editor": "next",
     "@riophae/vue-treeselect": "0.4.0",
     "axios": "0.24.0",
     "clipboard": "2.0.8",
