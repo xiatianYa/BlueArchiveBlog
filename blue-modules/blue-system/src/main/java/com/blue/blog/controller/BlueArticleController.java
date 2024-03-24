@@ -38,7 +38,15 @@ public class BlueArticleController extends BaseController
         List<BlueArticle> list = blueArticleService.selectBlueArticleList(blueArticle);
         return getDataTable(list);
     }
-
+    /**
+     * 根据标签ID查询文章列表
+     */
+    @GetMapping("/listByTagId/{tagId}")
+    public TableDataInfo listByTagId(@PathVariable("tagId")Long tagId){
+        startPage();
+        List<BlueArticle> list = blueArticleService.selectBlueArticleListByTagId(tagId);
+        return getDataTable(list);
+    }
     /**
      * 导出文章列表
      */
