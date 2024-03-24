@@ -59,4 +59,6 @@ public interface IBlueArticleService
      * @return 结果
      */
     public int deleteBlueArticleById(Long id);
+
+    List<BlueArticle> selectBlueArticleListByTagId(Long tagId);
 }

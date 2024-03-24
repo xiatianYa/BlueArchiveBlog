@@ -24,7 +24,8 @@
           <svg aria-hidden="true" class="icon pointer" @click="goDown">
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
-          <div :id="tag.id == tagIndex ? 'select' : ''" class="sort" v-for="tag in tagList">
+          <div :id="tag.id == tagIndex ? 'select' : ''" class="sort" v-for="tag in tagList"
+            @click="selectArticleListByTagId(tag.id)">
             <span class="sort_name">
               {{ tag.tagName }}
             </span>
@@ -38,7 +39,7 @@
     <div class="container">
       <div class="content animate__animated animate__zoomIn">
         <div class="content_body">
-          <SortDetail></SortDetail>
+          <SortDetail :articleList="articleList"></SortDetail>
         </div>
       </div>
     </div>
@@ -46,17 +47,25 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue"
 import SortDetail from '@/components/SortDetail.vue'
+import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listSort} from '@/api/sort/sort'
 import {listTag} from '@/api/sort/tag'
+import {listByTagId} from '@/api/article'
+import promptMsg from "@/components/PromptBoxView"
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
+//分类下标
 const sortIndex = ref(0)
+//标签下标
 const tagIndex = ref(0)
+//分类列表
 const sortList = ref({})
+//标签列表
 const tagList = ref({})
+//文章列表
+const articleList=ref([])
 onMounted(() => {
   //获取分类列表
   listSort().then(res => {
@@ -87,11 +96,12 @@ onMounted(() => {
       //设置第一个标签下标
       if (tagList.value) {
         tagIndex.value = tagList.value[0].id
-      } 
+      }
     })
 
   })
 })
+//设置标签下标 和标签列表
 function selectSort(sort) {
   //设置下标
   sortIndex.value = sort.id
@@ -101,18 +111,32 @@ function selectSort(sort) {
   } else {
     //设置标签列表    
     tagList.value = sort.tagList
-    tagIndex.value=tagList.value[0].id
+    tagIndex.value = tagList.value[0].id
+    //查询文章列表
+    selectArticleListByTagId(tagIndex.value)
   }
+}
+//查询所有标签下的文章列表
+function selectArticleListByTagId(tagId) {
+  //如果点击的是当前选择的标签下标则不选择
+  // if (tagId === tagIndex.value) {
+  //   return
+  // }
+  listByTagId(tagId).then(res=>{
+    articleList.value=res.rows
+    promptMsg({ type: "success", msg: res.msg })
+  }).catch(error=>{
+    promptMsg({ type: "success", msg: error })
+  })
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sort {
   display: flex;
   flex-direction: column;
   transition: all 0.5s ease;
   padding-bottom: 40px;
-
   .banner {
     display: flex;
     justify-content: center;
@@ -252,6 +276,7 @@ function selectSort(sort) {
     justify-content: center;
     align-items: center;
     width: 100%;
+    min-height: 400px;
     margin-top: 30px;
 
     .content {

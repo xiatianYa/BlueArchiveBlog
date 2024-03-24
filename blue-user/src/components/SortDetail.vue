@@ -1,300 +1,20 @@
 <template>
   <div class="sort_detail">
     <div class="sort_cards">
-      <div class="card box_shadow">
+      <div class="card box_shadow" v-for="article in articleList">
         <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
+          <img :src="article.cover" alt="">
         </div>
         <div class="card_time">
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-rili1"></use>
           </svg>
           <span>
-            2024-02-23 1:11
+            {{ article.createTime }}
           </span>
         </div>
         <div class="sort_title">
-          Java...........
-        </div>
-        <div class="sort_info">
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
-            </svg>
-            <span>
-              0 热度
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-pinglun"></use>
-            </svg>
-            <span>
-              0 评论
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-dianzan1"></use>
-            </svg>
-            0 点赞
-          </div>
-        </div>
-      </div>
-      <div class="card box_shadow">
-        <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="card_time">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-rili1"></use>
-          </svg>
-          <span>
-            2024-02-23 1:11
-          </span>
-        </div>
-        <div class="sort_title">
-          Java...........
-        </div>
-        <div class="sort_info">
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
-            </svg>
-            <span>
-              0 热度
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-pinglun"></use>
-            </svg>
-            <span>
-              0 评论
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-dianzan1"></use>
-            </svg>
-            0 点赞
-          </div>
-        </div>
-      </div>
-      <div class="card box_shadow">
-        <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="card_time">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-rili1"></use>
-          </svg>
-          <span>
-            2024-02-23 1:11
-          </span>
-        </div>
-        <div class="sort_title">
-          Java...........
-        </div>
-        <div class="sort_info">
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
-            </svg>
-            <span>
-              0 热度
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-pinglun"></use>
-            </svg>
-            <span>
-              0 评论
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-dianzan1"></use>
-            </svg>
-            0 点赞
-          </div>
-        </div>
-      </div>
-      <div class="card box_shadow">
-        <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="card_time">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-rili1"></use>
-          </svg>
-          <span>
-            2024-02-23 1:11
-          </span>
-        </div>
-        <div class="sort_title">
-          Java...........
-        </div>
-        <div class="sort_info">
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
-            </svg>
-            <span>
-              0 热度
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-pinglun"></use>
-            </svg>
-            <span>
-              0 评论
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-dianzan1"></use>
-            </svg>
-            0 点赞
-          </div>
-        </div>
-      </div>
-      <div class="card box_shadow">
-        <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="card_time">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-rili1"></use>
-          </svg>
-          <span>
-            2024-02-23 1:11
-          </span>
-        </div>
-        <div class="sort_title">
-          Java...........
-        </div>
-        <div class="sort_info">
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
-            </svg>
-            <span>
-              0 热度
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-pinglun"></use>
-            </svg>
-            <span>
-              0 评论
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-dianzan1"></use>
-            </svg>
-            0 点赞
-          </div>
-        </div>
-      </div>
-      <div class="card box_shadow">
-        <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="card_time">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-rili1"></use>
-          </svg>
-          <span>
-            2024-02-23 1:11
-          </span>
-        </div>
-        <div class="sort_title">
-          Java...........
-        </div>
-        <div class="sort_info">
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
-            </svg>
-            <span>
-              0 热度
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-pinglun"></use>
-            </svg>
-            <span>
-              0 评论
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-dianzan1"></use>
-            </svg>
-            0 点赞
-          </div>
-        </div>
-      </div>
-      <div class="card box_shadow">
-        <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="card_time">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-rili1"></use>
-          </svg>
-          <span>
-            2024-02-23 1:11
-          </span>
-        </div>
-        <div class="sort_title">
-          Java...........
-        </div>
-        <div class="sort_info">
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
-            </svg>
-            <span>
-              0 热度
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-pinglun"></use>
-            </svg>
-            <span>
-              0 评论
-            </span>
-          </div>
-          <div class="info">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-dianzan1"></use>
-            </svg>
-            0 点赞
-          </div>
-        </div>
-      </div>
-      <div class="card box_shadow">
-        <div class="card_img">
-          <img src="\static\images\recommend.png" alt="">
-        </div>
-        <div class="card_time">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-rili1"></use>
-          </svg>
-          <span>
-            2024-02-23 1:11
-          </span>
-        </div>
-        <div class="sort_title">
-          Java...........
+          {{ article.name }}
         </div>
         <div class="sort_info">
           <div class="info">
@@ -325,7 +45,11 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps(['articleList'])
+console.log(props.articleList);
+
+</script>
 
 <style lang="scss" scoped>
 .sort_detail {

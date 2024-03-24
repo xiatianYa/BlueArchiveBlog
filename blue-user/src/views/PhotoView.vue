@@ -200,6 +200,7 @@ function searchSort(sortId) {
     justify-content: space-between;
     width: 90%;
     height: 100%;
+    min-height: 400px;
     margin-top: 30px;
 
     .photo {

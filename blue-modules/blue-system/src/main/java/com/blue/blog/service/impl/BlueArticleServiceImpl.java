@@ -5,16 +5,20 @@ import com.blue.blog.domain.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.enums.AuditingStatus;
+import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.sort.domain.BlueArticleTag;
 import com.blue.sort.domain.BlueSort;
+import com.blue.sort.mapper.BlueArticleTagMapper;
 import com.blue.sort.mapper.BlueSortMapper;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +36,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     private BlueSortMapper blueSortMapper;
     @Autowired
     private SysUserMapper userMapper;
+    @Autowired
+    private BlueArticleTagMapper blueArticleTagMapper;
 
     /**
      * 查询文章
@@ -135,5 +141,30 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     public int deleteBlueArticleById(Long id)
     {
         return blueArticleMapper.deleteBlueArticleById(id);
+    }
+
+    @Override
+    public List<BlueArticle> selectBlueArticleListByTagId(Long tagId) {
+        LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if (!StringUtils.isNotNull(tagId)){
+            throw new ServiceException("标签ID为空");
+        }
+        blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getTagId,tagId);
+        //通过标签ID获取文章标签列表
+        List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(blueArticleTagLambdaQueryWrapper);
+        //获取全部文章列表
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(new LambdaQueryWrapper<>());
+        //返回列表
+        List<BlueArticle> blueArticleList=new ArrayList<>();
+        for (BlueArticleTag blueArticleTag : blueArticleTags) {
+            //通过文章标签中文章ID获取文章
+            for (BlueArticle blueArticle : blueArticles) {
+                //命中
+                if (blueArticle.getId().equals(blueArticleTag.getArticleId())){
+                    blueArticleList.add(blueArticle);
+                }
+            }
+        }
+        return blueArticleList;
     }
 }
