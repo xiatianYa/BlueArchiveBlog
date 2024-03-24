@@ -18,7 +18,8 @@ import './assets/icons' // icon
 import './permission' // permission control
 import {getDicts} from "@/api/system/dict/data";
 import {getConfigKey} from "@/api/system/config";
-import {parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree} from "@/utils/ruoyi";
+import {addDateRange, handleTree, parseTime, resetForm, selectDictLabel, selectDictLabels} from "@/utils/ruoyi";
+
 // 分页组件
 import Pagination from "@/components/Pagination";
 // 自定义表格工具组件
@@ -37,6 +38,12 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
+// v-md-editor
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import Prism from 'prismjs';
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -63,6 +70,7 @@ Vue.use(plugins)
 Vue.use(VueMeta)
 DictData.install()
 
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -71,11 +79,14 @@ DictData.install()
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
-
+//使用v-md-editor
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })
-
+Vue.use(VueMarkdownEditor);
 Vue.config.productionTip = false
 
 new Vue({
