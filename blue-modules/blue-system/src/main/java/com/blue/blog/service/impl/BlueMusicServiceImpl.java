@@ -1,5 +1,6 @@
 package com.blue.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueMusic;
 import com.blue.blog.domain.dto.BlueMusicListBySort;
 import com.blue.blog.mapper.BlueMusicMapper;
@@ -114,9 +115,9 @@ public class BlueMusicServiceImpl implements IBlueMusicService
     @Override
     public List<BlueMusicListBySort> getMusicListBySort(Long type) {
         //获取全部音乐分类
-        List<BlueMusicSort> blueMusicSorts = blueMusicSortMapper.selectBlueMusicSortList(new BlueMusicSort());
+        List<BlueMusicSort> blueMusicSorts = blueMusicSortMapper.selectList(new LambdaQueryWrapper<>());
         //获取全部音乐列表
-        List<BlueMusic> blueMusics = blueMusicMapper.selectBlueMusicList(new BlueMusic());
+        List<BlueMusic> blueMusics = blueMusicMapper.selectList(new LambdaQueryWrapper<>());
         //返回列表
         List<BlueMusicListBySort> musicListBySorts=new ArrayList<>();
         for (BlueMusicSort blueMusicSort : blueMusicSorts) {

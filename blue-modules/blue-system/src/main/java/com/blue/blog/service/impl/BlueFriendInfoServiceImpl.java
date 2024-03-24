@@ -4,6 +4,8 @@ import com.blue.blog.domain.BlueFriendInfo;
 import com.blue.blog.mapper.BlueFriendInfoMapper;
 import com.blue.blog.service.IBlueFriendInfoService;
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,10 @@ public class BlueFriendInfoServiceImpl implements IBlueFriendInfoService
     @Override
     public int insertBlueFriendInfo(BlueFriendInfo blueFriendInfo)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            blueFriendInfo.setCreateBy(String.valueOf(userId));
+        }
         blueFriendInfo.setCreateTime(DateUtils.getNowDate());
         return blueFriendInfoMapper.insertBlueFriendInfo(blueFriendInfo);
     }
@@ -67,6 +73,10 @@ public class BlueFriendInfoServiceImpl implements IBlueFriendInfoService
     @Override
     public int updateBlueFriendInfo(BlueFriendInfo blueFriendInfo)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            blueFriendInfo.setUpdateBy(String.valueOf(userId));
+        }
         blueFriendInfo.setUpdateTime(DateUtils.getNowDate());
         return blueFriendInfoMapper.updateBlueFriendInfo(blueFriendInfo);
     }

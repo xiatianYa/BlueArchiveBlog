@@ -1,5 +1,6 @@
 package com.blue.sort.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.sort.domain.BlueArticleTag;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-03-23
  */
-public interface BlueArticleTagMapper 
+public interface BlueArticleTagMapper extends BaseMapper<BlueArticleTag>
 {
     /**
      * 查询文章标签关联

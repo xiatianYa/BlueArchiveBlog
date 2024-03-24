@@ -1,16 +1,16 @@
 package com.blue.system.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 import com.blue.system.api.domain.SysUser;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 用户表 数据层
  *
  * @author ruoyi
  */
-public interface SysUserMapper {
+public interface SysUserMapper{
     /**
      * 根据条件分页查询用户列表
      *

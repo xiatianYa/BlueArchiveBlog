@@ -1,5 +1,6 @@
 package com.blue.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.blog.service.IBlueArticleService;
@@ -10,7 +11,7 @@ import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BlueSort;
 import com.blue.sort.mapper.BlueSortMapper;
 import com.blue.system.api.domain.SysUser;
-import com.blue.system.service.ISysUserService;
+import com.blue.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Autowired
     private BlueSortMapper blueSortMapper;
     @Autowired
-    private ISysUserService userService;
+    private SysUserMapper userMapper;
 
     /**
      * 查询文章
@@ -53,16 +54,12 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Override
     public List<BlueArticle> selectBlueArticleList(BlueArticle blueArticle)
     {
-        //如果文章列表默认是没有带审核状态 则默认显示以审核
-        if (!StringUtils.isNotNull(blueArticle.getStatus())){
-            blueArticle.setStatus(AuditingStatus.DISABLE.getCode());
-        }
         //文章列表
         List<BlueArticle> blueArticles = blueArticleMapper.selectBlueArticleList(blueArticle);
         //分类列表
-        List<BlueSort> blueSorts = blueSortMapper.selectBlueSortList(new BlueSort());
+        List<BlueSort> blueSorts = blueSortMapper.selectList(new LambdaQueryWrapper<>());
         //用户列表
-        List<SysUser> sysUsers = userService.selectUserList(new SysUser());
+        List<SysUser> sysUsers = userMapper.selectUserList(new SysUser());
         for (BlueArticle article : blueArticles) {
             for (BlueSort blueSort : blueSorts) {
                 //判断分类ID是否一致

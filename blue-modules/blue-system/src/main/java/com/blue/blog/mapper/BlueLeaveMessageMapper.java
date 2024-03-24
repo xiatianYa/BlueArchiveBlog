@@ -1,5 +1,6 @@
 package com.blue.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BlueLeaveMessage;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-03-19
  */
-public interface BlueLeaveMessageMapper 
+public interface BlueLeaveMessageMapper extends BaseMapper<BlueLeaveMessage>
 {
     /**
      * 查询弹幕

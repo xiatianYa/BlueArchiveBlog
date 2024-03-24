@@ -1,5 +1,6 @@
 package com.blue.sort.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 
@@ -21,6 +22,7 @@ public class BlueSort extends BaseEntity
     private String sortName;
     /** 当前分类下文章的数量 */
     @Excel(name = "分类的数量")
+    @TableField(exist = false)
     private Integer sortNumber;
 
     public void setId(Long id) 

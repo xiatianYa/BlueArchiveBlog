@@ -45,7 +45,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {onMounted, ref} from "vue"
 import SortDetail from '@/components/SortDetail.vue'
 import {useBgStore} from '@/store/bg'
@@ -214,7 +214,6 @@ function selectSort(sort) {
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          width: 50px;
           margin-right: 20px;
           border-radius: 5px;
           padding: 0;

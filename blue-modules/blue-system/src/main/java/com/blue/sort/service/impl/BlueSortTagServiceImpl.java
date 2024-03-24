@@ -1,5 +1,6 @@
 package com.blue.sort.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -51,7 +52,7 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
         //所有标签列表
         List<BlueSortTag> blueSortTags = blueSortTagMapper.selectBlueSortTagList(blueSortTag);
         //所有文章标签列表
-        List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectBlueArticleTagList(new BlueArticleTag());
+        List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(new LambdaQueryWrapper<>());
         for (BlueSortTag sortTag : blueSortTags) {
             //初始化参数
             sortTag.setArticleTagNumber(0);

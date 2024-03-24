@@ -1,5 +1,6 @@
 package com.blue.sort.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 
@@ -25,11 +26,13 @@ public class BlueArticleTag extends BaseEntity
     private Long tagId;
 
     /** 文章名称 */
-    @Excel(name = "文章ID")
+    @Excel(name = "文章名称")
+    @TableField(exist = false)
     private String articleName;
 
     /** 标签名称 */
-    @Excel(name = "标签ID")
+    @Excel(name = "标签名称")
+    @TableField(exist = false)
     private String tagName;
 
 

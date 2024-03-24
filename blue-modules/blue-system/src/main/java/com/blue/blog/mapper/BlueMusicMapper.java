@@ -1,5 +1,6 @@
 package com.blue.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BlueMusic;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-03-19
  */
-public interface BlueMusicMapper 
+public interface BlueMusicMapper extends BaseMapper<BlueMusic>
 {
     /**
      * 查询音乐

@@ -1,5 +1,6 @@
 package com.blue.sort.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.sort.domain.BluePhotoSort;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-03-19
  */
-public interface BluePhotoSortMapper 
+public interface BluePhotoSortMapper extends BaseMapper<BluePhotoSort>
 {
     /**
      * 查询相册分类信息

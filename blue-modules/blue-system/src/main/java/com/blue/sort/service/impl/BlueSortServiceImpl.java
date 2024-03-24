@@ -1,5 +1,6 @@
 package com.blue.sort.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.common.core.utils.DateUtils;
@@ -51,7 +52,7 @@ public class BlueSortServiceImpl implements IBlueSortService
         //获取分类列表
         List<BlueSort> blueSorts = blueSortMapper.selectBlueSortList(blueSort);
         //获取文章列表
-        List<BlueArticle> blueArticles = blueArticleMapper.selectBlueArticleList(new BlueArticle());
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(new LambdaQueryWrapper<>());
         //获取分类下文章数量
         for (BlueSort sort : blueSorts) {
             //初始化数量

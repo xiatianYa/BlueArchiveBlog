@@ -1,5 +1,6 @@
 package com.blue.sort.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.common.core.utils.DateUtils;
@@ -55,9 +56,9 @@ public class BlueArticleTagServiceImpl implements IBlueArticleTagService
         //文章标签列表
         List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectBlueArticleTagList(blueArticleTag);
         //文章列表
-        List<BlueArticle> blueArticles = blueArticleMapper.selectBlueArticleList(new BlueArticle());
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(new LambdaQueryWrapper<>());
         //文章标签列表
-        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectBlueSortTagList(new BlueSortTag());
+        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectList(new LambdaQueryWrapper<>());
         for (BlueArticleTag articleTag : blueArticleTags) {
             //设置当前文章标签文章名称
             for (BlueArticle blueArticle : blueArticles) {

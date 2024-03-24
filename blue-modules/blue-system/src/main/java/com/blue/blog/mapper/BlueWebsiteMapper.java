@@ -1,5 +1,6 @@
 package com.blue.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BlueWebsite;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-03-23
  */
-public interface BlueWebsiteMapper 
+public interface BlueWebsiteMapper extends BaseMapper<BlueWebsite>
 {
     /**
      * 查询网站信息
