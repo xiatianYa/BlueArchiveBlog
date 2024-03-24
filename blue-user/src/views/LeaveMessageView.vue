@@ -193,7 +193,6 @@ function getRandomItem(array) {
     }
 
     .leave_input {
-      z-index: 10;
       position: absolute;
       top: 40%;
       left: 50%;
