@@ -47,7 +47,6 @@
 
 <script setup lang="ts">
 const props = defineProps(['articleList'])
-console.log(props.articleList);
 
 </script>
 

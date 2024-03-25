@@ -1,3 +1,8 @@
+//引入App.vue
+import App from './App.vue'
+//引入vue
+import {createApp} from 'vue'
+
 //全局css
 import './assets/main.scss'
 //自定义字体css
@@ -10,21 +15,25 @@ import './permission'
 import 'animate.css';
 
 
-//引入App.vue
-import App from './App.vue'
-//引入vue
-import {createApp} from 'vue'
-//引入pinia
 import {createPinia} from 'pinia'
-//引入路由
 import router from './router'
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+
+import Prism from 'prismjs';
 
 
 //创建App实际
 const app = createApp(App)
-//使用Pinia
+
+
 app.use(createPinia())
-//使用路由
 app.use(router)
-//挂载
 app.mount('#app')
+
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+});
+app.use(VueMarkdownEditor);

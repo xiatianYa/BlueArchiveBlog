@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@alicloud/vod20170321": "^2.4.1",
+    "@kangc/v-md-editor": "^2.3.18",
     "animate.css": "^4.1.1",
     "axios": "^1.6.7",
     "js-cookie": "^3.0.5",
     "pinia": "^2.1.7",
+    "vite-plugin-prismjs": "^0.0.11",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },
