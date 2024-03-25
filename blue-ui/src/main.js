@@ -38,6 +38,13 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+
+// highlightjs
+import hljs from 'highlight.js';
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -84,3 +91,12 @@ new Vue({
   store,
   render: h => h(App)
 })
+
+VueMarkdownEditor.use(githubTheme, {
+  Hljs: hljs,
+  extend(md) {
+    // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
+    // md.set(option).use(plugin);
+  },
+});
+Vue.use(VueMarkdownEditor)
