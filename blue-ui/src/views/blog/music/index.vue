@@ -79,9 +79,9 @@
           <image-preview :src="scope.row.imgUrl" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="音乐的路径" align="center" prop="musicUrl" />
-      <el-table-column label="音乐名称" align="center" prop="musicName" />
-      <el-table-column label="音乐分类名称" align="center" prop="sortName"/>
+      <el-table-column label="音乐的路径" align="center" prop="musicUrl" show-overflow-tooltip="true" />
+      <el-table-column label="音乐名称" align="center" prop="musicName" show-overflow-tooltip="true" />
+      <el-table-column label="音乐分类名称" align="center" prop="sortName" show-overflow-tooltip="true"/>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">

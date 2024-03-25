@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -89,6 +90,10 @@ public class BlueArticleController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody BlueArticle blueArticle)
     {
+        //如果是Base64编码 则进行解码
+        if (blueArticle.getContent().startsWith("base64:")){
+            blueArticle.setContent(new String(Base64.getDecoder().decode(blueArticle.getContent().substring("base64:".length()))));
+        }
         return toAjax(blueArticleService.updateBlueArticle(blueArticle));
     }
 

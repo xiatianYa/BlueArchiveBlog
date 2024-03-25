@@ -2,48 +2,23 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="用户名称" prop="userId">
-        <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入用户名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.userId" placeholder="请输入用户名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="文章名称" prop="userId">
-        <el-input
-          v-model="queryParams.Name"
-          placeholder="请输入文章名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.Name" placeholder="请输入文章名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="分类名称" prop="sortId">
         <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
-          <el-option
-            v-for="dict in sortDict"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
+          <el-option v-for="dict in sortDict" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>
-          <el-option
-            v-for="dict in dict.type.sys_shenhe"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
+          <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="文章内容" prop="content">
-        <el-input
-          v-model="queryParams.content"
-          placeholder="请输入文章内容"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.content" placeholder="请输入文章内容" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -53,46 +28,20 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['blog:article:add']"
-        >新增</el-button>
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['blog:article:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['blog:article:edit']"
-        >修改</el-button>
+        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['blog:article:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['blog:article:remove']"
-        >删除</el-button>
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['blog:article:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['blog:article:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['blog:article:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -105,43 +54,27 @@
       <el-table-column label="分类名称" align="center" prop="sortName" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_shenhe" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_shenhe" :value="scope.row.status" />
         </template>
       </el-table-column>
       <el-table-column label="文章视频" align="center" prop="videoUrl" />
       <el-table-column label="文章图片" align="center" prop="cover" width="100">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.cover" :width="50" :height="50"/>
+          <image-preview :src="scope.row.cover" :width="50" :height="50" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['blog:article:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['blog:article:remove']"
-          >删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['blog:article:edit']">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['blog:article:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改文章对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -151,19 +84,18 @@
         </el-form-item>
         <el-form-item label="分类名称" prop="sortId">
           <el-select v-model="form.sortId" placeholder="请选择分类名称">
-            <el-option
-              v-for="dict in sortDict"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
+            <el-option v-for="dict in sortDict" :key="dict.value" :label="dict.label"
+              :value="parseInt(dict.value)"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="文章编辑" prop="sortId">
+          <el-button type="primary" icon="el-icon-edit" circle @click="editArticle(form.id)" />
+        </el-form-item>
         <el-form-item label="文章视频" prop="videoUrl">
-          <file-upload v-model="form.videoUrl"/>
+          <file-upload v-model="form.videoUrl" />
         </el-form-item>
         <el-form-item label="文章图片" prop="cover">
-          <image-upload v-model="form.cover"/>
+          <image-upload v-model="form.cover" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
@@ -187,7 +119,7 @@ export default {
   data() {
     return {
       //分类列表
-      sortDict:[],
+      sortDict: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -210,7 +142,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        Name:null,
+        Name: null,
         userId: null,
         sortId: null,
         status: null,
@@ -241,8 +173,8 @@ export default {
     };
   },
   created() {
-      //获取分类列表
-      listSort().then(res => {
+    //获取分类列表
+    listSort().then(res => {
       for (const item of res.rows) {
         this.sortDict.push({ value: item.id, label: item.sortName })
       }
@@ -250,6 +182,10 @@ export default {
     this.getList();
   },
   methods: {
+    //前往编辑文字
+    editArticle(sortId){
+      this.$router.push({path:"/article/edit",query:{sortId:sortId}})
+    },
     /** 查询文章列表 */
     getList() {
       this.loading = true;
@@ -295,7 +231,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -337,12 +273,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除文章编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除文章编号为"' + ids + '"的数据项？').then(function () {
         return delArticle(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => { });
     },
     /** 导出按钮操作 */
     handleExport() {

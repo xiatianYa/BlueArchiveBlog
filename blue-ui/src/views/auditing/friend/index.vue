@@ -53,8 +53,8 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <div style="display: flex;">
-            <el-button type="success" plain @click="success(scope.row)">通过</el-button>
-            <el-button type="danger" plain @click="danger(scope.row)">驳回</el-button>
+            <el-button type="success" round @click="success(scope.row)">通过</el-button>
+            <el-button type="danger" round @click="danger(scope.row)">驳回</el-button>
           </div>
         </template>
       </el-table-column>
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { addFriend, delFriend, getFriend, listFriend, updateFriend } from "@/api/blog/friend";
+import {addFriend, delFriend, getFriend, listFriend, updateFriend} from "@/api/blog/friend";
 
 export default {
   name: "Friend",

@@ -25,9 +25,18 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['blog:article:export']">导出</el-button>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+    </el-row>
+
     <el-table v-loading="loading" :data="articleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="id" align="center" prop="id" width="40" />
       <el-table-column label="用户名称" align="center" prop="userName" />
       <el-table-column label="文章名称" align="center" prop="name" />
       <el-table-column label="分类名称" align="center" prop="sortName" />
@@ -44,22 +53,52 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <div style="display: flex;">
-            <el-button type="success" plain @click="success(scope.row)">通过</el-button>
-            <el-button type="danger" plain @click="danger(scope.row)">驳回</el-button>
-          </div>
+          <el-button type="primary" icon="el-icon-edit" circle @click="goEdit(scope.row.id)"></el-button>
+          <el-button type="success" icon="el-icon-check" circle @click="success(scope.row)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle @click="danger(scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
+
+    <!-- 添加或修改文章对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="分类名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入文章名称" />
+        </el-form-item>
+        <el-form-item label="分类名称" prop="sortId">
+          <el-select v-model="form.sortId" placeholder="请选择分类名称">
+            <el-option v-for="dict in sortDict" :key="dict.value" :label="dict.label"
+              :value="parseInt(dict.value)"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="文章编辑" prop="sortId">
+          <el-button type="primary" icon="el-icon-edit" circle @click="editArticle(form.id)" />
+        </el-form-item>
+        <el-form-item label="文章视频" prop="videoUrl">
+          <file-upload v-model="form.videoUrl" />
+        </el-form-item>
+        <el-form-item label="文章图片" prop="cover">
+          <image-upload v-model="form.cover" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" placeholder="请输入备注" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { addArticle, delArticle, getArticle, listArticle, updateArticle } from "@/api/blog/article";
-import { listSort } from '@/api/sort/sort'
+import {addArticle, delArticle, getArticle, listArticle, updateArticle} from "@/api/blog/article";
+import {listSort} from '@/api/sort/sort'
 
 export default {
   name: "Article",
@@ -128,19 +167,23 @@ export default {
     }
     listSort().then(res => {
       for (const item of res.rows) {
-        this.sortDict.push({ value: item.id, label: item.sortName })
+        this.sortDict.push({ value: item.id.toString(), label: item.sortName })
       }
     })
     this.getList();
   },
   methods: {
-      //通过
-      success(article) {
-        article.status = 1
-        updateArticle(article).then(res => {
+    //前往编辑页面
+    goEdit(sortId){
+      this.$router.push({path:"/article/edit",query:{sortId:sortId}})
+    },
+    //通过
+    success(article) {
+      article.status = 1
+      updateArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
       }).catch(error => {
-        this.$modal.msgSuccess("修改失败");
+        this.$modal.msgSuccess("修改失败"+error);
       })
       this.getList()
     },
