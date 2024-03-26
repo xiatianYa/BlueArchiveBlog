@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="container">
-      <div class="content animate__animated animate__zoomIn">
+      <div class="content">
         <div class="content_body">
           <SortDetail :articleList="articleList"></SortDetail>
         </div>
@@ -65,7 +65,7 @@ const sortList = ref({})
 //标签列表
 const tagList = ref({})
 //文章列表
-const articleList=ref([])
+const articleList = ref([])
 onMounted(() => {
   //获取分类列表
   listSort().then(res => {
@@ -113,19 +113,23 @@ function selectSort(sort) {
     tagList.value = sort.tagList
     tagIndex.value = tagList.value[0].id
     //查询文章列表
-    selectArticleListByTagId(tagIndex.value)
+    listByTagId(tagIndex.value).then(res => {
+      articleList.value = res.rows
+    }).catch(error => {
+      promptMsg({ type: "success", msg: error })
+    })
   }
 }
 //查询所有标签下的文章列表
 function selectArticleListByTagId(tagId) {
   //如果点击的是当前选择的标签下标则不选择
-  // if (tagId === tagIndex.value) {
-  //   return
-  // }
-  listByTagId(tagId).then(res=>{
-    articleList.value=res.rows
+  if (tagId === tagIndex.value) {
+    return
+  }
+  listByTagId(tagId).then(res => {
+    articleList.value = res.rows
     promptMsg({ type: "success", msg: res.msg })
-  }).catch(error=>{
+  }).catch(error => {
     promptMsg({ type: "success", msg: error })
   })
 }
@@ -137,6 +141,7 @@ function selectArticleListByTagId(tagId) {
   flex-direction: column;
   transition: all 0.5s ease;
   padding-bottom: 40px;
+
   .banner {
     display: flex;
     justify-content: center;

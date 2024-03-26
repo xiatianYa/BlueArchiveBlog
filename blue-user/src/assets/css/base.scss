@@ -89,7 +89,7 @@ body::-webkit-scrollbar {
 /**黑夜模式*/
 .bg_black {
   background-color: #323232;
-  color: #676767;
+  color: #252523;
   transition: color 1s ease;
   transition: background-color 0.8s ease;
 }
@@ -99,7 +99,7 @@ body::-webkit-scrollbar {
   background: url("/static/images/loading_bg.png") no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
-  color: #212121;
+  color: #666766;
   transition: background-color 0.8s ease;
 }
 

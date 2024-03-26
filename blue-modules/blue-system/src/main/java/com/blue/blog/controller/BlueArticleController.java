@@ -64,7 +64,6 @@ public class BlueArticleController extends BaseController
     /**
      * 获取文章详细信息
      */
-    @RequiresPermissions("blog:article:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {

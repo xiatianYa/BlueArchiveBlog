@@ -143,6 +143,12 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         return blueArticleMapper.deleteBlueArticleById(id);
     }
 
+    /**
+     * 根据标签ID获取文章信息
+     *
+     * @param tagId 标签主键
+     * @return 结果
+     */
     @Override
     public List<BlueArticle> selectBlueArticleListByTagId(Long tagId) {
         LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();

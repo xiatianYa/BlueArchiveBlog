@@ -112,6 +112,12 @@ public class BlueMusicServiceImpl implements IBlueMusicService
         return blueMusicMapper.deleteBlueMusicById(id);
     }
 
+    /**
+     * 根据音乐分类获取音乐列表
+     *
+     * @param type 音乐主键
+     * @return 结果
+     */
     @Override
     public List<BlueMusicListBySort> getMusicListBySort(Long type) {
         //获取全部音乐分类
@@ -126,7 +132,12 @@ public class BlueMusicServiceImpl implements IBlueMusicService
         }
         return musicListBySorts;
     }
-    //根据音乐类型 获取列表
+    /**
+     * 音乐type获取音乐列表
+     *
+     * @param type 音乐主键
+     * @return 结果
+     */
     public BlueMusicListBySort getMusicByType(List<BlueMusic> blueMusics,String sortName,Long type){
         BlueMusicListBySort blueMusicListBySort = new BlueMusicListBySort();
         blueMusicListBySort.setMusicList(new ArrayList<>());

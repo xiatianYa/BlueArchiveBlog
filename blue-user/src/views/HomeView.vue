@@ -3,22 +3,22 @@
     <div class="animate__animated animate__slideInDown video_bg">
       <video autoplay class="video-background" loop muted>
         <source
-            :src="bgUrl || 'http://127.0.0.1:9300/statics/2024/03/17/a7aa0c43e9d5812543f5924181bc6132-fd_20240317155200A005.mp4'"
-            type="video/mp4">
+          :src="bgUrl || 'http://127.0.0.1:9300/statics/2024/03/17/a7aa0c43e9d5812543f5924181bc6132-fd_20240317155200A005.mp4'"
+          type="video/mp4">
       </video>
     </div>
     <div class="home_center_box">
       <div class="wave">
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+          viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
           <defs>
-            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
           </defs>
           <g class="parallax">
-            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
-            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
-            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
-            <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+            <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
           </g>
         </svg>
       </div>
@@ -40,7 +40,7 @@
               <a href="#">
                 <span>
                   <img src="https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png"
-                       alt="背景">
+                    alt="背景">
                 </span>
               </a>
               <div class="info_name">
@@ -102,7 +102,7 @@
               <div class="recommend_row">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
-                    <img src="\static\images\recommend.png" alt="背景"/>
+                    <img src="\static\images\recommend.png" alt="背景" />
                   </div>
                   <span>碧蓝档案</span>
                 </div>
@@ -116,7 +116,7 @@
               <div class="recommend_row">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
-                    <img src="\static\images\recommend.png" alt="背景"/>
+                    <img src="\static\images\recommend.png" alt="背景" />
                   </div>
                   <span>碧蓝档案</span>
                 </div>
@@ -130,7 +130,7 @@
               <div class="recommend_row">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
-                    <img src="\static\images\recommend.png" alt="背景"/>
+                    <img src="\static\images\recommend.png" alt="背景" />
                   </div>
                   <span>碧蓝档案</span>
                 </div>
@@ -174,23 +174,26 @@
             <div class="category animate__animated animate__zoomIn">
               <div class="category_header">
                 <svg class="icon pointer" aria-hidden="true">
-                  <use xlink:href="#icon-fenlei"></use>
+                  <use xlink:href="#icon-icon-gengduo"></use>
                 </svg>
                 <span>
                   学习人生
                 </span>
-                <svg class="icon pointer" aria-hidden="true">
-                  <use xlink:href="#icon-icon-gengduo"></use>
-                </svg>
+                <div class="more">
+                  <svg class="icon pointer" aria-hidden="true">
+                    <use xlink:href="#icon-fenlei"></use>
+                  </svg>
+                  <span>More</span>
+                </div>
               </div>
               <div class="category_body">
                 <div class="category_list">
-                  <CategoryDetail/>
-                  <CategoryDetail/>
-                  <CategoryDetail/>
-                  <CategoryDetail/>
-                  <CategoryDetail/>
-                  <CategoryDetail/>
+                  <CategoryDetail />
+                  <CategoryDetail />
+                  <CategoryDetail />
+                  <CategoryDetail />
+                  <CategoryDetail />
+                  <CategoryDetail />
                 </div>
               </div>
             </div>
@@ -206,16 +209,16 @@ import CategoryDetail from '@/components/CategoryDetail.vue'
 import {useBgStore} from '@/store/bg'
 import {listNotice} from '@/api/notice'
 
-const noticeInfo=ref({})
+const noticeInfo = ref({})
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
-onMounted(()=>{
-  listNotice().then(res=>{
-    noticeInfo.value=res.rows[0]
+onMounted(() => {
+  listNotice().then(res => {
+    noticeInfo.value = res.rows[0]
   })
 })
 function goDown() {
   let dom = document.documentElement;
-  window.scrollTo({behavior: 'smooth', top: dom.scrollHeight});
+  window.scrollTo({ behavior: 'smooth', top: dom.scrollHeight });
 }
 </script>
 <style lang="scss" scoped>
@@ -250,6 +253,7 @@ function goDown() {
       top: -35%;
       transform: translate(-50%, 0%);
       margin-left: 18px;
+
       span {
         width: 325px;
         font-size: 28px;
@@ -260,7 +264,7 @@ function goDown() {
 
     .animation_writer {
       animation: grow 7s steps(44) 4s normal infinite,
-      blink 1s steps(44) infinite normal;
+        blink 1s steps(44) infinite normal;
       white-space: nowrap;
       border-right: 2px solid #eeeeee;
       overflow: hidden;
@@ -295,26 +299,26 @@ function goDown() {
         bottom: -80px;
 
         /* Animation */
-        .parallax > use {
+        .parallax>use {
           animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
         }
 
-        .parallax > use:nth-child(1) {
+        .parallax>use:nth-child(1) {
           animation-delay: -2s;
           animation-duration: 10s;
         }
 
-        .parallax > use:nth-child(2) {
+        .parallax>use:nth-child(2) {
           animation-delay: -3s;
           animation-duration: 13s;
         }
 
-        .parallax > use:nth-child(3) {
+        .parallax>use:nth-child(3) {
           animation-delay: -4s;
           animation-duration: 16s;
         }
 
-        .parallax > use:nth-child(4) {
+        .parallax>use:nth-child(4) {
           animation-delay: -5s;
           animation-duration: 23s;
         }
@@ -725,7 +729,13 @@ function goDown() {
               justify-content: space-between;
               border-bottom: 2px dashed #c9d6df;
               padding-bottom: 5px;
-
+              .more{
+                display: flex;
+                span{
+                  padding-left: 5px;
+                  font-size: 18px;
+                }
+              }
               .icon {
                 width: 1em;
                 height: 1em;

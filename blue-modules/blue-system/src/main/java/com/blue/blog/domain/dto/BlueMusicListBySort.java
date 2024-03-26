@@ -11,7 +11,7 @@ public class BlueMusicListBySort {
     private String sortName;
 
     /** 音乐列表 */
-    @Excel(name = "音乐分类")
+    @Excel(name = "音乐列表")
     private List<BlueMusic> musicList;
 
     public String getSortName() {
