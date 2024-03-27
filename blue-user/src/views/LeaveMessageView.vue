@@ -87,8 +87,8 @@ function addBarrage() {
   var BarrageHeight = Math.floor(Math.random() * container.clientHeight);
   if (BarrageHeight < 53) {
     BarrageHeight = 53;
-  } else if (BarrageHeight > container.clientHeight - 30) {
-    BarrageHeight = container.clientHeight - 30
+  } else if (BarrageHeight > container.clientHeight - 40) {
+    BarrageHeight = container.clientHeight - 40
   }
   Barrage.style.top = BarrageHeight + "px";
 

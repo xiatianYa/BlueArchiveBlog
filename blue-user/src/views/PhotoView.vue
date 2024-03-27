@@ -30,8 +30,8 @@
         </div>
       </div>
     </div>
-    <div class="photos animate__animated animate__zoomIn">
-      <div class="photo box_shadow pointer" v-for="item in PhotoList" :key="item.id">
+    <div class="photos">
+      <div class="photo box_shadow pointer animate__animated animate__zoomIn" v-for="item in PhotoList" :key="item.id">
         <div class="photo_img">
           <img class="box_shadow" :src="item.photoUrl">
         </div>

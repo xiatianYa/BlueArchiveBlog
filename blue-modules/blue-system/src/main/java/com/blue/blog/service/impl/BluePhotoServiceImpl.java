@@ -74,6 +74,8 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Override
     public int insertBluePhoto(BluePhoto bluePhoto)
     {
+        //设置默认新增相册状态
+        bluePhoto.setStatus(AuditingStatus.OK.getCode());
         //设置创建用户ID
         bluePhoto.setCreateBy(SecurityUtils.getLoginUser().getUserid().toString());
         bluePhoto.setCreateTime(DateUtils.getNowDate());

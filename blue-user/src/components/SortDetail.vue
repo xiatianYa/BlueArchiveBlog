@@ -1,7 +1,7 @@
 <template>
   <div class="sort_detail">
     <div class="sort_cards">
-      <div class="card box_shadow  animate__animated animate__zoomIn" v-for="article in articleList" @click="goArticlePreview(article.id)">
+      <div class="card box_shadow  animate__animated animate__slideInUp" v-for="article in articleList" @click="goArticlePreview(article.id)">
         <div class="card_img">
           <img :src="article.cover" alt="">
         </div>
@@ -19,7 +19,7 @@
         <div class="sort_info">
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-remaituijian"></use>
+              <use xlink:href="#icon-remen"></use>
             </svg>
             <span>
               0 热度
@@ -63,7 +63,6 @@ function goArticlePreview(sortId) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
     width: 100%;
     height: 100%;
 
