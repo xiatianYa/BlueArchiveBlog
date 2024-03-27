@@ -1,18 +1,18 @@
 <template>
   <div class="category_detail box_shadow pointer">
     <div class="category_img">
-      <img src="\static\images\recommend.png" alt="回忆图片">
+      <img :src="article.cover" alt="回忆图片">
     </div>
     <div class="category_time">
       <svg class="icon pointer" aria-hidden="true">
         <use xlink:href="#icon-rili1"></use>
       </svg>
       <span>
-                2024-02-23 1:11
-            </span>
+        {{ article.createTime }}
+      </span>
     </div>
     <div class="category_title">
-      碧蓝档案...........
+      {{ article.articleName }}
     </div>
     <div class="category_info">
       <div class="info">
@@ -20,16 +20,16 @@
           <use xlink:href="#icon-remen"></use>
         </svg>
         <span>
-                    0 热度
-                </span>
+          0 热度
+        </span>
       </div>
       <div class="info">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-pinglun"></use>
         </svg>
         <span>
-                    0 评论
-                </span>
+          0 评论
+        </span>
       </div>
       <div class="info">
         <svg class="icon pointer" aria-hidden="true">
@@ -39,32 +39,24 @@
       </div>
     </div>
     <div class="category_msg">
-            <span>
-                基沃托斯，一片神秘而辽阔的土地，头上有着奇异光环的少女们生
-                活在这里。然而，联邦理事会管理下的平静生活随着会长的不辞而
-                别被打破，在群龙无首的基沃托斯，危机一触即发！
-                在这样的混乱之中，会长留下的搜查社“沙勒”将扮演怎样的角色？
-                从外面的世界来到基沃托斯的老师又将与少女们发生怎样的邂逅？
-            </span>
+      <span>
+        {{ article.articleDescribe }}
+      </span>
     </div>
     <div class="category_target">
-      <div class="bg">
+      <div class="bg" v-for="tag in article.tagList">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-wenjianjia"></use>
         </svg>
-        <span>标签1</span>
-      </div>
-      <div class="bg">
-        <svg class="icon pointer" aria-hidden="true">
-          <use xlink:href="#icon-biaoqian"></use>
-        </svg>
-        <span>标签2</span>
-      </div>
+        <span>{{ tag.tagName }}</span>
+      </div> 
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const props = defineProps(['article'])
+
 </script>
 
 <style lang="scss" scoped>

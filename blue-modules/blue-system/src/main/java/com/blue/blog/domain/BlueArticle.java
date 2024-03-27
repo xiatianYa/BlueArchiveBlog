@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+import com.blue.sort.domain.BlueArticleTag;
+
+import java.util.List;
 
 /**
  * 文章对象 blue_article
@@ -36,9 +39,13 @@ public class BlueArticle extends BaseEntity
     private String userName;
     /** 文章名称 */
     @Excel(name = "文章名称")
-    @TableField("name")
-    private String Name;
+    @TableField("article_name")
+    private String articleName;
 
+    /** 文章描述 */
+    @Excel(name = "文章描述")
+    @TableField("article_describe")
+    private String articleDescribe;
     /** 分类名称 */
     @Excel(name = "分类名称")
     @TableField(exist = false)
@@ -63,6 +70,26 @@ public class BlueArticle extends BaseEntity
     @Excel(name = "文章图片")
     @TableField("cover")
     private String cover;
+
+    /** 标签列表 */
+    @TableField(exist = false)
+    private List<BlueArticleTag> tagList;
+
+    public List<BlueArticleTag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<BlueArticleTag> tagList) {
+        this.tagList = tagList;
+    }
+
+    public String getArticleDescribe() {
+        return articleDescribe;
+    }
+
+    public void setArticleDescribe(String articleDescribe) {
+        this.articleDescribe = articleDescribe;
+    }
 
     public Long getId() {
         return id;
@@ -94,6 +121,14 @@ public class BlueArticle extends BaseEntity
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getArticleName() {
+        return articleName;
+    }
+
+    public void setArticleName(String articleName) {
+        this.articleName = articleName;
     }
 
     public String getSortName() {
@@ -134,13 +169,5 @@ public class BlueArticle extends BaseEntity
 
     public void setCover(String cover) {
         this.cover = cover;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
     }
 }

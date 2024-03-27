@@ -158,8 +158,11 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getTagId,tagId);
         //通过标签ID获取文章标签列表
         List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(blueArticleTagLambdaQueryWrapper);
+        LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
+        //默认查询已通过审核数据
+        wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
         //获取全部文章列表
-        List<BlueArticle> blueArticles = blueArticleMapper.selectList(new LambdaQueryWrapper<>());
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
         //返回列表
         List<BlueArticle> blueArticleList=new ArrayList<>();
         for (BlueArticleTag blueArticleTag : blueArticleTags) {
@@ -172,5 +175,15 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             }
         }
         return blueArticleList;
+    }
+
+    @Override
+    public List<BlueArticle> selectBlueArticleListBySortId(Long sortId) {
+        LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BlueArticle::getSortId,sortId);
+        //默认查询已通过审核数据
+        wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
+        //查询改文章下所包含的标签
+        return blueArticleMapper.selectList(wrapper);
     }
 }

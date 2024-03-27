@@ -3,8 +3,8 @@
     <div class="preview_navigation">
       <div class="title">
         <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-shu1"></use>
-            </svg>
+          <use xlink:href="#icon-shu1"></use>
+        </svg>
         <span>目录导航</span>
       </div>
       <div v-for="anchor in titles" :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
@@ -21,62 +21,68 @@
 </template>
 
 <script setup>
-import {onMounted, onUpdated, ref} from 'vue'
+import {nextTick, onMounted, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
 import {getArticle} from '@/api/article'
 
-//路由
+//路由  
 const route = useRoute()
-//锚点列表
+//锚点列表  
 const titles = ref([])
-//文章对象
+//文章对象  
 const article = ref({
   content: ""
 })
-onMounted(() => {
-  //获取文章信息
-  getArticle(route.query.sortId).then(res => {
+
+onMounted(async () => {
+  try {
+    const res = await getArticle(route.query.sortId)
     article.value = res.data
-  }).catch(error => {
-
-  })
-})
-onUpdated(() => {
-  //获取文章信息
-  getAnchors()
-})
-//获取锚点列表
-function getAnchors() {
-  //获取锚点操作
-  const anchors = document.querySelectorAll('h1,h2,h3,h4,h5,h6');
-  const titleList = Array.from(anchors).filter((title) => !!title.innerText.trim());
-
-  if (!titleList.length) {
-    titles.value = [];
-    return;
+  } catch (error) {
+    console.error('Error fetching article:', error)
   }
+})
 
-  const hTags = Array.from(new Set(titleList.map((title) => title.tagName))).sort();
+// 监听article的变化，当article改变时获取锚点列表  
+watch(article, async (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    await nextTick() // 确保DOM更新后再获取锚点  
+    getAnchors()
+  }
+}, { deep: true })
 
-  titles.value = titleList.map((el) => ({
-    title: el.innerText,
-    lineIndex: el.getAttribute('data-v-md-line'),
-    indent: hTags.indexOf(el.tagName),
+//获取锚点列表  
+function getAnchors() {
+  // 选择所有的标题元素  
+  const allHeadings = document.querySelectorAll('h1,h2,h3,h4,h5,h6');
+
+  // 过滤和映射标题到所需的对象格式  
+  const titlesWithValue = Array.from(allHeadings).filter((heading) => {
+    const trimmedText = heading.innerText.trim();
+    return trimmedText !== '';
+  }).map((heading) => ({
+    title: heading.innerText.trim(),
+    lineIndex: heading.getAttribute('data-v-md-line'),
+    indent: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].indexOf(heading.tagName.toUpperCase())
   }));
+
+  // 设置titles.value为找到的标题数组或空数组  
+  titles.value = titlesWithValue;
 }
-//点击锚点 到指定窗口高度
+
+//点击锚点滚动到指定窗口高度  
 function handleAnchorClick(anchor) {
-  const { lineIndex } = anchor
-  const heading = document.querySelector(`[data-v-md-line="${lineIndex}"]`)
+  const { lineIndex } = anchor;
+  const heading = document.querySelector(`[data-v-md-line="${lineIndex}"]`);
   if (heading) {
     const headingRect = heading.getBoundingClientRect();
-    const offset = 0;
+    const offset = window.scrollY; // 使用window.scrollY获取当前滚动位置  
     window.scrollTo({
-      top: headingRect.top + window.scrollX + offset,
+      top: headingRect.top + offset - (window.innerHeight / 2), // 滚动到标题中间位置  
       behavior: 'smooth'
     });
   }
-}
+}  
 </script>
 <style lang="scss" scoped>
 .preview {
@@ -99,31 +105,35 @@ function handleAnchorClick(anchor) {
     height: auto;
     top: 100px;
     left: 40px;
-    margin-left:20px;
+    margin-left: 20px;
     margin-top: 10px;
     padding: 20px 10px 10px 10px;
     font-size: 15px;
-    background-color: #ECEBEC;
     border-radius: 10px;
-    div{
-      a{
+
+    div {
+      a {
         padding: 0px 5px 0px 5px;
         border-radius: 10px;
       }
-      a:hover{
+
+      a:hover {
         background-color: #6EFEB9;
       }
     }
-    .title{
+
+    .title {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      .icon{
+
+      .icon {
         font-size: 20px;
       }
     }
   }
+
   .preview_content {
     display: flex;
     align-items: center;

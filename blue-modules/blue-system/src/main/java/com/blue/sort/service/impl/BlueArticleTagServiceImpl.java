@@ -63,7 +63,7 @@ public class BlueArticleTagServiceImpl implements IBlueArticleTagService
             //设置当前文章标签文章名称
             for (BlueArticle blueArticle : blueArticles) {
                 if (blueArticle.getId().equals(articleTag.getArticleId())){
-                    articleTag.setArticleName(blueArticle.getName());
+                    articleTag.setArticleName(blueArticle.getArticleName());
                 }
             }
             //设置当前文章标签标签名称

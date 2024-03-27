@@ -20,7 +20,6 @@
   width: 100%;
   height: 45px;
   animation: LinearGradient 15s infinite;
-  border-radius: 10px 10px 0px 0px;
 
   .title {
     font-size: 14px;

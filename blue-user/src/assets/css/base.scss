@@ -19,25 +19,28 @@
   font-family: "Regular";
   font-weight: 400;
   src: url("./fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff2"),
-  url("./fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff");
+    url("./fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff");
   font-display: swap;
 }
+
 /**input背景*/
 input {
   background: none;
   outline: none;
   border: 0;
 }
+
 //文字可以被选择
-.select{
+.select {
   //设置文字不被点击选中
-  -webkit-user-select:text;
+  -webkit-user-select: text;
   /* Safari */
   -ms-user-select: text;
   /* IE10+/Edge */
   user-select: text;
   /* Standard syntax */
 }
+
 /**背景颜色*/
 body::-webkit-scrollbar {
   width: 8px;
@@ -88,19 +91,49 @@ body::-webkit-scrollbar {
 
 /**黑夜模式*/
 .bg_black {
-  background-color: #323232;
-  color: #252523;
+  position: relative;
+  background-color: rgba(21, 20, 20, 0.9);
+  color: #e0e0e0;
   transition: color 1s ease;
   transition: background-color 0.8s ease;
 }
 
 /**白昼模式*/
 .bg_white {
+  position: relative;
+  color: #252523;
+  transition: color 1s ease;
+  transition: background-color 0.8s ease;
+}
+
+.bg_black::before {
+  content: '';
   background: url("/static/images/loading_bg.png") no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
-  color: #666766;
-  transition: background-color 0.8s ease;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.bg_white::before {
+  content: '';
+  background: url("/static/images/loading_bg.png") no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
 }
 
 /**弹幕样式*/
@@ -114,11 +147,13 @@ body::-webkit-scrollbar {
   background: rgba(0, 0, 0, 0.6);
   padding: 3px 10px 3px 10px;
 }
+
 //弹幕文字
 .BarrageSpan {
   white-space: nowrap;
   font-size: 16px;
 }
+
 //弹幕图片
 .BarrageImg {
   width: 100%;

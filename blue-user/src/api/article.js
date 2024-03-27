@@ -8,9 +8,17 @@ export function listArticle(query) {
     params: query
   })
 }
+// 根据标签ID查询文章
 export function listByTagId(tagId) {
   return request({
     url: '/system/article/listByTagId/'+tagId,
+    method: 'get',
+  })
+}
+// 根据分类ID查询文章
+export function listBySortId(sortId) {
+  return request({
+    url: '/system/article/listBySortId/'+sortId,
     method: 'get',
   })
 }

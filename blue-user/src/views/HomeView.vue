@@ -143,21 +143,20 @@
               </div>
             </div>
           </div>
-          <div class="content_browse">
+          <div class="content_browse" v-for="sort in sortList">
             <div class="browse box_radius pointer  box_shadow ">
               <span>
                 分类
               </span>
               <span>
-                <p>学</p>习人生
+                <p>{{ sort.sortName.substring(0, 1) }}</p>{{ sort.sortName.substring(1, 4) }}
               </span>
               <span>
-                活到老,学到老
+                诗酒趁年华，雅韵生活
               </span>
             </div>
           </div>
           <div class="content_consultation box_shadow">
-
           </div>
         </div>
         <div class="content_right ">
@@ -171,13 +170,13 @@
             </div>
           </div>
           <div class="container">
-            <div class="category animate__animated animate__zoomIn">
+            <div class="category animate__animated animate__zoomIn" v-for="sort in sortList">
               <div class="category_header">
                 <svg class="icon pointer" aria-hidden="true">
                   <use xlink:href="#icon-icon-gengduo"></use>
                 </svg>
                 <span>
-                  学习人生
+                  {{ sort.sortName }}
                 </span>
                 <div class="more">
                   <svg class="icon pointer" aria-hidden="true">
@@ -188,12 +187,7 @@
               </div>
               <div class="category_body">
                 <div class="category_list">
-                  <CategoryDetail />
-                  <CategoryDetail />
-                  <CategoryDetail />
-                  <CategoryDetail />
-                  <CategoryDetail />
-                  <CategoryDetail />
+                  <CategoryDetail :article="article" v-for="article in sort.articleList" @click="goArticlePreview(article.id)" />
                 </div>
               </div>
             </div>
@@ -208,18 +202,40 @@ import {onMounted, ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import {useBgStore} from '@/store/bg'
 import {listNotice} from '@/api/notice'
+import {listBySortId} from '@/api/article'
+import {listSort} from '@/api/sort/sort'
+import {useRouter} from 'vue-router'
 
+const router=useRouter()
 const noticeInfo = ref({})
+const sortList = ref({})
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
 onMounted(() => {
+  //获取公告
   listNotice().then(res => {
     noticeInfo.value = res.rows[0]
   })
+  //获取分类
+  listSort().then(res => {
+    sortList.value = res.rows
+    //获取分类后获取文章信息
+    for (let index = 0; index < sortList.value.length; index++) {
+      listBySortId(sortList.value[index].id).then(res => {
+        sortList.value[index].articleList=res.rows
+      })
+    }
+  })
 })
+//前往文章浏览页
+function goArticlePreview(sortId) {
+  router.push({path:'/editPreView',query:{sortId:sortId}})
+}
+//前往页面底部
 function goDown() {
   let dom = document.documentElement;
   window.scrollTo({ behavior: 'smooth', top: dom.scrollHeight });
 }
+
 </script>
 <style lang="scss" scoped>
 .home_box {
@@ -250,7 +266,7 @@ function goDown() {
       position: absolute;
       width: 0;
       left: 50%;
-      top: -35%;
+      top: -20%;
       transform: translate(-50%, 0%);
       margin-left: 18px;
 
@@ -273,7 +289,8 @@ function goDown() {
     .down {
       position: absolute;
       left: 50%;
-      top: -30%;
+      top: -15%;
+      z-index: 99;
       animation-name: updown;
       animation-duration: 2.5s;
       animation-iteration-count: infinite;
@@ -729,13 +746,16 @@ function goDown() {
               justify-content: space-between;
               border-bottom: 2px dashed #c9d6df;
               padding-bottom: 5px;
-              .more{
+
+              .more {
                 display: flex;
-                span{
+
+                span {
                   padding-left: 5px;
                   font-size: 18px;
                 }
               }
+
               .icon {
                 width: 1em;
                 height: 1em;

@@ -8,7 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
         <result property="sortId"    column="sort_id"    />
-        <result property="Name"    column="name"    />
+        <result property="articleName"    column="article_name"    />
+        <result property="articleDescribe"    column="article_describe"    />
         <result property="status"    column="status"    />
         <result property="videoUrl"    column="video_url"    />
         <result property="content"    column="content"    />
@@ -21,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBlueArticleVo">
-        select id, user_id, sort_id,name, status, video_url, content, cover, create_time, update_time, create_by, update_by, remark from blue_article
+        select id, user_id, sort_id,article_name,article_describe, status, video_url, content, cover, create_time, update_time, create_by, update_by, remark from blue_article
     </sql>
 
     <select id="selectBlueArticleList" parameterType="BlueArticle" resultMap="BlueArticleResult">
@@ -29,7 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="sortId != null "> and sort_id = #{sortId}</if>
-            <if test="Name != null "> and Name like #{Name}</if>
+            <if test="articleName != null "> and article_name like #{articleName}</if>
+            <if test="articleDescribe != null "> and article_describe like #{articleDescribe}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="videoUrl != null  and videoUrl != ''"> and video_url = #{videoUrl}</if>
             <if test="content != null  and content != ''"> and content = #{content}</if>
@@ -47,7 +49,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">user_id,</if>
             <if test="sortId != null">sort_id,</if>
-            <if test="Name != null">name,</if>
+            <if test="articleName != null">article_name,</if>
+            <if test="articleDescribe != null">article_describe,</if>
             <if test="status != null">status,</if>
             <if test="videoUrl != null">video_url,</if>
             <if test="content != null and content != ''">content,</if>
@@ -61,7 +64,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="sortId != null">#{sortId},</if>
-            <if test="Name != null">#{Name},</if>
+            <if test="articleName != null">#{articleName},</if>
+            <if test="articleDescribe != null">#{articleDescribe},</if>
             <if test="status != null">#{status},</if>
             <if test="videoUrl != null">#{videoUrl},</if>
             <if test="content != null and content != ''">#{content},</if>
@@ -79,7 +83,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
             <if test="sortId != null">sort_id = #{sortId},</if>
-            <if test="Name != null">name = #{Name},</if>
+            <if test="articleName != null">article_name = #{articleName},</if>
+            <if test="articleDescribe != null">article_describe = #{articleDescribe},</if>
             <if test="status != null">status = #{status},</if>
             <if test="videoUrl != null">video_url = #{videoUrl},</if>
             <if test="content != null and content != ''">content = #{content},</if>

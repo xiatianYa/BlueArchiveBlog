@@ -14,7 +14,7 @@
           </span>
         </div>
         <div class="sort_title">
-          {{ article.name }}
+          {{ article.articleName }}
         </div>
         <div class="sort_info">
           <div class="info">

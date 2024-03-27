@@ -4,8 +4,11 @@
       <el-form-item label="用户名称" prop="userId">
         <el-input v-model="queryParams.userId" placeholder="请输入用户名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="文章名称" prop="userId">
-        <el-input v-model="queryParams.Name" placeholder="请输入文章名称" clearable @keyup.enter.native="handleQuery" />
+      <el-form-item label="文章名称" prop="articleName">
+        <el-input v-model="queryParams.articleName" placeholder="请输入文章名称" clearable @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="文章描述" prop="articleDescribe">
+        <el-input v-model="queryParams.articleDescribe" placeholder="请输入文章描述" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="分类名称" prop="sortId">
         <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
@@ -50,7 +53,8 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="用户名称" align="center" prop="userName" />
-      <el-table-column label="文章名称" align="center" prop="name" />
+      <el-table-column label="文章名称" align="center" prop="articleName" />
+      <el-table-column label="文章描述" align="center" prop="articleDescribe" />
       <el-table-column label="分类名称" align="center" prop="sortName" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
@@ -79,8 +83,11 @@
     <!-- 添加或修改文章对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入文章名称" />
+        <el-form-item label="分类名称" prop="articleName">
+          <el-input v-model="form.articleName" placeholder="请输入文章名称" />
+        </el-form-item>
+        <el-form-item label="分类描述" prop="articleName">
+          <el-input v-model="form.articleDescribe" placeholder="请输入文章描述" />
         </el-form-item>
         <el-form-item label="分类名称" prop="sortId">
           <el-select v-model="form.sortId" placeholder="请选择分类名称">
@@ -142,7 +149,8 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        Name: null,
+        articleName: null,
+        articleDescribe: null,
         userId: null,
         sortId: null,
         status: null,
@@ -159,6 +167,12 @@ export default {
         ],
         sortId: [
           { required: true, message: "分类名称不能为空", trigger: "blur" }
+        ],
+        articleName: [
+          { required: true, message: "文章名称不能为空", trigger: "blur" }
+        ],
+        articleDescribe: [
+          { required: true, message: "文章描述不能为空", trigger: "blur" }
         ],
         status: [
           { required: true, message: "审核状态不能为空", trigger: "change" }

@@ -9,10 +9,13 @@ import com.blue.common.core.web.page.TableDataInfo;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
+import com.blue.sort.domain.BlueArticleTag;
+import com.blue.sort.service.IBlueArticleTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -28,6 +31,8 @@ public class BlueArticleController extends BaseController
 {
     @Autowired
     private IBlueArticleService blueArticleService;
+    @Autowired
+    private IBlueArticleTagService blueArticleTagService;
 
     /**
      * 查询文章列表
@@ -47,6 +52,28 @@ public class BlueArticleController extends BaseController
         startPage();
         List<BlueArticle> list = blueArticleService.selectBlueArticleListByTagId(tagId);
         return getDataTable(list);
+    }
+    /**
+     * 根据分类ID查询文章列表
+     */
+    @GetMapping("/listBySortId/{sortId}")
+    public TableDataInfo listBySortId(@PathVariable(value = "sortId")Long tagId){
+        startPage();
+        List<BlueArticle> articleList = blueArticleService.selectBlueArticleListBySortId(tagId);
+        //所有标签列表
+        List<BlueArticleTag> blueArticleTagList = blueArticleTagService.selectBlueArticleTagList(new BlueArticleTag());
+        //获取每篇文章的标签
+        for (BlueArticle blueArticle : articleList) {
+            //初始化
+            blueArticle.setTagList(new ArrayList<>());
+            for (BlueArticleTag blueArticleTag : blueArticleTagList) {
+                //比对成功
+                if (blueArticleTag.getArticleId().equals(blueArticle.getId())){
+                    blueArticle.getTagList().add(blueArticleTag);
+                }
+            }
+        }
+        return getDataTable(articleList);
     }
     /**
      * 导出文章列表

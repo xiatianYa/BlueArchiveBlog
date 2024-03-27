@@ -61,4 +61,6 @@ public interface IBlueArticleService
     public int deleteBlueArticleById(Long id);
 
     List<BlueArticle> selectBlueArticleListByTagId(Long tagId);
+
+    List<BlueArticle> selectBlueArticleListBySortId(Long sortId);
 }
