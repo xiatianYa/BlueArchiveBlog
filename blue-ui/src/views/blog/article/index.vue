@@ -8,7 +8,8 @@
         <el-input v-model="queryParams.articleName" placeholder="请输入文章名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="文章描述" prop="articleDescribe">
-        <el-input v-model="queryParams.articleDescribe" placeholder="请输入文章描述" clearable @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.articleDescribe" placeholder="请输入文章描述" clearable
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="分类名称" prop="sortId">
         <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
@@ -171,6 +172,9 @@ export default {
         articleName: [
           { required: true, message: "文章名称不能为空", trigger: "blur" }
         ],
+        seleteTagList: [
+          { required: true, message: "标签列表不能为空", trigger: "blur" }
+        ],
         articleDescribe: [
           { required: true, message: "文章描述不能为空", trigger: "blur" }
         ],
@@ -197,8 +201,8 @@ export default {
   },
   methods: {
     //前往编辑文字
-    editArticle(sortId){
-      this.$router.push({path:"/article/edit",query:{sortId:sortId}})
+    editArticle(sortId) {
+      this.$router.push({ path: "/article/edit", query: { sortId: sortId } })
     },
     /** 查询文章列表 */
     getList() {
@@ -228,7 +232,7 @@ export default {
         updateTime: null,
         createBy: null,
         updateBy: null,
-        remark: null
+        remark: null,
       };
       this.resetForm("form");
     },

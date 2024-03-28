@@ -71,7 +71,7 @@ public class BlueArticle extends BaseEntity
     @TableField("cover")
     private String cover;
 
-    /** 标签列表 */
+    /** 关联标签列表 */
     @TableField(exist = false)
     private List<BlueArticleTag> tagList;
 

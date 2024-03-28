@@ -17,14 +17,14 @@ public class BlueSortTag extends BaseEntity
     /** id */
     private Long id;
 
-    /** 分类名词 */
+    /** 分类ID */
     @Excel(name = "分类名称")
     private Long sortId;
 
     /** 标签的名称 */
     @Excel(name = "标签的名称")
     private String tagName;
-    /** 标签名称 */
+    /** 文章标签包含数量 */
     @Excel(name = "文章标签包含数量")
     @TableField(exist = false)
     private Integer articleTagNumber;

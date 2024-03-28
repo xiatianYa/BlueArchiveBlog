@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * 分类对象 blue_sort
  * 
@@ -25,7 +27,20 @@ public class BlueSort extends BaseEntity
     @TableField(exist = false)
     private Integer sortNumber;
 
-    public void setId(Long id) 
+    /** 当前分类下标签列表 */
+    @Excel(name = "当前分类下标签列表")
+    @TableField(exist = false)
+    private List<BlueSortTag> tagList;
+
+    public List<BlueSortTag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<BlueSortTag> tagList) {
+        this.tagList = tagList;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

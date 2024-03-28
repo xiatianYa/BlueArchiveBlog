@@ -7,11 +7,14 @@ import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BlueSort;
+import com.blue.sort.domain.BlueSortTag;
 import com.blue.sort.mapper.BlueSortMapper;
+import com.blue.sort.mapper.BlueSortTagMapper;
 import com.blue.sort.service.IBlueSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +30,8 @@ public class BlueSortServiceImpl implements IBlueSortService
     private BlueSortMapper blueSortMapper;
     @Autowired
     private BlueArticleMapper blueArticleMapper;
+    @Autowired
+    private BlueSortTagMapper blueSortTagMapper;
 
     /**
      * 查询分类
@@ -53,14 +58,22 @@ public class BlueSortServiceImpl implements IBlueSortService
         List<BlueSort> blueSorts = blueSortMapper.selectBlueSortList(blueSort);
         //获取文章列表
         List<BlueArticle> blueArticles = blueArticleMapper.selectList(new LambdaQueryWrapper<>());
+        //获取所有标签列表
+        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectList(new LambdaQueryWrapper<>());
         //获取分类下文章数量
         for (BlueSort sort : blueSorts) {
             //初始化数量
             sort.setSortNumber(0);
+            sort.setTagList(new ArrayList<>());
             for (BlueArticle blueArticle : blueArticles) {
                 //分类ID相同
                 if (blueArticle.getSortId().equals(sort.getId())){
                     sort.setSortNumber(sort.getSortNumber()+1);
+                }
+            }
+            for (BlueSortTag blueSortTag : blueSortTags) {
+                if(blueSortTag.getSortId().equals(sort.getId())){
+                    sort.getTagList().add(blueSortTag);
                 }
             }
         }

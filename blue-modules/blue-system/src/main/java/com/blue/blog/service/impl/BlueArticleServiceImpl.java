@@ -11,12 +11,15 @@ import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BlueArticleTag;
 import com.blue.sort.domain.BlueSort;
+import com.blue.sort.domain.BlueSortTag;
 import com.blue.sort.mapper.BlueArticleTagMapper;
 import com.blue.sort.mapper.BlueSortMapper;
+import com.blue.sort.mapper.BlueSortTagMapper;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     private SysUserMapper userMapper;
     @Autowired
     private BlueArticleTagMapper blueArticleTagMapper;
+    @Autowired
+    private BlueSortTagMapper blueSortTagMapper;
 
     /**
      * 查询文章
@@ -48,7 +53,25 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Override
     public BlueArticle selectBlueArticleById(Long id)
     {
-        return blueArticleMapper.selectBlueArticleById(id);
+        //文章列表
+        BlueArticle blueArticle = blueArticleMapper.selectBlueArticleById(id);
+        LambdaQueryWrapper<BlueArticleTag> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BlueArticleTag::getArticleId,blueArticle.getId());
+        //文章关联标签
+        List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(wrapper);
+        //标签列表
+        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectList(new LambdaQueryWrapper<>());
+        //为关联标签列表赋值
+        for (BlueArticleTag blueArticleTag : blueArticleTags) {
+            for (BlueSortTag blueSortTag : blueSortTags) {
+                if (blueArticleTag.getTagId().equals(blueSortTag.getId())){
+                    blueArticleTag.setTagName(blueSortTag.getTagName());
+                    blueArticleTag.setArticleName(blueArticle.getArticleName());
+                }
+            }
+        }
+        blueArticle.setTagList(blueArticleTags);
+        return blueArticle;
     }
 
     /**
@@ -90,6 +113,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertBlueArticle(BlueArticle blueArticle)
     {
         Long userId = SecurityUtils.getUserId();
@@ -99,7 +123,16 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticle.setStatus(AuditingStatus.OK.getCode());
         }
         blueArticle.setCreateTime(DateUtils.getNowDate());
-        return blueArticleMapper.insertBlueArticle(blueArticle);
+        //先插入文章信息
+        int num = blueArticleMapper.insertBlueArticle(blueArticle);
+        //然后向文章标签表里插入标签
+        List<BlueArticleTag> tagList = blueArticle.getTagList();
+        for (BlueArticleTag blueArticleTag : tagList) {
+            blueArticleTag.setArticleId(blueArticle.getId());
+            blueArticleTag.setCreateBy(String.valueOf(userId));
+            blueArticleTagMapper.insertBlueArticleTag(blueArticleTag);
+        }
+        return num;
     }
 
     /**
