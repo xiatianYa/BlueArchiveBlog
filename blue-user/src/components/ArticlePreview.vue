@@ -103,7 +103,7 @@ function handleAnchorClick(anchor) {
     align-items: center;
     top: 100px;
     left: 0px;
-    margin-left: 20px;
+    margin-left: 30px;
     margin-top: 10px;
     padding: 20px 10px 10px 10px;
     font-size: 15px;

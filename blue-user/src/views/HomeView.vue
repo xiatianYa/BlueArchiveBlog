@@ -104,7 +104,7 @@
                   <div class="recommend_img">
                     <img :src="article.cover" alt="背景" />
                   </div>
-                  <span>{{article.articleName}}</span>
+                  <span>{{ article.articleName }}</span>
                 </div>
                 <div class="recommend_time">
                   <svg class="icon" aria-hidden="true">
@@ -115,7 +115,7 @@
               </div>
             </div>
           </div>
-          <div class="content_browse" v-for="sort in sortList">
+          <div class="content_browse" v-for="sort in sortList" @click="goArticleBySortId(sort.id)">
             <div class="browse box_radius pointer  box_shadow ">
               <span>
                 分类
@@ -150,7 +150,7 @@
                 <span>
                   {{ sort.sortName }}
                 </span>
-                <div class="more">
+                <div class="more" @click="goArticleBySortId(sort.id)">
                   <svg class="icon pointer" aria-hidden="true">
                     <use xlink:href="#icon-fenlei"></use>
                   </svg>
@@ -159,7 +159,8 @@
               </div>
               <div class="category_body">
                 <div class="category_list">
-                  <CategoryDetail :article="article" v-for="article in sort.articleList" @click="goArticlePreview(article.id)" />
+                  <CategoryDetail :article="article" v-for="article in sort.articleList"
+                    @click="goArticlePreview(article.id)" />
                 </div>
               </div>
             </div>
@@ -178,10 +179,10 @@ import {listArticle, listBySortId} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {useRouter} from 'vue-router'
 
-const router=useRouter()
+const router = useRouter()
 const noticeInfo = ref({})
 const sortList = ref({})
-const recommendArticleList=ref({})
+const recommendArticleList = ref({})
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
 onMounted(() => {
   //获取公告
@@ -194,19 +195,22 @@ onMounted(() => {
     //获取分类后获取文章信息
     for (let index = 0; index < sortList.value.length; index++) {
       listBySortId(sortList.value[index].id).then(res => {
-        sortList.value[index].articleList=res.rows
+        sortList.value[index].articleList = res.rows
       })
     }
   })
   //获取推荐文章
-  listArticle().then(res=>{
-    recommendArticleList.value=res.rows.slice(0,3)
-    console.log(recommendArticleList.value);
+  listArticle().then(res => {
+    recommendArticleList.value = res.rows.slice(0, 3)
   })
 })
+//前往分类,携带分类ID
+function goArticleBySortId(sortId){
+  router.push({ path: '/sort', query: { sortId: sortId } })
+}
 //前往文章浏览页
 function goArticlePreview(sortId) {
-  router.push({path:'/editPreView',query:{sortId:sortId}})
+  router.push({ path: '/editPreView', query: { sortId: sortId } })
 }
 //前往页面底部
 function goDown() {
@@ -565,7 +569,7 @@ function goDown() {
                 margin-left: 10px;
                 overflow: hidden;
                 flex: 1;
-                
+
 
                 img {
                   width: 100%;
@@ -733,6 +737,13 @@ function goDown() {
                 span {
                   padding-left: 5px;
                   font-size: 18px;
+                  transition: transform 0.5s ease-in-out;
+                }
+              }
+              .more:hover{
+                span{
+                  color: #64EDAC;
+                  transform: scale(1.2);
                 }
               }
 

@@ -53,8 +53,10 @@ import {useBgStore} from '@/store/bg'
 import {listSort} from '@/api/sort/sort'
 import {listTag} from '@/api/sort/tag'
 import {listByTagId} from '@/api/article'
+import {useRouter} from 'vue-router'
 import promptMsg from "@/components/PromptBoxView"
 
+const router = useRouter()
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
 //分类下标
 const sortIndex = ref(0)
@@ -67,6 +69,10 @@ const tagList = ref({})
 //文章列表
 const articleList = ref([])
 onMounted(() => {
+  //获取从路由传递过来的参数
+  if (router.currentRoute.value.query.sortId) {
+    sortIndex.value=router.currentRoute.value.query.sortId
+  }
   //获取分类列表
   listSort().then(res => {
     sortList.value = res.rows
@@ -90,7 +96,9 @@ onMounted(() => {
         }
       }
       //设置第一个分类下标
-      sortIndex.value = sortList.value[0].id
+      if (sortIndex.value===0) {
+        sortIndex.value = sortList.value[0].id
+      }
       //设置标签列表
       tagList.value = sortList.value[0].tagList
       //设置第一个标签下标
