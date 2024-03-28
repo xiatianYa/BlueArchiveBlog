@@ -179,23 +179,24 @@ export default {
     },
     //通过
     success(article) {
-      article.status = 1
+      article.status = "1";
       updateArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
+        this.getList()
       }).catch(error => {
         this.$modal.msgSuccess("修改失败"+error);
       })
-      this.getList()
+
     },
     //驳回
     danger(article) {
-      article.status = 2
+      article.status = "2";
       updateArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
+        this.getList()
       }).catch(error => {
         this.$modal.msgSuccess("修改失败");
       })
-      this.getList()
     },
     /** 查询文章列表 */
     getList() {

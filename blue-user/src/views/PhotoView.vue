@@ -197,7 +197,7 @@ function searchSort(sortId) {
   .photos {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 90%;
     height: 100%;
     min-height: 400px;

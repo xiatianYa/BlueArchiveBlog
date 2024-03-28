@@ -69,6 +69,21 @@
                     </div>
                   </div>
                   <div class="down-item">
+                    <div class="down-item-wrapper">
+                      <span>发布文章</span>
+                    </div>
+                  </div>
+                  <div class="down-item">
+                    <div class="down-item-wrapper">
+                      <span>分享相册</span>
+                    </div>
+                  </div>
+                  <div class="down-item">
+                    <div class="down-item-wrapper">
+                      <span>分享歌单</span>
+                    </div>
+                  </div>
+                  <div class="down-item">
                     <div class="down-item-wrapper" @click="logOut()">
                       <span>退出登录</span>
                     </div>
@@ -208,11 +223,12 @@ function logOut() {
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              font-size: 12px;
+              font-size: 14px;
+              font-weight: 100;
               box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
               .down-item {
-                margin: 10px 0;
+                margin: 5px 5px 0px 5px;
                 box-sizing: border-box;
                 width: 90%;
                 border-radius: 10px;
