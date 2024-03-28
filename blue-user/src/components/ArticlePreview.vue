@@ -101,10 +101,8 @@ function handleAnchorClick(anchor) {
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    width: 180px;
-    height: auto;
     top: 100px;
-    left: 40px;
+    left: 0px;
     margin-left: 20px;
     margin-top: 10px;
     padding: 20px 10px 10px 10px;

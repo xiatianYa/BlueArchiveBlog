@@ -178,7 +178,6 @@ function getRandomItem(array) {
   background: url("/static/images/liuyan.png") no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
-
   .leave_header {
     width: 100%;
     height: 100vh;

@@ -1,6 +1,6 @@
 <template>
   <NavView></NavView>
-  <RouterView :class="gloBalStore.switch ? 'bg_white' : 'bg_black'" />
+  <RouterView :class="!isShow ? '' : gloBalStore.switch ? 'bg_white' : 'bg_black'" />
   <FooterView></FooterView>
   <setUpView></setUpView>
 </template>
@@ -12,8 +12,10 @@ import FooterView from '@/components/FooterView.vue'
 import setUpView from '@/components/SetUpView.vue'
 import {useGloBalStore} from '@/store/global'
 
+const gloBalStore = useGloBalStore()
 let isShow: any = ref(true)
 let router = useRouter()
+
 // 监听当前路由
 watch(
   () => router.currentRoute.value,
@@ -27,6 +29,5 @@ watch(
   { immediate: true }
 )
 
-const gloBalStore = useGloBalStore()
 </script>
-<style scoped></style>@/store/global
+<style scoped></style>

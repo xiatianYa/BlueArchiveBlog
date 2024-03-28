@@ -116,7 +116,7 @@ body::-webkit-scrollbar {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -10;
   transition: opacity 0.5s ease-in-out;
   opacity: 1;
 }
@@ -131,7 +131,7 @@ body::-webkit-scrollbar {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: -10;
   transition: opacity 0.5s ease-in-out;
   opacity: 1;
 }

@@ -99,46 +99,18 @@
                   推荐文章
                 </p>
               </div>
-              <div class="recommend_row">
+              <div class="recommend_row" v-for="article in recommendArticleList">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
-                    <img src="\static\images\recommend.png" alt="背景" />
+                    <img :src="article.cover" alt="背景" />
                   </div>
-                  <span>碧蓝档案</span>
+                  <span>{{article.articleName}}</span>
                 </div>
                 <div class="recommend_time">
                   <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-rili"></use>
                   </svg>
-                  <p>2024-02-20 20:47</p>
-                </div>
-              </div>
-              <div class="recommend_row">
-                <div class="recommend_message pointer">
-                  <div class="recommend_img">
-                    <img src="\static\images\recommend.png" alt="背景" />
-                  </div>
-                  <span>碧蓝档案</span>
-                </div>
-                <div class="recommend_time">
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-rili"></use>
-                  </svg>
-                  <p>2024-02-20 20:47</p>
-                </div>
-              </div>
-              <div class="recommend_row">
-                <div class="recommend_message pointer">
-                  <div class="recommend_img">
-                    <img src="\static\images\recommend.png" alt="背景" />
-                  </div>
-                  <span>碧蓝档案</span>
-                </div>
-                <div class="recommend_time">
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-rili"></use>
-                  </svg>
-                  <p>2024-02-20 20:47</p>
+                  <p>{{ article.createTime }}</p>
                 </div>
               </div>
             </div>
@@ -202,13 +174,14 @@ import {onMounted, ref} from 'vue'
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import {useBgStore} from '@/store/bg'
 import {listNotice} from '@/api/notice'
-import {listBySortId} from '@/api/article'
+import {listArticle, listBySortId} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {useRouter} from 'vue-router'
 
 const router=useRouter()
 const noticeInfo = ref({})
 const sortList = ref({})
+const recommendArticleList=ref({})
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
 onMounted(() => {
   //获取公告
@@ -224,6 +197,11 @@ onMounted(() => {
         sortList.value[index].articleList=res.rows
       })
     }
+  })
+  //获取推荐文章
+  listArticle().then(res=>{
+    recommendArticleList.value=res.rows.slice(0,3)
+    console.log(recommendArticleList.value);
   })
 })
 //前往文章浏览页
@@ -578,25 +556,27 @@ function goDown() {
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                text-align: center;
                 padding-left: 5px;
                 font-size: 14px;
               }
 
               .recommend_img {
-                width: 100%;
-                height: 100%;
+                margin-left: 10px;
                 overflow: hidden;
                 flex: 1;
-                border-radius: 10px;
+                
 
                 img {
                   width: 100%;
                   height: 100%;
                   object-fit: cover;
                   transition: all .3s ease-in 0s;
+                  border-radius: 10px;
                 }
 
                 img:hover {
+                  border-radius: 10px;
                   object-fit: cover;
                   transform: scale(1.1);
                   transition: all 0.3s ease-in;

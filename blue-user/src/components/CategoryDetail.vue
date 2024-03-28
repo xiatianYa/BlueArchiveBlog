@@ -62,6 +62,7 @@ const props = defineProps(['article'])
 <style lang="scss" scoped>
 .category_detail {
   width: 30%;
+  max-height: 300px;
   display: flex;
   flex-direction: column;
   border-radius: 10px 10px 10px 10px;
