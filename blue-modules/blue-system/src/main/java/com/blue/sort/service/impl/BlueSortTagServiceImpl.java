@@ -1,6 +1,9 @@
 package com.blue.sort.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.blue.blog.domain.BlueArticle;
+import com.blue.blog.mapper.BlueArticleMapper;
+import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -27,6 +30,8 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
     private BlueSortTagMapper blueSortTagMapper;
     @Autowired
     private BlueArticleTagMapper blueArticleTagMapper;
+    @Autowired
+    private BlueArticleMapper blueArticleMapper;
 
     /**
      * 查询标签
@@ -56,11 +61,15 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
         for (BlueSortTag sortTag : blueSortTags) {
             //初始化参数
             sortTag.setArticleTagNumber(0);
-            //获取标签列表中 某个表现下有多少文章
+            //获取标签列表中 某个标签下有多少文章
             for (BlueArticleTag blueArticleTag : blueArticleTags) {
                 //文章标签列表有匹配Id
                 if (blueArticleTag.getTagId().equals(sortTag.getId())){
-                    sortTag.setArticleTagNumber(sortTag.getArticleTagNumber()+1);
+                    //并且文章要已通过审核
+                    BlueArticle blueArticle = blueArticleMapper.selectById(blueArticleTag.getArticleId());
+                    if (blueArticle.getStatus().equals(AuditingStatus.DISABLE.getCode())){
+                        sortTag.setArticleTagNumber(sortTag.getArticleTagNumber()+1);
+                    }
                 }
             }
         }

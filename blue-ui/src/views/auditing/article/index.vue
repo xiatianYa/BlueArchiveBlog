@@ -66,7 +66,7 @@
     <!-- 添加或修改文章对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="name">
+        <el-form-item label="文章名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入文章名称" />
         </el-form-item>
         <el-form-item label="分类名称" prop="sortId">
@@ -183,10 +183,7 @@ export default {
       updateArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList()
-      }).catch(error => {
-        this.$modal.msgSuccess("修改失败"+error);
       })
-
     },
     //驳回
     danger(article) {
@@ -194,8 +191,6 @@ export default {
       updateArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList()
-      }).catch(error => {
-        this.$modal.msgSuccess("修改失败");
       })
     },
     /** 查询文章列表 */

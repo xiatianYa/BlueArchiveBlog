@@ -84,10 +84,10 @@
     <!-- 添加或修改文章对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="articleName">
+        <el-form-item label="文章名称" prop="articleName">
           <el-input v-model="form.articleName" placeholder="请输入文章名称" />
         </el-form-item>
-        <el-form-item label="分类描述" prop="articleName">
+        <el-form-item label="文章描述" prop="articleName">
           <el-input v-model="form.articleDescribe" placeholder="请输入文章描述" />
         </el-form-item>
         <el-form-item label="分类名称" prop="sortId">
@@ -96,7 +96,12 @@
               :value="parseInt(dict.value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="文章编辑" prop="sortId">
+        <el-form-item label="标签关联" prop="checkedTags">
+          <el-checkbox-group v-model="checkedTags" :min="1" :max="4">
+            <el-checkbox v-for="tag in tags" :label="tag.tagId" :key="tag.tagName">{{ tag.tagName }}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="文章编辑" prop="sortId" v-show="form.id">
           <el-button type="primary" icon="el-icon-edit" circle @click="editArticle(form.id)" />
         </el-form-item>
         <el-form-item label="文章视频" prop="videoUrl">
@@ -126,6 +131,12 @@ export default {
   dicts: ['sys_shenhe'],
   data() {
     return {
+      //被选择的标签
+      checkedTags: [],
+      //是否被全选
+      checkAll: false,
+      //全部标签
+      tags: [],
       //分类列表
       sortDict: [],
       // 遮罩层
@@ -172,9 +183,6 @@ export default {
         articleName: [
           { required: true, message: "文章名称不能为空", trigger: "blur" }
         ],
-        seleteTagList: [
-          { required: true, message: "标签列表不能为空", trigger: "blur" }
-        ],
         articleDescribe: [
           { required: true, message: "文章描述不能为空", trigger: "blur" }
         ],
@@ -194,7 +202,7 @@ export default {
     //获取分类列表
     listSort().then(res => {
       for (const item of res.rows) {
-        this.sortDict.push({ value: item.id, label: item.sortName })
+        this.sortDict.push({ value: item.id, label: item.sortName, tagList: item.tagList })
       }
     })
     this.getList();
@@ -234,6 +242,7 @@ export default {
         updateBy: null,
         remark: null,
       };
+      this.checkedTags = [];
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -264,6 +273,9 @@ export default {
       const id = row.id || this.ids
       getArticle(id).then(response => {
         this.form = response.data;
+        for (const tag of this.form.tagList) {
+          this.checkedTags.push(tag.tagId)
+        }
         this.open = true;
         this.title = "修改文章";
       });
@@ -271,6 +283,12 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
+        //获取被选中的标签
+        const tagList = [];
+        for (const tagId of this.checkedTags) {
+          tagList.push({ tagId: tagId })
+        }
+        this.form.tagList = tagList;
         if (valid) {
           if (this.form.id != null) {
             updateArticle(this.form).then(response => {
@@ -279,6 +297,13 @@ export default {
               this.getList();
             });
           } else {
+            if (this.checkedTags.length == 0) {
+              this.$message({
+                message: '请至少选中一个标签!',
+                type: 'warning'
+              });
+              return;
+            }
             addArticle(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
@@ -304,6 +329,17 @@ export default {
         ...this.queryParams
       }, `article_${new Date().getTime()}.xlsx`)
     }
-  }
+  },
+  watch: {
+    'form.sortId'(newVal, oldVal) {
+      this.tags = [];
+      const sort = this.sortDict.find(item => newVal === item.value)
+      if (sort) {
+        for (const tag of sort.tagList) {
+          this.tags.push({ tagId: tag.id, tagName: tag.tagName });
+        }
+      }
+    },
+  },
 };
 </script>

@@ -3,6 +3,7 @@ package com.blue.sort.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
+import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -67,7 +68,7 @@ public class BlueSortServiceImpl implements IBlueSortService
             sort.setTagList(new ArrayList<>());
             for (BlueArticle blueArticle : blueArticles) {
                 //分类ID相同
-                if (blueArticle.getSortId().equals(sort.getId())){
+                if (blueArticle.getSortId().equals(sort.getId()) && blueArticle.getStatus().equals(AuditingStatus.DISABLE.getCode())){
                     sort.setSortNumber(sort.getSortNumber()+1);
                 }
             }

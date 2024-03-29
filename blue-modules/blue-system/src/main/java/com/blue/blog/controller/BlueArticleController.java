@@ -2,6 +2,7 @@ package com.blue.blog.controller;
 
 import com.blue.blog.domain.BlueArticle;
 import com.blue.blog.service.IBlueArticleService;
+import com.blue.common.core.utils.StringUtils;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;
 import com.blue.common.core.web.domain.AjaxResult;
@@ -117,7 +118,7 @@ public class BlueArticleController extends BaseController
     public AjaxResult edit(@RequestBody BlueArticle blueArticle)
     {
         //如果是Base64编码 则进行解码
-        if (blueArticle.getContent().startsWith("base64:")){
+        if (StringUtils.isNotNull(blueArticle.getContent()) &&blueArticle.getContent().startsWith("base64:")){
             blueArticle.setContent(new String(Base64.getDecoder().decode(blueArticle.getContent().substring("base64:".length()))));
         }
         return toAjax(blueArticleService.updateBlueArticle(blueArticle));

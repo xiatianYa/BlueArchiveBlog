@@ -39,7 +39,7 @@
     <div class="container">
       <div class="content">
         <div class="content_body">
-          <SortDetail :articleList="articleList"></SortDetail>
+          <SortDetail :article="article" v-for="article in articleList"></SortDetail>
         </div>
       </div>
     </div>
@@ -63,7 +63,7 @@ const sortIndex = ref(0)
 //标签下标
 const tagIndex = ref(0)
 //分类列表
-const sortList = ref({})
+const sortList = ref([])
 //标签列表
 const tagList = ref({})
 //文章列表
@@ -71,7 +71,7 @@ const articleList = ref([])
 onMounted(() => {
   //获取从路由传递过来的参数
   if (router.currentRoute.value.query.sortId) {
-    sortIndex.value=router.currentRoute.value.query.sortId
+    sortIndex.value = router.currentRoute.value.query.sortId
   }
   //获取分类列表
   listSort().then(res => {
@@ -81,7 +81,9 @@ onMounted(() => {
       //遍历标签列表 放入分类列表中
       for (let index = 0; index < sortList.value.length; index++) {
         const sort = sortList.value[index];
-        //遍历所有标签1
+        //清空默认标签列表
+        sort.tagList = [];
+        //遍历所有标签
         for (const tag of res.rows) {
           //如果标签的分类ID和分类ID匹配则进入
           if (tag.sortId == sortList.value[index].id) {
@@ -96,7 +98,7 @@ onMounted(() => {
         }
       }
       //设置第一个分类下标
-      if (sortIndex.value===0) {
+      if (sortIndex.value === 0) {
         sortIndex.value = sortList.value[0].id
       }
       //设置标签列表
@@ -105,12 +107,16 @@ onMounted(() => {
       if (tagList.value) {
         tagIndex.value = tagList.value[0].id
       }
+      //查询文章列表
+      listByTagId(tagIndex.value).then(res => {
+        articleList.value = res.rows
+      })
     })
-
   })
 })
 //设置标签下标 和标签列表
 function selectSort(sort) {
+  articleList.value=[]
   //设置下标
   sortIndex.value = sort.id
   //如果列表未空 则添加空列表
@@ -123,13 +129,12 @@ function selectSort(sort) {
     //查询文章列表
     listByTagId(tagIndex.value).then(res => {
       articleList.value = res.rows
-    }).catch(error => {
-      promptMsg({ type: "success", msg: error })
     })
   }
 }
 //查询所有标签下的文章列表
 function selectArticleListByTagId(tagId) {
+  articleList.value=[]
   //如果点击的是当前选择的标签下标则不选择
   if (tagId === tagIndex.value) {
     return
@@ -295,6 +300,14 @@ function selectArticleListByTagId(tagId) {
     .content {
       width: 80%;
       height: 100%;
+
+      .content_body {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+      }
     }
   }
 }

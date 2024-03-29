@@ -1,7 +1,7 @@
 <template>
   <div class="sort_detail">
     <div class="sort_cards">
-      <div class="card box_shadow  animate__animated animate__slideInUp" v-for="article in articleList" @click="goArticlePreview(article.id)">
+      <div class="card box_shadow  animate__animated animate__slideInUp" @click="goArticlePreview(article.id)">
         <div class="card_img">
           <img :src="article.cover" alt="">
         </div>
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['articleList'])
+const props = defineProps(['article'])
 import {useRouter} from 'vue-router'
 
 const router=useRouter()
@@ -57,22 +57,17 @@ function goArticlePreview(sortId) {
 
 <style lang="scss" scoped>
 .sort_detail {
-  width: 100%;
-
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .sort_cards {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-
+    width: 80%;
     .card {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       box-sizing: border-box;
-      width: 24%;
-      height: 350px;
       margin-bottom: 30px;
       border-radius: 10px;
 

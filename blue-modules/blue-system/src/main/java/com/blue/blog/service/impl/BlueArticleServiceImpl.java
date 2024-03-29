@@ -118,18 +118,25 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     {
         Long userId = SecurityUtils.getUserId();
         if (StringUtils.isNotNull(userId)){
+            //设置创建者ID
             blueArticle.setCreateBy(userId.toString());
+            //设置用户ID
             blueArticle.setUserId(userId);
-            blueArticle.setStatus(AuditingStatus.OK.getCode());
         }
+        //设置审核状态
+        blueArticle.setStatus(AuditingStatus.OK.getCode());
+        //设置创建时间
         blueArticle.setCreateTime(DateUtils.getNowDate());
         //先插入文章信息
         int num = blueArticleMapper.insertBlueArticle(blueArticle);
         //然后向文章标签表里插入标签
         List<BlueArticleTag> tagList = blueArticle.getTagList();
         for (BlueArticleTag blueArticleTag : tagList) {
+            //设置文章ID
             blueArticleTag.setArticleId(blueArticle.getId());
+            //设置创建人ID
             blueArticleTag.setCreateBy(String.valueOf(userId));
+            //向文章标签列表插入数据
             blueArticleTagMapper.insertBlueArticleTag(blueArticleTag);
         }
         return num;
@@ -148,7 +155,26 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         if (StringUtils.isNotNull(userId)){
             blueArticle.setUpdateBy(userId.toString());
         }
-        blueArticle.setUpdateTime(DateUtils.getNowDate());
+        //然后向文章标签表里插入标签
+        if (StringUtils.isNotNull(blueArticle.getTagList())){
+            //文章的标签列表
+            List<BlueArticleTag> tagList = blueArticle.getTagList();
+            for (BlueArticleTag blueArticleTag : tagList) {
+                //默认先删除所有和文章匹配的标签数据
+                LambdaQueryWrapper<BlueArticleTag> wrapper = new LambdaQueryWrapper<>();
+                wrapper.eq(BlueArticleTag::getArticleId,blueArticle.getId());
+                wrapper.eq(BlueArticleTag::getTagId,blueArticleTag.getTagId());
+                blueArticleTagMapper.delete(wrapper);
+                //设置文章ID
+                blueArticleTag.setArticleId(blueArticle.getId());
+                //设置创建人ID
+                blueArticleTag.setCreateBy(String.valueOf(userId));
+                //设置修改人ID
+                blueArticleTag.setUpdateBy(String.valueOf(userId));
+                //然后重新插入新的数据
+                blueArticleTagMapper.insertBlueArticleTag(blueArticleTag);
+            }
+        }
         return blueArticleMapper.updateBlueArticle(blueArticle);
     }
 
