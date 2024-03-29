@@ -574,6 +574,8 @@ function goDown() {
                 img {
                   width: 100%;
                   height: 100%;
+                  max-width: 100px;
+                  max-height: 100px;
                   object-fit: cover;
                   transition: all .3s ease-in 0s;
                   border-radius: 10px;

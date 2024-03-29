@@ -20,11 +20,11 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {nextTick, onMounted, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
 import {getArticle} from '@/api/article'
-
+import promptMsg from "@/components/PromptBoxView"
 //路由  
 const route = useRoute()
 //锚点列表  
@@ -35,11 +35,11 @@ const article = ref({
 })
 
 onMounted(async () => {
-  try {
-    const res = await getArticle(route.query.sortId)
+  const res = await getArticle(route.query.sortId)
+  if (res.data.content) {
     article.value = res.data
-  } catch (error) {
-    console.error('Error fetching article:', error)
+  }else{
+    promptMsg({ type: "warn", msg: "暂无内容!" })
   }
 })
 

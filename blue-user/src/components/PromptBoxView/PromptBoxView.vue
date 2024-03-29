@@ -65,11 +65,12 @@ export default {
 <style lang="scss" scoped>
 //	css样式部分可以根据需求自定义
 .prompt-box {
+  position: fixed;
   position: absolute;
-  z-index: 9999;
+  z-index: 20;
+  top: 30%;
   left: 50%;
   margin-left: -50px;
-  top: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
