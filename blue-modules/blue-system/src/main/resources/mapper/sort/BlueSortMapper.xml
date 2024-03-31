@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="BlueSort" id="BlueSortResult">
         <result property="id"    column="id"    />
         <result property="sortName"    column="sort_name"    />
+        <result property="sortDescribe"    column="sort_describe"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="createBy"    column="create_by"    />
@@ -15,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBlueSortVo">
-        select id, sort_name, create_time, update_time, create_by, update_by, remark from blue_sort
+        select id, sort_name,sort_describe, create_time, update_time, create_by, update_by, remark from blue_sort
     </sql>
 
     <select id="selectBlueSortList" parameterType="BlueSort" resultMap="BlueSortResult">
@@ -34,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into blue_sort
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="sortName != null and sortName != ''">sort_name,</if>
+            <if test="sortDescribe != null and sortDescribe != ''">sort_describe,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="createBy != null">create_by,</if>
@@ -42,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="sortName != null and sortName != ''">#{sortName},</if>
+            <if test="sortDescribe != null and sortDescribe != ''">#{sortDescribe},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -54,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update blue_sort
         <trim prefix="SET" suffixOverrides=",">
             <if test="sortName != null and sortName != ''">sort_name = #{sortName},</if>
+            <if test="sortDescribe != null and sortDescribe != ''">sort_describe = #{sortDescribe},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>

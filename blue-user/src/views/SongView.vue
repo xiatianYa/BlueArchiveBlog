@@ -60,10 +60,6 @@ onMounted(() => {
   })
 })
 function startMusic(event,musicUrl) {
-  //关闭视频音乐
-  var video = document.getElementById("myVideo");
-  // 静音视频
-  video.muted = true;
   //获取音乐标签
   let music = document.getElementById("music");
   //清除img图片的旋转样式
@@ -72,10 +68,6 @@ function startMusic(event,musicUrl) {
   let img = event.target;
   //判断是不是点击正在播放的音乐
   if (img === BeforeImg) {
-    //关闭视频音乐
-    var video = document.getElementById("myVideo");
-    // 静音视频
-    video.muted = false;
     //清除BeforeImg
     BeforeImg = {};
     //停止音乐

@@ -164,6 +164,11 @@ body::-webkit-scrollbar {
 
 //一张旋转
 .rotateAll {
+  border-radius: 50%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: all 1s ease-in;
   animation-name: rotateAll;
   /*关键帧名称*/
   animation-timing-function: linear;

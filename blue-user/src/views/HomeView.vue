@@ -124,7 +124,7 @@
                 <p>{{ sort.sortName.substring(0, 1) }}</p>{{ sort.sortName.substring(1, 4) }}
               </span>
               <span>
-                诗酒趁年华，雅韵生活
+                {{ sort.sortDescribe }}
               </span>
             </div>
           </div>

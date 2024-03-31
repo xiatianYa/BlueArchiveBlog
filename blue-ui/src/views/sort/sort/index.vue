@@ -65,6 +65,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="分类id" align="center" prop="id" />
       <el-table-column label="分类的名称" align="center" prop="sortName" />
+      <el-table-column label="分类的描述" align="center" prop="sortDescribe" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -99,6 +100,9 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="分类的名称" prop="sortName">
           <el-input v-model="form.sortName" placeholder="请输入分类的名称" />
+        </el-form-item>
+        <el-form-item label="分类的描述" prop="sortDescribe">
+          <el-input v-model="form.sortDescribe" placeholder="请输入分类的描述" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
