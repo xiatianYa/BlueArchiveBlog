@@ -81,7 +81,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -109,9 +109,9 @@
 </template>
 
 <script>
-    import {getAvater, listAvater,addAvater,updateAvater,delAvater} from "@/api/blog/avater";
+import {addAvater, delAvater, getAvater, listAvater, updateAvater} from "@/api/blog/avater";
 
-    export default {
+export default {
   name: "Avater",
   data() {
     return {

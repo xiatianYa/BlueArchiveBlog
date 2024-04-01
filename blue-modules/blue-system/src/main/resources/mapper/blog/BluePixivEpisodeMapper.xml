@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BluePixivEpisodeMapper">
+    
+    <resultMap type="BluePixivEpisode" id="BluePixivEpisodeResult">
+        <result property="id"    column="id"    />
+        <result property="pixivId"    column="pixiv_id"    />
+        <result property="pixivChapters"    column="pixiv_chapters"    />
+        <result property="pixivUrl"    column="pixiv_url"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectBluePixivEpisodeVo">
+        select id, pixiv_id, pixiv_chapters, pixiv_url, create_time, update_time, create_by, update_by from blue_pixiv_episode
+    </sql>
+
+    <select id="selectBluePixivEpisodeList" parameterType="BluePixivEpisode" resultMap="BluePixivEpisodeResult">
+        <include refid="selectBluePixivEpisodeVo"/>
+        <where>  
+            <if test="pixivId != null "> and pixiv_id = #{pixivId}</if>
+            <if test="pixivChapters != null "> and pixiv_chapters = #{pixivChapters}</if>
+            <if test="pixivUrl != null  and pixivUrl != ''"> and pixiv_url = #{pixivUrl}</if>
+        </where>
+    </select>
+    
+    <select id="selectBluePixivEpisodeById" parameterType="Long" resultMap="BluePixivEpisodeResult">
+        <include refid="selectBluePixivEpisodeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBluePixivEpisode" parameterType="BluePixivEpisode" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_pixiv_episode
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pixivId != null">pixiv_id,</if>
+            <if test="pixivChapters != null">pixiv_chapters,</if>
+            <if test="pixivUrl != null and pixivUrl != ''">pixiv_url,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pixivId != null">#{pixivId},</if>
+            <if test="pixivChapters != null">#{pixivChapters},</if>
+            <if test="pixivUrl != null and pixivUrl != ''">#{pixivUrl},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBluePixivEpisode" parameterType="BluePixivEpisode">
+        update blue_pixiv_episode
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pixivId != null">pixiv_id = #{pixivId},</if>
+            <if test="pixivChapters != null">pixiv_chapters = #{pixivChapters},</if>
+            <if test="pixivUrl != null and pixivUrl != ''">pixiv_url = #{pixivUrl},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBluePixivEpisodeById" parameterType="Long">
+        delete from blue_pixiv_episode where id = #{id}
+    </delete>
+
+    <delete id="deleteBluePixivEpisodeByIds" parameterType="String">
+        delete from blue_pixiv_episode where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

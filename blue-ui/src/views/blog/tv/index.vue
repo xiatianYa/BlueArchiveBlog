@@ -79,8 +79,8 @@
       </el-table-column>
       <el-table-column label="评分" align="center" prop="pixivScore" />
       <el-table-column label="番剧类型" align="center" prop="typeName"/>
-      <el-table-column label="声优" align="center" prop="pixivVoiceActor" show-overflow-tooltip="true" />
-      <el-table-column label="番剧简介" align="center" prop="pixivSynopsis" show-overflow-tooltip="true" />
+      <el-table-column label="声优" align="center" prop="pixivVoiceActor" show-overflow-tooltip />
+      <el-table-column label="番剧简介" align="center" prop="pixivSynopsis" show-overflow-tooltip />
       <el-table-column label="播放数" align="center" prop="pixivPlay" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
@@ -114,16 +114,19 @@
         <el-form-item label="番剧图片" prop="pixivAvater">
           <image-upload v-model="form.pixivAvater" />
         </el-form-item>
+        <el-form-item label="番剧集">
+          <el-button type="primary" @click="uploadEpisode(form)">上传番剧集<i class="el-icon-upload el-icon--right"></i></el-button>
+        </el-form-item>
         <el-form-item label="发布时间" prop="pixivPublish">
           <el-date-picker clearable v-model="form.pixivPublish" type="date" value-format="yyyy-MM-dd"
             placeholder="请选择番剧发布时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="评分" prop="pixivScore">
-          <el-input v-model="form.pixivScore" placeholder="请输入评分" />
+          <el-input v-model="form.pixivScore" placeholder="请输入评分 如:9.7" />
         </el-form-item>
         <el-form-item label="声优" prop="pixivVoiceActor">
-          <el-input v-model="form.pixivVoiceActor" placeholder="请输入声优" />
+          <el-input v-model="form.pixivVoiceActor" placeholder="请输入声优 如:角色1:名字 角色2:名字" />
         </el-form-item>
         <el-form-item label="番剧简介" prop="pixivSynopsis">
           <el-input v-model="form.pixivSynopsis" type="textarea" placeholder="请输入内容" />
@@ -251,6 +254,10 @@ export default {
     })
   },
   methods: {
+    /** 上传番剧集 */
+    uploadEpisode(pixivId){
+      console.log(pixivId);
+    },
     /** 查询番剧信息列表 */
     getList() {
       this.loading = true;
