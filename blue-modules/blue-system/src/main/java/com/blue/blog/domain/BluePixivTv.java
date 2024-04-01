@@ -1,10 +1,9 @@
 package com.blue.blog.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Date;
 
@@ -41,6 +40,12 @@ public class BluePixivTv extends BaseEntity
     /** 番剧类型 */
     @Excel(name = "番剧类型")
     private Long pixivType;
+
+    /** 番剧类型名称 */
+    @Excel(name = "番剧类型名称")
+    @TableField(exist = false)
+    private String typeName;
+
 
     /** 声优 */
     @Excel(name = "声优")
@@ -162,24 +167,12 @@ public class BluePixivTv extends BaseEntity
         return isEnd;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("pixivName", getPixivName())
-            .append("pixivAvater", getPixivAvater())
-            .append("pixivPublish", getPixivPublish())
-            .append("pixivScore", getPixivScore())
-            .append("pixivType", getPixivType())
-            .append("pixivVoiceActor", getPixivVoiceActor())
-            .append("pixivSynopsis", getPixivSynopsis())
-            .append("pixivPlay", getPixivPlay())
-            .append("status", getStatus())
-            .append("isEnd", getIsEnd())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .toString();
+    public String getTypeName() {
+        return typeName;
     }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
 }

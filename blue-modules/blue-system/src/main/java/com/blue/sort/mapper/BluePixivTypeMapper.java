@@ -1,5 +1,6 @@
 package com.blue.sort.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.sort.domain.BluePixivType;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-01
  */
-public interface BluePixivTypeMapper 
+public interface BluePixivTypeMapper extends BaseMapper<BluePixivType>
 {
     /**
      * 查询番剧类型

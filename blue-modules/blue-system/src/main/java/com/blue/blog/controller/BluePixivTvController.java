@@ -31,7 +31,6 @@ public class BluePixivTvController extends BaseController
     /**
      * 查询番剧信息列表
      */
-    @RequiresPermissions("blog:tv:list")
     @GetMapping("/list")
     public TableDataInfo list(BluePixivTv bluePixivTv)
     {

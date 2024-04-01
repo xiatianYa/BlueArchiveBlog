@@ -1,5 +1,6 @@
 package com.blue.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BluePixivTv;
 import com.blue.blog.mapper.BluePixivTvMapper;
 import com.blue.blog.service.IBluePixivTvService;
@@ -7,6 +8,8 @@ import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.sort.domain.BluePixivType;
+import com.blue.sort.mapper.BluePixivTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,8 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
 {
     @Autowired
     private BluePixivTvMapper bluePixivTvMapper;
+    @Autowired
+    private BluePixivTypeMapper bluePixivTypeService;
 
     /**
      * 查询番剧信息
@@ -45,7 +50,19 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     @Override
     public List<BluePixivTv> selectBluePixivTvList(BluePixivTv bluePixivTv)
     {
-        return bluePixivTvMapper.selectBluePixivTvList(bluePixivTv);
+        //番剧列表
+        List<BluePixivTv> bluePixivTvs = bluePixivTvMapper.selectBluePixivTvList(bluePixivTv);
+        //番剧分类列表
+        List<BluePixivType> bluePixivTypes = bluePixivTypeService.selectList(new LambdaQueryWrapper<>());
+        for (BluePixivType bluePixivType : bluePixivTypes) {
+            for (BluePixivTv pixivTv : bluePixivTvs) {
+                //匹配 设置番剧分类名称
+                if (pixivTv.getPixivType().equals(bluePixivType.getId())){
+                    pixivTv.setTypeName(bluePixivType.getTypeName());
+                }
+            }
+        }
+        return bluePixivTvs;
     }
 
     /**

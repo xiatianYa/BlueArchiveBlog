@@ -1,5 +1,6 @@
 package com.blue.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BluePixivTv;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-01
  */
-public interface BluePixivTvMapper 
+public interface BluePixivTvMapper extends BaseMapper<BluePixivTv>
 {
     /**
      * 查询番剧信息

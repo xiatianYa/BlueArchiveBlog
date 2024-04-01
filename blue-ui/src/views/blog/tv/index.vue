@@ -2,63 +2,39 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="番剧名称" prop="pixivName">
-        <el-input
-          v-model="queryParams.pixivName"
-          placeholder="请输入番剧名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.pixivName" placeholder="请输入番剧名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="番剧发布时间" prop="pixivPublish">
-        <el-date-picker clearable
-          v-model="queryParams.pixivPublish"
-          type="date"
-          value-format="yyyy-MM-dd"
+      <el-form-item label="番剧类型" prop="typeName">
+        <el-select v-model="queryParams.status" placeholder="请选择番剧类型" clearable>
+          <el-option v-for="dict in pixiv_type" :key="dict.value" :label="dict.label"
+            :value="dict.value" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="发布时间" prop="pixivPublish">
+        <el-date-picker clearable v-model="queryParams.pixivPublish" type="date" value-format="yyyy-MM-dd"
           placeholder="请选择番剧发布时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="评分" prop="pixivScore">
-        <el-input
-          v-model="queryParams.pixivScore"
-          placeholder="请输入评分"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.pixivScore" placeholder="请输入评分" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="声优" prop="pixivVoiceActor">
-        <el-input
-          v-model="queryParams.pixivVoiceActor"
-          placeholder="请输入声优"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.pixivVoiceActor" placeholder="请输入声优" clearable
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="播放数" prop="pixivPlay">
-        <el-input
-          v-model="queryParams.pixivPlay"
-          placeholder="请输入播放数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.pixivPlay" placeholder="请输入播放数" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>
-          <el-option
-            v-for="dict in dict.type.sys_apply_status"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
+          <el-option v-for="dict in dict.type.sys_apply_status" :key="dict.value" :label="dict.label"
+            :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="是否完结" prop="isEnd">
         <el-select v-model="queryParams.isEnd" placeholder="请选择是否完结" clearable>
-          <el-option
-            v-for="dict in dict.type.system_is_end"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
+          <el-option v-for="dict in dict.type.system_is_end" :key="dict.value" :label="dict.label"
+            :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -69,46 +45,20 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['blog:tv:add']"
-        >新增</el-button>
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['blog:tv:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['blog:tv:edit']"
-        >修改</el-button>
+        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['blog:tv:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['blog:tv:remove']"
-        >删除</el-button>
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['blog:tv:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['blog:tv:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['blog:tv:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -119,7 +69,7 @@
       <el-table-column label="番剧名称" align="center" prop="pixivName" />
       <el-table-column label="番剧图片" align="center" prop="pixivAvater" width="100">
         <template slot-scope="scope">
-          <image-preview :src="scope.row.pixivAvater" :width="50" :height="50"/>
+          <image-preview :src="scope.row.pixivAvater" :width="50" :height="50" />
         </template>
       </el-table-column>
       <el-table-column label="番剧发布时间" align="center" prop="pixivPublish" width="180">
@@ -128,47 +78,32 @@
         </template>
       </el-table-column>
       <el-table-column label="评分" align="center" prop="pixivScore" />
-      <el-table-column label="番剧类型" align="center" prop="pixivType" />
-      <el-table-column label="声优" align="center" prop="pixivVoiceActor" />
-      <el-table-column label="番剧简介" align="center" prop="pixivSynopsis" />
+      <el-table-column label="番剧类型" align="center" prop="typeName"/>
+      <el-table-column label="声优" align="center" prop="pixivVoiceActor" show-overflow-tooltip="true" />
+      <el-table-column label="番剧简介" align="center" prop="pixivSynopsis" show-overflow-tooltip="true" />
       <el-table-column label="播放数" align="center" prop="pixivPlay" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_apply_status" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_apply_status" :value="scope.row.status" />
         </template>
       </el-table-column>
       <el-table-column label="是否完结" align="center" prop="isEnd">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.system_is_end" :value="scope.row.isEnd"/>
+          <dict-tag :options="dict.type.system_is_end" :value="scope.row.isEnd" />
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['blog:tv:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['blog:tv:remove']"
-          >删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['blog:tv:edit']">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['blog:tv:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改番剧信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -177,13 +112,10 @@
           <el-input v-model="form.pixivName" placeholder="请输入番剧名称" />
         </el-form-item>
         <el-form-item label="番剧图片" prop="pixivAvater">
-          <image-upload v-model="form.pixivAvater"/>
+          <image-upload v-model="form.pixivAvater" />
         </el-form-item>
         <el-form-item label="发布时间" prop="pixivPublish">
-          <el-date-picker clearable
-            v-model="form.pixivPublish"
-            type="date"
-            value-format="yyyy-MM-dd"
+          <el-date-picker clearable v-model="form.pixivPublish" type="date" value-format="yyyy-MM-dd"
             placeholder="请选择番剧发布时间">
           </el-date-picker>
         </el-form-item>
@@ -198,31 +130,20 @@
         </el-form-item>
         <el-form-item label="番剧类型" prop="pixiv_type">
           <el-select v-model="form.pixivType" placeholder="请选择番剧类型">
-            <el-option
-              v-for="dict in pixiv_type"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
+            <el-option v-for="dict in pixiv_type" :key="dict.value" :label="dict.label"
+              :value="parseInt(dict.value)"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="审核状态" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in dict.type.sys_apply_status"
-              :key="dict.value"
-              :label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
+            <el-radio v-for="dict in dict.type.sys_apply_status" :key="dict.value"
+              :label="parseInt(dict.value)">{{ dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="是否完结" prop="isEnd">
           <el-select v-model="form.isEnd" placeholder="请选择是否完结">
-            <el-option
-              v-for="dict in dict.type.system_is_end"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
+            <el-option v-for="dict in dict.type.system_is_end" :key="dict.value" :label="dict.label"
+              :value="parseInt(dict.value)"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -236,6 +157,7 @@
 
 <script>
 import {addTv, delTv, getTv, listTv, updateTv} from "@/api/blog/tv";
+import {listType} from "@/api/sort/type";
 
 export default {
   name: "Tv",
@@ -243,10 +165,7 @@ export default {
   data() {
     return {
       //番剧类型
-      pixiv_type:[{
-        value:0,
-        label:"动漫"
-      }],
+      pixiv_type: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -325,6 +244,11 @@ export default {
   },
   created() {
     this.getList();
+    listType().then(res => {
+      for (const tvType of res.rows) {
+        this.pixiv_type.push({ value: tvType.id, label: tvType.typeName })
+      }
+    })
   },
   methods: {
     /** 查询番剧信息列表 */
@@ -375,7 +299,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -417,12 +341,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除番剧信息编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除番剧信息编号为"' + ids + '"的数据项？').then(function () {
         return delTv(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => { });
     },
     /** 导出按钮操作 */
     handleExport() {

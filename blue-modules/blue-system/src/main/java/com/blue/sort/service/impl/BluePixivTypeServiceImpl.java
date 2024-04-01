@@ -1,6 +1,8 @@
 package com.blue.sort.service.impl;
 
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BluePixivType;
 import com.blue.sort.mapper.BluePixivTypeMapper;
 import com.blue.sort.service.IBluePixivTypeService;
@@ -54,6 +56,10 @@ public class BluePixivTypeServiceImpl implements IBluePixivTypeService
     @Override
     public int insertBluePixivType(BluePixivType bluePixivType)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            bluePixivType.setCreateBy(String.valueOf(userId));
+        }
         bluePixivType.setCreateTime(DateUtils.getNowDate());
         return bluePixivTypeMapper.insertBluePixivType(bluePixivType);
     }
@@ -67,6 +73,10 @@ public class BluePixivTypeServiceImpl implements IBluePixivTypeService
     @Override
     public int updateBluePixivType(BluePixivType bluePixivType)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            bluePixivType.setUpdateBy(String.valueOf(userId));
+        }
         bluePixivType.setUpdateTime(DateUtils.getNowDate());
         return bluePixivTypeMapper.updateBluePixivType(bluePixivType);
     }

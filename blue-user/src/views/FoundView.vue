@@ -3,9 +3,7 @@
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
         <video autoplay loop muted>
-          <source
-              :src="bgUrl"
-              type="video/mp4">
+          <source :src="bgUrl" type="video/mp4">
         </video>
         <div class="menus">
           <div class="menu pointer">
@@ -37,18 +35,15 @@
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
-          <span>
-            学习人生
+          <span v-if="type===0">
+            番剧
           </span>
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-icon-gengduo"></use>
           </svg>
         </div>
         <div class="found_body">
-          <FoundDetail/>
-          <FoundDetail/>
-          <FoundDetail/>
-          <FoundDetail/>
+          <PixivDetail :pixiv="pixiv" v-for="pixiv in PixivList" v-if="type===0"/>
         </div>
       </div>
     </div>
@@ -56,11 +51,25 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
-import FoundDetail from '@/components/FoundDetail.vue'
+import {onMounted, ref} from 'vue'
 import {useBgStore} from '@/store/bg'
+import {listTv} from '@/api/tv'
+import PixivDetail from '@/components/PixivDetail.vue'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
+const PixivList = ref()
+//当前发现类型 0追番 1二创 2编程工具 3小游戏
+const type = ref(0)
+onMounted(() => {
+  init();
+})
+function init() {
+  if (type.value === 0) {
+    listTv().then(res => {
+      PixivList.value = res.rows
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -156,6 +165,10 @@ const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
       }
 
       .found_body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
         .found_Detail:nth-child(even) {
           flex-direction: row-reverse;
         }
