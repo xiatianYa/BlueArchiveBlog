@@ -26,7 +26,7 @@
       </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>
-          <el-option v-for="dict in dict.type.sys_apply_status" :key="dict.value" :label="dict.label"
+          <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label"
             :value="dict.value" />
         </el-select>
       </el-form-item>
@@ -83,7 +83,7 @@
       <el-table-column label="播放数" align="center" prop="pixivPlay" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_apply_status" :value="scope.row.status" />
+          <dict-tag :options="dict.type.sys_shenhe" :value="scope.row.status" />
         </template>
       </el-table-column>
       <el-table-column label="是否完结" align="center" prop="isEnd">
@@ -199,7 +199,7 @@ import {listEpisode} from '@/api/blog/episode';
 
 export default {
   name: "Tv",
-  dicts: ['system_is_end', 'sys_apply_status'],
+  dicts: ['system_is_end', 'sys_shenhe'],
   data() {
     return {
       //番剧集校验

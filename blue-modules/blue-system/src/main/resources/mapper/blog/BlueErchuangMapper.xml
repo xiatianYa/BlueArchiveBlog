@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BlueErchuangMapper">
+    
+    <resultMap type="BlueErchuang" id="BlueErchuangResult">
+        <result property="id"    column="id"    />
+        <result property="ecAuthor"    column="ec_author"    />
+        <result property="ecName"    column="ec_name"    />
+        <result property="ecAvater"    column="ec_avater"    />
+        <result property="ecUrl"    column="ec_url"    />
+        <result property="ecPublish"    column="ec_publish"    />
+        <result property="ecSynopsis"    column="ec_synopsis"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectBlueErchuangVo">
+        select id, ec_author, ec_name, ec_avater, ec_url, ec_publish, ec_synopsis, status, create_time, update_time, create_by, update_by from blue_erchuang
+    </sql>
+
+    <select id="selectBlueErchuangList" parameterType="BlueErchuang" resultMap="BlueErchuangResult">
+        <include refid="selectBlueErchuangVo"/>
+        <where>  
+            <if test="ecAuthor != null  and ecAuthor != ''"> and ec_author = #{ecAuthor}</if>
+            <if test="ecName != null  and ecName != ''"> and ec_name like concat('%', #{ecName}, '%')</if>
+            <if test="ecAvater != null  and ecAvater != ''"> and ec_avater = #{ecAvater}</if>
+            <if test="ecUrl != null  and ecUrl != ''"> and ec_url = #{ecUrl}</if>
+            <if test="ecPublish != null "> and ec_publish = #{ecPublish}</if>
+            <if test="ecSynopsis != null  and ecSynopsis != ''"> and ec_synopsis = #{ecSynopsis}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueErchuangById" parameterType="Long" resultMap="BlueErchuangResult">
+        <include refid="selectBlueErchuangVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueErchuang" parameterType="BlueErchuang" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_erchuang
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ecAuthor != null and ecAuthor != ''">ec_author,</if>
+            <if test="ecName != null and ecName != ''">ec_name,</if>
+            <if test="ecAvater != null and ecAvater != ''">ec_avater,</if>
+            <if test="ecUrl != null and ecUrl != ''">ec_url,</if>
+            <if test="ecPublish != null">ec_publish,</if>
+            <if test="ecSynopsis != null and ecSynopsis != ''">ec_synopsis,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ecAuthor != null and ecAuthor != ''">#{ecAuthor},</if>
+            <if test="ecName != null and ecName != ''">#{ecName},</if>
+            <if test="ecAvater != null and ecAvater != ''">#{ecAvater},</if>
+            <if test="ecUrl != null and ecUrl != ''">#{ecUrl},</if>
+            <if test="ecPublish != null">#{ecPublish},</if>
+            <if test="ecSynopsis != null and ecSynopsis != ''">#{ecSynopsis},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueErchuang" parameterType="BlueErchuang">
+        update blue_erchuang
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ecAuthor != null and ecAuthor != ''">ec_author = #{ecAuthor},</if>
+            <if test="ecName != null and ecName != ''">ec_name = #{ecName},</if>
+            <if test="ecAvater != null and ecAvater != ''">ec_avater = #{ecAvater},</if>
+            <if test="ecUrl != null and ecUrl != ''">ec_url = #{ecUrl},</if>
+            <if test="ecPublish != null">ec_publish = #{ecPublish},</if>
+            <if test="ecSynopsis != null and ecSynopsis != ''">ec_synopsis = #{ecSynopsis},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueErchuangById" parameterType="Long">
+        delete from blue_erchuang where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueErchuangByIds" parameterType="String">
+        delete from blue_erchuang where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
