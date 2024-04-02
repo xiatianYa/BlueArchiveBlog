@@ -1,5 +1,5 @@
 <template>
-  <div class="found_Detail box_shadow">
+  <div class="found_Detail box_shadow animate__animated animate__zoomIn">
     <div class="found_left">
       <div class="left_title">{{ pixiv.pixivName }}</div>
       <div class="left_info">

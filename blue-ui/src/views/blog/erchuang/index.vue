@@ -49,14 +49,14 @@
     <el-table v-loading="loading" :data="erchuangList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="二创作者" align="center" prop="ecAuthor" />
-      <el-table-column label="二创标题" align="center" prop="ecName" />
+      <el-table-column label="二创作者" align="center" prop="ecAuthor" show-overflow-tooltip/>
+      <el-table-column label="二创标题" align="center" prop="ecName" show-overflow-tooltip/>
       <el-table-column label="二创图片" align="center" prop="ecAvater" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.ecAvater" :width="50" :height="50" />
         </template>
       </el-table-column>
-      <el-table-column label="二创路径" align="center" prop="ecUrl" />
+      <el-table-column label="二创路径" align="center" prop="ecUrl" show-overflow-tooltip/>
       <el-table-column label="二创发布时间" align="center" prop="ecPublish" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.ecPublish, '{y}-{m}-{d}') }}</span>

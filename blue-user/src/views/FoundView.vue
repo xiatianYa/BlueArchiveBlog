@@ -6,22 +6,22 @@
           <source :src="bgUrl" type="video/mp4">
         </video>
         <div class="menus">
-          <div class="menu pointer">
+          <div class="menu pointer" :class="type === 0 ? 'selectMenu' : ''" @click="selectSort(0)">
             <span class="title">
               追番
             </span>
           </div>
-          <div class="menu pointer">
+          <div class="menu pointer" :class="type === 1 ? 'selectMenu' : ''" @click="selectSort(1)">
             <span class="title">
               二创
             </span>
           </div>
-          <div class="menu pointer">
+          <div class="menu pointer" :class="type === 2 ? 'selectMenu' : ''" @click="selectSort(2)">
             <span class="title">
               编程工具
             </span>
           </div>
-          <div class="menu pointer">
+          <div class="menu pointer" :class="type === 3 ? 'selectMenu' : ''" @click="selectSort(3)">
             <span class="title">
               小游戏
             </span>
@@ -35,15 +35,19 @@
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
-          <span v-if="type===0">
+          <span v-if="type === 0">
             番剧
+          </span>
+          <span v-if="type === 1">
+            二创
           </span>
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-icon-gengduo"></use>
           </svg>
         </div>
         <div class="found_body">
-          <PixivDetail :pixiv="pixiv" v-for="pixiv in PixivList" v-if="type===0"/>
+          <PixivDetail :pixiv="pixiv" v-for="pixiv in pixivList" v-if="type === 0" />
+          <ErchuangDetail :erchuang="erchuang" v-if="type === 1" v-for="erchuang in erchuangList"></ErchuangDetail>
         </div>
       </div>
     </div>
@@ -54,10 +58,13 @@
 import {onMounted, ref} from 'vue'
 import {useBgStore} from '@/store/bg'
 import {listTv} from '@/api/tv'
+import {listErchuang} from '@/api/erchuang'
+import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
-const PixivList = ref()
+const pixivList = ref()
+const erchuangList = ref()
 //当前发现类型 0追番 1二创 2编程工具 3小游戏
 const type = ref(0)
 onMounted(() => {
@@ -66,8 +73,25 @@ onMounted(() => {
 function init() {
   if (type.value === 0) {
     listTv().then(res => {
-      PixivList.value = res.rows
+      pixivList.value = res.rows
     })
+  }
+}
+function selectSort(index) {
+  type.value = index
+  if (type.value === 0) {
+    listTv().then(res => {
+      pixivList.value = res.rows
+    })
+  } else if (type.value === 1) {
+    listErchuang().then(res=>{
+      erchuangList.value=res.rows
+      console.log(erchuangList.value);
+    })
+  } else if (type.value === 2) {
+
+  } else {
+
   }
 }
 </script>
@@ -123,6 +147,10 @@ function init() {
           .title {
             font-size: 22px;
           }
+        }
+
+        .selectMenu {
+          color: #69EACB;
         }
 
         .menu:hover {

@@ -31,7 +31,6 @@ public class BlueErchuangController extends BaseController
     /**
      * 查询二创信息列表
      */
-    @RequiresPermissions("blog:erchuang:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueErchuang blueErchuang)
     {
