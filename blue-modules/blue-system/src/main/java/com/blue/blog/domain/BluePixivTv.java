@@ -6,6 +6,7 @@ import com.blue.common.core.web.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 番剧信息对象 blue_pixiv_tv
@@ -67,7 +68,19 @@ public class BluePixivTv extends BaseEntity
     @Excel(name = "是否完结")
     private Long isEnd;
 
-    public void setId(Long id) 
+    /** 番剧集资源列表 */
+    @Excel(name = "番剧集资源列表")
+    private List<BluePixivEpisode> episodeList;
+
+    public List<BluePixivEpisode> getEpisodeList() {
+        return episodeList;
+    }
+
+    public void setEpisodeList(List<BluePixivEpisode> episodeList) {
+        this.episodeList = episodeList;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

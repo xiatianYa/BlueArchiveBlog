@@ -1,7 +1,9 @@
 package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.blue.blog.domain.BluePixivEpisode;
 import com.blue.blog.domain.BluePixivTv;
+import com.blue.blog.mapper.BluePixivEpisodeMapper;
 import com.blue.blog.mapper.BluePixivTvMapper;
 import com.blue.blog.service.IBluePixivTvService;
 import com.blue.common.core.enums.AuditingStatus;
@@ -12,6 +14,7 @@ import com.blue.sort.domain.BluePixivType;
 import com.blue.sort.mapper.BluePixivTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +31,8 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     private BluePixivTvMapper bluePixivTvMapper;
     @Autowired
     private BluePixivTypeMapper bluePixivTypeService;
+    @Autowired
+    private BluePixivEpisodeMapper bluePixivEpisodeMapper;
 
     /**
      * 查询番剧信息
@@ -72,6 +77,7 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertBluePixivTv(BluePixivTv bluePixivTv)
     {
         Long userId = SecurityUtils.getUserId();
@@ -84,8 +90,22 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
         }
         //设置播放数
         bluePixivTv.setPixivPlay(0L);
+        //设置创建时间
         bluePixivTv.setCreateTime(DateUtils.getNowDate());
-        return bluePixivTvMapper.insertBluePixivTv(bluePixivTv);
+        //设置创建者
+        bluePixivTv.setCreateBy(String.valueOf(userId));
+        //如果是新增 就先插入值 获取返回ID
+        int num=bluePixivTvMapper.insertBluePixivTv(bluePixivTv);
+        //插入番剧集列表
+        List<BluePixivEpisode> episodeList = bluePixivTv.getEpisodeList();
+        //当前番剧集列表
+        for (BluePixivEpisode bluePixivEpisode : episodeList) {
+            bluePixivEpisode.setPixivId(bluePixivTv.getId());
+            bluePixivEpisode.setCreateTime(DateUtils.getNowDate());
+            bluePixivEpisode.setCreateBy(String.valueOf(userId));
+            bluePixivEpisodeMapper.insertBluePixivEpisode(bluePixivEpisode);
+        }
+        return num;
     }
 
     /**
@@ -95,13 +115,45 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateBluePixivTv(BluePixivTv bluePixivTv)
     {
         Long userId = SecurityUtils.getUserId();
         if (StringUtils.isNotNull(userId)){
+            //设置修改时间
             bluePixivTv.setUpdateBy(String.valueOf(userId));
         }
+        //设置修改时间
         bluePixivTv.setUpdateTime(DateUtils.getNowDate());
+        //插入番剧集列表
+        List<BluePixivEpisode> episodeList = bluePixivTv.getEpisodeList();
+        LambdaQueryWrapper<BluePixivEpisode> episodeWrapper = new LambdaQueryWrapper<>();
+        episodeWrapper.eq(BluePixivEpisode::getPixivId,bluePixivTv.getId());
+        //查询出当前番剧下所有的集
+        List<BluePixivEpisode> bluePixivEpisodes = bluePixivEpisodeMapper.selectList(episodeWrapper);
+        //当前番剧集列表
+        for (BluePixivEpisode bluePixivEpisode : episodeList) {
+            // 使用anyMatch判断是否有元素的pixivChapters字段匹配
+            boolean newToOne = bluePixivEpisodes.stream()
+                    .anyMatch(item -> item.getPixivChapters() != null && item.getPixivChapters().equals(bluePixivEpisode.getPixivChapters()));
+            //没有当前这条记录 则插入进去
+            if (!newToOne){
+                bluePixivEpisode.setPixivId(bluePixivTv.getId());
+                bluePixivEpisode.setCreateBy(String.valueOf(userId));
+                bluePixivEpisode.setCreateTime(DateUtils.getNowDate());
+                bluePixivEpisodeMapper.insertBluePixivEpisode(bluePixivEpisode);
+            }
+        }
+        //删除没有的番剧集
+        for (BluePixivEpisode bluePixivEpisode : bluePixivEpisodes) {
+            //判断之前番剧集存在不存在 不存在就删除
+            boolean oldToOne = episodeList.stream()
+                    .anyMatch(item -> item.getPixivChapters() != null && item.getPixivChapters().equals(bluePixivEpisode.getPixivChapters()));
+            //之前存在的番剧集不存在了 则删除
+            if (!oldToOne){
+                bluePixivEpisodeMapper.deleteBluePixivEpisodeById(bluePixivEpisode.getId());
+            }
+        }
         return bluePixivTvMapper.updateBluePixivTv(bluePixivTv);
     }
 
@@ -112,8 +164,13 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteBluePixivTvByIds(Long[] ids)
     {
+        //同时删除番剧集数据
+        LambdaQueryWrapper<BluePixivEpisode> episodeLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        episodeLambdaQueryWrapper.in(BluePixivEpisode::getPixivId,ids);
+        bluePixivEpisodeMapper.delete(episodeLambdaQueryWrapper);
         return bluePixivTvMapper.deleteBluePixivTvByIds(ids);
     }
 

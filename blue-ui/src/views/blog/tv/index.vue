@@ -6,8 +6,7 @@
       </el-form-item>
       <el-form-item label="番剧类型" prop="typeName">
         <el-select v-model="queryParams.status" placeholder="请选择番剧类型" clearable>
-          <el-option v-for="dict in pixiv_type" :key="dict.value" :label="dict.label"
-            :value="dict.value" />
+          <el-option v-for="dict in pixiv_type" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="发布时间" prop="pixivPublish">
@@ -78,7 +77,7 @@
         </template>
       </el-table-column>
       <el-table-column label="评分" align="center" prop="pixivScore" />
-      <el-table-column label="番剧类型" align="center" prop="typeName"/>
+      <el-table-column label="番剧类型" align="center" prop="typeName" />
       <el-table-column label="声优" align="center" prop="pixivVoiceActor" show-overflow-tooltip />
       <el-table-column label="番剧简介" align="center" prop="pixivSynopsis" show-overflow-tooltip />
       <el-table-column label="播放数" align="center" prop="pixivPlay" />
@@ -115,7 +114,8 @@
           <image-upload v-model="form.pixivAvater" />
         </el-form-item>
         <el-form-item label="番剧集">
-          <el-button type="primary" @click="uploadEpisode(form)">上传番剧集<i class="el-icon-upload el-icon--right"></i></el-button>
+          <el-button type="primary" @click="uploadEpisode(form.id)">上传番剧集<i
+              class="el-icon-upload el-icon--right"></i></el-button>
         </el-form-item>
         <el-form-item label="发布时间" prop="pixivPublish">
           <el-date-picker clearable v-model="form.pixivPublish" type="date" value-format="yyyy-MM-dd"
@@ -139,8 +139,8 @@
         </el-form-item>
         <el-form-item label="审核状态" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="dict in dict.type.sys_apply_status" :key="dict.value"
-              :label="parseInt(dict.value)">{{ dict.label }}</el-radio>
+            <el-radio v-for="dict in dict.type.sys_apply_status" :key="dict.value" :label="parseInt(dict.value)">{{
+      dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="是否完结" prop="isEnd">
@@ -155,18 +155,76 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <!-- 添加番剧集对话框 -->
+    <el-dialog title="番剧集" :visible.sync="dialogEpisodeVisible">
+      <el-row :gutter="10" class="mb8">
+        <el-col :span="1.5">
+          <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleEpisodeAdd"
+            v-hasPermi="['blog:tv:add']">新增</el-button>
+        </el-col>
+        <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      </el-row>
+      <el-table :data="EpisodeData" style="width: 100%">
+        <el-table-column prop="pixivChapters" label="番剧集" width="180">
+        </el-table-column>
+        <el-table-column prop="pixivUrl" label="番剧地址" width="180" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="danger" icon="el-icon-delete" circle @click="deleteEpisode(scope.row)"></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogEpisodeVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveEpisode">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 添加番剧集单条记录对话框 -->
+    <el-dialog title="添加番剧集" :visible.sync="addEpisodeVisible" width="500px" append-to-body>
+      <el-form ref="episodeForm" :model="addEpisodeForm" :rules="episodeRules" label-width="80px">
+        <el-form-item label="番剧集" prop="pixivChapters">
+          <el-input v-model="addEpisodeForm.pixivChapters"></el-input>
+        </el-form-item>
+        <el-form-item label="番剧集路径" prop="pixivUrl">
+          <file-upload v-model="addEpisodeForm.pixivUrl" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="addEpisode">确 定</el-button>
+          <el-button @click="closeAddEpisode">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {addTv, delTv, getTv, listTv, updateTv} from "@/api/blog/tv";
 import {listType} from "@/api/sort/type";
+import {listEpisode} from '@/api/blog/episode';
 
 export default {
   name: "Tv",
   dicts: ['system_is_end', 'sys_apply_status'],
   data() {
     return {
+      //番剧集校验
+      episodeRules: {
+        pixivChapters: [
+          { required: true, message: "番剧集不能为空", trigger: "blur" }
+        ],
+        pixivUrl: [
+          { required: true, message: "番剧视频不能为空", trigger: "blur" }
+        ],
+      },
+      //添加番剧集
+      addEpisodeForm: {},
+      //添加番剧集拟态框
+      addEpisodeVisible: false,
+      //番剧集列表
+      EpisodeData: [],
+      //番剧集拟态框
+      dialogEpisodeVisible: false,
       //番剧类型
       pixiv_type: [],
       // 遮罩层
@@ -254,9 +312,49 @@ export default {
     })
   },
   methods: {
+    resetAddEpisode() {
+      this.addEpisodeForm = {
+        pixivId: "",
+        pixivChapters: "",
+        pixivUrl: "",
+      }
+    },
+    /** 删除单挑番剧集 */
+    deleteEpisode(episode) {
+      this.EpisodeData = this.EpisodeData.filter(item => item.pixivChapters != episode.pixivChapters)
+    },
+    /** 添加单条番剧集 */
+    addEpisode() {
+      this.$refs["episodeForm"].validate(valid => {
+        if (valid) {
+          this.EpisodeData.push(this.addEpisodeForm)
+          this.resetAddEpisode()
+          this.addEpisodeVisible = false;
+        }
+      });
+
+    },
+    /** 关闭单挑番剧集 */
+    closeAddEpisode() {
+      this.resetAddEpisode()
+      this.addEpisodeVisible = false;
+    },
+    /** 番剧集保存 */
+    saveEpisode() {
+      this.dialogEpisodeVisible = false;
+    },
+    /** 番剧集添加 */
+    handleEpisodeAdd() {
+      this.addEpisodeVisible = true;
+    },
+    /** 番剧集删除 */
+    handleEpisodeDelete() {
+
+    },
     /** 上传番剧集 */
-    uploadEpisode(pixivId){
-      console.log(pixivId);
+    uploadEpisode(pixivId) {
+      //打开拟态框
+      this.dialogEpisodeVisible = true;
     },
     /** 查询番剧信息列表 */
     getList() {
@@ -312,15 +410,26 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.EpisodeData = [];
       this.open = true;
       this.title = "添加番剧信息";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
+      this.EpisodeData = [];
       const id = row.id || this.ids
       getTv(id).then(response => {
         this.form = response.data;
+        //查询当前番剧拥有的番剧集
+        const query = {
+          pixivId: id
+        }
+        listEpisode(query).then(res => {
+          for (const episode of res.rows) {
+            this.EpisodeData.push(episode);
+          }
+        })
         this.open = true;
         this.title = "修改番剧信息";
       });
@@ -330,12 +439,14 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
+            this.form.episodeList = this.EpisodeData;
             updateTv(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
+            this.form.episodeList = this.EpisodeData;
             addTv(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;

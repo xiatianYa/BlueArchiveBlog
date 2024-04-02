@@ -27,7 +27,7 @@
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="番剧ID" align="center" prop="pixivId" />
       <el-table-column label="番剧集" align="center" prop="pixivChapters" />
-      <el-table-column label="番剧地址" align="center" prop="pixivUrl" />
+      <el-table-column label="番剧地址" align="center" prop="pixivUrl" show-overflow-tooltip />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
