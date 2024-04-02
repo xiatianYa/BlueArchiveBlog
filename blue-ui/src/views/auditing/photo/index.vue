@@ -188,7 +188,6 @@ export default {
         /** 查询相册列表 */
         getList() {
             this.loading = true;
-            //默认查询未审核数据
             //默认查询未审核
             if (!this.queryParams.status) {
                 this.queryParams.status = "0"

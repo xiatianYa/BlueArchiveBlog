@@ -55,6 +55,10 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     @Override
     public List<BluePixivTv> selectBluePixivTvList(BluePixivTv bluePixivTv)
     {
+        //判断查询状态是不是为空 默认为已通过
+        if (!StringUtils.isNotNull(bluePixivTv.getStatus())){
+            bluePixivTv.setStatus(AuditingStatus.DISABLE.getCode());
+        }
         //番剧列表
         List<BluePixivTv> bluePixivTvs = bluePixivTvMapper.selectBluePixivTvList(bluePixivTv);
         //番剧分类列表
@@ -84,7 +88,7 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
         if (StringUtils.isNotNull(userId)){
             bluePixivTv.setCreateBy(String.valueOf(userId));
         }
-        //设置审核状态
+        //设置审核状态 默认为未通过
         if (!StringUtils.isNotNull(bluePixivTv.getStatus())){
             bluePixivTv.setStatus(AuditingStatus.OK.getCode());
         }
@@ -132,26 +136,30 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
         //查询出当前番剧下所有的集
         List<BluePixivEpisode> bluePixivEpisodes = bluePixivEpisodeMapper.selectList(episodeWrapper);
         //当前番剧集列表
-        for (BluePixivEpisode bluePixivEpisode : episodeList) {
-            // 使用anyMatch判断是否有元素的pixivChapters字段匹配
-            boolean newToOne = bluePixivEpisodes.stream()
-                    .anyMatch(item -> item.getPixivChapters() != null && item.getPixivChapters().equals(bluePixivEpisode.getPixivChapters()));
-            //没有当前这条记录 则插入进去
-            if (!newToOne){
-                bluePixivEpisode.setPixivId(bluePixivTv.getId());
-                bluePixivEpisode.setCreateBy(String.valueOf(userId));
-                bluePixivEpisode.setCreateTime(DateUtils.getNowDate());
-                bluePixivEpisodeMapper.insertBluePixivEpisode(bluePixivEpisode);
+        if (StringUtils.isNotNull(bluePixivEpisodes) && StringUtils.isNotNull(episodeList)){
+            for (BluePixivEpisode bluePixivEpisode : episodeList) {
+                // 使用anyMatch判断是否有元素的pixivChapters字段匹配
+                boolean newToOne = bluePixivEpisodes.stream()
+                        .anyMatch(item -> item.getPixivChapters() != null && item.getPixivChapters().equals(bluePixivEpisode.getPixivChapters()));
+                //没有当前这条记录 则插入进去
+                if (!newToOne){
+                    bluePixivEpisode.setPixivId(bluePixivTv.getId());
+                    bluePixivEpisode.setCreateBy(String.valueOf(userId));
+                    bluePixivEpisode.setCreateTime(DateUtils.getNowDate());
+                    bluePixivEpisodeMapper.insertBluePixivEpisode(bluePixivEpisode);
+                }
             }
         }
         //删除没有的番剧集
-        for (BluePixivEpisode bluePixivEpisode : bluePixivEpisodes) {
-            //判断之前番剧集存在不存在 不存在就删除
-            boolean oldToOne = episodeList.stream()
-                    .anyMatch(item -> item.getPixivChapters() != null && item.getPixivChapters().equals(bluePixivEpisode.getPixivChapters()));
-            //之前存在的番剧集不存在了 则删除
-            if (!oldToOne){
-                bluePixivEpisodeMapper.deleteBluePixivEpisodeById(bluePixivEpisode.getId());
+        if (StringUtils.isNotNull(bluePixivEpisodes) && StringUtils.isNotNull(episodeList)){
+            for (BluePixivEpisode bluePixivEpisode : bluePixivEpisodes) {
+                //判断之前番剧集存在不存在 不存在就删除
+                boolean oldToOne = episodeList.stream()
+                        .anyMatch(item -> item.getPixivChapters() != null && item.getPixivChapters().equals(bluePixivEpisode.getPixivChapters()));
+                //之前存在的番剧集不存在了 则删除
+                if (!oldToOne){
+                    bluePixivEpisodeMapper.deleteBluePixivEpisodeById(bluePixivEpisode.getId());
+                }
             }
         }
         return bluePixivTvMapper.updateBluePixivTv(bluePixivTv);

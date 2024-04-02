@@ -92,12 +92,6 @@
         <el-form-item label="图片名称" prop="photoName">
           <el-input v-model="form.photoName" placeholder="请输入图片名称" />
         </el-form-item>
-        <el-form-item label="审核状态" prop="status">
-          <el-select v-model="form.status" placeholder="请选择审核状态">
-            <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label"
-              :value="parseInt(dict.value)"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
@@ -165,9 +159,6 @@ export default {
         ],
         photoName: [
           { required: true, message: "图片名称不能为空", trigger: "blur" }
-        ],
-        status: [
-          { required: true, message: "审核状态不能为空", trigger: "change" }
         ],
       }
     };
