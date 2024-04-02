@@ -2,6 +2,10 @@ package com.blue.blog.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,6 +15,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author ruoyi
  * @date 2024-03-23
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlueFriendInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

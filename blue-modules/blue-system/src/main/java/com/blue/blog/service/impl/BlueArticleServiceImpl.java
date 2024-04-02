@@ -185,8 +185,13 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteBlueArticleByIds(Long[] ids)
     {
+        //同时批量删除文字标签关联表数据
+        LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        blueArticleTagLambdaQueryWrapper.in(BlueArticleTag::getArticleId,ids);
+        blueArticleTagMapper.delete(blueArticleTagLambdaQueryWrapper);
         return blueArticleMapper.deleteBlueArticleByIds(ids);
     }
 
@@ -197,8 +202,13 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteBlueArticleById(Long id)
     {
+        //同时批量删除文字标签关联表数据
+        LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getArticleId,id);
+        blueArticleTagMapper.delete(blueArticleTagLambdaQueryWrapper);
         return blueArticleMapper.deleteBlueArticleById(id);
     }
 

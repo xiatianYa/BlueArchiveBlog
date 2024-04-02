@@ -3,8 +3,10 @@ package com.blue.blog.domain;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,6 +16,10 @@ import java.util.Date;
  * @author ruoyi
  * @date 2024-04-02
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlueErchuang extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -49,95 +55,4 @@ public class BlueErchuang extends BaseEntity
     /** 审核状态 */
     @Excel(name = "审核状态")
     private Long status;
-
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setEcAuthor(String ecAuthor) 
-    {
-        this.ecAuthor = ecAuthor;
-    }
-
-    public String getEcAuthor() 
-    {
-        return ecAuthor;
-    }
-    public void setEcName(String ecName) 
-    {
-        this.ecName = ecName;
-    }
-
-    public String getEcName() 
-    {
-        return ecName;
-    }
-    public void setEcAvater(String ecAvater) 
-    {
-        this.ecAvater = ecAvater;
-    }
-
-    public String getEcAvater() 
-    {
-        return ecAvater;
-    }
-    public void setEcUrl(String ecUrl) 
-    {
-        this.ecUrl = ecUrl;
-    }
-
-    public String getEcUrl() 
-    {
-        return ecUrl;
-    }
-    public void setEcPublish(Date ecPublish) 
-    {
-        this.ecPublish = ecPublish;
-    }
-
-    public Date getEcPublish() 
-    {
-        return ecPublish;
-    }
-    public void setEcSynopsis(String ecSynopsis) 
-    {
-        this.ecSynopsis = ecSynopsis;
-    }
-
-    public String getEcSynopsis() 
-    {
-        return ecSynopsis;
-    }
-    public void setStatus(Long status) 
-    {
-        this.status = status;
-    }
-
-    public Long getStatus() 
-    {
-        return status;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("ecAuthor", getEcAuthor())
-            .append("ecName", getEcName())
-            .append("ecAvater", getEcAvater())
-            .append("ecUrl", getEcUrl())
-            .append("ecPublish", getEcPublish())
-            .append("ecSynopsis", getEcSynopsis())
-            .append("status", getStatus())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .toString();
-    }
 }

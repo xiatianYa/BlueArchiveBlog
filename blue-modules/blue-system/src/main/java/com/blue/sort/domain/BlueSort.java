@@ -3,6 +3,10 @@ package com.blue.sort.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,6 +16,10 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-03-19
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlueSort extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -34,46 +42,5 @@ public class BlueSort extends BaseEntity
     @TableField(exist = false)
     private List<BlueSortTag> tagList;
 
-    public List<BlueSortTag> getTagList() {
-        return tagList;
-    }
 
-    public void setTagList(List<BlueSortTag> tagList) {
-        this.tagList = tagList;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setSortName(String sortName) 
-    {
-        this.sortName = sortName;
-    }
-
-    public String getSortName() 
-    {
-        return sortName;
-    }
-
-    public Integer getSortNumber() {
-        return sortNumber;
-    }
-
-    public void setSortNumber(Integer sortNumber) {
-        this.sortNumber = sortNumber;
-    }
-
-    public String getSortDescribe() {
-        return sortDescribe;
-    }
-
-    public void setSortDescribe(String sortDescribe) {
-        this.sortDescribe = sortDescribe;
-    }
 }

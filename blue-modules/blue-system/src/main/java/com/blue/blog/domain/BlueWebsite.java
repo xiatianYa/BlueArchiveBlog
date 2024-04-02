@@ -2,8 +2,10 @@ package com.blue.blog.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 网站信息对象 blue_website
@@ -11,6 +13,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author ruoyi
  * @date 2024-03-23
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlueWebsite extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -38,75 +44,4 @@ public class BlueWebsite extends BaseEntity
     @Excel(name = "网站的备注")
     private String websiteRemark;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setWebsiteName(String websiteName) 
-    {
-        this.websiteName = websiteName;
-    }
-
-    public String getWebsiteName() 
-    {
-        return websiteName;
-    }
-    public void setWebsiteCover(String websiteCover) 
-    {
-        this.websiteCover = websiteCover;
-    }
-
-    public String getWebsiteCover() 
-    {
-        return websiteCover;
-    }
-    public void setWebsiteUrl(String websiteUrl) 
-    {
-        this.websiteUrl = websiteUrl;
-    }
-
-    public String getWebsiteUrl() 
-    {
-        return websiteUrl;
-    }
-    public void setWebsiteDetail(String websiteDetail) 
-    {
-        this.websiteDetail = websiteDetail;
-    }
-
-    public String getWebsiteDetail() 
-    {
-        return websiteDetail;
-    }
-    public void setWebsiteRemark(String websiteRemark) 
-    {
-        this.websiteRemark = websiteRemark;
-    }
-
-    public String getWebsiteRemark() 
-    {
-        return websiteRemark;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("websiteName", getWebsiteName())
-            .append("websiteCover", getWebsiteCover())
-            .append("websiteUrl", getWebsiteUrl())
-            .append("websiteDetail", getWebsiteDetail())
-            .append("websiteRemark", getWebsiteRemark())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .append("remark", getRemark())
-            .toString();
-    }
 }

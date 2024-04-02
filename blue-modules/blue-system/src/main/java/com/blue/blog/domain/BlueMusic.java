@@ -2,6 +2,10 @@ package com.blue.blog.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 音乐对象 blue_music
@@ -9,6 +13,10 @@ import com.blue.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2024-03-19
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlueMusic extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -31,54 +39,4 @@ public class BlueMusic extends BaseEntity
     @Excel(name = "音乐分类")
     private Long sortId;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public String getMusicUrl() {
-        return musicUrl;
-    }
-
-    public void setMusicUrl(String musicUrl) {
-        this.musicUrl = musicUrl;
-    }
-
-    public String getMusicName() {
-        return musicName;
-    }
-
-    public void setMusicName(String musicName) {
-        this.musicName = musicName;
-    }
-
-    public Long getSortId() {
-        return sortId;
-    }
-
-    public void setSortId(Long sortId) {
-        this.sortId = sortId;
-    }
-
-    @Override
-    public String toString() {
-        return "BlueMusic{" +
-                "id=" + id +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", musicUrl='" + musicUrl + '\'' +
-                ", musicName='" + musicName + '\'' +
-                ", sortId=" + sortId +
-                '}';
-    }
 }

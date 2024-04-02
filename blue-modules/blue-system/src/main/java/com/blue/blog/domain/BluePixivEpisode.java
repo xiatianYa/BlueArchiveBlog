@@ -2,8 +2,10 @@ package com.blue.blog.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 番剧集存储对象 blue_pixiv_episode
@@ -11,6 +13,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author ruoyi
  * @date 2024-04-01
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BluePixivEpisode extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -30,54 +36,4 @@ public class BluePixivEpisode extends BaseEntity
     @Excel(name = "番剧地址")
     private String pixivUrl;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setPixivId(Long pixivId) 
-    {
-        this.pixivId = pixivId;
-    }
-
-    public Long getPixivId() 
-    {
-        return pixivId;
-    }
-    public void setPixivChapters(Long pixivChapters) 
-    {
-        this.pixivChapters = pixivChapters;
-    }
-
-    public Long getPixivChapters() 
-    {
-        return pixivChapters;
-    }
-    public void setPixivUrl(String pixivUrl) 
-    {
-        this.pixivUrl = pixivUrl;
-    }
-
-    public String getPixivUrl() 
-    {
-        return pixivUrl;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("pixivId", getPixivId())
-            .append("pixivChapters", getPixivChapters())
-            .append("pixivUrl", getPixivUrl())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .toString();
-    }
 }

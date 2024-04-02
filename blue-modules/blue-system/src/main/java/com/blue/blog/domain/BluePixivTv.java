@@ -4,6 +4,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +18,10 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-01
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BluePixivTv extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -71,121 +79,5 @@ public class BluePixivTv extends BaseEntity
     /** 番剧集资源列表 */
     @Excel(name = "番剧集资源列表")
     private List<BluePixivEpisode> episodeList;
-
-    public List<BluePixivEpisode> getEpisodeList() {
-        return episodeList;
-    }
-
-    public void setEpisodeList(List<BluePixivEpisode> episodeList) {
-        this.episodeList = episodeList;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setPixivName(String pixivName) 
-    {
-        this.pixivName = pixivName;
-    }
-
-    public String getPixivName() 
-    {
-        return pixivName;
-    }
-    public void setPixivAvater(String pixivAvater) 
-    {
-        this.pixivAvater = pixivAvater;
-    }
-
-    public String getPixivAvater() 
-    {
-        return pixivAvater;
-    }
-    public void setPixivPublish(Date pixivPublish) 
-    {
-        this.pixivPublish = pixivPublish;
-    }
-
-    public Date getPixivPublish() 
-    {
-        return pixivPublish;
-    }
-    public void setPixivScore(String pixivScore) 
-    {
-        this.pixivScore = pixivScore;
-    }
-
-    public String getPixivScore() 
-    {
-        return pixivScore;
-    }
-    public void setPixivType(Long pixivType) 
-    {
-        this.pixivType = pixivType;
-    }
-
-    public Long getPixivType() 
-    {
-        return pixivType;
-    }
-    public void setPixivVoiceActor(String pixivVoiceActor) 
-    {
-        this.pixivVoiceActor = pixivVoiceActor;
-    }
-
-    public String getPixivVoiceActor() 
-    {
-        return pixivVoiceActor;
-    }
-    public void setPixivSynopsis(String pixivSynopsis) 
-    {
-        this.pixivSynopsis = pixivSynopsis;
-    }
-
-    public String getPixivSynopsis() 
-    {
-        return pixivSynopsis;
-    }
-    public void setPixivPlay(Long pixivPlay) 
-    {
-        this.pixivPlay = pixivPlay;
-    }
-
-    public Long getPixivPlay() 
-    {
-        return pixivPlay;
-    }
-    public void setStatus(Long status) 
-    {
-        this.status = status;
-    }
-
-    public Long getStatus() 
-    {
-        return status;
-    }
-    public void setIsEnd(Long isEnd) 
-    {
-        this.isEnd = isEnd;
-    }
-
-    public Long getIsEnd() 
-    {
-        return isEnd;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
 
 }

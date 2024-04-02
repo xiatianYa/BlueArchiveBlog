@@ -3,6 +3,10 @@ package com.blue.sort.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 文章标签关联对象 blue_article_tag
@@ -10,6 +14,10 @@ import com.blue.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2024-03-23
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlueArticleTag extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -34,49 +42,4 @@ public class BlueArticleTag extends BaseEntity
     @Excel(name = "标签名称")
     @TableField(exist = false)
     private String tagName;
-
-
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setArticleId(Long articleId) 
-    {
-        this.articleId = articleId;
-    }
-
-    public Long getArticleId() 
-    {
-        return articleId;
-    }
-    public void setTagId(Long tagId) 
-    {
-        this.tagId = tagId;
-    }
-
-    public Long getTagId() 
-    {
-        return tagId;
-    }
-
-    public String getArticleName() {
-        return articleName;
-    }
-
-    public void setArticleName(String articleName) {
-        this.articleName = articleName;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
-    }
 }

@@ -86,7 +86,6 @@ function selectSort(index) {
   } else if (type.value === 1) {
     listErchuang().then(res=>{
       erchuangList.value=res.rows
-      console.log(erchuangList.value);
     })
   } else if (type.value === 2) {
 
