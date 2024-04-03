@@ -43,7 +43,15 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     @Override
     public BluePixivTv selectBluePixivTvById(Long id)
     {
-        return bluePixivTvMapper.selectBluePixivTvById(id);
+        BluePixivTv bluePixivTv = bluePixivTvMapper.selectBluePixivTvById(id);
+        //番剧分类列表
+        List<BluePixivType> bluePixivTypes = bluePixivTypeService.selectList(new LambdaQueryWrapper<>());
+        for (BluePixivType bluePixivType : bluePixivTypes) {
+            if (bluePixivTv.getPixivType().equals(bluePixivType.getId())){
+                bluePixivTv.setTypeName(bluePixivType.getTypeName());
+            }
+        }
+        return bluePixivTv;
     }
 
     /**

@@ -6,18 +6,25 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1766308",
+      "name": "操作-排序-降序",
+      "font_class": "paixu-jiangxu",
+      "unicode": "e684",
+      "unicode_decimal": 59012
+    },
+    {
+      "icon_id": "1766310",
+      "name": "操作-排序-升序",
+      "font_class": "paixu-shengxu",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
       "icon_id": "21823741",
       "name": "error",
       "font_class": "error",
       "unicode": "e668",
       "unicode_decimal": 58984
-    },
-    {
-      "icon_id": "21823835",
-      "name": "info",
-      "font_class": "info",
-      "unicode": "e66f",
-      "unicode_decimal": 58991
     },
     {
       "icon_id": "21823918",

@@ -97,6 +97,7 @@ function selectSort(index) {
 
   }
 }
+//跳转路由到番剧页面
 function goPixiv(pixivId) {
   router.push({ path: '/pixivView', query: { pixivId: pixivId } })
 }

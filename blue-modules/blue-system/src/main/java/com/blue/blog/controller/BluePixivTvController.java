@@ -55,7 +55,6 @@ public class BluePixivTvController extends BaseController
     /**
      * 获取番剧信息详细信息
      */
-    @RequiresPermissions("blog:tv:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
