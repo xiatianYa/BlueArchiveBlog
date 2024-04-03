@@ -51,7 +51,7 @@ import SortDetail from '@/components/SortDetail.vue'
 import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listSort} from '@/api/sort/sort'
-import {listTag} from '@/api/sort/tag'
+import {listTag} from '@/api/sort/tagSort'
 import {listByTagId} from '@/api/article'
 import {useRouter} from 'vue-router'
 import promptMsg from "@/components/PromptBoxView"
@@ -321,3 +321,4 @@ function selectArticleListByTagId(tagId) {
   background-color: #8ef6e4 !important;
 }
 </style>
+@/api/sort/tagSort

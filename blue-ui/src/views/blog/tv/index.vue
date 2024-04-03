@@ -194,7 +194,7 @@
 
 <script>
 import {addTv, delTv, getTv, listTv, updateTv} from "@/api/blog/tv";
-import {listType} from "@/api/sort/type";
+import {listType} from "@/api/sort/pixivSort";
 import {listEpisode} from '@/api/blog/episode';
 
 export default {

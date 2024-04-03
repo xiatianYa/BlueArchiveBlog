@@ -95,7 +95,7 @@
 
 <script>
 import {addPhoto, delPhoto, getPhoto, listPhoto, updatePhoto} from "@/api/blog/photo";
-import {listSort} from '@/api/sort/photo'
+import {listSort} from '@/api/sort/photoSort'
 import store from '@/store'
 
 export default {

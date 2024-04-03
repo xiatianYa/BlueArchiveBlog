@@ -1,20 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类名称" prop="sortId">
-        <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
-          <el-option
-            v-for="dict in sortDict"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="标签的名称" prop="tagName">
+      <el-form-item label="分类名称" prop="sortName">
         <el-input
-          v-model="queryParams.tagName"
-          placeholder="请输入标签的名称"
+          v-model="queryParams.sortName"
+          placeholder="请输入分类名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -33,7 +23,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['sort:tag:add']"
+          v-hasPermi="['sort:sort:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -44,7 +34,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['sort:tag:edit']"
+          v-hasPermi="['sort:sort:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -55,7 +45,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['sort:tag:remove']"
+          v-hasPermi="['sort:sort:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,18 +55,16 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['sort:tag:export']"
+          v-hasPermi="['sort:sort:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="tagList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="sortList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="分类名称" align="center" prop="sortName"/>
-      <el-table-column label="标签的名称" align="center" prop="tagName" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="ID" align="center" prop="id" />
+      <el-table-column label="分类名称" align="center" prop="sortName" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -84,14 +72,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['sort:tag:edit']"
+            v-hasPermi="['sort:sort:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['sort:tag:remove']"
+            v-hasPermi="['sort:sort:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -105,24 +93,11 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改标签对话框 -->
+    <!-- 添加或修改编程工具分类对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="分类名称" prop="sortId">
-          <el-select v-model="form.sortId" placeholder="请选择分类名称">
-            <el-option
-              v-for="dict in sortDict"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="标签的名称" prop="tagName">
-          <el-input v-model="form.tagName" placeholder="请输入标签的名称" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+        <el-form-item label="分类名称" prop="sortName">
+          <el-input v-model="form.sortName" placeholder="请输入分类名称" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -134,15 +109,12 @@
 </template>
 
 <script>
-import {addTag, delTag, getTag, listTag, updateTag} from "@/api/sort/tagSort";
-import {listSort} from '@/api/sort/sort'
+import {addSort, delSort, getSort, listSort, updateSort} from "@/api/sort/toolSort";
 
 export default {
-  name: "Tag",
+  name: "Sort",
   data() {
     return {
-      //分类字典
-      sortDict:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -155,8 +127,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 标签表格数据
-      tagList: [],
+      // 编程工具分类表格数据
+      sortList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -165,45 +137,33 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        sortId: null,
-        tagName: null,
+        sortName: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        sortId: [
-          { required: true, message: "分类名词不能为空", trigger: "change" }
+        sortName: [
+          { required: true, message: "分类名称不能为空", trigger: "blur" }
         ],
-        tagName: [
-          { required: true, message: "标签的名称不能为空", trigger: "blur" }
+        createTime: [
+          { required: true, message: "创建时间不能为空", trigger: "blur" }
+        ],
+        createBy: [
+          { required: true, message: "创建人不能为空", trigger: "blur" }
         ],
       }
     };
   },
   created() {
-    //获取分类列表
-    listSort().then(res => {
-      for (const item of res.rows) {
-        this.sortDict.push({ value: item.id, label: item.sortName })
-      }
-    })
     this.getList();
   },
   methods: {
-    /** 查询标签列表 */
+    /** 查询编程工具分类列表 */
     getList() {
       this.loading = true;
-      listTag(this.queryParams).then(response => {
-        this.tagList = response.rows;
-        //循环查找出分类
-        for (let index = 0; index < this.tagList.length; index++) {
-          let item = this.sortDict.find(n => n.value === this.tagList[index].sortId)
-          if (!item) {
-            item.label = "未知分类";
-          }
-          this.tagList[index].sortName = item.label
-        }
+      listSort(this.queryParams).then(response => {
+        this.sortList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -217,13 +177,11 @@ export default {
     reset() {
       this.form = {
         id: null,
-        sortId: null,
-        tagName: null,
+        sortName: null,
         createTime: null,
         updateTime: null,
         createBy: null,
-        updateBy: null,
-        remark: null
+        updateBy: null
       };
       this.resetForm("form");
     },
@@ -247,16 +205,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加标签";
+      this.title = "添加编程工具分类";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getTag(id).then(response => {
+      getSort(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改标签";
+        this.title = "修改编程工具分类";
       });
     },
     /** 提交按钮 */
@@ -264,13 +222,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateTag(this.form).then(response => {
+            updateSort(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addTag(this.form).then(response => {
+            addSort(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -282,8 +240,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除标签编号为"' + ids + '"的数据项？').then(function() {
-        return delTag(ids);
+      this.$modal.confirm('是否确认删除编程工具分类编号为"' + ids + '"的数据项？').then(function() {
+        return delSort(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -291,9 +249,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('sort/tag/export', {
+      this.download('sort/sort/export', {
         ...this.queryParams
-      }, `tag_${new Date().getTime()}.xlsx`)
+      }, `sort_${new Date().getTime()}.xlsx`)
     }
   }
 };

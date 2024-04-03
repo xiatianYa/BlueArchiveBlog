@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2024-03-19
  */
 @RestController
-@RequestMapping("/tag")
+@RequestMapping("/tagSort")
 public class BlueSortTagController extends BaseController
 {
     @Autowired

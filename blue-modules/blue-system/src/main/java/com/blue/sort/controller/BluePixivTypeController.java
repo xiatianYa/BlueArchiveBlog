@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2024-04-01
  */
 @RestController
-@RequestMapping("/pixiv/type")
+@RequestMapping("/pixivSort")
 public class BluePixivTypeController extends BaseController
 {
     @Autowired

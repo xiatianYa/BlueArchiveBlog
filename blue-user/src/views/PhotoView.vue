@@ -62,7 +62,7 @@
 import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listPhoto} from '@/api/photo'
-import {listSort} from '@/api/sort/photo'
+import {listSort} from '@/api/sort/photoSort'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
 const PhotoList = ref([])
@@ -268,3 +268,4 @@ function searchSort(sortId) {
   }
 }
 </style>
+@/api/sort/photoSort

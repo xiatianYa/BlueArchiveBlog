@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import {addSort, delSort, getSort, listSort, updateSort} from "@/api/sort/music";
+import {addSort, delSort, getSort, listSort, updateSort} from "@/api/sort/musicSort";
 
 export default {
   name: "Sort",

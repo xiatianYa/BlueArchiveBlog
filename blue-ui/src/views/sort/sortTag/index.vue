@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import {addTag, delTag, getTag, listTag, updateTag} from "@/api/sort/sortTag";
+import {addTag, delTag, getTag, listTag, updateTag} from "@/api/sort/articleTag";
 
 export default {
   name: "Tag",

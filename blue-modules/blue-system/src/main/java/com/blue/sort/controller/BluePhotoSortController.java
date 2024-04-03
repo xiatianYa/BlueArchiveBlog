@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2024-03-19
  */
 @RestController
-@RequestMapping("/photosort")
+@RequestMapping("/photoSort")
 public class BluePhotoSortController extends BaseController
 {
     @Autowired

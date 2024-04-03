@@ -147,7 +147,7 @@
 
 <script>
 import {addMusic, delMusic, getMusic, listMusic, updateMusic} from "@/api/blog/music";
-import {listSort} from "@/api/sort/music";
+import {listSort} from "@/api/sort/musicSort";
 
 export default {
   name: "Music",

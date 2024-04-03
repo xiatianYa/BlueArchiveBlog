@@ -41,6 +41,9 @@
           <span v-if="type === 1">
             二创
           </span>
+          <span v-if="type === 2">
+            编程工具
+          </span>
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-icon-gengduo"></use>
           </svg>

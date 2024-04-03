@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import {addType, delType, getType, listType, updateType} from "@/api/sort/type";
+import {addType, delType, getType, listType, updateType} from "@/api/sort/pixivSort";
 
 export default {
   name: "Type",

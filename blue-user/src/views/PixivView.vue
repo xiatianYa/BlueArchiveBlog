@@ -30,7 +30,7 @@
         </div>
         <div class="pixiv_right">
             <div class="pixiv_title">
-                <span>正片 (1/{{ episodeList.length }})</span>
+                <span>正片 ({{chaptersIndex+'/'+episodeList.length }})</span>
                 <svg class="icon pointer" aria-hidden="true" @click="changSort" v-show="sort">
                     <use xlink:href="#icon-paixu-jiangxu"></use>
                 </svg>
@@ -39,7 +39,7 @@
                 </svg>
             </div>
             <div class="pixiv_episodes">
-                <div class="episode" :class="chaptersIndex === episode.id ? 'selectEpisode' : ''"
+                <div class="episode" :class="chaptersIndex === episode.pixivChapters ? 'selectEpisode' : ''"
                     v-for="episode in episodeList" @click="selectChapters(episode)">
                     <span>{{ episode.pixivChapters }}</span>
                 </div>
@@ -63,7 +63,7 @@ const pixiv = ref()
 //番剧集列表
 const episodeList = ref([])
 //当前番剧集ID
-const chaptersIndex = ref()
+const chaptersIndex = ref(0)
 //组件传递的参数
 const videoOptions = ref({
     //视频地址
@@ -87,7 +87,7 @@ onMounted(() => {
         }
         listEpisode(query).then(res => {
             episodeList.value = res.rows
-            chaptersIndex.value = episodeList.value[0].id
+            chaptersIndex.value = episodeList.value[0].pixivChapters
             //设置播放组件传递视频地址 封面
             videoOptions.value.url = episodeList.value[0].pixivUrl
             videoOptions.value.poster = pixiv.value.pixivAvater;
@@ -97,7 +97,7 @@ onMounted(() => {
 //选择第几集
 function selectChapters(episode) {
     //重新设置下标
-    chaptersIndex.value = episode.id
+    chaptersIndex.value = episode.pixivChapters
     //向组件传递当前的集数
     videoOptions.value.url = episode.pixivUrl
 }
