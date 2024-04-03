@@ -1,5 +1,6 @@
 package com.blue.sort.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.sort.domain.BlueProgramToolSort;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-03
  */
-public interface BlueProgramToolSortMapper 
+public interface BlueProgramToolSortMapper extends BaseMapper<BlueProgramToolSort>
 {
     /**
      * 查询编程工具分类

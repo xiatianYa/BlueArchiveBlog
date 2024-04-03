@@ -1,6 +1,8 @@
 package com.blue.sort.service.impl;
 
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BlueProgramToolSort;
 import com.blue.sort.mapper.BlueProgramToolSortMapper;
 import com.blue.sort.service.IBlueProgramToolSortService;
@@ -54,6 +56,10 @@ public class BlueProgramToolSortServiceImpl implements IBlueProgramToolSortServi
     @Override
     public int insertBlueProgramToolSort(BlueProgramToolSort blueProgramToolSort)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            blueProgramToolSort.setCreateBy(String.valueOf(userId));
+        }
         blueProgramToolSort.setCreateTime(DateUtils.getNowDate());
         return blueProgramToolSortMapper.insertBlueProgramToolSort(blueProgramToolSort);
     }
@@ -67,6 +73,10 @@ public class BlueProgramToolSortServiceImpl implements IBlueProgramToolSortServi
     @Override
     public int updateBlueProgramToolSort(BlueProgramToolSort blueProgramToolSort)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            blueProgramToolSort.setUpdateBy(String.valueOf(userId));
+        }
         blueProgramToolSort.setUpdateTime(DateUtils.getNowDate());
         return blueProgramToolSortMapper.updateBlueProgramToolSort(blueProgramToolSort);
     }
