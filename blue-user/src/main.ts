@@ -44,6 +44,8 @@ import router from './router'
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import Prism from 'prismjs';
+import vue3videoPlay from 'vue3-video-play' // 引入组件
+import 'vue3-video-play/dist/style.css' // 引入css
 
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
@@ -53,8 +55,8 @@ VueMarkdownEditor.use(createLineNumbertPlugin());
 //创建App实际
 const app = createApp(App)
 
-
+app.use(vue3videoPlay)
 app.use(createPinia())
 app.use(router)
-app.mount('#app')
 app.use(VueMarkdownEditor);
+app.mount('#app')

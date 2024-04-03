@@ -9,6 +9,7 @@ import SongView from '../views/SongView.vue'
 import UserView from '../views/UserView.vue'
 import LoadingVuew from '../components/LoadingView.vue'
 import ArticlePreview from '../components/ArticlePreview.vue'
+import PixivView from '../views/PixivView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +64,11 @@ const router = createRouter({
             path: '/editPreView',
             name: 'editPreView',
             component: ArticlePreview
+        },
+        {
+            path: '/pixivView',
+            name: 'pixivView',
+            component: PixivView
         }
     ]
 })

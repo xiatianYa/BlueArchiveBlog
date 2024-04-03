@@ -46,7 +46,7 @@
           </svg>
         </div>
         <div class="found_body">
-          <PixivDetail :pixiv="pixiv" v-for="pixiv in pixivList" v-if="type === 0" />
+          <PixivDetail :pixiv="pixiv" v-for="pixiv in pixivList" v-if="type === 0" @click="goPixiv(pixiv.id)" />
           <ErchuangDetail :erchuang="erchuang" v-if="type === 1" v-for="erchuang in erchuangList"></ErchuangDetail>
         </div>
       </div>
@@ -59,10 +59,12 @@ import {onMounted, ref} from 'vue'
 import {useBgStore} from '@/store/bg'
 import {listTv} from '@/api/tv'
 import {listErchuang} from '@/api/erchuang'
+import {useRouter} from 'vue-router'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
+const router = useRouter()
 const pixivList = ref()
 const erchuangList = ref()
 //当前发现类型 0追番 1二创 2编程工具 3小游戏
@@ -70,6 +72,7 @@ const type = ref(0)
 onMounted(() => {
   init();
 })
+//初始化数据
 function init() {
   if (type.value === 0) {
     listTv().then(res => {
@@ -77,6 +80,7 @@ function init() {
     })
   }
 }
+//选择导航
 function selectSort(index) {
   type.value = index
   if (type.value === 0) {
@@ -92,6 +96,9 @@ function selectSort(index) {
   } else {
 
   }
+}
+function goPixiv(pixivId) {
+  router.push({ path: '/pixivView', query: { pixivId: pixivId } })
 }
 </script>
 
