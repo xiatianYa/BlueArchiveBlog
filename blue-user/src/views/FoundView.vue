@@ -49,8 +49,9 @@
           </svg>
         </div>
         <div class="found_body">
-          <PixivDetail :pixiv="pixiv" v-for="pixiv in pixivList" v-if="type === 0" @click="goPixiv(pixiv.id)" />
-          <ErchuangDetail :erchuang="erchuang" v-if="type === 1" v-for="erchuang in erchuangList"></ErchuangDetail>
+          <PixivDetail v-if="type === 0" :pixiv="pixiv" v-for="pixiv in pixivList" @click="goPixiv(pixiv.id)" />
+          <ErchuangDetail v-if="type === 1" :erchuang="erchuang"  v-for="erchuang in erchuangList"></ErchuangDetail>
+          <ToolDetail v-if="type === 2" :tool="tool" v-for="tool in toolList"></ToolDetail>
         </div>
       </div>
     </div>
@@ -62,14 +63,20 @@ import {onMounted, ref} from 'vue'
 import {useBgStore} from '@/store/bg'
 import {listTv} from '@/api/tv'
 import {listErchuang} from '@/api/erchuang'
+import {listToolBySort} from '@/api/tool'
 import {useRouter} from 'vue-router'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
+import ToolDetail from '@/components/ToolDetail.vue'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
 const router = useRouter()
+//番剧列表
 const pixivList = ref()
+//二创列表
 const erchuangList = ref()
+//工具列表
+const toolList=ref()
 //当前发现类型 0追番 1二创 2编程工具 3小游戏
 const type = ref(0)
 onMounted(() => {
@@ -95,7 +102,10 @@ function selectSort(index) {
       erchuangList.value=res.rows
     })
   } else if (type.value === 2) {
-
+    listToolBySort().then(res=>{
+      toolList.value=res.rows
+      console.log(toolList.value);
+    })
   } else {
 
   }

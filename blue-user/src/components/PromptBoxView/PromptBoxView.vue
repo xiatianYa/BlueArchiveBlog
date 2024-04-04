@@ -57,7 +57,7 @@ export default {
     onMounted(() => {
       visible.value = true;
     });
-    return {style, visible};
+    return { style, visible };
   },
 };
 </script>

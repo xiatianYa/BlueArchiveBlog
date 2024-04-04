@@ -1,6 +1,6 @@
 <template>
   <div class="video">
-    <vue3VideoPlay width="auto" title="钢铁侠" :src="src" :poster="poster" @play="onPlay" @pause="onPause"
+    <vue3VideoPlay width="auto" :src="src" :poster="poster" @play="onPlay" @pause="onPause"
       @timeupdate="onTimeupdate" @canplay="onCanplay" :ligthOff="true" :control="options.control" />
   </div>
 

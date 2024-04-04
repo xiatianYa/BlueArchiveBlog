@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 弹幕Service业务层处理
@@ -77,7 +79,13 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
         if (!StringUtils.isNotEmpty(blueLeaveMessage.getContent())){
             throw new ServiceException("请填写弹幕内容");
         }
-
+        //判断弹幕输入字符必须大于4 不能是纯数字
+        // 使用正则表达式判断是否为纯数字
+        Pattern pattern = Pattern.compile("^\\d+$");
+        Matcher matcher = pattern.matcher(blueLeaveMessage.getContent());
+        if (blueLeaveMessage.getContent().length()<4 || matcher.matches()){
+            throw new ServiceException("弹幕内容少于4个字或内容为纯数字");
+        }
         if (!StringUtils.isNotNull(blueLeaveMessage.getUserId()) ||
                 !StringUtils.isNotEmpty(blueLeaveMessage.getBarrageHeight().toString()) ||
                 !StringUtils.isNotEmpty(blueLeaveMessage.getUserAvater())){

@@ -1,12 +1,12 @@
 <template>
-  <div class="found_Detail box_shadow animate__animated animate__zoomIn">
-    <div class="found_left">
+  <div class="pixiv box_shadow animate__animated animate__zoomIn">
+    <div class="pixiv_left">
       <div class="left_title">{{ pixiv.pixivName }}</div>
       <div class="left_info">
         <span>{{ pixiv.pixivPlay }}播放</span> · <span>876.6万弹幕</span> · <span>872.3万点赞</span>
       </div>
       <div class="left_type">
-        <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0,4) }}</span>
+        <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0, 4) }}</span>
       </div>
       <div class="left_shengyou">
         <span>声优 : {{ pixiv.pixivVoiceActor }}</span>
@@ -18,7 +18,7 @@
         <span>简介 : {{ pixiv.pixivSynopsis }}</span>
       </div>
     </div>
-    <div class="found_right">
+    <div class="pixiv_right">
       <div class="category_img">
         <img :src="pixiv.pixivAvater" alt="回忆图片">
       </div>
@@ -31,14 +31,14 @@ const props = defineProps(['pixiv'])
 </script>
 
 <style lang="scss" scoped>
-.found_Detail {
+.pixiv {
   width: 100%;
   display: flex;
   flex-direction: row;
   border-radius: 10px 10px 10px 10px;
   margin-top: 30px;
 
-  .found_left {
+  .pixiv_left {
     flex: 1;
     padding: 20px;
 
@@ -78,7 +78,7 @@ const props = defineProps(['pixiv'])
     }
   }
 
-  .found_right {
+  .pixiv_right {
 
 
     .category_img {

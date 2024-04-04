@@ -1,5 +1,5 @@
 <template>
-    <div class="found_Detail pointer box_shadow animate__animated animate__zoomIn" @click="goHref(erchuang.ecUrl)">
+    <div class="erchuang pointer box_shadow animate__animated animate__zoomIn" @click="goHref(erchuang.ecUrl)">
         <div class="erchuang_img">
             <img :src="erchuang.ecAvater">
         </div>
@@ -7,20 +7,21 @@
             <span>{{ erchuang.ecName }}</span>
         </div>
         <div class="erchuang_info">
-            <span class="erchuang_author">{{ erchuang.ecAuthor }}</span>&nbsp;·&nbsp;<span class="erchuang_time">{{ erchuang.ecPublish }}</span>
+            <span class="erchuang_author">{{ erchuang.ecAuthor }}</span>&nbsp;·&nbsp;<span class="erchuang_time">{{
+        erchuang.ecPublish }}</span>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps(['erchuang'])
-function goHref(url:string) {
-    window.open(url,"_blank")
+function goHref(url: string) {
+    window.open(url, "_blank")
 }
 </script>
 
 <style lang="scss" scoped>
-.found_Detail {
+.erchuang {
     width: 29%;
     display: flex;
     flex-wrap: wrap;
@@ -34,12 +35,15 @@ function goHref(url:string) {
         max-height: 300px;
         border-radius: 10px 10px 0 0;
         overflow: hidden;
+
         img {
             width: 100%;
             height: 100%;
             transition: all 0.3s ease-in-out;
+            object-fit: cover;
         }
-        img:hover{
+
+        img:hover {
             transform: scale(1.1);
         }
     }
