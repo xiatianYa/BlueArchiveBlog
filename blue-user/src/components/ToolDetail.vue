@@ -6,7 +6,7 @@
             </h2>
         </div>
         <div class="tools">
-            <div class="tool_detail pointer box_shadow" v-for="toolDetail in tool.blueProgramToolList"  @click="goHref(toolDetail.toolUrl)">
+            <div class="tool_detail pointer box_shadow animate__animated animate__slideInLeft" v-for="toolDetail in tool.blueProgramToolList"  @click="goHref(toolDetail.toolUrl)">
                 <div class="tool_left">
                     <div class="tool_img">
                         <img :src="toolDetail.toolAvater" />

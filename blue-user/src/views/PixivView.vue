@@ -1,7 +1,7 @@
 <template>
     <div class="pixiv">
         <div class="pixiv_left">
-            <VideoPlay :src="videoOptions.url" :poster="videoOptions.poster"></VideoPlay>
+            <Artplayer @get-instance="getInstance" :option="option" :style="style" />
             <div class="pixiv_detail" v-if="pixiv">
                 <div class="found_left">
                     <div class="left_title">{{ pixiv.pixivName }}</div>
@@ -30,7 +30,7 @@
         </div>
         <div class="pixiv_right">
             <div class="pixiv_title">
-                <span>正片 ({{chaptersIndex+'/'+episodeList.length }})</span>
+                <span>正片 ({{ chaptersIndex + '/' + episodeList.length }})</span>
                 <svg class="icon pointer" aria-hidden="true" @click="changSort" v-show="sort">
                     <use xlink:href="#icon-paixu-jiangxu"></use>
                 </svg>
@@ -53,7 +53,7 @@ import {onMounted, ref} from "vue"
 import {useRouter} from 'vue-router'
 import {getTv} from '@/api/tv'
 import {listEpisode} from '@/api/episode'
-import VideoPlay from '@/components/Vue3VideoPlayView.vue'
+import Artplayer from "@/components/Artplayer.vue";
 
 const router = useRouter()
 //番剧ID
@@ -64,16 +64,17 @@ const pixiv = ref()
 const episodeList = ref([])
 //当前番剧集ID
 const chaptersIndex = ref(0)
-//组件传递的参数
-const videoOptions = ref({
-    //视频地址
-    url: "",
-    //封面地址
-    poster: ""
+//播放组件实例对象
+const artInstance=ref()
+const style = ref({
+    width: '100%',
+    height: '400px',
 })
 //排序方案 true 降序 false 升序
 const sort = ref(true)
 onMounted(() => {
+    //获取视频播放示例对象
+    getInstance()
     //获取从路由传递过来的参数
     if (router.currentRoute.value.query.pixivId) {
         pixivId.value = router.currentRoute.value.query.pixivId
@@ -89,8 +90,8 @@ onMounted(() => {
             episodeList.value = res.rows
             chaptersIndex.value = episodeList.value[0].pixivChapters
             //设置播放组件传递视频地址 封面
-            videoOptions.value.url = episodeList.value[0].pixivUrl
-            videoOptions.value.poster = pixiv.value.pixivAvater;
+            artInstance.value.url = episodeList.value[0].pixivUrl
+            artInstance.value.poster = pixiv.value.pixivAvater;
         })
     })
 })
@@ -99,7 +100,8 @@ function selectChapters(episode) {
     //重新设置下标
     chaptersIndex.value = episode.pixivChapters
     //向组件传递当前的集数
-    videoOptions.value.url = episode.pixivUrl
+    artInstance.value.url = episode.pixivUrl
+    artInstance.value.play()
 }
 //选择集排序方案 默认是降序
 function changSort() {
@@ -111,6 +113,10 @@ function changSort() {
         //切换成降序
         episodeList.value = episodeList.value.sort((x, y) => y.pixivChapters - x.pixivChapters);
     }
+}
+//获取视频播放实例
+function getInstance(art) {
+    artInstance.value=art
 }
 </script>
 

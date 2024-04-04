@@ -44,6 +44,9 @@
           <span v-if="type === 2">
             编程工具
           </span>
+          <span v-if="type === 3">
+            小游戏
+          </span>
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-icon-gengduo"></use>
           </svg>

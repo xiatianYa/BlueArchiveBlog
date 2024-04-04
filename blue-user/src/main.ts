@@ -14,9 +14,6 @@ import './permission'
 //adnimate.css 动画库
 import 'animate.css';
 
-//vue3-video
-import vue3videoPlay from 'vue3-video-play' // 引入组件
-import 'vue3-video-play/dist/style.css' // 引入css
 // codemirror 编辑器的相关资源
 import Codemirror from 'codemirror';
 // mode
@@ -57,8 +54,6 @@ VueMarkdownEditor.use(createLineNumbertPlugin());
 //创建App实际
 const app = createApp(App)
 
-
-app.use(vue3videoPlay)
 app.use(createPinia())
 app.use(router)
 app.use(VueMarkdownEditor);
