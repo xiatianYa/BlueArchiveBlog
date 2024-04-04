@@ -104,7 +104,6 @@ function selectSort(index) {
   } else if (type.value === 2) {
     listToolBySort().then(res=>{
       toolList.value=res.rows
-      console.log(toolList.value);
     })
   } else {
 

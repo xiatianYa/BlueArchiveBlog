@@ -41,7 +41,9 @@ public class BlueProgramTool extends BaseEntity
     /** 工具简介 */
     @Excel(name = "工具简介")
     private String toolDescribe;
-
+    /** 工具路径 */
+    @Excel(name = "工具简介")
+    private String toolUrl;
     /** 工具图片 */
     @Excel(name = "工具图片")
     private String toolAvater;

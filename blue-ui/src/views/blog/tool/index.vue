@@ -45,6 +45,7 @@
       </el-table-column>
       <el-table-column label="工具名称" align="center" prop="toolName" />
       <el-table-column label="工具简介" align="center" prop="toolDescribe" />
+      <el-table-column label="工具网址" align="center" prop="toolUrl" />
       <el-table-column label="工具图片" align="center" prop="toolAvater" width="100">
         <template slot-scope="scope">
           <image-preview :src="scope.row.toolAvater" :width="50" :height="50" />
@@ -77,6 +78,9 @@
         </el-form-item>
         <el-form-item label="工具简介" prop="toolDescribe">
           <el-input v-model="form.toolDescribe" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="工具网址" prop="toolUrl">
+          <el-input v-model="form.toolUrl" placeholder="请输入工具网址" />
         </el-form-item>
         <el-form-item label="工具图片" prop="toolAvater">
           <image-upload v-model="form.toolAvater" />
@@ -142,6 +146,9 @@ export default {
         ],
         toolAvater: [
           { required: true, message: "工具图片不能为空", trigger: "blur" }
+        ],
+        toolUrl: [
+          { required: true, message: "工具网址不能为空", trigger: "blur" }
         ],
         createTime: [
           { required: true, message: "创建时间不能为空", trigger: "blur" }

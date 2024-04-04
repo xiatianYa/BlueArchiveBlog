@@ -6,7 +6,7 @@
             </h2>
         </div>
         <div class="tools">
-            <div class="tool_detail pointer box_shadow" v-for="toolDetail in tool.blueProgramToolList">
+            <div class="tool_detail pointer box_shadow" v-for="toolDetail in tool.blueProgramToolList"  @click="goHref(toolDetail.toolUrl)">
                 <div class="tool_left">
                     <div class="tool_img">
                         <img :src="toolDetail.toolAvater" />
@@ -29,6 +29,9 @@
 
 <script setup lang="ts">
 const props = defineProps(['tool'])
+function goHref(toolUrl: string) {
+    window.open(toolUrl, "_blank")
+}
 </script>
 
 <style lang="scss" scoped>

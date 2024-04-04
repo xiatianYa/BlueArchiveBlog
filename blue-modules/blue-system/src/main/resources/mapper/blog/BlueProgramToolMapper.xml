@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="toolName"    column="tool_name"    />
         <result property="toolDescribe"    column="tool_describe"    />
         <result property="toolAvater"    column="tool_avater"    />
+        <result property="toolUrl"    column="tool_url"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
         <result property="createBy"    column="create_by"    />
@@ -17,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBlueProgramToolVo">
-        select id, sort_id, tool_name, tool_describe, tool_avater, create_time, update_time, create_by, update_by from blue_program_tool
+        select id, sort_id, tool_name, tool_describe, tool_avater,tool_url, create_time, update_time, create_by, update_by from blue_program_tool
     </sql>
 
     <select id="selectBlueProgramToolList" parameterType="BlueProgramTool" resultMap="BlueProgramToolResult">
@@ -42,6 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="toolName != null and toolName != ''">tool_name,</if>
             <if test="toolDescribe != null and toolDescribe != ''">tool_describe,</if>
             <if test="toolAvater != null and toolAvater != ''">tool_avater,</if>
+            <if test="toolUrl != null and toolUrl != ''">tool_url,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="createBy != null">create_by,</if>
@@ -52,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="toolName != null and toolName != ''">#{toolName},</if>
             <if test="toolDescribe != null and toolDescribe != ''">#{toolDescribe},</if>
             <if test="toolAvater != null and toolAvater != ''">#{toolAvater},</if>
+            <if test="toolUrl != null and toolUrl != ''">#{toolUrl},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -66,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="toolName != null and toolName != ''">tool_name = #{toolName},</if>
             <if test="toolDescribe != null and toolDescribe != ''">tool_describe = #{toolDescribe},</if>
             <if test="toolAvater != null and toolAvater != ''">tool_avater = #{toolAvater},</if>
+            <if test="toolUrl != null and toolUrl != ''">tool_url = #{toolUrl},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
