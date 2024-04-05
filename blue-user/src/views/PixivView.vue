@@ -1,7 +1,7 @@
 <template>
     <div class="pixiv">
         <div class="pixiv_left">
-            <Artplayer @get-instance="getInstance" :option="option" :style="style" />
+            <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :option="option" :style="style" />
             <div class="pixiv_detail" v-if="pixiv">
                 <div class="found_left">
                     <div class="left_title">{{ pixiv.pixivName }}</div>

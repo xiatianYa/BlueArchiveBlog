@@ -14,6 +14,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  chaptersIndex: {
+    type: Number,
+    required: true,
+  },
+  pixivId: {
+    type: Number,
+    required: true,
+  }
 });
 
 const instance = ref(null);
@@ -91,19 +99,14 @@ onMounted(() => {
     moreVideoAttr: {
       crossOrigin: 'anonymous',
     },
-    contextmenu: [
-      {
-        html: 'Custom menu',
-        click: function (contextmenu) {
-          console.info('You clicked on the custom menu');
-          contextmenu.show = false;
-        },
-      },
-    ],
   });
   nextTick(() => {
     emit('get-instance', instance.value);
     instance.value.on('artplayerPluginDanmuku:emit', (danmu) => {
+      //集ID
+      console.log(props.chaptersIndex);
+      //番剧ID
+      console.log(props.pixivId);
       console.info('新增弹幕', danmu);
     });
   });
