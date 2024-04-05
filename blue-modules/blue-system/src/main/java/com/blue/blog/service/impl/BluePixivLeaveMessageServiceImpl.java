@@ -4,6 +4,8 @@ import com.blue.blog.domain.BluePixivLeaveMessage;
 import com.blue.blog.mapper.BluePixivLeaveMessageMapper;
 import com.blue.blog.service.IBluePixivLeaveMessageService;
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,10 @@ public class BluePixivLeaveMessageServiceImpl implements IBluePixivLeaveMessageS
     @Override
     public int insertBluePixivLeaveMessage(BluePixivLeaveMessage bluePixivLeaveMessage)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            bluePixivLeaveMessage.setCreateBy(userId.toString());
+        }
         bluePixivLeaveMessage.setCreateTime(DateUtils.getNowDate());
         return bluePixivLeaveMessageMapper.insertBluePixivLeaveMessage(bluePixivLeaveMessage);
     }
@@ -67,6 +73,10 @@ public class BluePixivLeaveMessageServiceImpl implements IBluePixivLeaveMessageS
     @Override
     public int updateBluePixivLeaveMessage(BluePixivLeaveMessage bluePixivLeaveMessage)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            bluePixivLeaveMessage.setCreateBy(userId.toString());
+        }
         bluePixivLeaveMessage.setUpdateTime(DateUtils.getNowDate());
         return bluePixivLeaveMessageMapper.updateBluePixivLeaveMessage(bluePixivLeaveMessage);
     }

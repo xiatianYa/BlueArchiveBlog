@@ -1,7 +1,8 @@
 <template>
     <div class="pixiv">
         <div class="pixiv_left">
-            <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :option="option" :style="style" />
+            <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :option="option"
+                :style="style"/>
             <div class="pixiv_detail" v-if="pixiv">
                 <div class="found_left">
                     <div class="left_title">{{ pixiv.pixivName }}</div>
@@ -63,9 +64,9 @@ const pixiv = ref()
 //番剧集列表
 const episodeList = ref([])
 //当前番剧集ID
-const chaptersIndex = ref(0)
+const chaptersIndex = ref()
 //播放组件实例对象
-const artInstance=ref()
+const artInstance = ref()
 const style = ref({
     width: '100%',
     height: '400px',
@@ -101,6 +102,7 @@ function selectChapters(episode) {
     chaptersIndex.value = episode.pixivChapters
     //向组件传递当前的集数
     artInstance.value.url = episode.pixivUrl
+    //播放
     artInstance.value.play()
 }
 //选择集排序方案 默认是降序
@@ -116,7 +118,7 @@ function changSort() {
 }
 //获取视频播放实例
 function getInstance(art) {
-    artInstance.value=art
+    artInstance.value = art
 }
 </script>
 

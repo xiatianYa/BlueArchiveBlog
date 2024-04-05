@@ -31,7 +31,6 @@ public class BluePixivLeaveMessageController extends BaseController
     /**
      * 查询番剧弹幕列表
      */
-    @RequiresPermissions("blog:message:list")
     @GetMapping("/list")
     public TableDataInfo list(BluePixivLeaveMessage bluePixivLeaveMessage)
     {
@@ -66,7 +65,6 @@ public class BluePixivLeaveMessageController extends BaseController
     /**
      * 新增番剧弹幕
      */
-    @RequiresPermissions("blog:message:add")
     @Log(title = "番剧弹幕", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BluePixivLeaveMessage bluePixivLeaveMessage)
