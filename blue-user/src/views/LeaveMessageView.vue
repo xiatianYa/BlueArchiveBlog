@@ -13,10 +13,24 @@
         </div>
       </div>
     </div>
-    <!-- <div class="leaver_body" :class="gloBalStore.switch ? 'bg_white' : 'bg_black'">
-        <div class="leaver_container">
+    <div class="leaver_body" :class="gloBalStore.switch ? 'bg_white' : 'bg_black'">
+      <div class="leaver_container">
+        <div class="leaver_title">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-liuyanguanli"></use>
+          </svg>
+          <span>留言</span>
         </div>
-    </div> -->
+        <div class="leaver_input">
+          <textarea type="text" placeholder="写些留言一起交流吧..." v-model="msg"></textarea>
+        </div>
+        <div class="leaver_emoji">
+          <V3Emoji :disable-group="disableGroup" @click-emoji="appendText" :options-name="optionsName" :fulldata="true"
+            :recent="true" />
+          <button class="pointer">提交</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,20 +40,23 @@ import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'
 import {addMessage, listMessage} from '@/api/message'
 import promptMsg from "@/components/PromptBoxView"
+import V3Emoji from 'vue3-emoji'
+import 'vue3-emoji/dist/style.css'
 
 const gloBalStore = useGloBalStore()
 const timer = ref([])
+const msg = ref("")
 // 设置定时器  
 const startTimer = () => {
   let result = []
   listMessage().then(res => {
     result = res.rows;
   })
-  //每0.5秒添加一条随机弹幕
+  //每0.2秒添加一条随机弹幕
   timer.value.push(setInterval(() => {
     let barrage = getRandomItem(result)
     showBarrage(barrage)
-  }, 500))
+  }, 150))
 };
 
 
@@ -64,6 +81,11 @@ const BarrageInfo = ref({
   barrageHeight: 0,
 })
 const UserStore = useUserStore()
+//添加表情
+function appendText(emajor) {
+  console.log(emajor);
+  msg.value += emajor.emoji
+}
 //添加弹幕函数
 function addBarrage() {
   var container = document.getElementsByClassName("leave_header")[0]
@@ -178,6 +200,7 @@ function getRandomItem(array) {
   background: url("/static/images/liuyan.png") no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
+
   .leave_header {
     width: 100%;
     height: 100vh;
@@ -245,8 +268,63 @@ function getRandomItem(array) {
     background-attachment: fixed;
 
     .leaver_container {
-      width: 70%;
+      width: 50%;
+      padding-top: 10px;
+      box-sizing: border-box;
+
+      .leaver_title {
+        display: flex;
+        align-items: center;
+
+        .icon {
+          font-size: 24px;
+        }
+
+        span {
+          color: #A1B6C3;
+          padding-left: 5px;
+        }
+      }
+
+      .leaver_input {
+        textarea {
+          resize: none;
+          box-sizing: border-box;
+          width: 100%;
+          height: 250px;
+          padding: 5px;
+          color: #A1B6C3;
+        }
+
+        textarea:focus {
+          border: 1px solid #A1B6C3;
+          /* 获得焦点时的边框颜色 */
+          outline: none;
+          /* 移除浏览器默认的聚焦轮廓 */
+        }
+
+        /* 标准语法 */
+        textarea::placeholder {
+          color: #767676;
+        }
+      }
+
+      .leaver_emoji {
+        display: flex;
+
+        button {
+          width: 60px;
+          border-radius: 20px;
+          background-color: #A1B6C3;
+          border: 1px solid #000000;
+        }
+
+        button:hover {
+          background-color: #ffe2e2;
+          border: 1px solid #ffcfdf;
+        }
+      }
     }
   }
 }
-</style>@/store/global
+</style>

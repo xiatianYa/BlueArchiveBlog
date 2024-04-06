@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "24654659",
+      "name": "留言管理",
+      "font_class": "liuyanguanli",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
       "icon_id": "1766308",
       "name": "操作-排序-降序",
       "font_class": "paixu-jiangxu",

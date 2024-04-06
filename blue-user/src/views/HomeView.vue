@@ -205,7 +205,7 @@ onMounted(() => {
   })
 })
 //前往分类,携带分类ID
-function goArticleBySortId(sortId){
+function goArticleBySortId(sortId) {
   router.push({ path: '/sort', query: { sortId: sortId } })
 }
 //前往文章浏览页
@@ -742,8 +742,9 @@ function goDown() {
                   transition: transform 0.5s ease-in-out;
                 }
               }
-              .more:hover{
-                span{
+
+              .more:hover {
+                span {
                   color: #64EDAC;
                   transform: scale(1.2);
                 }

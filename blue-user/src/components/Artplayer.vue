@@ -112,7 +112,7 @@ onMounted(() => {
       },
     });
     art.on('artplayerPluginDanmuku:emit', (danmu) => {
-      const border = 0;
+      var border = 0;
       if (!danmu.border) {
         border = 1
       }
