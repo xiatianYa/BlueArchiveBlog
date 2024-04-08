@@ -29,6 +29,43 @@
             :recent="true" />
           <button class="pointer">提交</button>
         </div>
+        <div class="leaver_comments">
+          <div class="comment">
+            <div class="comment_left">
+              <div class="user_avater">
+                <img src="\static\images\avater.png">
+              </div>
+            </div>
+            <div class="comment_right">
+              <div class="publish_info">
+                <span class="user_name">鱼宝</span>
+                <span class="publish_time">2024-4-8</span>
+                <span class="reply">回复</span>
+              </div>
+              <div class="comment_content">
+                <span class="content">我是评论</span>
+              </div>
+              <div class="comment_reply">
+                <div class="reply_left">
+                  <div class="reply_avater">
+                    <img src="\static\images\avater.png">
+                  </div>
+                </div>
+                <div class="reply_right">
+                  <div class="reply_info">
+                    <span class="user_name">鱼宝</span>
+                    <span class="reply_time">2024-4-8</span>
+                    <span class="reply">回复</span>
+                  </div>
+                  <div class="reply_content">
+                    <span class="replyAt">@鱼宝&nbsp;:&nbsp;</span>
+                    <span class="content">我是回复</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -207,7 +244,7 @@ function getRandomItem(array) {
 
     .leave_title {
       position: absolute;
-      top: 35%;
+      top: 17%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: #222831;
@@ -216,7 +253,7 @@ function getRandomItem(array) {
 
     .leave_input {
       position: absolute;
-      top: 40%;
+      top: 20%;
       left: 50%;
       transform: translate(-50%, -50%);
       display: flex;
@@ -262,7 +299,6 @@ function getRandomItem(array) {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 500px;
     background: url("/static/images/loading_bg.png") no-repeat;
     background-size: 100% 100%;
     background-attachment: fixed;
@@ -322,6 +358,151 @@ function getRandomItem(array) {
         button:hover {
           background-color: #ffe2e2;
           border: 1px solid #ffcfdf;
+        }
+      }
+
+      .leaver_comments {
+        width: 100%;
+        height: 600px;
+        margin-top: 20px;
+
+        .comment {
+          display: flex;
+          padding-top: 20px;
+          width: 100%;
+          height: 100%;
+          border-top: 1px solid blue;
+
+          .comment_left {
+            display: flex;
+
+            .user_avater {
+              padding-right: 10px;
+
+              img {
+                width: 40px;
+                height: 40px;
+                border-radius: 5px;
+              }
+            }
+          }
+
+          .comment_right {
+            width: 90%;
+            height: 100%;
+
+            .publish_info {
+              display: flex;
+
+              .user_name {
+                padding-right: 5px;
+              }
+
+              .publish_time {
+                display: flex;
+                flex-grow: 1;
+                align-items: end;
+                font-weight: 100;
+                font-size: 13px;
+              }
+
+              .reply {
+                box-sizing: border-box;
+                color: #FFFDFF;
+                padding: 2px;
+                font-size: 12px;
+                background-color: #FFA500;
+                border-radius: 5px;
+              }
+            }
+
+            .comment_content {
+              box-sizing: border-box;
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
+              width: 100%;
+              margin-top: 10px;
+              padding: 10px;
+              border-radius: 10px;
+              background-color: #676767;
+
+              .content {
+                font-size: 14px;
+              }
+            }
+
+            .comment_reply {
+              display: flex;
+              width: 100%;
+              padding-top: 20px;
+
+              .reply_left {
+                display: flex;
+
+                .reply_avater {
+                  padding-right: 10px;
+
+                  img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 5px;
+                  }
+                }
+              }
+
+              .reply_right {
+                width: 90%;
+                height: 100%;
+
+                .reply_info {
+                  display: flex;
+
+                  .user_name {
+                    font-size: 14px;
+                    padding-right: 5px;
+                  }
+
+                  .reply_time {
+                    display: flex;
+                    align-items: end;
+                    flex-grow: 1;
+                    font-weight: 100;
+                    font-size: 12px;
+                  }
+
+                  .reply {
+                    box-sizing: border-box;
+                    color: #FFFDFF;
+                    padding: 2px;
+                    font-size: 12px;
+                    background-color: #FFA500;
+                    border-radius: 5px;
+                  }
+                }
+
+                .reply_content {
+                  box-sizing: border-box;
+                  display: flex;
+                  align-items: center;
+                  flex-wrap: wrap;
+                  width: 100%;
+                  margin-top: 10px;
+                  padding: 10px;
+                  border-radius: 10px;
+                  background-color: #676767;
+
+                  .content {
+                    font-size: 14px;
+                  }
+                  .replyAt{
+                    font-size: 14px;
+                    color:#0097FC;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

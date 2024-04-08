@@ -604,12 +604,12 @@ function goDown() {
                 fill: currentColor;
                 overflow: hidden;
                 font-size: 16px;
-                padding-left: 1px;
+                padding-left: 5px;
+                padding-right: 5px;
               }
 
               p {
                 font-size: 12px;
-                color: #bfbfbf;
               }
 
               .content_browse {

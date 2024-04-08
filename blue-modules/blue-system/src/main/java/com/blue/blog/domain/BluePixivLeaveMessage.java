@@ -2,8 +2,10 @@ package com.blue.blog.domain;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -13,6 +15,10 @@ import java.math.BigDecimal;
  * @author ruoyi
  * @date 2024-04-05
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BluePixivLeaveMessage extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -47,95 +53,4 @@ public class BluePixivLeaveMessage extends BaseEntity
     /** 弹幕模式: 0表示滚动, 1静止 */
     @Excel(name = "弹幕模式: 0表示滚动, 1静止")
     private Integer mode;
-
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setPixivId(Long pixivId) 
-    {
-        this.pixivId = pixivId;
-    }
-
-    public Long getPixivId() 
-    {
-        return pixivId;
-    }
-    public void setEpisodeId(Long episodeId) 
-    {
-        this.episodeId = episodeId;
-    }
-
-    public Long getEpisodeId() 
-    {
-        return episodeId;
-    }
-    public void setBorder(Integer border) 
-    {
-        this.border = border;
-    }
-
-    public Integer getBorder() 
-    {
-        return border;
-    }
-    public void setColor(String color) 
-    {
-        this.color = color;
-    }
-
-    public String getColor() 
-    {
-        return color;
-    }
-    public void setText(String text) 
-    {
-        this.text = text;
-    }
-
-    public String getText() 
-    {
-        return text;
-    }
-    public void setTime(BigDecimal time) 
-    {
-        this.time = time;
-    }
-
-    public BigDecimal getTime() 
-    {
-        return time;
-    }
-    public void setMode(Integer mode) 
-    {
-        this.mode = mode;
-    }
-
-    public Integer getMode() 
-    {
-        return mode;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("pixivId", getPixivId())
-            .append("episodeId", getEpisodeId())
-            .append("border", getBorder())
-            .append("color", getColor())
-            .append("text", getText())
-            .append("time", getTime())
-            .append("mode", getMode())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .toString();
-    }
 }

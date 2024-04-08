@@ -131,11 +131,11 @@ function logOut() {
 </script>
 <style lang="scss" scoped>
 .color_white {
-  color: #212121;
+  color: #2b2b2b;
 }
 
 .color_black {
-  color: #676767;
+  color: #5e5e5e;
 }
 
 .header_box {
