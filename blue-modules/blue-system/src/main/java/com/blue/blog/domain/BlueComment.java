@@ -38,6 +38,10 @@ public class BlueComment extends BaseEntity
     /** 回复内容 */
     @Excel(name = "回复内容")
     private String commentContent;
+
+    /** 通用ID */
+    @Excel(name = "通用ID")
+    private String commonId;
     /** @用户姓名 */
     @TableField(exist = false)
     private String atUserName;

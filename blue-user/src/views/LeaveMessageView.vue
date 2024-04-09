@@ -14,7 +14,9 @@
       </div>
     </div>
   </div>
-  <CommentDetail/>
+  <div class="leaver_comments">
+    <CommentDetail :comment-type="0"/>
+  </div>
 </template>
 
 <script setup>
@@ -171,6 +173,10 @@ function getRandomItem(array) {
 </script>
 
 <style lang="scss" scoped>
+.leaver_comments{
+  width: 60%;
+  margin: auto;
+}
 .leave {
   position: relative;
   display: flex;

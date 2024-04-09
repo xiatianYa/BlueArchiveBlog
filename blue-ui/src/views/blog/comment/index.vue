@@ -1,14 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="是否父节点" prop="parentId">
-        <el-input
-          v-model="queryParams.parentId"
-          placeholder="请输入是否父节点"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="回复类型" prop="commentType">
         <el-select v-model="queryParams.commentType" placeholder="请选择回复类型" clearable>
           <el-option
@@ -75,6 +67,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="是否父节点" align="center" prop="parentId" />
+      <el-table-column label="通用Id" align="center" prop="commonId" />
       <el-table-column label="回复类型" align="center" prop="commentType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.system_comment_type" :value="scope.row.commentType"/>

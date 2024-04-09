@@ -28,6 +28,7 @@
                     </div>
                 </div>
             </div>
+            <CommentDetail :comment-type="1" :common-id="pixivId"/>
         </div>
         <div class="pixiv_right">
             <div class="pixiv_title">
@@ -48,7 +49,6 @@
         </div>
     </div>
   <div>
-    <CommentDetail/>
   </div>
 </template>
 

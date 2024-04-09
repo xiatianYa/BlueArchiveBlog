@@ -76,20 +76,25 @@
   </div>
 </template>
 <script setup>
-import {onMounted, ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import V3Emoji from "vue3-emoji";
 import {addComment, listComment} from '@/api/comment'
 import promptMsg from "@/components/PromptBoxView"
+
+const props = defineProps(['commentType','commonId'])
+//通用ID
+const commonId=ref()
 //回复内容
 const commentContent = ref("")
 //回复类型
-const commentType=ref(0)
+const commentType=ref()
 //留言框是否开启
 const addLeaver = ref(false)
 //查询参数
 const queryParams=ref({
   pageNum: 1,
   pageSize: 10,
+  commentType:props.commentType
 })
 //留言列表
 const commentList=ref([])
@@ -98,13 +103,19 @@ const commentLeaver=ref({
   commentContent:"",
   //是否是回复子留言
   reply:null,
+  commonId:null,
 })
 onMounted(() => {
-  init();
+  nextTick(()=>{
+    commentType.value=props.commentType;
+    commonId.value=props.commonId;
+    init();
+  })
 })
 //数据初始化
 function init(){
   //获取留言,分页获取
+  queryParams.value.commonId=commonId.value;
   listComment(queryParams.value).then(res=>{
     commentList.value=res.rows;
   })
@@ -122,7 +133,8 @@ function addLeaverComment(){
   const param={
     parentId:0,
     commentType:commentType.value,
-    commentContent:commentContent.value
+    commentContent:commentContent.value,
+    commonId:commonId.value,
   }
   addComment(param).then(res=>{
     promptMsg({ type: "success", msg: res.msg })
@@ -168,10 +180,13 @@ function openLeaverDialog(reply,commentId) {
   commentLeaver.value.parentId=commentId;
   commentLeaver.value.reply=reply;
   commentLeaver.value.commentType=commentType.value;
+  commentLeaver.value.commonId=commonId.value;
 }
 </script>
 <style lang="scss">
 .comment{
+  display: flex;
+  justify-content: center;
   .leaver_body {
     display: flex;
     justify-content: center;
@@ -180,7 +195,7 @@ function openLeaverDialog(reply,commentId) {
     padding-bottom: 40px;
 
     .leaver_container {
-      width: 50%;
+      width: 100%;
       box-sizing: border-box;
 
       .leaver_title {

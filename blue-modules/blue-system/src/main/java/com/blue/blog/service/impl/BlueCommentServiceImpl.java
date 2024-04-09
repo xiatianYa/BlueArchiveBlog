@@ -53,6 +53,10 @@ public class BlueCommentServiceImpl implements IBlueCommentService
         LambdaQueryWrapper<BlueComment> parentWrapper = new LambdaQueryWrapper<>();
         //匹配为父节点的数据
         parentWrapper.eq(BlueComment::getParentId,0);
+        parentWrapper.eq(BlueComment::getCommentType,blueComment.getCommentType());
+        if (StringUtils.isNotNull(blueComment.getCommonId())){
+            parentWrapper.eq(BlueComment::getCommonId,blueComment.getCommonId());
+        }
         List<BlueComment> blueComments = blueCommentMapper.selectList(parentWrapper);
         List<SysUser> sysUsers = sysUserMapper.selectUserList(new SysUser());
         //添加参数
