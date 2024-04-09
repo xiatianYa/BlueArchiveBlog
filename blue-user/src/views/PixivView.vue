@@ -47,6 +47,9 @@
             </div>
         </div>
     </div>
+  <div>
+    <CommentDetail/>
+  </div>
 </template>
 
 <script setup>
@@ -55,6 +58,7 @@ import {useRouter} from 'vue-router'
 import {getTv} from '@/api/tv'
 import {listEpisode} from '@/api/episode'
 import Artplayer from "@/components/Artplayer.vue";
+import CommentDetail from '@/components/CommentDetail.vue';
 
 const router = useRouter()
 //番剧ID

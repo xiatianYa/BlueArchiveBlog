@@ -31,7 +31,6 @@ public class BlueCommentController extends BaseController
     /**
      * 查询评论列表
      */
-    @RequiresPermissions("blog:comment:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueComment blueComment)
     {
@@ -69,7 +68,7 @@ public class BlueCommentController extends BaseController
     @RequiresPermissions("blog:comment:add")
     @Log(title = "评论", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BlueComment blueComment)
+        public AjaxResult add(@RequestBody BlueComment blueComment)
     {
         return toAjax(blueCommentService.insertBlueComment(blueComment));
     }

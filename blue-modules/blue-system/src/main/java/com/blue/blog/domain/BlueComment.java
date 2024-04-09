@@ -1,9 +1,14 @@
 package com.blue.blog.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * 评论对象 blue_comment
@@ -11,6 +16,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author ruoyi
  * @date 2024-04-08
  */
+@EqualsAndHashCode(callSuper = false)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BlueComment extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -29,55 +38,20 @@ public class BlueComment extends BaseEntity
     /** 回复内容 */
     @Excel(name = "回复内容")
     private String commentContent;
+    /** @用户姓名 */
+    @TableField(exist = false)
+    private String atUserName;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
+    /** 回复人姓名 */
+    @TableField(exist = false)
+    private String userName;
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setParentId(Long parentId) 
-    {
-        this.parentId = parentId;
-    }
+    /** 回复人头像 */
+    @TableField(exist = false)
+    private String userAvatar;
 
-    public Long getParentId() 
-    {
-        return parentId;
-    }
-    public void setCommentType(Long commentType) 
-    {
-        this.commentType = commentType;
-    }
 
-    public Long getCommentType() 
-    {
-        return commentType;
-    }
-    public void setCommentContent(String commentContent) 
-    {
-        this.commentContent = commentContent;
-    }
-
-    public String getCommentContent() 
-    {
-        return commentContent;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("parentId", getParentId())
-            .append("commentType", getCommentType())
-            .append("commentContent", getCommentContent())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .append("createBy", getCreateBy())
-            .append("updateBy", getUpdateBy())
-            .toString();
-    }
+    /** 子回复 */
+    @TableField(exist = false)
+    private List<BlueComment> replyList;
 }

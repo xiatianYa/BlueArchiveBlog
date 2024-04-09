@@ -1,17 +1,19 @@
 package com.blue.system.api.domain;
 
-import java.util.Date;
-import java.util.List;
-import javax.validation.constraints.*;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.annotation.Excel.ColumnType;
 import com.blue.common.core.annotation.Excel.Type;
 import com.blue.common.core.annotation.Excels;
 import com.blue.common.core.web.domain.BaseEntity;
 import com.blue.common.core.xss.Xss;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户对象 sys_user
@@ -133,7 +135,7 @@ public class SysUser extends BaseEntity {
         this.userId = userId;
     }
 
-    public Long getUserId() {
+    public Long     getUserId() {
         return userId;
     }
 

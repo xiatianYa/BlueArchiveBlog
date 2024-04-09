@@ -1,5 +1,6 @@
 package com.blue.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BlueComment;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-08
  */
-public interface BlueCommentMapper 
+public interface BlueCommentMapper extends BaseMapper<BlueComment>
 {
     /**
      * 查询评论

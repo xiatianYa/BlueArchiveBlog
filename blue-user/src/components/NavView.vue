@@ -135,7 +135,7 @@ function logOut() {
 }
 
 .color_black {
-  color: #5e5e5e;
+  color: #FFFFFF;
 }
 
 .header_box {
