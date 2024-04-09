@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BlueCommentMapper">
+    
+    <resultMap type="BlueComment" id="BlueCommentResult">
+        <result property="id"    column="id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="commentType"    column="comment_type"    />
+        <result property="commentContent"    column="comment_content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectBlueCommentVo">
+        select id, parent_id, comment_type, comment_content, create_time, update_time, create_by, update_by from blue_comment
+    </sql>
+
+    <select id="selectBlueCommentList" parameterType="BlueComment" resultMap="BlueCommentResult">
+        <include refid="selectBlueCommentVo"/>
+        <where>  
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="commentType != null "> and comment_type = #{commentType}</if>
+            <if test="commentContent != null  and commentContent != ''"> and comment_content = #{commentContent}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueCommentById" parameterType="Long" resultMap="BlueCommentResult">
+        <include refid="selectBlueCommentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueComment" parameterType="BlueComment" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="commentType != null">comment_type,</if>
+            <if test="commentContent != null and commentContent != ''">comment_content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="commentType != null">#{commentType},</if>
+            <if test="commentContent != null and commentContent != ''">#{commentContent},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueComment" parameterType="BlueComment">
+        update blue_comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="commentType != null">comment_type = #{commentType},</if>
+            <if test="commentContent != null and commentContent != ''">comment_content = #{commentContent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueCommentById" parameterType="Long">
+        delete from blue_comment where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueCommentByIds" parameterType="String">
+        delete from blue_comment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
