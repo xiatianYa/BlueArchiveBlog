@@ -3,9 +3,7 @@
     <div class="banner">
       <div class="animate__animated animate__slideInDown banner_video">
         <video autoplay loop muted>
-          <source
-              :src="bgUrl"
-              type="video/mp4">
+          <source :src="bgUrl" type="video/mp4">
         </video>
       </div>
     </div>
@@ -84,23 +82,23 @@ import {listWebsite} from '@/api/website'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4"))
 //友链列表
-const FriednList=ref([])
+const FriednList = ref([])
 //网站信息
-const websiteInfo=ref({})
+const websiteInfo = ref({})
 //友链信息
-const FirendInfo=ref({})
-onMounted(()=>{
+const FirendInfo = ref({})
+onMounted(() => {
   //获取友链列表
-  listFriend().then(res=>{
-    FriednList.value=res.rows
+  listFriend().then(res => {
+    FriednList.value = res.rows
   })
   //获取网站信息
-  listWebsite().then(res=>{
-    websiteInfo.value=res.rows[0]
+  listWebsite().then(res => {
+    websiteInfo.value = res.rows[0]
   })
   //获取友链信息
-  listInfo().then(res=>{
-    FirendInfo.value=res.rows[0]
+  listInfo().then(res => {
+    FirendInfo.value = res.rows[0]
   })
 })
 
@@ -263,19 +261,20 @@ onMounted(()=>{
         .friend {
           display: flex;
           border-radius: 10px;
-          width: 30%;
+          width: 20%;
           height: 100%;
           margin-top: 40px;
+          padding-bottom: 0px;
           overflow: hidden;
 
           .friend_img {
             width: 100%;
-            height: 50%;
+            height: 70%;
             overflow: hidden;
 
             img {
               width: 100%;
-              height: 100%;
+              height: 50%;
               object-fit: cover;
               transition: all .3s ease-in 0s;
             }
