@@ -91,7 +91,6 @@ const props = defineProps(['pixiv'])
 
       img {
         width: 300px;
-        height: 300px;
         object-fit: cover;
         transition: all .3s ease-in 0s;
       }

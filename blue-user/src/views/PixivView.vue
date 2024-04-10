@@ -2,7 +2,7 @@
     <div class="pixiv">
         <div class="pixiv_left">
             <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :option="option"
-                :style="style"/>
+                :style="style" style="overflow: hidden"/>
             <div class="pixiv_detail" v-if="pixiv">
                 <div class="found_left">
                     <div class="left_title">{{ pixiv.pixivName }}</div>

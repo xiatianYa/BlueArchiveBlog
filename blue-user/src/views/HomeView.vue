@@ -159,8 +159,8 @@
               </div>
               <div class="category_body">
                 <div class="category_list">
-                  <CategoryDetail :article="article" v-for="article in sort.articleList"
-                    @click="goArticlePreview(article.id)" />
+                  <CategoryDetail class="test" :article="article" v-for="article in sort.articleList"
+                    @click="goArticlePreview(article.id)"/>
                 </div>
               </div>
             </div>
@@ -172,17 +172,21 @@
 </template>
 <script setup>
 import {onMounted, ref} from 'vue'
-import CategoryDetail from '@/components/CategoryDetail.vue'
 import {useBgStore} from '@/store/bg'
 import {listNotice} from '@/api/notice'
 import {listArticle, listBySortId} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {useRouter} from 'vue-router'
-
+import CategoryDetail from '@/components/CategoryDetail.vue'
+//路由
 const router = useRouter()
+//公告
 const noticeInfo = ref({})
+//分类列表
 const sortList = ref({})
+//推荐文章
 const recommendArticleList = ref({})
+//背景视频
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
 onMounted(() => {
   //获取公告
