@@ -36,29 +36,15 @@
             <div class="info_backrougnd">
               <img v-lazy="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/info.jpg'">
             </div>
-            <div class="info_avater">
-              <a href="#">
+            <div class="info_avater" v-if="userStore.avatar">
+              <a>
                 <span>
-                  <img v-lazy="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/zi.png'">
+                  <img v-lazy="userStore.avatar">
                 </span>
               </a>
-              <div class="info_name">
-                夏天
+              <div class="info_name" v-if="userStore.name">
+                {{ userStore.name }}
               </div>
-            </div>
-            <div class="info_common">
-              <span class="common">
-                <span>文章</span>
-                <span>0</span>
-              </span>
-              <span class="common">
-                <span>分类</span>
-                <span>0</span>
-              </span>
-              <span class="common">
-                <span>访问量</span>
-                <span>0</span>
-              </span>
             </div>
             <div class="info_link">
               <ul>
@@ -159,7 +145,7 @@
               <div class="category_body">
                 <div class="category_list">
                   <CategoryDetail class="test" :article="article" v-for="article in sort.articleList"
-                    @click="goArticlePreview(article.id)"/>
+                    @click="goArticlePreview(article.id)" />
                 </div>
               </div>
             </div>
@@ -176,7 +162,10 @@ import {listNotice} from '@/api/notice'
 import {listArticle, listBySortId} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {useRouter} from 'vue-router'
+import {useUserStore} from '@/store/user'
 import CategoryDetail from '@/components/CategoryDetail.vue'
+
+const userStore = useUserStore()
 //路由
 const router = useRouter()
 //公告
@@ -437,34 +426,6 @@ function goDown() {
               img:hover {
                 transform: rotate(360deg);
                 transition-duration: 0.8s;
-              }
-            }
-          }
-
-          .info_common {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
-            height: 30%;
-            padding: 20px 0 20px 0;
-            font-size: 16px;
-
-            .common {
-              display: flex;
-              flex-direction: row;
-              justify-content: center;
-              align-items: center;
-              flex-wrap: wrap;
-              height: 50%;
-
-              span {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                font-size: 16px;
               }
             }
           }

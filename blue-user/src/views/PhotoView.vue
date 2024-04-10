@@ -135,7 +135,7 @@ function isScrolledToBottom(container) {
   const clientHeight = container.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
-  return windowY >= clientHeight - 150 && !loading.value && !loadingEnd.value;
+  return windowY >= clientHeight - 100 && !loading.value && !loadingEnd.value;
 }
 //判断是不是到最后一页了
 function isLastPage(total) {
@@ -258,16 +258,16 @@ function isLastPage(total) {
 
     .photo {
       box-sizing: border-box;
-      width: 23%;
-      height: 400px;
+      width: 20%;
       border-radius: 10px;
-      margin-bottom: 30px;
+      padding-bottom: 0;
+      margin: 20px;
 
       .photo_msg {
         display: flex;
         align-items: center;
         width: 80%;
-        height: 10%;
+        height: auto;
 
         span {
           font-size: 16px;
@@ -278,14 +278,13 @@ function isLastPage(total) {
         display: flex;
         justify-content: center;
         width: 80%;
-        height: 80%;
+        height: auto;
         overflow: hidden;
         border-radius: 10px;
         margin-top: 10px;
 
         img {
           width: 100%;
-          height: 100%;
           object-fit: cover;
           transition: all .3s ease-in 0s;
           border-radius: 10px;
