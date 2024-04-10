@@ -120,33 +120,24 @@ function init(){
     commentList.value=res.rows;
   })
 }
-//添加表情
-function appendComment(emajor) {
-  commentContent.value += emajor.emoji
-}
-//添加子表情
-function appendCommentChile(emajor){
-  commentLeaver.value.commentContent += emajor.emoji
-}
-//添加留言
+
+//添加头节点
 function addLeaverComment(){
-  const param={
-    parentId:0,
-    commentType:commentType.value,
-    commentContent:commentContent.value,
-    commonId:commonId.value,
-  }
-  addComment(param).then(res=>{
+  //参数赋值
+  commentLeaver.value.parentId=0;
+  commentLeaver.value.commentType=commentType.value;
+  commentLeaver.value.commentContent=commentContent.value;
+  commentLeaver.value.commonId=commonId.value;
+  addComment(commentLeaver.value).then(res=>{
     promptMsg({ type: "success", msg: res.msg })
     //重新获取数据
     init();
   }).catch(error=>{
     promptMsg({ type: "warn", msg: "请先登录!" })
   })
-  //清空留言
-  commentContent.value="";
+  closeLeaverDialog();
 }
-//添加子留言
+//添加子节点
 function addLeaverCommentChile(){
   if (commentLeaver.value.reply){
     commentLeaver.value.commentContent="@"+commentLeaver.value.reply.userName+":"+commentLeaver.value.commentContent;
@@ -160,27 +151,41 @@ function addLeaverCommentChile(){
   })
   closeLeaverDialog();
 }
-//关闭留言框
-function closeLeaverDialog() {
-  addLeaver.value = false;
-  //清空子留言对象
-  commentLeaver.value={
-    commentContent:""
-  };
-}
-//打开留言框 回复头节点
+
+//打开留言框 回复子留言
 function openLeaverDialogParent(commentId) {
   addLeaver.value = true;
   commentLeaver.value.parentId=commentId;
   commentLeaver.value.commentType=commentType.value;
+  commentLeaver.value.commonId=commonId.value;
 }
-//打开留言框 回复子节点
+//打开留言框 回复孙留言
 function openLeaverDialog(reply,commentId) {
   addLeaver.value = true;
   commentLeaver.value.parentId=commentId;
   commentLeaver.value.reply=reply;
   commentLeaver.value.commentType=commentType.value;
   commentLeaver.value.commonId=commonId.value;
+}
+
+//添加表情
+function appendComment(emajor) {
+  commentContent.value += emajor.emoji
+}
+//添加子表情
+function appendCommentChile(emajor){
+  commentLeaver.value.commentContent += emajor.emoji
+}
+
+//关闭留言框
+function closeLeaverDialog() {
+  addLeaver.value = false;
+  //清空留言
+  commentContent.value="";
+  //清空子留言对象
+  commentLeaver.value={
+    commentContent:""
+  };
 }
 </script>
 <style lang="scss">
