@@ -58,9 +58,10 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
             for (SysUser user : UserList) {
                 if (user.getUserId().equals(leaveMessage.getUserId())){
                     leaveMessage.setUserName(user.getUserName());
-                }else{
-                    leaveMessage.setUserName("游客");
                 }
+            }
+            if (!StringUtils.isNotNull(leaveMessage.getUserName())){
+                leaveMessage.setUserName("游客");
             }
         }
         return blueLeaveMessages;

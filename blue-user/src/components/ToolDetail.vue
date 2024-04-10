@@ -1,12 +1,12 @@
 <template>
     <div class="tool">
-        <div class="tool_sort">
+        <div class="tool_sort animate__animated animate__slideInLeft">
             <h2>
                 {{ tool.sortName }}
             </h2>
         </div>
         <div class="tools">
-            <div class="tool_detail pointer box_shadow animate__animated animate__slideInLeft" v-for="toolDetail in tool.blueProgramToolList"  @click="goHref(toolDetail.toolUrl)">
+            <div class="tool_detail pointer box_shadow animate__animated animate__slideInRight" v-for="toolDetail in tool.blueProgramToolList"  @click="goHref(toolDetail.toolUrl)">
                 <div class="tool_left">
                     <div class="tool_img">
                         <img v-lazy="toolDetail.toolAvater"/>

@@ -8,20 +8,6 @@
       </video>
     </div>
     <div class="home_center_box">
-      <div class="wave">
-        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-          viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-          <defs>
-            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-          </defs>
-          <g class="parallax">
-            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-            <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-          </g>
-        </svg>
-      </div>
       <div class="typewriter animation_writer">
         <span>眼 前 所 见 ， 皆 为 奇 迹 .</span>
       </div>
@@ -84,7 +70,7 @@
                   推荐文章
                 </p>
               </div>
-              <div class="recommend_row" v-for="article in recommendArticleList">
+              <div class="recommend_row" v-for="article in recommendArticleList" @click="goArticlePreview(article.id)">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
                     <img v-lazy="article.cover" alt="背景" />
@@ -135,8 +121,8 @@
                 <span>
                   {{ sort.sortName }}
                 </span>
-                <div class="more" @click="goArticleBySortId(sort.id)">
-                  <svg class="icon pointer" aria-hidden="true">
+                <div class="more pointer" @click="goArticleBySortId(sort.id)">
+                  <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-fenlei"></use>
                   </svg>
                   <span>More</span>
@@ -263,7 +249,7 @@ function goDown() {
     .down {
       position: absolute;
       left: 50%;
-      top: -15%;
+      top: -17%;
       z-index: 99;
       animation-name: updown;
       animation-duration: 2.5s;
@@ -274,46 +260,6 @@ function goDown() {
         font-weight: bold;
       }
 
-    }
-
-    .wave {
-      width: 100vw;
-      height: 200px;
-      left: 0;
-      top: -200px;
-      position: absolute;
-      overflow: hidden;
-
-      .waves {
-        position: absolute;
-        width: 100vw;
-        bottom: -80px;
-
-        /* Animation */
-        .parallax>use {
-          animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
-        }
-
-        .parallax>use:nth-child(1) {
-          animation-delay: -2s;
-          animation-duration: 10s;
-        }
-
-        .parallax>use:nth-child(2) {
-          animation-delay: -3s;
-          animation-duration: 13s;
-        }
-
-        .parallax>use:nth-child(3) {
-          animation-delay: -4s;
-          animation-duration: 16s;
-        }
-
-        .parallax>use:nth-child(4) {
-          animation-delay: -5s;
-          animation-duration: 23s;
-        }
-      }
     }
 
     .home_content {
@@ -693,24 +639,33 @@ function goDown() {
 
             .category_header {
               display: flex;
+              align-items: center;
               justify-content: space-between;
               border-bottom: 2px dashed #c9d6df;
               padding-bottom: 5px;
 
               .more {
                 display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: scale(1);
+                transition: all 0.5s ease-in-out;
+
+                .icon {
+                  font-size: 16px;
+                }
 
                 span {
                   padding-left: 5px;
-                  font-size: 18px;
-                  transition: transform 0.5s ease-in-out;
+                  font-size: 16px;
                 }
               }
 
               .more:hover {
+                transform: scale(1.3);
+
                 span {
                   color: #64EDAC;
-                  transform: scale(1.2);
                 }
               }
 
@@ -718,6 +673,7 @@ function goDown() {
                 width: 1em;
                 height: 1em;
                 vertical-align: -0.15em;
+                font-size: 20px;
                 fill: currentColor;
                 overflow: hidden;
                 display: flex;
@@ -727,7 +683,7 @@ function goDown() {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 18px;
+                font-size: 16px;
               }
             }
 

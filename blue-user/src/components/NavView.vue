@@ -3,7 +3,7 @@
     <div v-show="NavShow" class="header_box header_fixed">
       <div class="pc_menu">
         <div class="header_log">
-          <img v-lazy="'/static/images/logo.png'"/>
+          <img v-lazy="'/static/images/logo.png'" />
         </div>
         <div class="header_menu">
           <ul class="menus">
@@ -49,8 +49,8 @@
               </svg>
               <span class="pointer">听歌</span>
             </router-link>
-            <router-link v-show="!UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li"
-                         to="/user">
+            <router-link v-show="!UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'"
+              class="li" to="/user">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-wode"></use>
               </svg>
@@ -63,27 +63,12 @@
               </a>
               <div class="nav-drop-down-wrapper">
                 <div :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="nav-drop-down">
-                  <div class="down-item">
+                  <div class="down-item" @click="go('/menu')">
                     <div class="down-item-wrapper">
-                      <span>个人信息</span>
+                      <span>进入菜单</span>
                     </div>
                   </div>
-                  <div class="down-item">
-                    <div class="down-item-wrapper">
-                      <span>发布文章</span>
-                    </div>
-                  </div>
-                  <div class="down-item">
-                    <div class="down-item-wrapper">
-                      <span>分享相册</span>
-                    </div>
-                  </div>
-                  <div class="down-item">
-                    <div class="down-item-wrapper">
-                      <span>分享歌单</span>
-                    </div>
-                  </div>
-                  <div class="down-item">
+                  <div class="down-item-end">
                     <div class="down-item-wrapper" @click="logOut()">
                       <span>退出登录</span>
                     </div>
@@ -102,10 +87,12 @@ import {onBeforeMount, onMounted, reactive, ref} from 'vue'
 import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'
 import promptMsg from "@/components/PromptBoxView"
-
+import {useRouter} from "vue-router";
+//路由
+const router = useRouter()
 const UserStore = useUserStore()
 const gloBalStore = useGloBalStore()
-const scrollPosition = reactive({x: 0, y: 0})
+const scrollPosition = reactive({ x: 0, y: 0 })
 const NavShow = ref(true)
 onMounted(() => {
   window.addEventListener("scroll", updateScrollPosition);
@@ -127,6 +114,11 @@ function updateScrollPosition() {
 function logOut() {
   UserStore.LogOut()
   promptMsg({ type: "success", msg: "退出成功" })
+}
+//跳转路由
+function go(path){
+  console.log(path);
+  router.push({ path:path })
 }
 </script>
 <style lang="scss" scoped>
@@ -232,7 +224,34 @@ function logOut() {
                 box-sizing: border-box;
                 width: 90%;
                 border-radius: 10px;
+                color: #000000;
 
+                &:hover {
+                  background-color: rgb(255, 229, 241);
+                  color: #727272;
+                }
+
+                .down-item-wrapper {
+                  padding: 5px;
+
+                  img {
+                    width: 20px;
+                    height: 20px;
+                    vertical-align: middle;
+                  }
+
+                  span {
+                    vertical-align: middle;
+                  }
+                }
+              }
+
+              .down-item-end {
+                margin: 5px 5px 5px 5px;
+                box-sizing: border-box;
+                width: 90%;
+                border-radius: 10px;
+                color: #000000;
                 &:hover {
                   background-color: rgb(255, 229, 241);
                   color: #727272;

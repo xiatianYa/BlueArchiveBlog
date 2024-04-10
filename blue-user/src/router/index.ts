@@ -10,6 +10,7 @@ import UserView from '../views/UserView.vue'
 import LoadingVuew from '../components/LoadingView.vue'
 import ArticlePreview from '../components/ArticlePreview.vue'
 import PixivView from '../views/PixivView.vue'
+import MenuView from '../views/MenuView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,6 +70,11 @@ const router = createRouter({
             path: '/pixivView',
             name: 'pixivView',
             component: PixivView
+        },
+        {
+            path: '/menu',
+            name: 'menu',
+            component: MenuView
         }
     ]
 })

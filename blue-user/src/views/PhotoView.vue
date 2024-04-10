@@ -74,7 +74,7 @@ const PhotoSort = ref([])
 const queryParam = ref({
   sortId: null,
   pageNum: 1,
-  pageSize: 8,
+  pageSize: 20,
 })
 //是否滚动到底部
 const loadingEnd = ref(false)
@@ -135,7 +135,7 @@ function isScrolledToBottom(container) {
   const clientHeight = container.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
-  return windowY >= clientHeight - 100 && !loading.value && !loadingEnd.value;
+  return windowY >= clientHeight - 150 && !loading.value && !loadingEnd.value;
 }
 //判断是不是到最后一页了
 function isLastPage(total) {

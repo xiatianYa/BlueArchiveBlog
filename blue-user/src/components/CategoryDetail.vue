@@ -5,7 +5,7 @@
     </div>
     <div class="category_time">
       <svg class="icon pointer" aria-hidden="true">
-        <use xlink:href="#icon-rili1"></use>
+        <use xlink:href="#icon-rili2"></use>
       </svg>
       <span>
         {{ article.createTime }}
@@ -90,7 +90,7 @@ const props = defineProps(['article'])
     flex-direction: row;
     align-items: center;
     font-size: 0.6rem;
-    margin: 5px;
+    margin: 8px 5px 5px 5px;
 
     .icon {
       width: 1em;
@@ -98,7 +98,10 @@ const props = defineProps(['article'])
       vertical-align: -0.15em;
       fill: currentColor;
       overflow: hidden;
-      font-size: 22px;
+      font-size: 18px;
+    }
+    span{
+      padding-left: 3px;
     }
   }
 

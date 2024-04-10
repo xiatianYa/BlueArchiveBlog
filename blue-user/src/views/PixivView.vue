@@ -1,8 +1,8 @@
 <template>
-    <div class="pixiv">
+    <div class="pixiv" :class="gloBalStore.switch ? 'bg_white' : 'bg_black'">
         <div class="pixiv_left">
             <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :option="option"
-                :style="style" style="overflow: hidden"/>
+                :style="style" style="overflow: hidden" />
             <div class="pixiv_detail" v-if="pixiv">
                 <div class="found_left">
                     <div class="left_title">{{ pixiv.pixivName }}</div>
@@ -28,9 +28,9 @@
                     </div>
                 </div>
             </div>
-            <CommentDetail :comment-type="1" :common-id="pixivId"/>
+            <CommentDetail :comment-type="1" :common-id="pixivId" />
         </div>
-        <div class="pixiv_right">
+        <div class="pixiv_right" :class="gloBalStore.switch ? 'color_white' : 'color_black'">
             <div class="pixiv_title">
                 <span>正片 ({{ chaptersIndex + '/' + episodeList.length }})</span>
                 <svg class="icon pointer" aria-hidden="true" @click="changSort" v-show="sort">
@@ -48,8 +48,8 @@
             </div>
         </div>
     </div>
-  <div>
-  </div>
+    <div>
+    </div>
 </template>
 
 <script setup>
@@ -59,7 +59,9 @@ import {getTv} from '@/api/tv'
 import {listEpisode} from '@/api/episode'
 import Artplayer from "@/components/Artplayer.vue";
 import CommentDetail from '@/components/CommentDetail.vue';
+import {useGloBalStore} from '@/store/global'
 
+const gloBalStore = useGloBalStore()
 const router = useRouter()
 //番剧ID
 const pixivId = ref()
@@ -127,6 +129,16 @@ function getInstance(art) {
 </script>
 
 <style lang="scss" scoped>
+.color_white {
+    background-color: #e6e8ea;
+    color: #000000;
+}
+
+.color_black {
+    background-color: rgb(27, 27, 27, 0.9);
+    color: #FFFFFF;
+}
+
 .pixiv {
     display: flex;
     justify-content: center;
@@ -215,7 +227,6 @@ function getInstance(art) {
         height: 100%;
         margin: 0 0 0 15px;
         min-height: 500px;
-        background-color: #e6e8ea;
         border-radius: 10px;
 
         .pixiv_title {
@@ -252,7 +263,7 @@ function getInstance(art) {
                 height: 65px;
                 margin: 10px 1%;
                 border-radius: 5px;
-                background-color: #FFFFFF;
+                background-color: #393e46;
             }
 
             .episode:hover {
