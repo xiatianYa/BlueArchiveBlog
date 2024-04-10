@@ -25,7 +25,7 @@
               <span>
                 {{ item.sortName }}
               </span>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -59,37 +59,90 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue"
+import {onMounted, onUnmounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listPhoto} from '@/api/photo'
 import {listSort} from '@/api/sort/photoSort'
 
+//视频背景
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
+//相册列表
 const PhotoList = ref([])
+//相册分类
 const PhotoSort = ref([])
 //查询参数
 const queryParam = ref({
-    pageNum: 1,
-    pageSize: 10,
-    userId: null,
-    sortId: null,
-    photoUrl: null,
-    status: null,
-  })
+  sortId: null,
+  pageNum: 1,
+  pageSize: 8,
+})
+//是否滚动到底部
+const loadingEnd = ref(false)
+//是否加载中
+const loading = ref(false)
 onMounted(() => {
-  listPhoto().then(res => {
+  listPhoto(queryParam.value).then(res => {
     PhotoList.value = res.rows;
   })
   listSort().then(res => {
     PhotoSort.value = res.rows;
   })
+  window.addEventListener('scroll', handleScroll)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 //切换分类
 function searchSort(sortId) {
-  queryParam.value.sortId=sortId
+  loading.value = false;
+  loadingEnd.value = false;
+  queryParam.value = {
+    pageNum: 1,
+    pageSize: 8,
+  }
+  queryParam.value.sortId = sortId
   listPhoto(queryParam.value).then(res => {
+    if (isLastPage(res.total)) {
+      loadingEnd.value = true;
+    }
     PhotoList.value = res.rows
   })
+}
+//加载数据
+const loadData = () => {
+  loading.value = true
+  queryParam.value.pageNum += 1;
+  listPhoto(queryParam.value).then(res => {
+    for (const item of res.rows) {
+      if (isLastPage(res.total)) {
+        loadingEnd.value = true;
+      }
+      PhotoList.value.push(item)
+    }
+    loading.value = false;
+  })
+}
+//滚动事件
+const handleScroll = () => {
+  // 监听滚动事件
+  const container = document.querySelector('.photos') // 获取滚动容器
+  if (isScrolledToBottom(container)) {
+    loadData()
+  }
+}
+//判断是否滚动到底部
+function isScrolledToBottom(container) {
+  const clientHeight = container.clientHeight; // 容器的视口高度  
+  const windowY = window.scrollY; // 浏览器窗口高度
+  //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
+  return windowY >= clientHeight - 150 && !loading.value && !loadingEnd.value;
+}
+//判断是不是到最后一页了
+function isLastPage(total) {
+  // 计算总页数  
+  var totalPages = Math.ceil(total / queryParam.value.pageSize);
+  // 如果当前页码等于总页数，那么就是最后一页  
+  return queryParam.value.pageNum >= totalPages;
 }
 </script>
 

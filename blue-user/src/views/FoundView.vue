@@ -92,10 +92,59 @@ const queryParam = ref({
 const loadingEnd = ref(false)
 //是否加载中
 const loading = ref(false)
+onMounted(() => {
+  init();
+  window.addEventListener('scroll', handleScroll)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+//初始化数据
+function init() {
+  if (type.value === 0) {
+    listTv(queryParam.value).then(res => {
+      pixivList.value = res.rows
+    })
+  }
+}
+//选择导航
+function selectSort(index) {
+  type.value = index
+  //清除到底标记
+  loadingEnd.value = false;
+  //清除分页数据
+  queryParam.value = {
+    pageNum: 1,
+    pageSize: 6,
+  }
+  //番剧
+  if (type.value === 0) {
+    listTv(queryParam.value).then(res => {
+      pixivList.value = res.rows
+    })
+    //二创
+  } else if (type.value === 1) {
+    listErchuang(queryParam.value).then(res => {
+      erchuangList.value = res.rows
+    })
+    //编程工具
+  } else if (type.value === 2) {
+    listToolBySort().then(res => {
+      toolList.value = res.rows
+    })
+    //小游戏
+  } else {
+
+  }
+}
+//跳转路由到番剧页面
+function goPixiv(pixivId) {
+  router.push({ path: '/pixivView', query: { pixivId: pixivId } })
+}
 //加载数据
 const loadData = () => {
-  loading.value = true
-  if (type.value === 0 && !loadingEnd.value) {
+  if (type.value === 0) {
+    loading.value = true
     queryParam.value.pageNum += 1;
     listTv(queryParam.value).then(res => {
       if (isLastPage(res.total)) {
@@ -106,7 +155,8 @@ const loadData = () => {
       }
       loading.value = false;
     })
-  } else if (type.value === 1 && !loadingEnd.value) {
+  } else if (type.value === 1) {
+    loading.value = true
     queryParam.value.pageNum += 1;
     listErchuang(queryParam.value).then(res => {
       if (isLastPage(res.total)) {
@@ -132,53 +182,14 @@ function isScrolledToBottom(container) {
   const clientHeight = container.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
-  return windowY >= clientHeight - 50 && !loading.value;
+  return windowY >= clientHeight - 80 && !loading.value && !loadingEnd.value;
 }
 //判断是不是到最后一页了
 function isLastPage(total) {
   // 计算总页数  
   var totalPages = Math.ceil(total / queryParam.value.pageSize);
-  console.log(totalPages);
   // 如果当前页码等于总页数，那么就是最后一页  
-  return queryParam.value.pageNum === totalPages;
-}
-onMounted(() => {
-  init();
-  window.addEventListener('scroll', handleScroll)
-})
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
-//初始化数据
-function init() {
-  if (type.value === 0) {
-    listTv(queryParam.value).then(res => {
-      pixivList.value = res.rows
-    })
-  }
-}
-//选择导航
-function selectSort(index) {
-  type.value = index
-  if (type.value === 0) {
-    listTv(queryParam.value).then(res => {
-      pixivList.value = res.rows
-    })
-  } else if (type.value === 1) {
-    listErchuang(queryParam.value).then(res => {
-      erchuangList.value = res.rows
-    })
-  } else if (type.value === 2) {
-    listToolBySort().then(res => {
-      toolList.value = res.rows
-    })
-  } else {
-
-  }
-}
-//跳转路由到番剧页面
-function goPixiv(pixivId) {
-  router.push({ path: '/pixivView', query: { pixivId: pixivId } })
+  return queryParam.value.pageNum >= totalPages;
 }
 </script>
 
