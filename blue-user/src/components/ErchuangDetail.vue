@@ -1,14 +1,14 @@
 <template>
     <div class="erchuang pointer box_shadow animate__animated animate__zoomIn" @click="goHref(erchuang.ecUrl)">
         <div class="erchuang_img">
-            <img :src="erchuang.ecAvater">
+            <img v-lazy="erchuang.ecAvater">
         </div>
         <div class="erchuang_title">
             <span>{{ erchuang.ecName }}</span>
         </div>
         <div class="erchuang_info">
             <span class="erchuang_author">{{ erchuang.ecAuthor }}</span>&nbsp;·&nbsp;<span class="erchuang_time">{{
-        erchuang.ecPublish }}</span>
+                erchuang.ecPublish }}</span>
         </div>
     </div>
 </template>

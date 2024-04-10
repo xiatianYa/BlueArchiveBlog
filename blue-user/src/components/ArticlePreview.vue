@@ -20,7 +20,7 @@
 
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {nextTick, onMounted, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
 import {getArticle} from '@/api/article'

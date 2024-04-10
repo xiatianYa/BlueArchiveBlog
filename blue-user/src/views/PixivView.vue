@@ -24,7 +24,7 @@
                 </div>
                 <div class="found_right">
                     <div class="category_img">
-                        <img :src="pixiv.pixivAvater" alt="回忆图片">
+                        <img v-lazy="pixiv.pixivAvater">
                     </div>
                 </div>
             </div>

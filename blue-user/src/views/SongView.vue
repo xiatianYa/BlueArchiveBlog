@@ -31,7 +31,7 @@
       <div class="musics" v-for="music in item.musicList" :key="music.id">
         <div class="music" @click="startMusic($event,music.musicUrl)">
           <div class="music_img">
-            <img :src="music.imgUrl">
+            <img v-lazy="music.imgUrl">
           </div>
           <div class="music_name">
             <span>{{ music.musicName }}</span>

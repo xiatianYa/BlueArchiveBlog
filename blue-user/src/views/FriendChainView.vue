@@ -56,7 +56,7 @@
           </div>
           <div class="friend box_shadow pointer" v-for="friend in FriednList">
             <div class="friend_img">
-              <img :src="friend.friendUrl">
+              <img v-lazy="friend.friendUrl">
             </div>
             <div class="friend_name">{{ friend.friendName }}</div>
             <div class="friend_detail">{{ friend.friendIntroduce }}</div>

@@ -34,13 +34,12 @@
         <div class="content_left animate__animated animate__slideInLeft">
           <div class="content_info box_shadow box_radius">
             <div class="info_backrougnd">
-              <img src="\static\images\info.jpg" alt="背景">
+              <img v-lazy="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/info.jpg'">
             </div>
             <div class="info_avater">
               <a href="#">
                 <span>
-                  <img src="https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png"
-                    alt="背景">
+                  <img v-lazy="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/zi.png'">
                 </span>
               </a>
               <div class="info_name">
@@ -102,7 +101,7 @@
               <div class="recommend_row" v-for="article in recommendArticleList">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
-                    <img :src="article.cover" alt="背景" />
+                    <img v-lazy="article.cover" alt="背景" />
                   </div>
                   <span>{{ article.articleName }}</span>
                 </div>

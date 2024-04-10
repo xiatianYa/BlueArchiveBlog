@@ -1,7 +1,7 @@
 <template>
   <div class="category_detail box_shadow pointer">
     <div class="category_img">
-      <img :src="article.cover" alt="回忆图片">
+      <img v-lazy="article.cover">
     </div>
     <div class="category_time">
       <svg class="icon pointer" aria-hidden="true">

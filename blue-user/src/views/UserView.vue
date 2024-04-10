@@ -89,10 +89,10 @@ onMounted(() => {
   getCode()
 })
 //获取注册短信验证码
-function getPhoneCode(){
-  getSms(userInfo.phone).then(res=>{
+function getPhoneCode() {
+  getSms(userInfo.phone).then(res => {
     promptMsg({ type: "success", msg: res.data })
-  }).catch(error=>{
+  }).catch(error => {
     promptMsg({ type: "warn", msg: error })
   })
 }
@@ -133,9 +133,9 @@ function userLogin() {
 }
 //用户注册
 function userRegister() {
-  register(userInfo).then(res=>{
+  register(userInfo).then(res => {
     promptMsg({ type: "success", msg: res })
-  }).catch(error=>{
+  }).catch(error => {
     promptMsg({ type: "warn", msg: error })
   })
 }
@@ -264,15 +264,18 @@ function goRegister() {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  .Sms_box{
+
+  .Sms_box {
     display: flex;
     align-items: center;
-    .code_select{
+
+    .code_select {
       text-align: center;
       flex-grow: 1;
       color: #fff;
     }
   }
+
   .avater_box {
     display: flex;
     justify-content: center;

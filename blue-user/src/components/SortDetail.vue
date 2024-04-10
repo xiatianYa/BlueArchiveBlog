@@ -3,7 +3,7 @@
     <div class="sort_cards">
       <div class="card box_shadow  animate__animated animate__slideInUp" @click="goArticlePreview(article.id)">
         <div class="card_img">
-          <img :src="article.cover" alt="">
+          <img v-lazy="article.cover">
         </div>
         <div class="card_time">
           <svg class="icon pointer" aria-hidden="true">

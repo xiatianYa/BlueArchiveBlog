@@ -13,6 +13,8 @@ import '@/assets/iconfont/iconfont.js'
 import './permission'
 //adnimate.css 动画库
 import 'animate.css';
+//引入图片懒加载插件
+import Lazyload from "vue3-lazyload";
 
 // codemirror 编辑器的相关资源
 import Codemirror from 'codemirror';
@@ -53,6 +55,13 @@ VueMarkdownEditor.Codemirror = Codemirror;
 VueMarkdownEditor.use(createLineNumbertPlugin());
 //创建App实际
 const app = createApp(App)
+
+//注册插件
+app.use(Lazyload, {
+  loading: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/default.png",//可以指定加载中的图像
+  error: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/error.png",//可以指定加载失败的图像
+});
+
 
 app.use(createPinia())
 app.use(router)

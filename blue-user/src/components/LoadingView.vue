@@ -1,7 +1,7 @@
 <template>
   <div class="loading" v-show="gloBalStore.loading">
     <div class="alona">
-      <img :src="AlonaUrl" alt="阿罗纳">
+      <img v-lazy="AlonaUrl">
       <div class="wrapper">
         <h1>CONNECTIING...</h1>
         <div>{{ Percentages }}%</div>

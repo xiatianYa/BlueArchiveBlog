@@ -33,7 +33,7 @@
     <div class="photos">
       <div class="photo box_shadow pointer animate__animated animate__zoomIn" v-for="item in PhotoList" :key="item.id">
         <div class="photo_img">
-          <img class="box_shadow" :src="item.photoUrl">
+          <img v-lazy="item.photoUrl" class="box_shadow">
         </div>
         <div class="photo_msg">
           <span>

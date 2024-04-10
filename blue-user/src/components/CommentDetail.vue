@@ -12,41 +12,41 @@
           <textarea type="text" placeholder="写些留言一起交流吧..." v-model="commentContent"></textarea>
         </div>
         <div class="leaver_emoji">
-          <V3Emoji :disable-group="disableGroup" @click-emoji="appendComment" :options-name="optionsName" :fulldata="true"
-                   :recent="true" />
+          <V3Emoji :disable-group="disableGroup" @click-emoji="appendComment" :options-name="optionsName"
+            :fulldata="true" :recent="true" />
           <button class="pointer" @click="addLeaverComment">提交</button>
         </div>
         <div class="leaver_comments">
           <div class="comment" v-for="comment in commentList" :key="comment.id">
             <div class="comment_left">
               <div class="user_avater">
-                <img :src="comment.userAvatar">
+                <img v-lazy="comment.userAvatar">
               </div>
             </div>
             <div class="comment_right">
               <div class="publish_info">
-                <span class="user_name">{{comment.userName}}</span>
-                <span class="publish_time">{{comment.createTime.substring(0,16)}}</span>
+                <span class="user_name">{{ comment.userName }}</span>
+                <span class="publish_time">{{ comment.createTime.substring(0, 16) }}</span>
                 <span class="reply" @click="openLeaverDialogParent(comment.id)">回复</span>
               </div>
               <div class="comment_content">
-                <span class="content">{{comment.commentContent}}</span>
+                <span class="content">{{ comment.commentContent }}</span>
               </div>
               <div class="comment_reply" v-for="reply in comment.replyList" :key="reply.id">
                 <div class="reply_left">
                   <div class="reply_avatar">
-                    <img :src="reply.userAvatar">
+                    <img v-lazy="reply.userAvatar">
                   </div>
                 </div>
                 <div class="reply_right">
                   <div class="reply_info">
-                    <span class="user_name">{{reply.userName}}</span>
-                    <span class="reply_time">{{reply.createTime.substring(0,16)}}</span>
-                    <span class="reply" @click="openLeaverDialog(reply,comment.id)">回复</span>
+                    <span class="user_name">{{ reply.userName }}</span>
+                    <span class="reply_time">{{ reply.createTime.substring(0, 16) }}</span>
+                    <span class="reply" @click="openLeaverDialog(reply, comment.id)">回复</span>
                   </div>
                   <div class="reply_content">
-                    <span class="replyAt" v-show="reply.atUserName">@{{reply.atUserName}}&nbsp;:&nbsp;</span>
-                    <span class="content">{{reply.commentContent}}</span>
+                    <span class="replyAt" v-show="reply.atUserName">@{{ reply.atUserName }}&nbsp;:&nbsp;</span>
+                    <span class="content">{{ reply.commentContent }}</span>
                   </div>
                 </div>
               </div>
@@ -67,8 +67,8 @@
           <textarea type="text" placeholder="写些留言一起交流吧..." v-model="commentLeaver.commentContent"></textarea>
         </div>
         <div class="leaver_emoji">
-          <V3Emoji class="emoji" :disable-group="disableGroup" @click-emoji="appendCommentChile" :options-name="optionsName"
-                   :fulldata="true" :recent="true" />
+          <V3Emoji class="emoji" :disable-group="disableGroup" @click-emoji="appendCommentChile"
+            :options-name="optionsName" :fulldata="true" :recent="true" />
           <button class="pointer" @click="addLeaverCommentChile">提交</button>
         </div>
       </div>
@@ -81,72 +81,72 @@ import V3Emoji from "vue3-emoji";
 import {addComment, listComment} from '@/api/comment'
 import promptMsg from "@/components/PromptBoxView"
 
-const props = defineProps(['commentType','commonId'])
+const props = defineProps(['commentType', 'commonId'])
 //通用ID
-const commonId=ref()
+const commonId = ref()
 //回复内容
 const commentContent = ref("")
 //回复类型
-const commentType=ref()
+const commentType = ref()
 //留言框是否开启
 const addLeaver = ref(false)
 //查询参数
-const queryParams=ref({
+const queryParams = ref({
   pageNum: 1,
   pageSize: 10,
-  commentType:props.commentType
+  commentType: props.commentType
 })
 //留言列表
-const commentList=ref([])
+const commentList = ref([])
 //留言框对象
-const commentLeaver=ref({
-  commentContent:"",
+const commentLeaver = ref({
+  commentContent: "",
   //是否是回复子留言
-  reply:null,
-  commonId:null,
+  reply: null,
+  commonId: null,
 })
 onMounted(() => {
-  nextTick(()=>{
-    commentType.value=props.commentType;
-    commonId.value=props.commonId;
+  nextTick(() => {
+    commentType.value = props.commentType;
+    commonId.value = props.commonId;
     init();
   })
 })
 //数据初始化
-function init(){
+function init() {
   //获取留言,分页获取
-  queryParams.value.commonId=commonId.value;
-  listComment(queryParams.value).then(res=>{
-    commentList.value=res.rows;
+  queryParams.value.commonId = commonId.value;
+  listComment(queryParams.value).then(res => {
+    commentList.value = res.rows;
   })
 }
 
 //添加头节点
-function addLeaverComment(){
+function addLeaverComment() {
   //参数赋值
-  commentLeaver.value.parentId=0;
-  commentLeaver.value.commentType=commentType.value;
-  commentLeaver.value.commentContent=commentContent.value;
-  commentLeaver.value.commonId=commonId.value;
-  addComment(commentLeaver.value).then(res=>{
+  commentLeaver.value.parentId = 0;
+  commentLeaver.value.commentType = commentType.value;
+  commentLeaver.value.commentContent = commentContent.value;
+  commentLeaver.value.commonId = commonId.value;
+  addComment(commentLeaver.value).then(res => {
     promptMsg({ type: "success", msg: res.msg })
     //重新获取数据
     init();
-  }).catch(error=>{
+  }).catch(error => {
     promptMsg({ type: "warn", msg: "请先登录!" })
   })
   closeLeaverDialog();
 }
 //添加子节点
-function addLeaverCommentChile(){
-  if (commentLeaver.value.reply){
-    commentLeaver.value.commentContent="@"+commentLeaver.value.reply.userName+":"+commentLeaver.value.commentContent;
+function addLeaverCommentChile() {
+  if (commentLeaver.value.reply) {
+    commentLeaver.value.commentContent = "@" + commentLeaver.value.reply.userName + ":" + commentLeaver.value.commentContent;
   }
-  addComment(commentLeaver.value).then(res=>{
+  addComment(commentLeaver.value).then(res => {
     promptMsg({ type: "success", msg: res.msg })
     //重新获取数据
     init();
-  }).catch(error=>{
+  }).catch(error => {
     promptMsg({ type: "warn", msg: "请先登录!" })
   })
   closeLeaverDialog();
@@ -155,17 +155,17 @@ function addLeaverCommentChile(){
 //打开留言框 回复子留言
 function openLeaverDialogParent(commentId) {
   addLeaver.value = true;
-  commentLeaver.value.parentId=commentId;
-  commentLeaver.value.commentType=commentType.value;
-  commentLeaver.value.commonId=commonId.value;
+  commentLeaver.value.parentId = commentId;
+  commentLeaver.value.commentType = commentType.value;
+  commentLeaver.value.commonId = commonId.value;
 }
 //打开留言框 回复孙留言
-function openLeaverDialog(reply,commentId) {
+function openLeaverDialog(reply, commentId) {
   addLeaver.value = true;
-  commentLeaver.value.parentId=commentId;
-  commentLeaver.value.reply=reply;
-  commentLeaver.value.commentType=commentType.value;
-  commentLeaver.value.commonId=commonId.value;
+  commentLeaver.value.parentId = commentId;
+  commentLeaver.value.reply = reply;
+  commentLeaver.value.commentType = commentType.value;
+  commentLeaver.value.commonId = commonId.value;
 }
 
 //添加表情
@@ -173,7 +173,7 @@ function appendComment(emajor) {
   commentContent.value += emajor.emoji
 }
 //添加子表情
-function appendCommentChile(emajor){
+function appendCommentChile(emajor) {
   commentLeaver.value.commentContent += emajor.emoji
 }
 
@@ -181,17 +181,18 @@ function appendCommentChile(emajor){
 function closeLeaverDialog() {
   addLeaver.value = false;
   //清空留言
-  commentContent.value="";
+  commentContent.value = "";
   //清空子留言对象
-  commentLeaver.value={
-    commentContent:""
+  commentLeaver.value = {
+    commentContent: ""
   };
 }
 </script>
 <style lang="scss">
-.comment{
+.comment {
   display: flex;
   justify-content: center;
+
   .leaver_body {
     display: flex;
     justify-content: center;

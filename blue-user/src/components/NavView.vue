@@ -3,7 +3,7 @@
     <div v-show="NavShow" class="header_box header_fixed">
       <div class="pc_menu">
         <div class="header_log">
-          <img src="\static\images\logo.png" alt="碧蓝档案log"/>
+          <img v-lazy="'/static/images/logo.png'"/>
         </div>
         <div class="header_menu">
           <ul class="menus">
@@ -58,7 +58,7 @@
             </router-link>
             <div v-show="UserStore.token" class="nav-item">
               <a :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
-                <img :src="UserStore.avatar" alt="">
+                <img v-lazy="UserStore.avatar">
                 <span>{{ UserStore.name }}</span>
               </a>
               <div class="nav-drop-down-wrapper">
