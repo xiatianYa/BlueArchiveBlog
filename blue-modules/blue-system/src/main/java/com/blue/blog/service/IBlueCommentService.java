@@ -59,4 +59,6 @@ public interface IBlueCommentService
      * @return 结果
      */
     public int deleteBlueCommentById(Long id);
+
+    List<BlueComment> selectBlueCommentListAll(BlueComment blueComment);
 }

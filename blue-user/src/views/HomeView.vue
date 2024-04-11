@@ -226,7 +226,7 @@ function goDown() {
       position: absolute;
       width: 0;
       left: 50%;
-      top: -20%;
+      top: -17%;
       transform: translate(-50%, 0%);
       margin-left: 18px;
 
@@ -249,7 +249,7 @@ function goDown() {
     .down {
       position: absolute;
       left: 50%;
-      top: -17%;
+      top: -13%;
       z-index: 99;
       animation-name: updown;
       animation-duration: 2.5s;

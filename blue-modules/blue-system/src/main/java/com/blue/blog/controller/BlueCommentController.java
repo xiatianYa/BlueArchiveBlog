@@ -31,6 +31,17 @@ public class BlueCommentController extends BaseController
     /**
      * 查询评论列表
      */
+    @GetMapping("/listAll")
+    public TableDataInfo listAll(BlueComment blueComment)
+    {
+        startPage();
+        List<BlueComment> list = blueCommentService.selectBlueCommentListAll(blueComment);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询评论列表
+     */
     @GetMapping("/list")
     public TableDataInfo list(BlueComment blueComment)
     {

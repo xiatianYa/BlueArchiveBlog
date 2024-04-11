@@ -167,4 +167,9 @@ public class BlueCommentServiceImpl implements IBlueCommentService
         blueCommentMapper.delete(wrapper);
         return blueCommentMapper.deleteBlueCommentById(id);
     }
+
+    @Override
+    public List<BlueComment> selectBlueCommentListAll(BlueComment blueComment) {
+        return blueCommentMapper.selectBlueCommentList(blueComment);
+    }
 }

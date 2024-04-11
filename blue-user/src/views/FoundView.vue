@@ -172,17 +172,18 @@ const loadData = () => {
 //滚动事件
 const handleScroll = () => {
   // 监听滚动事件
-  const container = document.querySelector('.found_body') // 获取滚动容器
-  if (isScrolledToBottom(container)) {
+  const foundBody = document.querySelector('.found_body') // 获取滚动容器
+  const banner = document.querySelector('.banner') // 获取前面高度容器
+  if (isScrolledToBottom(foundBody,banner)) {
     loadData()
   }
 }
 //判断是否滚动到底部
-function isScrolledToBottom(container) {
-  const clientHeight = container.clientHeight; // 容器的视口高度  
+function isScrolledToBottom(foundBody,banner) {
+  const clientHeight = foundBody.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
-  return windowY >= clientHeight - 150 && !loading.value && !loadingEnd.value;
+  return windowY >= clientHeight - banner.clientHeight && !loading.value && !loadingEnd.value;
 }
 //判断是不是到最后一页了
 function isLastPage(total) {

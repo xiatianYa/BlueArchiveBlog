@@ -74,7 +74,9 @@ public class BlueArticleController extends BaseController
                 }
             }
         }
-        return getDataTable(articleList);
+        int maxCount = 6; // 最多获取6条
+        int actualCount = Math.min(maxCount, articleList.size()); // 确保不会超出列表的实际大小
+        return getDataTable(articleList.subList(0,actualCount));
     }
     /**
      * 导出文章列表

@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import {addComment, delComment, getComment, listComment, updateComment} from "@/api/blog/comment";
+import {addComment, delComment, getComment, listCommentAll, updateComment} from "@/api/blog/comment";
 
 export default {
   name: "Comment",
@@ -193,7 +193,7 @@ export default {
     /** 查询评论列表 */
     getList() {
       this.loading = true;
-      listComment(this.queryParams).then(response => {
+      listCommentAll(this.queryParams).then(response => {
         this.commentList = response.rows;
         this.total = response.total;
         this.loading = false;

@@ -116,9 +116,9 @@ function logOut() {
   promptMsg({ type: "success", msg: "退出成功" })
 }
 //跳转路由
-function go(path){
+function go(path) {
   console.log(path);
-  router.push({ path:path })
+  router.push({ path: path })
 }
 </script>
 <style lang="scss" scoped>
@@ -252,6 +252,7 @@ function go(path){
                 width: 90%;
                 border-radius: 10px;
                 color: #000000;
+
                 &:hover {
                   background-color: rgb(255, 229, 241);
                   color: #727272;
@@ -303,7 +304,7 @@ function go(path){
           }
 
           span:hover {
-            color: #08d9d6;
+            color: #00e0ff;
           }
         }
       }

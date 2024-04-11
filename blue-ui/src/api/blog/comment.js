@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+// 查询评论列表ALL
+export function listCommentAll(query) {
+  return request({
+    url: '/system/comment/listAll',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询评论列表
 export function listComment(query) {
   return request({
