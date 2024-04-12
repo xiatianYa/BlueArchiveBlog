@@ -9,11 +9,11 @@
           <use xlink:href="#icon-huojian"></use>
         </svg>
         <svg class="icon pointer" aria-hidden="true" v-show="gloBalStore.switch"
-             @click="changSwitch(!gloBalStore.switch)">
+          @click="changSwitch(!gloBalStore.switch)">
           <use xlink:href="#icon-deng"></use>
         </svg>
         <svg class="icon pointer" aria-hidden="true" v-show="!gloBalStore.switch"
-             @click="changSwitch(!gloBalStore.switch)">
+          @click="changSwitch(!gloBalStore.switch)">
           <use xlink:href="#icon-dengpao"></use>
         </svg>
       </div>
@@ -30,7 +30,7 @@ function changSwitch(value: boolean) {
 }
 
 function goTop() {
-  window.scrollTo({behavior: 'smooth', top: 0});
+  window.scrollTo({ behavior: 'smooth', top: 0 });
 }
 </script>
 <style lang="scss" scoped>
@@ -77,4 +77,3 @@ function goTop() {
   opacity: 1;
 }
 </style>
-@/store/global@/store/global

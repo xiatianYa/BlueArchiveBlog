@@ -11,25 +11,25 @@
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-shu1"></use>
         </svg>
-        <span :class="selectIndex === 1 ? 'nav_select' : ''">分享文章</span>
+        <span :class="selectIndex === 1 ? 'nav_select' : ''">我的文章</span>
       </div>
       <div class="nav" @click="changSelect(2)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-faxian"></use>
         </svg>
-        <span :class="selectIndex === 2 ? 'nav_select' : ''">分享发现</span>
+        <span :class="selectIndex === 2 ? 'nav_select' : ''">分享二创</span>
       </div>
       <div class="nav" @click="changSelect(3)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-xiangji"></use>
         </svg>
-        <span :class="selectIndex === 3 ? 'nav_select' : ''">分享相片</span>
+        <span :class="selectIndex === 3 ? 'nav_select' : ''">我的相册</span>
       </div>
       <div class="nav" @click="changSelect(4)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-jita"></use>
         </svg>
-        <span :class="selectIndex === 4 ? 'nav_select' : ''">分享歌单</span>
+        <span :class="selectIndex === 4 ? 'nav_select' : ''">我的歌单</span>
       </div>
     </div>
     <div class="menu_right">
@@ -60,17 +60,14 @@ function changSelect(index) {
 .menu {
   display: flex;
   width: 100%;
-  height: 1000px;
+  height: 100%;
   margin-top: 53px;
 
   .menu_left {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
     width: 10%;
     height: 100%;
+    min-height: 100vh;
     border-right: 1px solid #c8d9eb;
-    background-color: #dbe2ef;
 
     .nav {
       display: flex;
@@ -101,7 +98,6 @@ function changSelect(index) {
   .menu_right {
     width: 90%;
     height: 100%;
-    background-color: #f9f7f7;
   }
 }
 </style>

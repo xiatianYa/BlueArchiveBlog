@@ -6,10 +6,11 @@
             </h2>
         </div>
         <div class="tools">
-            <div class="tool_detail pointer box_shadow animate__animated animate__slideInRight" v-for="toolDetail in tool.blueProgramToolList"  @click="goHref(toolDetail.toolUrl)">
+            <div class="tool_detail pointer box_shadow animate__animated animate__slideInRight"
+                v-for="toolDetail in tool.blueProgramToolList" @click="goHref(toolDetail.toolUrl)">
                 <div class="tool_left">
                     <div class="tool_img">
-                        <img v-lazy="toolDetail.toolAvater"/>
+                        <img v-lazy="toolDetail.toolAvater" />
                     </div>
                 </div>
                 <div class="tool_right">
@@ -90,7 +91,6 @@ function goHref(toolUrl: string) {
                 }
 
                 .tool_body {
-                    display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;

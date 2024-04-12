@@ -134,8 +134,7 @@ function go(path) {
   z-index: 1;
   width: 100%;
   height: 53px;
-  background-color: rgba(0, 0, 0, 0.1);
-  transition-duration: 0.5s;
+  transition-duration: 1s;
 
   .pc_menu {
     display: flex;
@@ -313,7 +312,7 @@ function go(path) {
 }
 
 .header_box:hover {
-  transition-duration: 0.5s;
+  transition-duration: 1s;
   background-color: rgba(0, 0, 0, 0.2);
 }
 

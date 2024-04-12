@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4766857",
+      "name": "calendar-check",
+      "font_class": "calendar-check",
+      "unicode": "e7d3",
+      "unicode_decimal": 59347
+    },
+    {
+      "icon_id": "4766293",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e7ae",
+      "unicode_decimal": 59310
+    },
+    {
+      "icon_id": "4766451",
+      "name": "mobile",
+      "font_class": "mobile",
+      "unicode": "e7b2",
+      "unicode_decimal": 59314
+    },
+    {
+      "icon_id": "4766918",
+      "name": "mail",
+      "font_class": "mail",
+      "unicode": "e7de",
+      "unicode_decimal": 59358
+    },
+    {
       "icon_id": "3783392",
       "name": "日历",
       "font_class": "rili2",

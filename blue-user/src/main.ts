@@ -15,6 +15,8 @@ import './permission'
 import 'animate.css';
 //引入图片懒加载插件
 import Lazyload from "vue3-lazyload";
+//Github热力图
+import VueCalendarHeatmap from 'vue3-calendar-heatmap'
 
 // codemirror 编辑器的相关资源
 import Codemirror from 'codemirror';
@@ -62,7 +64,7 @@ app.use(Lazyload, {
   error: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/error.png",//可以指定加载失败的图像
 });
 
-
+app.use(VueCalendarHeatmap)
 app.use(createPinia())
 app.use(router)
 app.use(VueMarkdownEditor);

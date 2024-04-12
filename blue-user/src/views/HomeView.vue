@@ -239,7 +239,7 @@ function goDown() {
     }
 
     .animation_writer {
-      animation: grow 7s steps(44) 4s normal infinite,
+      animation: grow 7s steps(44) 1s normal infinite,
         blink 1s steps(44) infinite normal;
       white-space: nowrap;
       border-right: 2px solid #eeeeee;
