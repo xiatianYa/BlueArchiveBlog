@@ -36,6 +36,9 @@ export const useUserStore = defineStore('user', {
                 this.id = user.userId
                 this.name = user.userName
                 this.avatar = user.avatar
+                this.email=user.email
+                this.phone=user.phonenumber
+                this.createTime=user.createTime
                 this.roles = res.roles
                 this.permissions = res.permissions
             })
@@ -47,6 +50,9 @@ export const useUserStore = defineStore('user', {
             this.id=""
             this.name=""
             this.avatar=""
+            this.phone=""
+            this.email=""
+            this.createTime=""
             this.roles=[]
             this.permissions=[]
             this.token = ""
@@ -60,6 +66,9 @@ export const useUserStore = defineStore('user', {
             id: '',
             name: '',
             avatar: '',
+            email:'',
+            phone:'',
+            createTime:'',
             roles: [],
             permissions: []
         }

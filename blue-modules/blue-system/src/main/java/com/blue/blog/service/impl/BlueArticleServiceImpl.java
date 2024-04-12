@@ -16,6 +16,7 @@ import com.blue.sort.mapper.BlueArticleTagMapper;
 import com.blue.sort.mapper.BlueSortMapper;
 import com.blue.sort.mapper.BlueSortTagMapper;
 import com.blue.system.api.domain.SysUser;
+import com.blue.system.api.model.LoginUser;
 import com.blue.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -253,6 +254,18 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //默认查询已通过审核数据
         wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
         //查询改文章下所包含的标签
+        return blueArticleMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<BlueArticle> selectBlueArticleListByUser() {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        if (!StringUtils.isNotNull(loginUser.getUserid())){
+            throw new ServiceException("用户信息获取失败!");
+        }
+        LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
+        //查询用户发布的所有文章
+        wrapper.eq(BlueArticle::getUserId,loginUser.getUserid());
         return blueArticleMapper.selectList(wrapper);
     }
 }

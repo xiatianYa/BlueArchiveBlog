@@ -63,4 +63,6 @@ public interface IBlueArticleService
     List<BlueArticle> selectBlueArticleListByTagId(Long tagId);
 
     List<BlueArticle> selectBlueArticleListBySortId(Long sortId);
+
+    List<BlueArticle> selectBlueArticleListByUser();
 }

@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="menu_right">
-      <UserView v-show="selectIndex === 0" />
+      <UserView :user="UserStore" v-show="selectIndex === 0" />
       <ArticleView v-show="selectIndex === 1" />
       <FoundView v-show="selectIndex === 2" />
       <PhotoView v-show="selectIndex === 3" />
@@ -49,25 +49,27 @@ import ArticleView from '@/components/ShareArticleDetail.vue';
 import FoundView from '@/components/ShareFoundDetail.vue';
 import PhotoView from '@/components/SharePhotoDetail.vue';
 import MusicView from '@/components/ShareMusicDetail.vue';
+import {useUserStore} from '@/store/user'
 
+const UserStore = useUserStore()
 const selectIndex = ref(0)
 function changSelect(index) {
-  selectIndex.value=index;
+  selectIndex.value = index;
 }
 </script>
 
 <style lang="scss" scoped>
 .menu {
   display: flex;
+  flex-direction: row;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   margin-top: 53px;
 
   .menu_left {
     width: 10%;
     height: 100%;
-    min-height: 100vh;
-    border-right: 1px solid #c8d9eb;
 
     .nav {
       display: flex;
@@ -75,7 +77,7 @@ function changSelect(index) {
       justify-content: center;
       width: 100%;
       height: 30px;
-      margin: 10px 0px 10px 0px;
+      margin: 20px 0px 20px 0px;
 
       .icon {
         margin-right: 5px;
@@ -98,6 +100,7 @@ function changSelect(index) {
   .menu_right {
     width: 90%;
     height: 100%;
+    border-left: 1px solid #c8d9eb;
   }
 }
 </style>

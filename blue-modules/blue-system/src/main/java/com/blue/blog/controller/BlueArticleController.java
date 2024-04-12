@@ -46,6 +46,16 @@ public class BlueArticleController extends BaseController
         return getDataTable(list);
     }
     /**
+     * 查询用户自己文章列表
+     */
+    @GetMapping("/listByUser")
+    public TableDataInfo listByUser()
+    {
+        startPage();
+        List<BlueArticle> list = blueArticleService.selectBlueArticleListByUser();
+        return getDataTable(list);
+    }
+    /**
      * 根据标签ID查询文章列表
      */
     @GetMapping("/listByTagId/{tagId}")

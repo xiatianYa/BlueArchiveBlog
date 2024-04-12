@@ -5,7 +5,7 @@
                 <span>个人信息</span>
             </div>
             <div class="user_avatar">
-                <img src="\static\images\xiaocun.png">
+                <img :src="user.avatar">
             </div>
             <div class="user_info">
                 <div class="user_name">
@@ -18,7 +18,7 @@
                         </span>
                     </div>
                     <div class="right">
-                        <span>admin</span>
+                        <span>{{ user.name }}</span>
                     </div>
                 </div>
                 <div class="user_phone">
@@ -31,7 +31,7 @@
                         </span>
                     </div>
                     <div class="right">
-                        <span>18074589556</span>
+                        <span>{{ user.phone }}</span>
                     </div>
                 </div>
                 <div class="user_email">
@@ -44,7 +44,7 @@
                         </span>
                     </div>
                     <div class="right">
-                        <span>939648675@qq.com</span>
+                        <span>{{ user.email }}</span>
                     </div>
                 </div>
                 <div class="user_create">
@@ -57,7 +57,7 @@
                         </span>
                     </div>
                     <div class="right">
-                        <span>2024-24-11 22:15</span>
+                        <span>{{ user.createTime }}</span>
                     </div>
                 </div>
             </div>
@@ -67,15 +67,15 @@
             <div class="left">
                 <div class="user_name">
                     <span>姓名</span>
-                    <input type="text">
+                    <input type="text" :value="user.name">
                 </div>
                 <div class="user_phone">
                     <span>手机</span>
-                    <input type="text">
+                    <input type="text" :value="user.phone">
                 </div>
                 <div class="user_email">
                     <span>邮箱</span>
-                    <input type="text">
+                    <input type="text" :value="user.email">
                 </div>
                 <div class="button_box">
                     <button>保存</button>
@@ -93,7 +93,9 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps(['user'])
+</script>
 
 <style lang="scss" scoped>
 .user {
@@ -125,6 +127,7 @@
             box-sizing: border-box;
             width: 100%;
             height: 30%;
+            margin: 10px;
             display: flex;
             justify-content: center;
             align-items: center;

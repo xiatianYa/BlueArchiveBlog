@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getToken} from '@/utils/auth.js'
+import {getToken} from '@/utils/auth.ts'
 import {useUserStore} from '@/store/user'
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
@@ -18,36 +18,35 @@ service.interceptors.request.use(config => {
     if (getToken() && !isToken) {
         config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
+
     return config
 }, error => {
-    console.log(error)
     Promise.reject(error)
 })
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-        // 未设置状态码则默认成功状态
-        const code: number = res.data.code || 200;
-        // 获取错误信息
-        const msg = res.data.msg
-        if (code === 401) {
-            //验证码失效 清空用户数据 前往登录页面
-            const UserStore = useUserStore()
-            UserStore.CLEAR_USERINFO()
-            return Promise.reject(msg)
-        } else if (code === 500) {
-            return Promise.reject(msg)
-        } else if (code === 601) {
-            return Promise.reject(msg)
-        } else if (code !== 200) {
-            return Promise.reject(msg)
-        } else {
-            return res.data
-        }
-    },
+    // 未设置状态码则默认成功状态
+    const code: number = res.data.code || 200;
+    // 获取错误信息
+    const msg = res.data.msg
+    if (code === 401) {
+        //验证码失效 清空用户数据 前往登录页面
+        const UserStore = useUserStore()
+        UserStore.CLEAR_USERINFO()
+        return Promise.reject(msg)
+    } else if (code === 500) {
+        return Promise.reject(msg)
+    } else if (code === 601) {
+        return Promise.reject(msg)
+    } else if (code !== 200) {
+        return Promise.reject(msg)
+    } else {
+        return res.data
+    }
+},
     error => {
-        console.log('err' + error)
-        let {message} = error;
+        let { message } = error;
         if (message == "Network Error") {
             message = "后端接口连接异常";
         } else if (message.includes("timeout")) {

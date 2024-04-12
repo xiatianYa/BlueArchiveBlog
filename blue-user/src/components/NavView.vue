@@ -117,7 +117,6 @@ function logOut() {
 }
 //跳转路由
 function go(path) {
-  console.log(path);
   router.push({ path: path })
 }
 </script>

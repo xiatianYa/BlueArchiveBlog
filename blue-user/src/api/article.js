@@ -8,6 +8,13 @@ export function listArticle(query) {
     params: query
   })
 }
+// 查询用户自己文章列表
+export function listArticleByUser() {
+  return request({
+    url: '/system/article/listByUser',
+    method: 'get',
+  })
+}
 // 根据标签ID查询文章
 export function listByTagId(tagId) {
   return request({
