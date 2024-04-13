@@ -36,7 +36,7 @@ public class BlueArticle extends BaseEntity
     private Long userId;
 
     /** 分类ID */
-    @Excel(name = "分类名称")
+    @Excel(name = "分类ID")
     @TableField("sort_id")
     private Long sortId;
     /** 用户名称 */

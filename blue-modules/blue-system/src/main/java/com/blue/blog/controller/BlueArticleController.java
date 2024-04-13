@@ -49,11 +49,10 @@ public class BlueArticleController extends BaseController
      * 查询用户自己文章列表
      */
     @GetMapping("/listByUser")
-    public TableDataInfo listByUser()
+    public AjaxResult listByUser()
     {
-        startPage();
         List<BlueArticle> list = blueArticleService.selectBlueArticleListByUser();
-        return getDataTable(list);
+        return AjaxResult.success(list);
     }
     /**
      * 根据标签ID查询文章列表
@@ -144,6 +143,17 @@ public class BlueArticleController extends BaseController
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
+        //删除文章标签关联表所有关联数据
+        for (Long id : ids) {
+            BlueArticleTag blueArticleTag = new BlueArticleTag();
+            blueArticleTag.setArticleId(id);
+            List<BlueArticleTag> blueArticleTags = blueArticleTagService.selectBlueArticleTagList(blueArticleTag);
+            Long[] tagIds=new Long[blueArticleTags.size()];
+            for (int i = 0; i < blueArticleTags.size(); i++) {
+                tagIds[i]=blueArticleTags.get(i).getTagId();
+            }
+            blueArticleTagService.deleteBlueArticleTagByIds(tagIds);
+        }
         return toAjax(blueArticleService.deleteBlueArticleByIds(ids));
     }
 }

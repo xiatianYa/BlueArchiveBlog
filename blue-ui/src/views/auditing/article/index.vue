@@ -5,7 +5,7 @@
         <el-input v-model="queryParams.userId" placeholder="请输入用户名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="文章名称" prop="userId">
-        <el-input v-model="queryParams.Name" placeholder="请输入文章名称" clearable @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.articleName" placeholder="请输入文章名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="分类名称" prop="sortId">
         <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
@@ -38,7 +38,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" width="40" />
       <el-table-column label="用户名称" align="center" prop="userName" />
-      <el-table-column label="文章名称" align="center" prop="name" />
+      <el-table-column label="文章名称" align="center" prop="articleName" />
       <el-table-column label="分类名称" align="center" prop="sortName" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
@@ -63,36 +63,6 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改文章对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="文章名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入文章名称" />
-        </el-form-item>
-        <el-form-item label="分类名称" prop="sortId">
-          <el-select v-model="form.sortId" placeholder="请选择分类名称">
-            <el-option v-for="dict in sortDict" :key="dict.value" :label="dict.label"
-              :value="parseInt(dict.value)"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="文章编辑" prop="sortId">
-          <el-button type="primary" icon="el-icon-edit" circle @click="editArticle(form.id)" />
-        </el-form-item>
-        <el-form-item label="文章视频" prop="videoUrl">
-          <file-upload v-model="form.videoUrl" />
-        </el-form-item>
-        <el-form-item label="文章图片" prop="cover">
-          <image-upload v-model="form.cover" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -123,8 +93,6 @@ export default {
       articleList: [],
       // 弹出层标题
       title: "",
-      // 是否显示弹出层
-      open: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
