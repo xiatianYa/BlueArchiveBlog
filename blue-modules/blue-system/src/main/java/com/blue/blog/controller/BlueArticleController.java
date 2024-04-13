@@ -148,11 +148,13 @@ public class BlueArticleController extends BaseController
             BlueArticleTag blueArticleTag = new BlueArticleTag();
             blueArticleTag.setArticleId(id);
             List<BlueArticleTag> blueArticleTags = blueArticleTagService.selectBlueArticleTagList(blueArticleTag);
-            Long[] tagIds=new Long[blueArticleTags.size()];
-            for (int i = 0; i < blueArticleTags.size(); i++) {
-                tagIds[i]=blueArticleTags.get(i).getTagId();
+            if (StringUtils.isNotEmpty(blueArticleTags)){
+                Long[] tagIds=new Long[blueArticleTags.size()];
+                for (int i = 0; i < blueArticleTags.size(); i++) {
+                    tagIds[i]=blueArticleTags.get(i).getTagId();
+                }
+                blueArticleTagService.deleteBlueArticleTagByIds(tagIds);
             }
-            blueArticleTagService.deleteBlueArticleTagByIds(tagIds);
         }
         return toAjax(blueArticleService.deleteBlueArticleByIds(ids));
     }

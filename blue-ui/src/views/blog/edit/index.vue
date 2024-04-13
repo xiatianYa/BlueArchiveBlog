@@ -44,8 +44,8 @@ export default {
         insertImage({
           url: res.data.url,
           desc: res.data.name,
-          width: '100%',
-          height: 'auto',
+          width: '300px',
+          height: '300px',
         })
         this.$message({
           message: '上传图片成功',

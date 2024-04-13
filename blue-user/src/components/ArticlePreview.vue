@@ -14,7 +14,7 @@
     </div>
 
     <div class="preview_content">
-        
+      <v-md-editor v-model="article.content" mode="preview" height="100%" style="background: #ECEBEC;"></v-md-editor>
     </div>
   </div>
 
@@ -38,7 +38,7 @@ onMounted(async () => {
   const res = await getArticle(route.query.sortId)
   if (res.data.content) {
     article.value = res.data
-  }else{
+  } else {
     promptMsg({ type: "warn", msg: "暂无内容!" })
   }
 })
@@ -136,7 +136,7 @@ function handleAnchorClick(anchor) {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60%;
+    width: 80%;
     height: 100%;
     margin-top: 20px;
     border-radius: 10px;

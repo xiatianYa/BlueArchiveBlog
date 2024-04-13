@@ -46,7 +46,7 @@
         <button id="register" @click="goRegister">去注册</button>
       </div>
       <div class="selectAvater animate__animated animate__fadeInLeft" v-show="openAvater">
-        <img v-for="(imgUrl, index) in avaterUrls" :key="index" :src="imgUrl.avaterUrl"
+        <img v-for="(imgUrl, index) in avaterUrls" :key="index" v-lazy="imgUrl.avaterUrl"
           @click="exchangeAvater(imgUrl.avaterUrl)">
       </div>
     </div>

@@ -139,6 +139,7 @@ function selectArticleListByTagId(tagId) {
   if (tagId === tagIndex.value) {
     return
   }
+  tagIndex.value=tagId;
   listByTagId(tagId).then(res => {
     articleList.value = res.rows
     promptMsg({ type: "success", msg: res.msg })

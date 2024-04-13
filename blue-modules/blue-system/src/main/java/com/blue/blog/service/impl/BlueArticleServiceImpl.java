@@ -117,6 +117,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Transactional
     public int insertBlueArticle(BlueArticle blueArticle)
     {
+        isCheckArticle(blueArticle);
         Long userId = SecurityUtils.getUserId();
         if (StringUtils.isNotNull(userId)){
             //设置创建者ID
@@ -164,7 +165,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
                 //默认先删除所有和文章匹配的标签数据
                 LambdaQueryWrapper<BlueArticleTag> wrapper = new LambdaQueryWrapper<>();
                 wrapper.eq(BlueArticleTag::getArticleId,blueArticle.getId());
-                wrapper.eq(BlueArticleTag::getTagId,blueArticleTag.getTagId());
                 blueArticleTagMapper.delete(wrapper);
                 //设置文章ID
                 blueArticleTag.setArticleId(blueArticle.getId());
@@ -267,5 +267,22 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //查询用户发布的所有文章
         wrapper.eq(BlueArticle::getUserId,loginUser.getUserid());
         return blueArticleMapper.selectList(wrapper);
+    }
+    public void isCheckArticle(BlueArticle blueArticle){
+        if (!StringUtils.isNotEmpty(blueArticle.getArticleName())){
+            throw new ServiceException("文章标题为空...");
+        }
+        if (!StringUtils.isNotEmpty(blueArticle.getArticleDescribe())){
+            throw new ServiceException("文章描述为空...");
+        }
+        if (!StringUtils.isNotNull(blueArticle.getSortId())){
+            throw new ServiceException("文章分类为空...");
+        }
+        if (!StringUtils.isNotEmpty(blueArticle.getTagList())){
+            throw new ServiceException("文章标签为空...");
+        }
+        if (!StringUtils.isNotEmpty(blueArticle.getCover())){
+            throw new ServiceException("文章封面为空...");
+        }
     }
 }

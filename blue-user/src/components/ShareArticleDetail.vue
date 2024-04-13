@@ -11,18 +11,30 @@
             <div class="article_list">
                 <div class="item pointer" v-for="article in ArticleList">
                     <input type="checkbox" v-model="deleteArticleList" name="article" :value="article.id">
-                    <span @click="changeArticle(article)">{{ article.articleName }}</span>
+                    <span @click="changeArticle(article)">{{ article.articleName }}&nbsp;&nbsp;&nbsp;{{
+                        article.status === 0 ? '审核中' : article.status === 1 ? '审核通过' : '审核为通过' }}</span>
+                    <span class="pointer" @click="openArticleUpdate(article.id)">修改文章</span>
                 </div>
             </div>
         </div>
         <div class="right">
+            <div class="article_info">
+                <div class="article_img">
+                    <img :src="ArticleIndex.cover">
+                </div>
+                <div class="article_video">
+                    <ArticleVideo @get-instance="getInstance" :style="style"
+                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;" />
+                </div>
+            </div>
             <v-md-editor v-model="ArticleIndex.content" mode="editable" height="100vh" style="background: #ECEBEC;"
                 @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
         </div>
         <div class="article_dialog" v-show="ArticleShow">
             <div class="dialog">
                 <div class="article_title">
-                    <span>添加文章</span>
+                    <span v-show="!Article.id">添加文章</span>
+                    <span v-show="Article.id">修改文章</span>
                     <svg class="icon pointer" aria-hidden="true" @click="closeArticleAdd">
                         <use xlink:href="#icon-guanbi"></use>
                     </svg>
@@ -44,7 +56,7 @@
                 <div class="article_tag" v-show="Article.sortId">
                     <span>文章标签</span>
                     <label v-for="tag in tagList" :key="tag.id">
-                        <input type="checkbox" v-model="Article.tagList" name="tags" :value="tag.id">
+                        <input type="checkbox" v-model="Article.tagList" checked name="tags" :value="tag.id">
                         {{ tag.tagName }}
                     </label>
                 </div>
@@ -57,7 +69,8 @@
                     <input type="file" @change="handleFileUpload" accept="video/*">
                 </div>
                 <div class="button_box">
-                    <button @click="addArticleSubmit">添加</button>
+                    <button @click="addArticleSubmit " v-show="!Article.id">添加</button>
+                    <button @click="updateArticleSubmit" v-show="Article.id">修改</button>
                 </div>
             </div>
         </div>
@@ -70,7 +83,7 @@
                     </svg>
                 </div>
                 <div class="article_body">
-                    删除文章ID为:{{ deleteArticleList }}的数据
+                    删除文章ID为: {{ deleteArticleList }} 的数据
                 </div>
                 <div class="button_box">
                     <button @click="deleteArticleSubmit">确认删除</button>
@@ -83,11 +96,11 @@
 
 <script setup>
 import {onMounted, ref, watch} from 'vue'
+import ArticleVideo from '@/components/ArticleVideo.vue'
 import {addArticle, delArticle, getArticle, listArticleByUser, updateArticle} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {uploadImages} from "@/api/file";
 import promptMsg from "@/components/PromptBoxView"
-
 //文章列表
 const ArticleList = ref()
 //添加文章框是否显示
@@ -98,7 +111,6 @@ const ArticleIndex = ref({
 })
 //添加文章对象
 const Article = ref({
-    tagList: []
 })
 //分类列表
 const SortList = ref()
@@ -108,16 +120,39 @@ const tagList = ref()
 const deleteArticleList = ref([])
 //删除提示框
 const ArticleDeleteShow = ref(false)
+//视频播放器对象
+const artInstance = ref()
+//视频播放器样式
+const style = ref({
+    width: '100%',
+    height: '200px',
+})
 onMounted(() => {
+    //获取视频播放示例对象
+    getInstance()
+    //初始化数据
     init();
 })
+//修改文章
+function openArticleUpdate(articleId) {
+    getArticle(articleId).then(res => {
+        Article.value = res.data;
+        ArticleShow.value = true;
+    })
+}
+//获取视频播放实例
+function getInstance(art) {
+    artInstance.value = art;
+}
 //数据初始化
 function init() {
     listArticleByUser().then(res => {
         //获取列表
-        ArticleList.value = res.data
+        ArticleList.value = res.data;
         //获取第一条数据ID
-        ArticleIndex.value = ArticleList.value[0]
+        ArticleIndex.value = ArticleList.value[0];
+        //初始化视频
+        artInstance.value.url = ArticleIndex.value.videoUrl;
     })
     listSort().then(res => {
         SortList.value = res.rows;
@@ -131,6 +166,9 @@ function changeArticle(article) {
             res.data.content = ''
         }
         ArticleIndex.value = res.data;
+        artInstance.value.url = ArticleIndex.value.videoUrl;
+        //播放
+        artInstance.value.play()
     })
 
 }
@@ -144,7 +182,7 @@ function openArticleDelete() {
 }
 //关闭删除文章框
 function closeArticleDelete() {
-    deleteArticleList.value=[]
+    deleteArticleList.value = []
     ArticleDeleteShow.value = false;
 }
 //关闭添加文章框
@@ -153,6 +191,46 @@ function closeArticleAdd() {
         tagList: []
     }
     ArticleShow.value = false;
+}
+//修改文章
+function updateArticleSubmit() {
+    if (!Article.value.articleName) {
+        promptMsg({ type: "warn", msg: "请添加文章标题" })
+        return;
+    }
+    if (!Article.value.articleDescribe) {
+        promptMsg({ type: "warn", msg: "请添加文章描述" })
+        return;
+    }
+    if (!Article.value.cover) {
+        promptMsg({ type: "warn", msg: "请添加文章封面" })
+        return;
+    }
+    if (!Article.value.videoUrl) {
+        promptMsg({ type: "warn", msg: "请添加文章视频" })
+        return;
+    }
+    if (!Article.value.sortId) {
+        promptMsg({ type: "warn", msg: "请选择文章分类" })
+        return;
+    }
+    if (!Article.value.tagList || Article.value.tagList.length === 0) {
+        promptMsg({ type: "warn", msg: "请选择标签列表" })
+        return;
+    }
+    //设置标签列表
+    const tagList = [];
+    for (const tagId of Article.value.tagList) {
+        tagList.push({ tagId: tagId })
+    }
+    Article.value.tagList = tagList;
+    updateArticle(Article.value).then(res => {
+        promptMsg({ type: "success", msg: "修改成功" })
+        init();
+    }).catch(error => {
+        promptMsg({ type: "error", msg: "修改失败" })
+    })
+    closeArticleAdd();
 }
 //新增文章
 function addArticleSubmit() {
@@ -220,8 +298,8 @@ function handleUploadImage(event, insertImage, file) {
         insertImage({
             url: res.data.url,
             desc: res.data.name,
-            width: '100%',
-            height: 'auto',
+            width: '300px',
+            height: '300px',
         })
         promptMsg({ type: "success", msg: "上传图片成功!" })
     }).catch(error => {
@@ -255,6 +333,9 @@ watch(
     () => Article.value.sortId,
     (newVal, oldVal) => {
         Article.value.tagList = [];
+        if (!newVal) {
+            return;
+        }
         const Sort = SortList.value.filter(item => item.id === newVal)
         tagList.value = Sort[0].tagList;
     },
@@ -273,7 +354,7 @@ watch(
     .left {
         box-sizing: border-box;
         border-radius: 10px;
-        width: 12%;
+        width: 15%;
         height: 100%;
         margin: 20px;
         border: 1px solid #c8d9eb;
@@ -322,6 +403,13 @@ watch(
                     flex-grow: 1;
                 }
 
+                span:last-child {
+                    display: flex;
+                    justify-content: end;
+                    align-items: right;
+                    margin-right: 5px;
+                }
+
                 span:hover {
                     color: #00e0ff;
                 }
@@ -333,6 +421,30 @@ watch(
         flex-grow: 1;
         height: 100%;
         margin: 20px;
+
+        .article_info {
+            display: flex;
+            width: 100%;
+
+            .article_img {
+                box-sizing: border-box;
+                padding: 10px 5px;
+                width: 50%;
+                height: 200px;
+                object-fit: cover;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .article_video {
+                width: 50%;
+                height: 200px
+            }
+        }
     }
 
     .article_dialog {
@@ -345,6 +457,7 @@ watch(
         height: 100%;
         padding-top: 10%;
         background-color: rgba(rgb(0, 0, 0), 0.3);
+        z-index: 999;
 
         .dialog {
             position: fixed;
