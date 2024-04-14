@@ -25,19 +25,12 @@
         </svg>
         <span :class="selectIndex === 3 ? 'nav_select' : ''">我的相册</span>
       </div>
-      <div class="nav" @click="changSelect(4)">
-        <svg class="icon pointer" aria-hidden="true">
-          <use xlink:href="#icon-jita"></use>
-        </svg>
-        <span :class="selectIndex === 4 ? 'nav_select' : ''">我的歌单</span>
-      </div>
     </div>
     <div class="menu_right">
       <UserView :user="UserStore" v-show="selectIndex === 0" />
       <ArticleView v-show="selectIndex === 1" />
       <FoundView v-show="selectIndex === 2" />
       <PhotoView v-show="selectIndex === 3" />
-      <MusicView v-show="selectIndex === 4" />
     </div>
   </div>
 </template>
@@ -48,7 +41,6 @@ import UserView from '@/components/UserDetail.vue';
 import ArticleView from '@/components/ShareArticleDetail.vue';
 import FoundView from '@/components/ShareFoundDetail.vue';
 import PhotoView from '@/components/SharePhotoDetail.vue';
-import MusicView from '@/components/ShareMusicDetail.vue';
 import {useUserStore} from '@/store/user'
 
 const UserStore = useUserStore()
@@ -65,7 +57,7 @@ function changSelect(index) {
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  margin-top: 53px;
+  padding-top: 53px;
 
   .menu_left {
     width: 10%;

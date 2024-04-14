@@ -1,9 +1,9 @@
 <template>
   <div class="category_detail box_shadow pointer">
-    <div class="category_img">
+    <div class="category_img" @click="goArticlePreview(article.id)">
       <img v-lazy="article.cover">
     </div>
-    <div class="category_time">
+    <div class="category_time" @click="goArticlePreview(article.id)">
       <svg class="icon pointer" aria-hidden="true">
         <use xlink:href="#icon-rili2"></use>
       </svg>
@@ -11,10 +11,10 @@
         {{ article.createTime }}
       </span>
     </div>
-    <div class="category_title">
+    <div class="category_title" @click="goArticlePreview(article.id)">
       {{ article.articleName }}
     </div>
-    <div class="category_info">
+    <div class="category_info" @click="goArticlePreview(article.id)">
       <div class="info">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-remen"></use>
@@ -38,25 +38,36 @@
         0 点赞
       </div>
     </div>
-    <div class="category_msg">
+    <div class="category_msg" @click="goArticlePreview(article.id)">
       <span>
         {{ article.articleDescribe }}
       </span>
     </div>
     <div class="category_target">
-      <div class="bg" v-for="tag in article.tagList">
+      <div class="target" v-for="tag in article.tagList" @click="goSort(article.sortId, tag.tagId)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-wenjianjia"></use>
         </svg>
         <span>{{ tag.tagName }}</span>
-      </div> 
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-const props = defineProps(['article'])
+<script setup>
+import {useRouter} from 'vue-router'
 
+const props = defineProps(['article'])
+//路由
+const router = useRouter()
+//前往分类浏览页
+function goSort(sortId, tagId) {
+  router.push({ path: '/sort', query: { sortId: sortId, tagId: tagId } })
+}
+//前往文章浏览页
+function goArticlePreview(sortId) {
+  router.push({ path: '/editPreView', query: { sortId: sortId } })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -100,7 +111,8 @@ const props = defineProps(['article'])
       overflow: hidden;
       font-size: 18px;
     }
-    span{
+
+    span {
       padding-left: 3px;
     }
   }
@@ -158,7 +170,7 @@ const props = defineProps(['article'])
     display: flex;
     padding-bottom: 5px;
 
-    .bg {
+    .target {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -183,7 +195,7 @@ const props = defineProps(['article'])
       }
     }
 
-    .bg:hover {
+    .target:hover {
       background: #fdda09;
     }
   }

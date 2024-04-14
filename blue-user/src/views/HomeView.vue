@@ -130,8 +130,7 @@
               </div>
               <div class="category_body">
                 <div class="category_list">
-                  <CategoryDetail class="test" :article="article" v-for="article in sort.articleList"
-                    @click="goArticlePreview(article.id)" />
+                  <CategoryDetail class="test" :article="article" v-for="article in sort.articleList"/>
                 </div>
               </div>
             </div>
@@ -185,10 +184,6 @@ onMounted(() => {
 //前往分类,携带分类ID
 function goArticleBySortId(sortId) {
   router.push({ path: '/sort', query: { sortId: sortId } })
-}
-//前往文章浏览页
-function goArticlePreview(sortId) {
-  router.push({ path: '/editPreView', query: { sortId: sortId } })
 }
 //前往页面底部
 function goDown() {

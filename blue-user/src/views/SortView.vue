@@ -24,12 +24,12 @@
           <svg aria-hidden="true" class="icon pointer" @click="goDown">
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
-          <div :id="tag.id == tagIndex ? 'select' : ''" class="sort" v-for="tag in tagList"
+          <div :id="tag.id == tagIndex ? 'select' : ''" class="tag" v-for="tag in tagList"
             @click="selectArticleListByTagId(tag.id)">
-            <span class="sort_name">
+            <span class="tag_name">
               {{ tag.tagName }}
             </span>
-            <span class="sort_num">
+            <span class="tag_num">
               {{ tag.articleTagNumber }}
             </span>
           </div>
@@ -69,10 +69,6 @@ const tagList = ref({})
 //文章列表
 const articleList = ref([])
 onMounted(() => {
-  //获取从路由传递过来的参数
-  if (router.currentRoute.value.query.sortId) {
-    sortIndex.value = router.currentRoute.value.query.sortId
-  }
   //获取分类列表
   listSort().then(res => {
     sortList.value = res.rows
@@ -97,15 +93,27 @@ onMounted(() => {
           }
         }
       }
-      //设置第一个分类下标
-      if (sortIndex.value === 0) {
-        sortIndex.value = sortList.value[0].id
+      //获取从路由传递过来的参数
+      if (router.currentRoute.value.query.sortId) {
+        sortIndex.value = router.currentRoute.value.query.sortId
+      } else {
+        //设置第一个分类下标
+        if (sortIndex.value === 0) {
+          sortIndex.value = sortList.value[0].id
+        }
       }
-      //设置标签列表
-      tagList.value = sortList.value[0].tagList
-      //设置第一个标签下标
-      if (tagList.value) {
-        tagIndex.value = tagList.value[0].id
+      if (router.currentRoute.value.query.tagId) {
+        tagIndex.value = router.currentRoute.value.query.tagId
+        //设置分类ID下的标签列表
+        const sort = sortList.value.find(item => item.id == sortIndex.value)
+        tagList.value = sort.tagList;
+      } else {
+        //设置标签列表
+        tagList.value = sortList.value[0].tagList
+        //设置第一个标签下标
+        if (tagList.value) {
+          tagIndex.value = tagList.value[0].id
+        }
       }
       //查询文章列表
       listByTagId(tagIndex.value).then(res => {
@@ -116,7 +124,7 @@ onMounted(() => {
 })
 //设置标签下标 和标签列表
 function selectSort(sort) {
-  articleList.value=[]
+  articleList.value = []
   //设置下标
   sortIndex.value = sort.id
   //如果列表未空 则添加空列表
@@ -134,15 +142,14 @@ function selectSort(sort) {
 }
 //查询所有标签下的文章列表
 function selectArticleListByTagId(tagId) {
-  articleList.value=[]
+  articleList.value = []
   //如果点击的是当前选择的标签下标则不选择
   if (tagId === tagIndex.value) {
     return
   }
-  tagIndex.value=tagId;
+  tagIndex.value = tagId;
   listByTagId(tagId).then(res => {
     articleList.value = res.rows
-    promptMsg({ type: "success", msg: res.msg })
   }).catch(error => {
     promptMsg({ type: "success", msg: error })
   })
@@ -252,7 +259,7 @@ function selectArticleListByTagId(tagId) {
           font-size: 22px;
         }
 
-        .sort {
+        .tag {
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -261,13 +268,13 @@ function selectArticleListByTagId(tagId) {
           border-radius: 5px;
           padding: 0;
 
-          .sort_name {
+          .tag_name {
             display: flex;
             align-items: center;
             color: #ff9a00;
           }
 
-          .sort_num {
+          .tag_num {
             display: flex;
             align-items: center;
             padding-bottom: 5px;
@@ -275,7 +282,7 @@ function selectArticleListByTagId(tagId) {
           }
         }
 
-        .sort:hover {
+        .tag:hover {
           background-color: #74f9ff;
         }
       }

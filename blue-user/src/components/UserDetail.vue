@@ -64,25 +64,39 @@
         </div>
         <div class="user_right">
             <div class="user_title">基本信息</div>
-            <div class="left">
+            <div class="userInfo">
                 <div class="user_name">
                     <span>姓名</span>
-                    <input type="text" :value="user.name">
+                    <input type="text" v-model="user.name">
                 </div>
                 <div class="user_phone">
                     <span>手机</span>
-                    <input type="text" :value="user.phone">
+                    <input type="text" v-model="user.phone">
                 </div>
                 <div class="user_email">
                     <span>邮箱</span>
-                    <input type="text" :value="user.email">
+                    <input type="text" v-model="user.email">
                 </div>
                 <div class="button_box">
-                    <button>保存</button>
+                    <button @click="saveUserInfo()">保存</button>
                 </div>
             </div>
-            <div class="right">
-
+            <div class="userPwd">
+                <div class="user_pwd">
+                    <span>旧密码</span>
+                    <input type="password" v-model="userPwd.oldPwd">
+                </div>
+                <div class="user_pwd">
+                    <span>新密码</span>
+                    <input type="password" v-model="userPwd.newPwd">
+                </div>
+                <div class="user_pwd">
+                    <span>确认密码</span>
+                    <input type="password" v-model="userPwd.entryPwd">
+                </div>
+                <div class="button_box">
+                    <button @click="submitPwd()">确认修改</button>
+                </div>
             </div>
         </div>
         <div class="active_graph">
@@ -94,7 +108,57 @@
 </template>
 
 <script setup>
-const props = defineProps(['user'])
+const props = defineProps({
+    user: {
+        type: Object,
+        required: true,
+    }
+})
+import {ref} from 'vue'
+import {updateUserProfile, updateUserPwd} from '@/api/user'
+import promptMsg from "@/components/PromptBoxView"
+
+const userPwd = ref({})
+//保存用户信息
+function saveUserInfo() {
+    //获取props用户对象
+    const user = props.user;
+    const form = {
+        nickName: user.name,
+        phonenumber: user.phone,
+        email: user.email
+    }
+    updateUserProfile(form).then(() => {
+        promptMsg({ type: "success", msg: "修改用户信息成功" })
+    }).catch((error) => {
+        promptMsg({ type: "error", msg: "修改用户信息失败" })
+    })
+}
+//修改账号密码
+function submitPwd() {
+    if (!userPwd.value.oldPwd) {
+        promptMsg({ type: "warn", msg: "请输入旧密码!" })
+        return;
+    }
+    if (!userPwd.value.newPwd) {
+        promptMsg({ type: "warn", msg: "请输入新密码!" })
+        return;
+    }
+    if (!userPwd.value.entryPwd) {
+        promptMsg({ type: "warn", msg: "请输入确认密码!" })
+        return;
+    }
+    if (userPwd.value.newPwd !== userPwd.value.entryPwd) {
+        promptMsg({ type: "warn", msg: "两次密码不一致!" })
+        return;
+    }
+    updateUserPwd(userPwd.value.oldPwd, userPwd.value.newPwd).then(() => {
+        promptMsg({ type: "success", msg: "修改密码成功" })
+        userPwd.value = {}
+    }).catch((error) => {
+        promptMsg({ type: "error", msg: error })
+    })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -222,6 +286,9 @@ const props = defineProps(['user'])
     }
 
     .user_right {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         box-sizing: border-box;
         flex-grow: 1;
         margin: 20px;
@@ -239,14 +306,17 @@ const props = defineProps(['user'])
             border-bottom: 1px solid #c8d9eb;
         }
 
-        .left {
+        .userInfo {
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            width: 30%;
+            width: 25%;
+            height: 90%;
             padding: 20px;
+            border-right: 1px solid #c8d9eb;
 
             .button_box {
-                margin: 10px 0;
+                margin: 0;
 
                 button {
                     width: 50px;
@@ -268,6 +338,7 @@ const props = defineProps(['user'])
                 font-size: 14px;
 
                 input {
+                    width: 70%;
                     font-size: 12px;
                     margin-left: 8px;
                     padding: 3px 5px;
@@ -292,6 +363,7 @@ const props = defineProps(['user'])
                 font-size: 14px;
 
                 input {
+                    width: 70%;
                     font-size: 12px;
                     margin-left: 8px;
                     padding: 3px 5px;
@@ -316,6 +388,7 @@ const props = defineProps(['user'])
                 font-size: 14px;
 
                 input {
+                    width: 70%;
                     font-size: 12px;
                     margin-left: 8px;
                     padding: 3px 5px;
@@ -333,6 +406,56 @@ const props = defineProps(['user'])
                     border-color: #a1eafb;
                     /* 鼠标悬停或获得焦点时的边框颜色 */
                 }
+            }
+        }
+
+        .userPwd {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            width: 25%;
+            height: 90%;
+            padding: 20px;
+            border-right: 1px solid #c8d9eb;
+
+            .user_pwd {
+                margin: 10px 0;
+                font-size: 14px;
+
+                input {
+                    width: 50%;
+                    float: right;
+                    font-size: 12px;
+                    margin-left: 8px;
+                    padding: 3px 5px;
+                    border-radius: 3px;
+                    border: 1px solid #c8d9eb;
+                    transition: all 0.5s ease;
+                    /* 添加过渡效果，使边框颜色变化更平滑 */
+                }
+
+                input:hover {
+                    border-color: #a7b4c3;
+                }
+
+                input:focus {
+                    border-color: #a1eafb;
+                    /* 鼠标悬停或获得焦点时的边框颜色 */
+                }
+            }
+
+            button {
+                width: 70px;
+                padding: 3px;
+                border-radius: 5px;
+                border: none;
+                font-size: 14px;
+                cursor: pointer;
+                background-color: #74f9ff;
+            }
+
+            button:hover {
+                background-color: #00e0ff;
             }
         }
     }

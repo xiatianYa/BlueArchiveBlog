@@ -33,7 +33,7 @@
                 @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
         </div>
         <!-- 添加修改框 -->
-        <div class="article_dialog" v-show="ArticleShow">
+        <div class="article_dialog" v-if="ArticleShow">
             <div class="dialog">
                 <div class="article_title">
                     <span v-show="!Article.id">添加文章</span>
