@@ -48,6 +48,7 @@ public class BlueArticleController extends BaseController
     /**
      * 查询用户自己文章列表
      */
+    @RequiresPermissions("blog:article:list")
     @GetMapping("/listByUser")
     public AjaxResult listByUser()
     {

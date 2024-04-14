@@ -66,7 +66,7 @@ export default {
 //	css样式部分可以根据需求自定义
 .prompt-box {
   position: fixed;
-  z-index: 20;
+  z-index: 9999;
   top: 10%;
   left: 50%;
   margin-left: -50px;

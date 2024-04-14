@@ -1,6 +1,14 @@
 import request from '@/utils/request'
 
 // 查询相册列表
+export function listPhotoByUser() {
+  return request({
+    url: '/system/photo/listByUser',
+    method: 'get',
+  })
+}
+
+// 查询相册列表
 export function listPhoto(query) {
   return request({
     url: '/system/photo/list',

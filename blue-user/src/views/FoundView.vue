@@ -52,9 +52,9 @@
           </svg>
         </div>
         <div class="found_body">
-          <PixivDetail v-if="type === 0" :pixiv="pixiv" v-for="pixiv in pixivList" @click="goPixiv(pixiv.id)" />
-          <ErchuangDetail v-if="type === 1" :erchuang="erchuang" v-for="erchuang in erchuangList"></ErchuangDetail>
-          <ToolDetail v-if="type === 2" :tool="tool" v-for="tool in toolList"></ToolDetail>
+          <PixivDetail v-show="type === 0" :pixiv="pixiv" v-for="pixiv in pixivList" @click="goPixiv(pixiv.id)" />
+          <ErchuangDetail v-show="type === 1" :erchuang="erchuang" v-for="erchuang in erchuangList"></ErchuangDetail>
+          <ToolDetail v-show="type === 2" :tool="tool" v-for="tool in toolList"></ToolDetail>
         </div>
       </div>
     </div>

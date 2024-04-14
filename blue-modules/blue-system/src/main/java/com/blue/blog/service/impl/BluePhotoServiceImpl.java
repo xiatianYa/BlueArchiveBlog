@@ -1,5 +1,6 @@
 package com.blue.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BluePhoto;
 import com.blue.blog.mapper.BluePhotoMapper;
 import com.blue.blog.service.IBluePhotoService;
@@ -8,6 +9,7 @@ import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.domain.SysUser;
+import com.blue.system.api.model.LoginUser;
 import com.blue.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,6 +79,7 @@ public class BluePhotoServiceImpl implements IBluePhotoService
         //设置默认新增相册状态
         bluePhoto.setStatus(AuditingStatus.OK.getCode());
         //设置创建用户ID
+        bluePhoto.setUserId(SecurityUtils.getLoginUser().getUserid());
         bluePhoto.setCreateBy(SecurityUtils.getLoginUser().getUserid().toString());
         bluePhoto.setCreateTime(DateUtils.getNowDate());
         return bluePhotoMapper.insertBluePhoto(bluePhoto);
@@ -119,5 +122,18 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     public int deleteBluePhotoById(Long id)
     {
         return bluePhotoMapper.deleteBluePhotoById(id);
+    }
+
+    @Override
+    public List<BluePhoto> selectBluePhotoListByUser() {
+        LambdaQueryWrapper<BluePhoto> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BluePhoto::getUserId, SecurityUtils.getLoginUser().getUserid());
+        //查询用户设置用户名称
+        List<BluePhoto> bluePhotos = bluePhotoMapper.selectList(wrapper);
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        for (BluePhoto photo : bluePhotos) {
+            photo.setUserName(loginUser.getUsername());
+        }
+        return bluePhotos;
     }
 }

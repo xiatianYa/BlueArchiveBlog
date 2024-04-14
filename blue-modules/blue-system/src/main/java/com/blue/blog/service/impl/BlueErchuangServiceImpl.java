@@ -1,5 +1,6 @@
 package com.blue.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueErchuang;
 import com.blue.blog.mapper.BlueErchuangMapper;
 import com.blue.blog.service.IBlueErchuangService;
@@ -65,6 +66,9 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
         if (StringUtils.isNotNull(userId)){
             blueErchuang.setCreateBy(String.valueOf(userId));
         }
+        if (StringUtils.isNull(blueErchuang.getEcPublish())){
+            blueErchuang.setEcPublish(DateUtils.getNowDate());
+        }
         blueErchuang.setStatus(AuditingStatus.OK.getCode());
         blueErchuang.setCreateTime(DateUtils.getNowDate());
         return blueErchuangMapper.insertBlueErchuang(blueErchuang);
@@ -109,5 +113,13 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
     public int deleteBlueErchuangById(Long id)
     {
         return blueErchuangMapper.deleteBlueErchuangById(id);
+    }
+
+    @Override
+    public List<BlueErchuang> selectBlueErchuangListByUser() {
+        //添加查询体条件
+        LambdaQueryWrapper<BlueErchuang> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BlueErchuang::getCreateBy,SecurityUtils.getUserId());
+        return blueErchuangMapper.selectList(wrapper);
     }
 }

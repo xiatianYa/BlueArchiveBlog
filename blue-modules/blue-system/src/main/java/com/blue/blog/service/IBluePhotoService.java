@@ -59,4 +59,6 @@ public interface IBluePhotoService
      * @return 结果
      */
     public int deleteBluePhotoById(Long id);
+
+    List<BluePhoto> selectBluePhotoListByUser();
 }

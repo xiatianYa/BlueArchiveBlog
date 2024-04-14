@@ -28,6 +28,16 @@ public class BluePhotoController extends BaseController
     @Autowired
     private IBluePhotoService bluePhotoService;
 
+
+    /**
+     * 查询用户相册列表
+     */
+    @GetMapping("/listByUser")
+    public AjaxResult listByUser()
+    {
+        List<BluePhoto> list = bluePhotoService.selectBluePhotoListByUser();
+        return AjaxResult.success(list);
+    }
     /**
      * 查询相册列表
      */

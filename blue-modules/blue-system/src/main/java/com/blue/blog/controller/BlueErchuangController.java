@@ -29,6 +29,17 @@ public class BlueErchuangController extends BaseController
     private IBlueErchuangService blueErchuangService;
 
     /**
+     * 查询用户的二创信息列表
+     */
+    @RequiresPermissions("blog:article:list")
+    @GetMapping("/listByUser")
+    public AjaxResult listByUser()
+    {
+        List<BlueErchuang> list = blueErchuangService.selectBlueErchuangListByUser();
+        return AjaxResult.success(list);
+    }
+
+    /**
      * 查询二创信息列表
      */
     @GetMapping("/list")

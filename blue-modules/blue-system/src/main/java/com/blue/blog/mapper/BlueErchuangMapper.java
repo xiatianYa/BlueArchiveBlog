@@ -1,5 +1,6 @@
 package com.blue.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BlueErchuang;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-02
  */
-public interface BlueErchuangMapper 
+public interface BlueErchuangMapper extends BaseMapper<BlueErchuang>
 {
     /**
      * 查询二创信息

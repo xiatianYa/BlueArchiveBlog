@@ -1,5 +1,6 @@
 package com.blue.blog.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class BluePhoto extends BaseEntity
 
     /** 用户名称 */
     @Excel(name = "用户名称")
+    @TableField(exist = false)
     private String userName;
     /** 图片名称 */
     @Excel(name = "图片名称")

@@ -41,7 +41,7 @@
           </span>
         </div>
         <div class="photo_time">
-          <svg class="icon pointer" aria-hidden="true" @click="goDown">
+          <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-shalou"></use>
           </svg>
           <span>
@@ -321,4 +321,3 @@ function isLastPage(total) {
   }
 }
 </style>
-@/api/sort/photoSort

@@ -11,7 +11,8 @@
             <div class="article_list">
                 <div class="item pointer" v-for="article in ArticleList">
                     <input type="checkbox" v-model="deleteArticleList" name="article" :value="article.id">
-                    <span @click="changeArticle(article)">{{ article.articleName }}&nbsp;&nbsp;&nbsp;{{
+                    <span @click="changeArticle(article)">{{ article.articleName }}</span>
+                    <span>{{
                         article.status === 0 ? '审核中' : article.status === 1 ? '审核通过' : '审核为通过' }}</span>
                     <span class="pointer" @click="openArticleUpdate(article.id)">修改文章</span>
                 </div>
@@ -24,12 +25,14 @@
                 </div>
                 <div class="article_video">
                     <ArticleVideo @get-instance="getInstance" :style="style"
-                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;" />
+                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;"
+                        v-show="ArticleIndex.videoUrl" />
                 </div>
             </div>
             <v-md-editor v-model="ArticleIndex.content" mode="editable" height="100vh" style="background: #ECEBEC;"
                 @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
         </div>
+        <!-- 添加修改框 -->
         <div class="article_dialog" v-show="ArticleShow">
             <div class="dialog">
                 <div class="article_title">
@@ -69,11 +72,12 @@
                     <input type="file" @change="handleFileUpload" accept="video/*">
                 </div>
                 <div class="button_box">
-                    <button @click="addArticleSubmit " v-show="!Article.id">添加</button>
+                    <button @click="addArticleSubmit" v-show="!Article.id">添加</button>
                     <button @click="updateArticleSubmit" v-show="Article.id">修改</button>
                 </div>
             </div>
         </div>
+        <!-- 删除框 -->
         <div class="article_delete_dialog" v-show="ArticleDeleteShow">
             <div class="dialog">
                 <div class="article_title">
@@ -206,10 +210,6 @@ function updateArticleSubmit() {
         promptMsg({ type: "warn", msg: "请添加文章封面" })
         return;
     }
-    if (!Article.value.videoUrl) {
-        promptMsg({ type: "warn", msg: "请添加文章视频" })
-        return;
-    }
     if (!Article.value.sortId) {
         promptMsg({ type: "warn", msg: "请选择文章分类" })
         return;
@@ -244,10 +244,6 @@ function addArticleSubmit() {
     }
     if (!Article.value.cover) {
         promptMsg({ type: "warn", msg: "请添加文章封面" })
-        return;
-    }
-    if (!Article.value.videoUrl) {
-        promptMsg({ type: "warn", msg: "请添加文章视频" })
         return;
     }
     if (!Article.value.sortId) {

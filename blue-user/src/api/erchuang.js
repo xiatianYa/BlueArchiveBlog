@@ -1,6 +1,13 @@
 import request from '@/utils/request'
 
 // 查询二创信息列表
+export function listErchuangByUser() {
+  return request({
+    url: '/system/erchuang/listByUser',
+    method: 'get',
+  })
+}
+// 查询二创信息列表
 export function listErchuang(query) {
   return request({
     url: '/system/erchuang/list',

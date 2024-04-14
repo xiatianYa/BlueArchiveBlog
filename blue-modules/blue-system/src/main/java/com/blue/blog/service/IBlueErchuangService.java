@@ -59,4 +59,6 @@ public interface IBlueErchuangService
      * @return 结果
      */
     public int deleteBlueErchuangById(Long id);
+
+    List<BlueErchuang> selectBlueErchuangListByUser();
 }
