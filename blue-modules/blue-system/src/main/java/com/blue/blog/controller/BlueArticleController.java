@@ -59,7 +59,7 @@ public class BlueArticleController extends BaseController
      * 根据标签ID查询文章列表
      */
     @GetMapping("/listByTagId/{tagId}")
-    public TableDataInfo listByTagId(@PathVariable("tagId")Long tagId){
+    public TableDataInfo listByTagId(@PathVariable("tagId")Long tagId,BlueArticle blueArticle){
         startPage();
         List<BlueArticle> list = blueArticleService.selectBlueArticleListByTagId(tagId);
         return getDataTable(list);

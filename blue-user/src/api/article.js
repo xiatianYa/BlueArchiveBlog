@@ -16,10 +16,11 @@ export function listArticleByUser() {
   })
 }
 // 根据标签ID查询文章
-export function listByTagId(tagId) {
+export function listByTagId(tagId,query) {
   return request({
     url: '/system/article/listByTagId/'+tagId,
     method: 'get',
+    params:query
   })
 }
 // 根据分类ID查询文章

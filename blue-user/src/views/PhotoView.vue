@@ -263,6 +263,7 @@ function isLastPage(total) {
       border-radius: 10px;
       padding-bottom: 0;
       margin: 20px;
+      max-height: 300px;
 
       .photo_msg {
         display: flex;
@@ -276,6 +277,7 @@ function isLastPage(total) {
       }
 
       .photo_img {
+        flex-grow: 1;
         display: flex;
         justify-content: center;
         width: 80%;

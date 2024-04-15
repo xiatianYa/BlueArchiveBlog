@@ -20,17 +20,17 @@
         </div>
         <div class="right">
             <div class="article_info">
-                <div class="article_img animate__animated animate__fadeInDown" v-show="ArticleIndex.cover" >
+                <div class="article_img animate__animated animate__fadeInDown" v-show="ArticleIndex.cover">
                     <img :src="ArticleIndex.cover">
                 </div>
-                <div class="article_video animate__animated animate__fadeInDown" v-show="ArticleIndex.videoUrl" >
+                <div class="article_video animate__animated animate__fadeInDown" v-show="ArticleIndex.videoUrl">
                     <ArticleVideo @get-instance="getInstance" :style="style"
-                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;"/>
+                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;" />
                 </div>
             </div>
             <div class="animate__animated animate__fadeInRight">
                 <v-md-editor v-model="ArticleIndex.content" mode="editable" height="100vh" style="background: #ECEBEC;"
-                @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
+                    @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
             </div>
         </div>
         <!-- 添加修改框 -->
@@ -154,10 +154,15 @@ function init() {
     listArticleByUser().then(res => {
         //获取列表
         ArticleList.value = res.data;
+        //防止文章内容为空
+        if (!ArticleList.value[0].content) {
+            ArticleList.value[0].content = ''
+        }
         //获取第一条数据ID
         ArticleIndex.value = ArticleList.value[0];
         //初始化视频
         artInstance.value.url = ArticleIndex.value.videoUrl;
+
     })
     listSort().then(res => {
         SortList.value = res.rows;

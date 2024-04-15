@@ -48,7 +48,7 @@
 
 <script setup>
 import SortDetail from '@/components/SortDetail.vue'
-import {onMounted, ref} from "vue"
+import {onMounted, onUnmounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listSort} from '@/api/sort/sort'
 import {listTag} from '@/api/sort/tagSort'
@@ -68,7 +68,18 @@ const sortList = ref([])
 const tagList = ref({})
 //文章列表
 const articleList = ref([])
+//查询参数
+const queryParam = ref({
+  pageNum: 1,
+  pageSize: 10,
+})
+//是否滚动到底部
+const loadingEnd = ref(false)
+//是否加载中
+const loading = ref(false)
 onMounted(() => {
+  //添加滚动事件
+  window.addEventListener('scroll', handleScroll)
   //获取分类列表
   listSort().then(res => {
     sortList.value = res.rows
@@ -116,14 +127,29 @@ onMounted(() => {
         }
       }
       //查询文章列表
-      listByTagId(tagIndex.value).then(res => {
+      listByTagId(tagIndex.value, queryParam.value).then(res => {
+        if (isLastPage(res.total)) {
+          loadingEnd.value = true;
+        }
         articleList.value = res.rows
       })
     })
   })
 })
+onUnmounted(() => {
+  //移除滚动事件
+  window.removeEventListener('scroll', handleScroll)
+})
 //设置标签下标 和标签列表
 function selectSort(sort) {
+  //清除查询列表
+  queryParam.value = {
+    pageNum: 1,
+    pageSize: 10
+  }
+  //清除加载和到底
+  loadingEnd.value = false;
+  loading.value = false;
   articleList.value = []
   //设置下标
   sortIndex.value = sort.id
@@ -135,23 +161,75 @@ function selectSort(sort) {
     tagList.value = sort.tagList
     tagIndex.value = tagList.value[0].id
     //查询文章列表
-    listByTagId(tagIndex.value).then(res => {
+    listByTagId(tagIndex.value, queryParam.value).then(res => {
+      if (isLastPage(res.total)) {
+        loadingEnd.value = true;
+      }
       articleList.value = res.rows
     })
   }
 }
 //查询所有标签下的文章列表
 function selectArticleListByTagId(tagId) {
+  //清除查询列表
+  queryParam.value = {
+    pageNum: 1,
+    pageSize: 10
+  }
+  //清除加载和到底
+  loadingEnd.value = false;
+  loading.value = false;
   articleList.value = []
   //如果点击的是当前选择的标签下标则不选择
   if (tagId === tagIndex.value) {
     return
   }
   tagIndex.value = tagId;
-  listByTagId(tagId).then(res => {
+  listByTagId(tagId,queryParam.value).then(res => {
+    if (isLastPage(res.total)) {
+      loadingEnd.value = true;
+    }
     articleList.value = res.rows
   }).catch(error => {
     promptMsg({ type: "success", msg: error })
+  })
+}
+//滚动事件
+const handleScroll = () => {
+  // 监听滚动事件
+  const photos = document.querySelector('.container') // 获取滚动容器
+  const banner = document.querySelector('.banner') // 获取滚动容器
+  if (isScrolledToBottom(photos, banner)) {
+    loadData()
+  }
+}
+//判断是否滚动到底部
+function isScrolledToBottom(photos, banner) {
+  const clientHeight = photos.clientHeight; // 容器的视口高度  
+  const windowY = window.scrollY; // 浏览器窗口高度
+  //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
+  return windowY >= clientHeight - banner.clientHeight && !loading.value && !loadingEnd.value;
+}
+//判断是不是到最后一页了
+function isLastPage(total) {
+  // 计算总页数  
+  var totalPages = Math.ceil(total / queryParam.value.pageSize);
+  // 如果当前页码等于总页数，那么就是最后一页  
+  return queryParam.value.pageNum >= totalPages;
+}
+//加载数据
+const loadData = () => {
+  console.log("加载数据");
+  loading.value = true
+  queryParam.value.pageNum += 1;
+  listByTagId(tagIndex.value, queryParam.value).then(res => {
+    for (const item of res.rows) {
+      if (isLastPage(res.total)) {
+        loadingEnd.value = true;
+      }
+      articleList.value.push(item)
+    }
+    loading.value = false;
   })
 }
 </script>

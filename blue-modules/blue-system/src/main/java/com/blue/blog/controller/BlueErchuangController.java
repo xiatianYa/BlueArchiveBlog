@@ -31,7 +31,7 @@ public class BlueErchuangController extends BaseController
     /**
      * 查询用户的二创信息列表
      */
-    @RequiresPermissions("blog:article:list")
+    @RequiresPermissions("blog:erchuang:list")
     @GetMapping("/listByUser")
     public AjaxResult listByUser()
     {
