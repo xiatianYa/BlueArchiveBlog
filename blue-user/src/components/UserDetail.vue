@@ -1,6 +1,6 @@
 <template>
     <div class="user">
-        <div class="user_left">
+        <div class="user_left animate__animated animate__fadeInDown">
             <div class="user_title">
                 <span>个人信息</span>
             </div>
@@ -18,7 +18,7 @@
                         </span>
                     </div>
                     <div class="right">
-                        <span>{{ user.name }}</span>
+                        <span>{{ user.nickName }}</span>
                     </div>
                 </div>
                 <div class="user_phone">
@@ -62,12 +62,12 @@
                 </div>
             </div>
         </div>
-        <div class="user_right">
+        <div class="user_right animate__animated animate__fadeInRight">
             <div class="user_title">基本信息</div>
             <div class="userInfo">
                 <div class="user_name">
                     <span>姓名</span>
-                    <input type="text" v-model="user.name">
+                    <input type="text" v-model="user.nickName">
                 </div>
                 <div class="user_phone">
                     <span>手机</span>
@@ -99,9 +99,9 @@
                 </div>
             </div>
         </div>
-        <div class="active_graph">
+        <div class="active_graph animate__animated animate__fadeInUp">
             <calendar-heatmap :round="3" :max="6"
-                :values="[{ date: '2024-4-09', count: 3 }, { date: '2024-4-10', count: 5 }]" :end-date="Date()"
+                :values="[]" :end-date="Date()"
                 :range-color="['#EBEDF0', '#9AE8A7', '#3DBC5F', '#30A14E', '#216E39']" :dark-mode />
         </div>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="photo">
-    <div class="left">
+    <div class="left animate__animated animate__fadeInUp">
       <div class="photo_title">
         我的相册
       </div>

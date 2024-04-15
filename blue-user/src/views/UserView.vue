@@ -73,10 +73,10 @@ let avaterUrls = ref([])
 let codeImg = ref([""])
 //用户信息
 let userInfo = reactive({
-  username: "admin",
-  password: "admin123",
+  username: "",
+  password: "",
   entryPassword: null,
-  avater: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater45.png",
+  avater: "",
   phone: "",
   sms: null,
   code: null,
@@ -134,7 +134,9 @@ function userLogin() {
 //用户注册
 function userRegister() {
   register(userInfo).then(res => {
-    promptMsg({ type: "success", msg: res })
+    clearUserInfo();
+    goLogin();
+    promptMsg({ type: "success", msg: "注册成功" })
   }).catch(error => {
     promptMsg({ type: "warn", msg: error })
   })

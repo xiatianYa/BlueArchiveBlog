@@ -1,6 +1,6 @@
 <template>
     <div class="article">
-        <div class="left">
+        <div class="left animate__animated animate__fadeInUp">
             <div class="article_title">
                 我的文章
             </div>
@@ -20,17 +20,18 @@
         </div>
         <div class="right">
             <div class="article_info">
-                <div class="article_img">
+                <div class="article_img animate__animated animate__fadeInDown" v-show="ArticleIndex.cover" >
                     <img :src="ArticleIndex.cover">
                 </div>
-                <div class="article_video">
+                <div class="article_video animate__animated animate__fadeInDown" v-show="ArticleIndex.videoUrl" >
                     <ArticleVideo @get-instance="getInstance" :style="style"
-                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;"
-                        v-show="ArticleIndex.videoUrl" />
+                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;"/>
                 </div>
             </div>
-            <v-md-editor v-model="ArticleIndex.content" mode="editable" height="100vh" style="background: #ECEBEC;"
+            <div class="animate__animated animate__fadeInRight">
+                <v-md-editor v-model="ArticleIndex.content" mode="editable" height="100vh" style="background: #ECEBEC;"
                 @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
+            </div>
         </div>
         <!-- 添加修改框 -->
         <div class="article_dialog" v-if="ArticleShow">

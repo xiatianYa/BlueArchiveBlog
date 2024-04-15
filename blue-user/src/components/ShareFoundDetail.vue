@@ -1,6 +1,6 @@
 <template>
   <div class="found">
-    <div class="left">
+    <div class="left animate__animated animate__fadeInUp">
       <div class="found_title">
         我的文章
       </div>

@@ -25,20 +25,18 @@ function goHref(url: string) {
     width: 29%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content:flex-start;
     flex-direction: row;
     border-radius: 10px 10px 10px 10px;
     margin-top: 30px;
 
     .erchuang_img {
-        max-width: 300px;
-        max-height: 300px;
         border-radius: 10px 10px 0 0;
         overflow: hidden;
-
+        width: 100%;
         img {
             width: 100%;
-            height: 100%;
+            max-height: 170px;
             transition: all 0.3s ease-in-out;
             object-fit: cover;
         }

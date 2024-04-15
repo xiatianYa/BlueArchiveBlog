@@ -28,8 +28,8 @@
                   <img v-lazy="userStore.avatar">
                 </span>
               </a>
-              <div class="info_name" v-if="userStore.name">
-                {{ userStore.name }}
+              <div class="info_name" v-if="userStore.nickName">
+                {{ userStore.nickName }}
               </div>
             </div>
             <div class="info_link">

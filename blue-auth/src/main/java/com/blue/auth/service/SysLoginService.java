@@ -109,17 +109,17 @@ public class SysLoginService {
      * 注册
      */
     public String register(RegisterBody registerBody) {
-        //校验手机号是否位空
+        // 用户名或密码为空
+        if (StringUtils.isAnyBlank(registerBody.getUsername(), registerBody.getPassword())) {
+            throw new ServiceException("用户/密码必须填写");
+        }
+        // 未选择头像
+        if (!StringUtils.isNotEmpty(registerBody.getAvater())) {
+            throw new ServiceException("请选择头像");
+        }
+        //校验手机号是否为空
         if (!StringUtils.isNotEmpty(registerBody.getPhone())){
             throw new ServiceException("请先填写手机号");
-        }
-        //校验手机号格式是否正确
-        if (registerBody.getPhone().length()!=11){
-            throw new ServiceException("请填写11位的手机号");
-        }
-        //校验手机号格式是否是纯数字
-        if (!registerBody.getPhone().matches("^\\d+$")){
-            throw new ServiceException("请填写正确的手机号");
         }
         // 用户验证码错误 或 未获取验证码
         if (StringUtils.isNotEmpty(registerBody.getSms())){
@@ -135,15 +135,6 @@ public class SysLoginService {
         }else {
             throw new ServiceException("请先填写验证码");
         }
-        // 用户名或密码为空 错误
-        if (StringUtils.isAnyBlank(registerBody.getUsername(), registerBody.getPassword())) {
-            throw new ServiceException("用户/密码必须填写");
-        }
-        // 用户名名长度不正确
-        if (registerBody.getUsername().length() < UserConstants.USERNAME_MIN_LENGTH
-                || registerBody.getUsername().length() > UserConstants.USERNAME_MAX_LENGTH) {
-            throw new ServiceException("账户长度必须在2到20个字符之间");
-        }
         // 密码长度不正确
         if (registerBody.getPassword().length() < UserConstants.PASSWORD_MIN_LENGTH
                 || registerBody.getPassword().length() > UserConstants.PASSWORD_MAX_LENGTH) {
@@ -153,9 +144,13 @@ public class SysLoginService {
         if (!registerBody.getPassword().equals(registerBody.getEntryPassword())) {
             throw new ServiceException("两次密码不一致");
         }
-        // 未选择头像
-        if (!StringUtils.isNotEmpty(registerBody.getAvater())) {
-            throw new ServiceException("请选择头像");
+        //校验手机号格式是否正确
+        if (registerBody.getPhone().length()!=11){
+            throw new ServiceException("请填写11位的手机号");
+        }
+        //校验手机号格式是否是纯数字
+        if (!registerBody.getPhone().matches("^\\d+$")){
+            throw new ServiceException("请填写正确的手机号");
         }
         // 注册用户信息
         SysUser sysUser = new SysUser();

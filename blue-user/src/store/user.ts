@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', {
             this.id = value;
         },
         SET_NAME(value: string) {
-            this.name = value;
+            this.nickName = value;
         },
         SET_AVATAR(value: string) {
             this.avatar = value;
@@ -24,7 +24,7 @@ export const useUserStore = defineStore('user', {
         },
         CLEAR_USERINFO() {
             this.id = ""
-            this.name = ""
+            this.nickName = ""
             this.avatar = ""
             this.roles = []
             this.permissions = []
@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', {
             getInfo().then((res: any) => {
                 let user = res.user
                 this.id = user.userId
-                this.name = user.userName
+                this.nickName = user.nickName
                 this.avatar = user.avatar
                 this.email=user.email
                 this.phone=user.phonenumber
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
         LogOut() {
             //清除TOKEN 清除用户消息
             this.id=""
-            this.name=""
+            this.nickName=""
             this.avatar=""
             this.phone=""
             this.email=""
@@ -64,7 +64,7 @@ export const useUserStore = defineStore('user', {
         return {
             token: getToken() || "",
             id: '',
-            name: '',
+            nickName: '',
             avatar: '',
             email:'',
             phone:'',

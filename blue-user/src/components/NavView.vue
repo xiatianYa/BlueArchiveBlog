@@ -59,7 +59,7 @@
             <div v-show="UserStore.token" class="nav-item">
               <a :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
                 <img v-lazy="UserStore.avatar">
-                <span>{{ UserStore.name }}</span>
+                <span>{{ UserStore.nickName }}</span>
               </a>
               <div class="nav-drop-down-wrapper">
                 <div :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="nav-drop-down">
@@ -134,6 +134,7 @@ function go(path) {
   width: 100%;
   height: 53px;
   transition-duration: 1s;
+  background-color: rgba(0, 0, 0, 0.1);
 
   .pc_menu {
     display: flex;
@@ -159,6 +160,7 @@ function go(path) {
         padding: 0;
 
         .nav-item {
+          min-width: 100px;
           display: flex;
           cursor: pointer;
           font-weight: 800;
