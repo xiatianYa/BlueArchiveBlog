@@ -27,6 +27,8 @@ public class BlueEchartsServiceImpl implements BlueEchartsService {
     private BlueErchuangMapper blueErchuangMapper;
     @Override
     public List<UserHeatMapDataVo> selectUserHeatMapData() {
+        //时间格式化对象
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
         //获取用户ID
         Long userId = SecurityUtils.getUserId();
         //返回数据列表
@@ -36,7 +38,6 @@ public class BlueEchartsServiceImpl implements BlueEchartsService {
         articleLambdaQueryWrapper.eq(BlueArticle::getUserId,userId);
         List<BlueArticle> blueArticles = blueArticleMapper.selectList(articleLambdaQueryWrapper);
         for (BlueArticle blueArticle : blueArticles) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
             boolean exists=userHeatMapDataVos.stream().anyMatch(vo->
                     vo.getDate().equals(simpleDateFormat.format(blueArticle.getCreateTime())));
             //如果不是第一次提交 则进入
@@ -61,7 +62,6 @@ public class BlueEchartsServiceImpl implements BlueEchartsService {
         photoLambdaQueryWrapper.eq(BluePhoto::getUserId,userId);
         List<BluePhoto> bluePhotos = bluePhotoMapper.selectList(photoLambdaQueryWrapper);
         for (BluePhoto bluePhoto : bluePhotos) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
             boolean exists=userHeatMapDataVos.stream().anyMatch(vo->
                     vo.getDate().equals(simpleDateFormat.format(bluePhoto.getCreateTime())));
             //如果不是第一次提交 则进入
@@ -86,7 +86,6 @@ public class BlueEchartsServiceImpl implements BlueEchartsService {
         erchuangLambdaQueryWrapper.eq(BlueErchuang::getCreateBy,userId);
         List<BlueErchuang> blueErchuangs = blueErchuangMapper.selectList(erchuangLambdaQueryWrapper);
         for (BlueErchuang blueErchuang : blueErchuangs) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-dd");
             boolean exists=userHeatMapDataVos.stream().anyMatch(vo->
                     vo.getDate().equals(simpleDateFormat.format(blueErchuang.getCreateTime())));
             //如果不是第一次提交 则进入

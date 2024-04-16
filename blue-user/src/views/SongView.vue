@@ -215,9 +215,9 @@ function startMusic(event,musicUrl) {
           width: 100px;
           height: 100px;
           overflow: hidden;
+          border-radius: 50%;
 
           img {
-            border-radius: 50%;
             max-width: 100%;
             height: auto;
             object-fit: cover;

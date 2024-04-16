@@ -1,16 +1,6 @@
 package com.blue.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.validation.Validator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
+import com.blue.common.core.constant.Constants;
 import com.blue.common.core.constant.UserConstants;
 import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.SpringUtils;
@@ -23,13 +13,20 @@ import com.blue.system.api.domain.SysUser;
 import com.blue.system.domain.SysPost;
 import com.blue.system.domain.SysUserPost;
 import com.blue.system.domain.SysUserRole;
-import com.blue.system.mapper.SysPostMapper;
-import com.blue.system.mapper.SysRoleMapper;
-import com.blue.system.mapper.SysUserMapper;
-import com.blue.system.mapper.SysUserPostMapper;
-import com.blue.system.mapper.SysUserRoleMapper;
+import com.blue.system.mapper.*;
 import com.blue.system.service.ISysConfigService;
 import com.blue.system.service.ISysUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import javax.validation.Validator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户 业务层处理
@@ -252,7 +249,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public boolean registerUser(SysUser user) {
-        return userMapper.insertUser(user) > 0;
+        int count = userMapper.insertUser(user);
+        insertUserRole(user.getUserId(), Constants.USER_DEFAULT_ROLE_LIST);
+        return count> 0;
     }
 
     /**

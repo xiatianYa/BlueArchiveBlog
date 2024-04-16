@@ -131,4 +131,8 @@ public class Constants {
      */
     public static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "org.apache", "com.blue.common.core.utils.file"};
+    /**
+     * 用户默认权限列表
+     */
+    public static final Long[] USER_DEFAULT_ROLE_LIST = {100L};
 }

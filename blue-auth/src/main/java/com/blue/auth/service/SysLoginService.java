@@ -46,7 +46,6 @@ public class SysLoginService {
     private RedisService redisService;
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
     /**
      * 登录
      */
@@ -156,11 +155,14 @@ public class SysLoginService {
         SysUser sysUser = new SysUser();
         // 设置用户名称
         sysUser.setUserName(registerBody.getUsername());
+        //设置用户NickName
         sysUser.setNickName(registerBody.getUsername());
         // 设置用户密码
         sysUser.setPassword(SecurityUtils.encryptPassword(registerBody.getPassword()));
         // 设置用户头像
         sysUser.setAvatar(registerBody.getAvater());
+        //设置用户角色为普通用户
+        sysUser.setRoleId(100L);
         R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
         if (R.FAIL == registerResult.getCode()) {
             throw new ServiceException(registerResult.getMsg());
@@ -175,7 +177,9 @@ public class SysLoginService {
      * 获取验证码
      */
     public String getPhoneCode(String phone) {
-        //校验手机号是否位空
+        //获取本次获取验证码IP
+        String ipAddr = IpUtils.getIpAddr();
+        //校验手机号是否为空
         if (!StringUtils.isNotEmpty(phone)){
             throw new ServiceException("请先填写手机号");
         }
@@ -187,17 +191,23 @@ public class SysLoginService {
         if (!phone.matches("^\\d+$")){
             throw new ServiceException("请填写正确的手机号");
         }
+        //查看是不是同一个IP发送验证码
+        String ipAddrCode = redisService.getCacheObject(ipAddr);
+        if (StringUtils.isNotNull(ipAddrCode)){
+            throw new ServiceException("同一IP发送验证码间隔时间12小时,请稍后再试");
+        }
         //查看是否存在验证码
         String cacheCode = redisService.getCacheObject(phone);
         if (StringUtils.isNotNull(cacheCode)){
-            throw new ServiceException("验证码已发送,请稍后再试");
+            throw new ServiceException("验证码已发送(保存时间12小时),请稍后再试");
         }
         String phoneCode = RandomUtils.getRandom(6);
         Map<String,String> map=new HashMap<>(2);
         map.put("phone",phone);
         map.put("phoneCode",phoneCode);
         rabbitTemplate.convertAndSend(ExchangeStatus.SMS_EXCHANGE_SEND.getExchangeName(),ExchangeStatus.SMS_EXCHANGE_SEND.getRoutingKey(),map);
-        redisService.setCacheObject(phone, phoneCode,(long)3*60, TimeUnit.SECONDS);
+        redisService.setCacheObject(phone, phoneCode,(long)720*60, TimeUnit.SECONDS);
+        redisService.setCacheObject(ipAddr,ipAddr,(long)720*60, TimeUnit.SECONDS);
         return "短信验证码发送成功";
     }
 }
