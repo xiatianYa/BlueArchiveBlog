@@ -100,9 +100,12 @@
             </div>
         </div>
         <div class="active_graph animate__animated animate__fadeInUp">
-            <calendar-heatmap :round="3" :max="6"
-                :values="[]" :end-date="Date()"
-                :range-color="['#EBEDF0', '#9AE8A7', '#3DBC5F', '#30A14E', '#216E39']" :dark-mode />
+            <calendar-heatmap :round="3" :max="11" tooltip-unit="commit" :end-date="Date()" :values="userHeatMapData"
+                :range-color="['#ebedf0',
+                    'rgba(255,202,43,0.4)',
+                    'rgba(255,202,43,0.6)',
+                    'rgba(255,202,43,0.8)',
+                    'rgba(255,202,43,1.0)',]" />
         </div>
     </div>
 </template>
@@ -114,11 +117,18 @@ const props = defineProps({
         required: true,
     }
 })
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {updateUserProfile, updateUserPwd} from '@/api/user'
+import {selectUserHeatMapData} from '@/api/charts'
 import promptMsg from "@/components/PromptBoxView"
 
 const userPwd = ref({})
+const userHeatMapData = ref([])
+onMounted(() => {
+    selectUserHeatMapData().then(res => {
+        userHeatMapData.value = res.data
+    })
+})
 //保存用户信息
 function saveUserInfo() {
     //获取props用户对象

@@ -2,6 +2,7 @@ package com.blue.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BlueFriend;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-03-22
  */
+@Mapper
 public interface BlueFriendMapper extends BaseMapper<BlueFriend>
 {
     /**

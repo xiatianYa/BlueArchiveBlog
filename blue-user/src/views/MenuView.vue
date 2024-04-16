@@ -37,7 +37,7 @@
 
 <script setup>
 import {ref} from 'vue'
-import UserView from '@/components/UserDetail.vue';
+import UserView from '@/components/ShareUserDetail.vue';
 import ArticleView from '@/components/ShareArticleDetail.vue';
 import FoundView from '@/components/ShareFoundDetail.vue';
 import PhotoView from '@/components/SharePhotoDetail.vue';

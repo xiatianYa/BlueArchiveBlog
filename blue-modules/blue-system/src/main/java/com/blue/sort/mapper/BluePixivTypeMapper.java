@@ -2,6 +2,7 @@ package com.blue.sort.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.sort.domain.BluePixivType;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-01
  */
+@Mapper
 public interface BluePixivTypeMapper extends BaseMapper<BluePixivType>
 {
     /**

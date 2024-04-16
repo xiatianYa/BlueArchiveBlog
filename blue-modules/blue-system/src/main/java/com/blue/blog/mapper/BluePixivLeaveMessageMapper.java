@@ -1,6 +1,7 @@
 package com.blue.blog.mapper;
 
 import com.blue.blog.domain.BluePixivLeaveMessage;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2024-04-05
  */
+@Mapper
 public interface BluePixivLeaveMessageMapper 
 {
     /**
