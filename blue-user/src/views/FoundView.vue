@@ -58,6 +58,7 @@
         </div>
       </div>
     </div>
+    <Loading v-show="loading"/>
   </div>
 </template>
 
@@ -68,6 +69,7 @@ import {listTv} from '@/api/tv'
 import {listErchuang} from '@/api/erchuang'
 import {listToolBySort} from '@/api/tool'
 import {useRouter} from 'vue-router'
+import Loading from '@/components/CssLoadingView.vue'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 import ToolDetail from '@/components/ToolDetail.vue'
@@ -197,7 +199,8 @@ function isLastPage(total) {
 <style lang="scss" scoped>
 .found {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
   padding-bottom: 40px;
 
   .banner {

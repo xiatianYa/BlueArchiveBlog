@@ -55,6 +55,7 @@
         </div>
       </div>
     </div>
+    <Loading v-show="loading"/>
   </div>
 </template>
 
@@ -63,6 +64,7 @@ import {onMounted, onUnmounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listPhoto} from '@/api/photo'
 import {listSort} from '@/api/sort/photoSort'
+import Loading from '@/components/CssLoadingView.vue'
 
 //视频背景
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
@@ -82,6 +84,9 @@ const loadingEnd = ref(false)
 const loading = ref(false)
 onMounted(() => {
   listPhoto(queryParam.value).then(res => {
+    if (isLastPage(res.total)) {
+      loadingEnd.value = true;
+    }
     PhotoList.value = res.rows;
   })
   listSort().then(res => {
@@ -127,12 +132,12 @@ const handleScroll = () => {
   // 监听滚动事件
   const photos = document.querySelector('.photos') // 获取滚动容器
   const banner = document.querySelector('.banner') // 获取滚动容器
-  if (isScrolledToBottom(photos,banner)) {
+  if (isScrolledToBottom(photos, banner)) {
     loadData()
   }
 }
 //判断是否滚动到底部
-function isScrolledToBottom(photos,banner) {
+function isScrolledToBottom(photos, banner) {
   const clientHeight = photos.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
@@ -140,6 +145,9 @@ function isScrolledToBottom(photos,banner) {
 }
 //判断是不是到最后一页了
 function isLastPage(total) {
+  if (total < queryParam.value.pageSize) {
+    return true;
+  }
   // 计算总页数  
   var totalPages = Math.ceil(total / queryParam.value.pageSize);
   // 如果当前页码等于总页数，那么就是最后一页  
@@ -148,6 +156,7 @@ function isLastPage(total) {
 </script>
 
 <style lang="scss" scoped>
+
 .photo {
   display: flex;
   flex-direction: column;

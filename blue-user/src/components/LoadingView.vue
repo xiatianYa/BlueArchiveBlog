@@ -38,7 +38,7 @@ onMounted(() => {
         clearInterval(timerElement)
       }
       timer.value = []
-      router.push({path: "/home"})
+      router.push({ path: "/home" })
     }
     Percentages.value += 1;
   }, 10))

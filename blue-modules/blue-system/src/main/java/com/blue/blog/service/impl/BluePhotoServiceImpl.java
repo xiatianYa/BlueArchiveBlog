@@ -60,7 +60,7 @@ public class BluePhotoServiceImpl implements IBluePhotoService
         for (BluePhoto photo : bluePhotos) {
             for (SysUser sysUser : sysUsers) {
                 if (sysUser.getUserId().equals(photo.getUserId())){
-                    photo.setUserName(sysUser.getUserName());
+                    photo.setUserName(sysUser.getNickName());
                 }
             }
         }

@@ -228,13 +228,13 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getTagId,tagId);
         //通过标签ID获取文章标签列表
         List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(blueArticleTagLambdaQueryWrapper);
+        //返回列表
+        List<BlueArticle> blueArticleList=new ArrayList<>();
         LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
         //默认查询已通过审核数据
         wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
         //获取全部文章列表
         List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
-        //返回列表
-        List<BlueArticle> blueArticleList=new ArrayList<>();
         for (BlueArticleTag blueArticleTag : blueArticleTags) {
             //通过文章标签中文章ID获取文章
             for (BlueArticle blueArticle : blueArticles) {
@@ -268,6 +268,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         wrapper.eq(BlueArticle::getUserId,loginUser.getUserid());
         return blueArticleMapper.selectList(wrapper);
     }
+
+
     public void isCheckArticle(BlueArticle blueArticle){
         if (!StringUtils.isNotEmpty(blueArticle.getArticleName())){
             throw new ServiceException("文章标题为空...");

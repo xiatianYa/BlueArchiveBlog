@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+    <Loading v-show="loading"/>
   </div>
 </template>
 
@@ -54,6 +55,7 @@ import {listSort} from '@/api/sort/sort'
 import {listTag} from '@/api/sort/tagSort'
 import {listByTagId} from '@/api/article'
 import {useRouter} from 'vue-router'
+import Loading from '@/components/CssLoadingView.vue'
 import promptMsg from "@/components/PromptBoxView"
 
 const router = useRouter()
@@ -185,7 +187,7 @@ function selectArticleListByTagId(tagId) {
     return
   }
   tagIndex.value = tagId;
-  listByTagId(tagId,queryParam.value).then(res => {
+  listByTagId(tagId, queryParam.value).then(res => {
     if (isLastPage(res.total)) {
       loadingEnd.value = true;
     }
@@ -212,14 +214,16 @@ function isScrolledToBottom(photos, banner) {
 }
 //判断是不是到最后一页了
 function isLastPage(total) {
+  if (total < queryParam.value.pageSize) {
+    return true;
+  }
   // 计算总页数  
-  var totalPages = Math.ceil(total / queryParam.value.pageSize);
+  var totalPages = Math.ceil(total / queryParam.value.pageSize + 1);
   // 如果当前页码等于总页数，那么就是最后一页  
   return queryParam.value.pageNum >= totalPages;
 }
 //加载数据
 const loadData = () => {
-  console.log("加载数据");
   loading.value = true
   queryParam.value.pageNum += 1;
   listByTagId(tagIndex.value, queryParam.value).then(res => {
@@ -237,7 +241,8 @@ const loadData = () => {
 <style lang="scss" scoped>
 .sort {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
   transition: all 0.5s ease;
   padding-bottom: 40px;
 
@@ -377,6 +382,7 @@ const loadData = () => {
 
   .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
