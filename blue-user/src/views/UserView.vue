@@ -149,6 +149,7 @@ function clearUserInfo() {
   userInfo.code = ""
   userInfo.uuid = ""
   userInfo.phone = ""
+  userInfo.avater=""
 }
 //前往登录
 function goLogin() {
@@ -459,4 +460,4 @@ input:focus::placeholder {
   background-color: #d3b7d8;
   color: #fff;
 }
-</style>@/store/user
+</style>

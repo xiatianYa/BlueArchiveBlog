@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <Loading v-show="loading"/>
+    <Loading v-show="loading" />
   </div>
 </template>
 
@@ -156,7 +156,6 @@ function isLastPage(total) {
 </script>
 
 <style lang="scss" scoped>
-
 .photo {
   display: flex;
   flex-direction: column;

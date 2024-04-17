@@ -189,10 +189,11 @@ function getRandomItem(array) {
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
+    position: relative;
 
     .leave_title {
       position: absolute;
-      top: 250px;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: #222831;
@@ -201,7 +202,7 @@ function getRandomItem(array) {
 
     .leave_input {
       position: absolute;
-      top: 300px;
+      top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
       display: flex;

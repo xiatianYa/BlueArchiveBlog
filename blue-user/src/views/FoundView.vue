@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    <Loading v-show="loading"/>
+    <Loading v-show="loading" />
   </div>
 </template>
 
@@ -176,12 +176,12 @@ const handleScroll = () => {
   // 监听滚动事件
   const foundBody = document.querySelector('.found_body') // 获取滚动容器
   const banner = document.querySelector('.banner') // 获取前面高度容器
-  if (isScrolledToBottom(foundBody,banner)) {
+  if (isScrolledToBottom(foundBody, banner)) {
     loadData()
   }
 }
 //判断是否滚动到底部
-function isScrolledToBottom(foundBody,banner) {
+function isScrolledToBottom(foundBody, banner) {
   const clientHeight = foundBody.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
@@ -207,7 +207,7 @@ function isLastPage(total) {
     display: flex;
     justify-content: center;
     width: 100%;
-    height:400px;
+    height: 400px;
     padding-top: 60px;
 
     .banner_video {
@@ -275,6 +275,7 @@ function isLastPage(total) {
       height: 100%;
 
       .found_header {
+        width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;

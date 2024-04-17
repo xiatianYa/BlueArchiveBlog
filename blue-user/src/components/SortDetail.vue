@@ -49,9 +49,9 @@
 const props = defineProps(['article'])
 import {useRouter} from 'vue-router'
 
-const router=useRouter()
+const router = useRouter()
 function goArticlePreview(sortId) {
-  router.push({path:'/editPreView',query:{sortId:sortId}})
+  router.push({ path: '/editPreView', query: { sortId: sortId } })
 }
 </script>
 
@@ -61,8 +61,10 @@ function goArticlePreview(sortId) {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .sort_cards {
     width: 80%;
+
     .card {
       display: flex;
       flex-direction: row;

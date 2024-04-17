@@ -29,8 +29,8 @@
         <span>{{ item.sortName }}</span>
       </div>
       <div class="musics" v-for="music in item.musicList" :key="music.id">
-        <div class="music" @click="startMusic($event,music.musicUrl)">
-          <div class="music_img">
+        <div class="music">
+          <div class="music_img" @click="startMusic($event, music.musicUrl)">
             <img v-lazy="music.imgUrl">
           </div>
           <div class="music_name">
@@ -59,7 +59,7 @@ onMounted(() => {
     musicList.value = res;
   })
 })
-function startMusic(event,musicUrl) {
+function startMusic(event, musicUrl) {
   //获取音乐标签
   let music = document.getElementById("music");
   //清除img图片的旋转样式
@@ -215,9 +215,9 @@ function startMusic(event,musicUrl) {
           width: 100px;
           height: 100px;
           overflow: hidden;
-          border-radius: 50%;
 
           img {
+            border-radius: 50%;
             max-width: 100%;
             height: auto;
             object-fit: cover;

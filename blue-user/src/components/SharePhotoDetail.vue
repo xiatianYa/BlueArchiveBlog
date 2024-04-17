@@ -128,10 +128,10 @@ function init() {
 }
 //打开修改相册框
 function openPhotoUpdate(photoId) {
-  getPhoto(photoId).then(res=>{
-    photo.value=res.data
+  getPhoto(photoId).then(res => {
+    photo.value = res.data
   })
-  photoShow.value=true;
+  photoShow.value = true;
 }
 //修改相册
 function updatePhotoSubmit() {

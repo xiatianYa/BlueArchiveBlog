@@ -54,7 +54,7 @@ function goHref(toolUrl: string) {
         flex-wrap: wrap;
 
         .tool_detail {
-            width: 32%;
+            width: 200px;
             height: 100px;
             display: flex;
             border-radius: 10px 10px 10px 10px;

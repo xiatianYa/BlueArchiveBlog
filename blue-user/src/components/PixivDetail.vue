@@ -38,6 +38,7 @@ const props = defineProps(['pixiv'])
   border-radius: 10px 10px 10px 10px;
   margin-top: 30px;
   max-height: 270px;
+
   .pixiv_left {
     flex: 1;
     padding: 20px;

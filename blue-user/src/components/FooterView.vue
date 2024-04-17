@@ -19,6 +19,7 @@
   flex-wrap: wrap;
   width: 100%;
   height: 45px;
+  border-radius: 5px 5px 0 0;
   animation: LinearGradient 15s infinite;
 
   .title {

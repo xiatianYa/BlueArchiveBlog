@@ -3,7 +3,7 @@
     <div class="animate__animated animate__slideInDown video_bg">
       <video autoplay class="video-background" loop muted>
         <source
-          :src="bgUrl || 'http://127.0.0.1:9300/statics/2024/03/17/a7aa0c43e9d5812543f5924181bc6132-fd_20240317155200A005.mp4'"
+          :src="bgUrl"
           type="video/mp4">
       </video>
     </div>
@@ -130,7 +130,7 @@
               </div>
               <div class="category_body">
                 <div class="category_list">
-                  <CategoryDetail class="test" :article="article" v-for="article in sort.articleList"/>
+                  <CategoryDetail class="test" :article="article" v-for="article in sort.articleList" />
                 </div>
               </div>
             </div>

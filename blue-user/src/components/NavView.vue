@@ -58,7 +58,7 @@
             </router-link>
             <div v-show="UserStore.token" class="nav-item">
               <a :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
-                <img v-lazy="UserStore.avatar">
+                <img :src="UserStore.avatar">
                 <span>{{ UserStore.nickName }}</span>
               </a>
               <div class="nav-drop-down-wrapper">
@@ -330,4 +330,4 @@ function go(path) {
 .fade-leave-to {
   opacity: 0
 }
-</style>@/store/global@/store/user
+</style>

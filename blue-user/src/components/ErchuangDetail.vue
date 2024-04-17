@@ -25,7 +25,7 @@ function goHref(url: string) {
     width: 29%;
     display: flex;
     flex-wrap: wrap;
-    justify-content:flex-start;
+    justify-content: flex-start;
     flex-direction: row;
     border-radius: 10px 10px 10px 10px;
     margin-top: 30px;
@@ -34,6 +34,7 @@ function goHref(url: string) {
         border-radius: 10px 10px 0 0;
         overflow: hidden;
         width: 100%;
+
         img {
             width: 100%;
             max-height: 170px;
