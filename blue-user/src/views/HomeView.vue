@@ -34,12 +34,12 @@
             </div>
             <div class="info_link">
               <ul>
-                <li>
+                <li @click="goHref('https://space.bilibili.com/180200497?spm_id_from=333.1007.0.0')" >
                   <svg class="icon pointer" aria-hidden="true">
                     <use xlink:href="#icon-icon_bilibili"></use>
                   </svg>
                 </li>
-                <li>
+                <li @click="goHref('https://github.com/xiatianYa')">
                   <svg class="icon pointer" aria-hidden="true">
                     <use xlink:href="#icon-icon-github"></use>
                   </svg>
@@ -190,7 +190,10 @@ function goDown() {
   let dom = document.documentElement;
   window.scrollTo({ behavior: 'smooth', top: dom.scrollHeight });
 }
-
+//跳转链接
+function goHref(url) {
+    window.open(url, "_blank")
+}
 </script>
 <style lang="scss" scoped>
 .home_box {
