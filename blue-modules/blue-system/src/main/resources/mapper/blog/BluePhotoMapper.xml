@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
         <result property="remark"    column="remark"    />
     </resultMap>
 
@@ -30,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="photoUrl != null  and photoUrl != ''"> and photo_url = #{photoUrl}</if>
             <if test="photoName != null  and photoName != ''"> and photo_name like #{photoUrl}</if>
             <if test="status != null "> and status = #{status}</if>
+             and del_flag = 0
         </where>
     </select>
     

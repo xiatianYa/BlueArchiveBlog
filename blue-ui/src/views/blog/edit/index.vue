@@ -1,6 +1,6 @@
 <template>
   <div class="edit" v-loading="loading">
-    <v-md-editor v-model="article.content" class="md_edit" :disabled-menus="[]" @save="saveArticle"
+    <v-md-editor v-model="article.content" class="md_edit" :include-level="[2,3,4]" :disabled-menus="[]" @save="saveArticle"
       @upload-image="handleUploadImage"></v-md-editor>
   </div>
 </template>

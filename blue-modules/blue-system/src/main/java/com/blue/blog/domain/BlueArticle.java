@@ -1,5 +1,6 @@
 package com.blue.blog.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.blue.common.core.annotation.Excel;
@@ -27,7 +28,7 @@ public class BlueArticle extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** id */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 用户ID */
@@ -80,4 +81,8 @@ public class BlueArticle extends BaseEntity
     /** 关联标签列表 */
     @TableField(exist = false)
     private List<BlueArticleTag> tagList;
+
+    /** 逻辑删除 */
+    @TableField("del_flag")
+    private Integer delFlag;
 }

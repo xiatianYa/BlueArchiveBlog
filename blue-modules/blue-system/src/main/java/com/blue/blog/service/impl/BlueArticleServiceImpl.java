@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -85,6 +86,9 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     public List<BlueArticle> selectBlueArticleList(BlueArticle blueArticle)
     {
         //文章列表
+        if (!StringUtils.isNotNull(blueArticle.getStatus())){
+            blueArticle.setStatus(AuditingStatus.DISABLE.getCode());
+        }
         List<BlueArticle> blueArticles = blueArticleMapper.selectBlueArticleList(blueArticle);
         //分类列表
         List<BlueSort> blueSorts = blueSortMapper.selectList(new LambdaQueryWrapper<>());
@@ -125,12 +129,14 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             //设置用户ID
             blueArticle.setUserId(userId);
         }
+        //设置删除状态
+        blueArticle.setDelFlag(0);
         //设置审核状态
         blueArticle.setStatus(AuditingStatus.OK.getCode());
         //设置创建时间
         blueArticle.setCreateTime(DateUtils.getNowDate());
         //先插入文章信息
-        int num = blueArticleMapper.insertBlueArticle(blueArticle);
+        int num = blueArticleMapper.insert(blueArticle);
         //然后向文章标签表里插入标签
         List<BlueArticleTag> tagList = blueArticle.getTagList();
         for (BlueArticleTag blueArticleTag : tagList) {
@@ -192,8 +198,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //同时批量删除文字标签关联表数据
         LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
         blueArticleTagLambdaQueryWrapper.in(BlueArticleTag::getArticleId,ids);
-        blueArticleTagMapper.delete(blueArticleTagLambdaQueryWrapper);
-        return blueArticleMapper.deleteBlueArticleByIds(ids);
+        blueArticleTagMapper.delete(blueArticleTagLambdaQueryWrapper);;
+        return blueArticleMapper.deleteBatchIds(Arrays.asList(ids));
     }
 
     /**
@@ -210,7 +216,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
         blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getArticleId,id);
         blueArticleTagMapper.delete(blueArticleTagLambdaQueryWrapper);
-        return blueArticleMapper.deleteBlueArticleById(id);
+        return blueArticleMapper.deleteById(id);
     }
 
     /**
@@ -267,6 +273,14 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //查询用户发布的所有文章
         wrapper.eq(BlueArticle::getUserId,loginUser.getUserid());
         return blueArticleMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<BlueArticle> listBySortId(Long sortId) {
+        LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(BlueArticle::getSortId,sortId);
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
+        return blueArticles;
     }
 
 

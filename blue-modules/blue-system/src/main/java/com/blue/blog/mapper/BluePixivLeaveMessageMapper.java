@@ -1,5 +1,6 @@
 package com.blue.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.blog.domain.BluePixivLeaveMessage;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @date 2024-04-05
  */
 @Mapper
-public interface BluePixivLeaveMessageMapper 
+public interface BluePixivLeaveMessageMapper extends BaseMapper<BluePixivLeaveMessage>
 {
     /**
      * 查询番剧弹幕

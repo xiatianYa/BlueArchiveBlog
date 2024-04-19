@@ -14,6 +14,7 @@ import com.blue.system.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -78,11 +79,13 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     {
         //设置默认新增相册状态
         bluePhoto.setStatus(AuditingStatus.OK.getCode());
+        //设置逻辑删除状态
+        bluePhoto.setDelFlag(0);
         //设置创建用户ID
         bluePhoto.setUserId(SecurityUtils.getLoginUser().getUserid());
         bluePhoto.setCreateBy(SecurityUtils.getLoginUser().getUserid().toString());
         bluePhoto.setCreateTime(DateUtils.getNowDate());
-        return bluePhotoMapper.insertBluePhoto(bluePhoto);
+        return bluePhotoMapper.insert(bluePhoto);
     }
 
     /**
@@ -109,7 +112,7 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Override
     public int deleteBluePhotoByIds(Long[] ids)
     {
-        return bluePhotoMapper.deleteBluePhotoByIds(ids);
+        return bluePhotoMapper.deleteBatchIds(Arrays.asList(ids));
     }
 
     /**
@@ -121,7 +124,7 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Override
     public int deleteBluePhotoById(Long id)
     {
-        return bluePhotoMapper.deleteBluePhotoById(id);
+        return bluePhotoMapper.deleteById(id);
     }
 
     @Override

@@ -14,7 +14,7 @@
     </div>
 
     <div class="preview_content">
-      <v-md-editor v-model="article.content" mode="preview" height="100%" style="background: #ECEBEC;"></v-md-editor>
+      <v-md-editor v-model="article.content" :include-level="[2]" mode="preview" height="100%" style="background: #ECEBEC;"></v-md-editor>
     </div>
   </div>
 

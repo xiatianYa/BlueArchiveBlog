@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="animate__animated animate__fadeInRight">
-                <v-md-editor v-model="ArticleIndex.content" mode="editable" height="100vh" style="background: #ECEBEC;"
+                <v-md-editor v-model="ArticleIndex.content" :include-level="[2,3,4]"  mode="editable" height="100vh" style="background: #ECEBEC;"
                     @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
             </div>
         </div>
@@ -286,7 +286,7 @@ function deleteArticleSubmit() {
 }
 //保存文章
 function saveArticle() {
-    updateArticle(Article.value).then(res => {
+    updateArticle(ArticleIndex.value).then(res => {
         promptMsg({ type: "success", msg: "保存成功" })
     }).catch(error => {
         promptMsg({ type: "error", msg: "保存失败" })

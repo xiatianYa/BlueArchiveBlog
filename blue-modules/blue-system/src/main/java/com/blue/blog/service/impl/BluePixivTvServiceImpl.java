@@ -2,8 +2,10 @@ package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BluePixivEpisode;
+import com.blue.blog.domain.BluePixivLeaveMessage;
 import com.blue.blog.domain.BluePixivTv;
 import com.blue.blog.mapper.BluePixivEpisodeMapper;
+import com.blue.blog.mapper.BluePixivLeaveMessageMapper;
 import com.blue.blog.mapper.BluePixivTvMapper;
 import com.blue.blog.service.IBluePixivTvService;
 import com.blue.common.core.enums.AuditingStatus;
@@ -33,6 +35,8 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     private BluePixivTypeMapper bluePixivTypeService;
     @Autowired
     private BluePixivEpisodeMapper bluePixivEpisodeMapper;
+    @Autowired
+    private BluePixivLeaveMessageMapper bluePixivLeaveMessageMapper;
 
     /**
      * 查询番剧信息
@@ -185,6 +189,10 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
         LambdaQueryWrapper<BluePixivEpisode> episodeLambdaQueryWrapper = new LambdaQueryWrapper<>();
         episodeLambdaQueryWrapper.in(BluePixivEpisode::getPixivId,ids);
         bluePixivEpisodeMapper.delete(episodeLambdaQueryWrapper);
+        //同时删除番剧评论数据
+        LambdaQueryWrapper<BluePixivLeaveMessage> leaveMessageLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        leaveMessageLambdaQueryWrapper.in(BluePixivLeaveMessage::getPixivId,ids);
+        bluePixivLeaveMessageMapper.delete(leaveMessageLambdaQueryWrapper);
         return bluePixivTvMapper.deleteBluePixivTvByIds(ids);
     }
 

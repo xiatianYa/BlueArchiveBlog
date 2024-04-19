@@ -10,13 +10,10 @@ import com.blue.common.core.web.page.TableDataInfo;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
-import com.blue.sort.domain.BlueArticleTag;
-import com.blue.sort.service.IBlueArticleTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -32,8 +29,6 @@ public class BlueArticleController extends BaseController
 {
     @Autowired
     private IBlueArticleService blueArticleService;
-    @Autowired
-    private IBlueArticleTagService blueArticleTagService;
 
     /**
      * 查询文章列表
@@ -69,25 +64,12 @@ public class BlueArticleController extends BaseController
      * 根据分类ID查询文章列表
      */
     @GetMapping("/listBySortId/{sortId}")
-    public TableDataInfo listBySortId(@PathVariable(value = "sortId")Long tagId){
+    public TableDataInfo listBySortId(@PathVariable(value = "sortId")Long sortId){
         startPage();
-        List<BlueArticle> articleList = blueArticleService.selectBlueArticleListBySortId(tagId);
-        //所有标签列表
-        List<BlueArticleTag> blueArticleTagList = blueArticleTagService.selectBlueArticleTagList(new BlueArticleTag());
-        //获取每篇文章的标签
-        for (BlueArticle blueArticle : articleList) {
-            //初始化
-            blueArticle.setTagList(new ArrayList<>());
-            for (BlueArticleTag blueArticleTag : blueArticleTagList) {
-                //比对成功
-                if (blueArticleTag.getArticleId().equals(blueArticle.getId())){
-                    blueArticle.getTagList().add(blueArticleTag);
-                }
-            }
-        }
+        List<BlueArticle> blueArticles = blueArticleService.listBySortId(sortId);
         int maxCount = 6; // 最多获取6条
-        int actualCount = Math.min(maxCount, articleList.size()); // 确保不会超出列表的实际大小
-        return getDataTable(articleList.subList(0,actualCount));
+        int actualCount = Math.min(maxCount, blueArticles.size()); // 确保不会超出列表的实际大小
+        return getDataTable(blueArticles.subList(0,actualCount));
     }
     /**
      * 导出文章列表
@@ -145,19 +127,7 @@ public class BlueArticleController extends BaseController
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        //删除文章标签关联表所有关联数据
-        for (Long id : ids) {
-            BlueArticleTag blueArticleTag = new BlueArticleTag();
-            blueArticleTag.setArticleId(id);
-            List<BlueArticleTag> blueArticleTags = blueArticleTagService.selectBlueArticleTagList(blueArticleTag);
-            if (StringUtils.isNotEmpty(blueArticleTags)){
-                Long[] tagIds=new Long[blueArticleTags.size()];
-                for (int i = 0; i < blueArticleTags.size(); i++) {
-                    tagIds[i]=blueArticleTags.get(i).getTagId();
-                }
-                blueArticleTagService.deleteBlueArticleTagByIds(tagIds);
-            }
-        }
+
         return toAjax(blueArticleService.deleteBlueArticleByIds(ids));
     }
 }

@@ -36,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="videoUrl != null  and videoUrl != ''"> and video_url = #{videoUrl}</if>
             <if test="content != null  and content != ''"> and content = #{content}</if>
             <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+             and del_flag = 0
         </where>
     </select>
     

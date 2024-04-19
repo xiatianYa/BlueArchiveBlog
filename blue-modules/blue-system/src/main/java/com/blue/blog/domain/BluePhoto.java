@@ -1,6 +1,8 @@
 package com.blue.blog.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ public class BluePhoto extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** id */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 用户id */
@@ -47,5 +50,8 @@ public class BluePhoto extends BaseEntity
     /** 审核状态 */
     @Excel(name = "审核状态")
     private Long status;
+
+    /** 逻辑删除 */
+    private Integer delFlag;
 
 }
