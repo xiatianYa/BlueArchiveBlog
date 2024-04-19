@@ -1,10 +1,10 @@
 <template>
-  <NavView></NavView>
+  <NavView v-show="navShow"></NavView>
   <RouterView :class="!isShow ? '' : gloBalStore.switch ? 'bg_white' : 'bg_black'" />
   <FooterView></FooterView>
   <setUpView></setUpView>
 </template>
-<script setup lang="ts">
+<script setup>
 import {ref, watch} from 'vue'
 import {RouterView, useRouter} from 'vue-router'
 import NavView from '@/components/NavView.vue'
@@ -13,22 +13,25 @@ import setUpView from '@/components/SetUpView.vue'
 import {useGloBalStore} from '@/store/global'
 
 const gloBalStore = useGloBalStore()
-let isShow: any = ref(true)
+let isShow = ref(true)
+let navShow = ref(true)
 let router = useRouter()
 
 // 监听当前路由
 watch(
-    () => router.currentRoute.value,
-    (newPath: any) => {
-      if (newPath.href == '/leave') {
-        isShow.value = false;
-      } else {
-        isShow.value = true;
-      }
-    },
-    { immediate: true }
+  () => router.currentRoute.value,
+  (newPath) => {
+    if (newPath.href == "/") {
+      navShow.value = false;
+    } else {
+      navShow.value = true;
+    }
+    if (newPath.href == '/leave') {
+      isShow.value = false;
+    } else {
+      isShow.value = true;
+    }
+  },
+  { immediate: true }
 )
-
 </script>
-<style scoped></style>
-

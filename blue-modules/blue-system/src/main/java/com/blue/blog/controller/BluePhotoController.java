@@ -32,6 +32,7 @@ public class BluePhotoController extends BaseController
     /**
      * 查询用户相册列表
      */
+    @RequiresPermissions("blog:photo:query")
     @GetMapping("/listByUser")
     public AjaxResult listByUser()
     {

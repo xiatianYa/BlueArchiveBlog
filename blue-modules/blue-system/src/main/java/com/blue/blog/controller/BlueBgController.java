@@ -42,7 +42,7 @@ public class BlueBgController extends BaseController
     /**
      * 导出网站背景资源信息列表
      */
-    @RequiresPermissions("system:bg:export")
+    @RequiresPermissions("blog:bg:export")
     @Log(title = "网站背景资源信息", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, BlueBg blueBg)
@@ -55,7 +55,7 @@ public class BlueBgController extends BaseController
     /**
      * 获取网站背景资源信息详细信息
      */
-    @RequiresPermissions("system:bg:query")
+    @RequiresPermissions("blog:bg:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -65,7 +65,7 @@ public class BlueBgController extends BaseController
     /**
      * 新增网站背景资源信息
      */
-    @RequiresPermissions("system:bg:add")
+    @RequiresPermissions("blog:bg:add")
     @Log(title = "网站背景资源信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlueBg blueBg)
@@ -76,7 +76,7 @@ public class BlueBgController extends BaseController
     /**
      * 修改网站背景资源信息
      */
-    @RequiresPermissions("system:bg:edit")
+    @RequiresPermissions("blog:bg:edit")
     @Log(title = "网站背景资源信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BlueBg blueBg)
@@ -87,7 +87,7 @@ public class BlueBgController extends BaseController
     /**
      * 删除网站背景资源信息
      */
-    @RequiresPermissions("system:bg:remove")
+    @RequiresPermissions("blog:bg:remove")
     @Log(title = "网站背景资源信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

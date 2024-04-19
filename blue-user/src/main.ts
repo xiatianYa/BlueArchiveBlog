@@ -60,8 +60,7 @@ const app = createApp(App)
 
 //注册插件
 app.use(Lazyload, {
-  loading: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/default.png",//可以指定加载中的图像
-  error: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/error.png",//可以指定加载失败的图像
+  loading: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/loading.png",//可以指定加载中的图像
 });
 
 app.use(VueCalendarHeatmap)
