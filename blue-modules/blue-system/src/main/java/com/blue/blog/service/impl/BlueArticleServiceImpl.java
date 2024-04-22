@@ -1,7 +1,11 @@
 package com.blue.blog.service.impl;
 
+import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueArticle;
+import com.blue.blog.domain.dto.BlueArticleSearchDTO;
+import com.blue.blog.domain.vo.BlueArticleSearchVo;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.constant.ElasticSearchConstants;
@@ -10,6 +14,7 @@ import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.elastic.dao.BlueArticleDAO;
 import com.blue.elastic.service.ElasticSearchService;
 import com.blue.sort.domain.BlueArticleTag;
 import com.blue.sort.domain.BlueSort;
@@ -27,6 +32,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 文章Service业务层处理
@@ -309,7 +315,27 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     public List<BlueArticle> listBySortId(Long sortId) {
         LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(BlueArticle::getSortId,sortId);
-        return blueArticleMapper.selectList(wrapper);
+        //文章列表
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
+        //标签分类列表
+        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectList(new LambdaQueryWrapper<>());
+        //查询出文章列表下全部的标签
+        for (BlueArticle blueArticle : blueArticles) {
+            LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getArticleId,blueArticle.getId());
+            //查询文章下包含的标签列表
+            List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(blueArticleTagLambdaQueryWrapper);
+            //设置每个标签下 所有的标签分类列表
+            for (BlueArticleTag blueArticleTag : blueArticleTags) {
+                for (BlueSortTag blueSortTag : blueSortTags) {
+                    if (blueArticleTag.getTagId().equals(blueSortTag.getId())){
+                        blueArticleTag.setTagName(blueSortTag.getTagName());
+                    }
+                }
+            }
+            blueArticle.setTagList(blueArticleTags);
+        }
+        return blueArticles;
     }
 
     /**
@@ -324,6 +350,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         if (StringUtils.isNotNull(userId)){
             blueArticle.setUpdateBy(userId.toString());
         }
+        //设置用户名称
+        SysUser sysUser = userMapper.selectUserById(blueArticle.getUserId());
+        blueArticle.setUserName(sysUser.getNickName());
+        //设置修改时间
         blueArticle.setUpdateTime(DateUtils.getNowDate());
         //通过审核
         if (blueArticle.getStatus().equals(AuditingStatus.DISABLE.getCode())){
@@ -335,6 +365,33 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         }
         return blueArticleMapper.updateBlueArticle(blueArticle);
     }
+
+    /**
+     * 通过ElasticSearch查询文章列表
+     *
+     * @param blueArticleSearchVo 搜索对象
+     * @return 结果
+     */
+    @Override
+    public BlueArticleSearchDTO search(BlueArticleSearchVo blueArticleSearchVo) {
+        //查询回来的hits
+        HitsMetadata<BlueArticleDAO> blueArticleDAOHitsMetadata =
+                elasticSearchService.searchArticleDocument(blueArticleSearchVo, ElasticSearchConstants.ArticleIndex);
+        //封装返回对象
+        BlueArticleSearchDTO blueArticleSearchDTO = new BlueArticleSearchDTO();
+        if (StringUtils.isNotNull(blueArticleDAOHitsMetadata)){
+            blueArticleSearchDTO.setBlueArticleList(new ArrayList<>());
+            blueArticleSearchDTO.setTotal(Objects.requireNonNull(blueArticleDAOHitsMetadata.total()).value());
+            for (Hit<BlueArticleDAO> hit : blueArticleDAOHitsMetadata.hits()) {
+                BlueArticleDAO source = hit.source();
+                blueArticleSearchDTO.getBlueArticleList().add(source);
+            }
+            return blueArticleSearchDTO;
+        }else{
+            return null;
+        }
+    }
+
     public void isCheckArticle(BlueArticle blueArticle){
         if (!StringUtils.isNotEmpty(blueArticle.getArticleName())){
             throw new ServiceException("文章标题为空...");

@@ -1,28 +1,19 @@
 package com.blue.elastic.service.impl;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.Result;
-import co.elastic.clients.elasticsearch.core.DeleteResponse;
-import co.elastic.clients.elasticsearch.core.UpdateRequest;
+import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.ElasticsearchIndicesClient;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
-import co.elastic.clients.transport.endpoints.BooleanResponse;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.domain.BlueArticle;
-import com.blue.blog.mapper.BlueArticleMapper;
-import com.blue.blog.service.IBlueArticleService;
+import com.blue.blog.domain.vo.BlueArticleSearchVo;
 import com.blue.common.core.constant.ElasticSearchConstants;
-import com.blue.common.core.enums.AuditingStatus;
 import com.blue.elastic.dao.BlueArticleDAO;
 import com.blue.elastic.service.ElasticSearchService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -95,7 +86,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         try {
             BlueArticleDAO blueArticleDAO = new BlueArticleDAO();
             BeanUtils.copyProperties(blueArticle,blueArticleDAO);
-            boolean exists = client.exists(req -> req.index(indexName).id(blueArticleDAO.getId().toString())).value();
+            boolean exists = client.exists(req -> req.index(indexName).id(id)).value();
             if (exists){
                 client.update(req-> req
                                 .index(indexName)
@@ -127,6 +118,46 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
             return true;
         }catch (Exception e){
             return false;
+        }
+    }
+    /**
+     * 查询文章文档带分页
+     */
+    @Override
+    public HitsMetadata<BlueArticleDAO> searchArticleDocument(BlueArticleSearchVo searchVo, String indexName) {
+        try {
+            HitsMetadata<BlueArticleDAO> hits = client.search(
+                    req -> {req
+                            .index(ElasticSearchConstants.ArticleIndex)
+                            //查询匹配字段 满足其中一条就匹配
+                            .query(query->query
+                                    .bool(bool->bool
+                                            .should(should->should
+                                                    .match(match->match
+                                                            .field("articleName").query(searchVo.getSearchValue())
+                                                    )
+                                            )
+                                            .should(should->should
+                                                    .match(match->match
+                                                            .field("articleDescribe").query(searchVo.getSearchValue())
+                                                    )
+                                            ).should(should->should
+                                                    .match(match->match
+                                                            .field("userName").query(searchVo.getSearchValue())
+                                                    )
+                                            )
+                                    )
+                            )
+                            .from(searchVo.getPageNum())
+                            .size(searchVo.getPageSize())
+                        ;
+                        return req;
+                    },
+                    BlueArticleDAO.class
+            ).hits();
+            return hits;
+        }catch (Exception e){
+            return null;
         }
     }
 }

@@ -14,6 +14,11 @@
     <div class="category_title" @click="goArticlePreview(article.id)">
       {{ article.articleName }}
     </div>
+    <div class="category_msg" @click="goArticlePreview(article.id)">
+      <span>
+        {{ article.articleDescribe }}
+      </span>
+    </div>
     <div class="category_info" @click="goArticlePreview(article.id)">
       <div class="info">
         <svg class="icon pointer" aria-hidden="true">
@@ -37,11 +42,6 @@
         </svg>
         0 点赞
       </div>
-    </div>
-    <div class="category_msg" @click="goArticlePreview(article.id)">
-      <span>
-        {{ article.articleDescribe }}
-      </span>
     </div>
     <div class="category_target">
       <div class="target" v-for="tag in article.tagList" @click="goSort(article.sortId, tag.tagId)">
@@ -125,7 +125,7 @@ function goArticlePreview(sortId) {
     display: flex;
     align-items: center;
     font-size: 16px;
-    margin: 15px 5px 15px 7px;
+    margin: 5px 5px 5px 7px;
     flex-grow: 1;
   }
 

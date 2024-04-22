@@ -1,6 +1,8 @@
 package com.blue.blog.service;
 
 import com.blue.blog.domain.BlueArticle;
+import com.blue.blog.domain.dto.BlueArticleSearchDTO;
+import com.blue.blog.domain.vo.BlueArticleSearchVo;
 
 import java.util.List;
 
@@ -69,4 +71,6 @@ public interface IBlueArticleService
     List<BlueArticle> listBySortId(Long sortId);
 
     int auditing(BlueArticle blueArticle);
+
+    BlueArticleSearchDTO search(BlueArticleSearchVo blueArticleSearchVo);
 }

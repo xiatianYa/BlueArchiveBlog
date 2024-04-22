@@ -1,6 +1,8 @@
 package com.blue.blog.controller;
 
 import com.blue.blog.domain.BlueArticle;
+import com.blue.blog.domain.dto.BlueArticleSearchDTO;
+import com.blue.blog.domain.vo.BlueArticleSearchVo;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.core.utils.poi.ExcelUtil;
@@ -29,6 +31,17 @@ public class BlueArticleController extends BaseController
 {
     @Resource
     private IBlueArticleService blueArticleService;
+    /**
+     * ElasticSearch搜索文章列表 带分页
+     */
+    @GetMapping("/search")
+    public AjaxResult search(BlueArticleSearchVo blueArticleSearchVo){
+        BlueArticleSearchDTO blueArticleSearchDTO=blueArticleService.search(blueArticleSearchVo);
+        if (!StringUtils.isNotNull(blueArticleSearchDTO)){
+            return AjaxResult.error("文章列表获取失败");
+        }
+        return AjaxResult.success(blueArticleSearchDTO);
+    }
     /**
      * 查询文章列表
      */

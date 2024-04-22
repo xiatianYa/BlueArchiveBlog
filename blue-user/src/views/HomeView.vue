@@ -2,9 +2,7 @@
   <div class="home_box">
     <div class="animate__animated animate__slideInDown video_bg">
       <video autoplay class="video-background" loop muted>
-        <source
-          :src="bgUrl"
-          type="video/mp4">
+        <source :src="bgUrl" type="video/mp4">
       </video>
     </div>
     <div class="home_center_box">
@@ -34,7 +32,7 @@
             </div>
             <div class="info_link">
               <ul>
-                <li @click="goHref('https://space.bilibili.com/180200497?spm_id_from=333.1007.0.0')" >
+                <li @click="goHref('https://space.bilibili.com/180200497?spm_id_from=333.1007.0.0')">
                   <svg class="icon pointer" aria-hidden="true">
                     <use xlink:href="#icon-icon_bilibili"></use>
                   </svg>
@@ -144,7 +142,7 @@
 import {onMounted, ref} from 'vue'
 import {useBgStore} from '@/store/bg'
 import {listNotice} from '@/api/notice'
-import {listArticle, listBySortId} from '@/api/article'
+import {listArticle, listBySortId, searchArticle} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {useRouter} from 'vue-router'
 import {useUserStore} from '@/store/user'
@@ -161,7 +159,16 @@ const sortList = ref({})
 const recommendArticleList = ref({})
 //背景视频
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
+//搜索条件
+const queryParams = ref({
+  pageNum: 0,
+  pageSize: 10,
+  searchValue:"学习"
+})
 onMounted(() => {
+  searchArticle(queryParams.value).then(res => {
+    console.log(res);
+  })
   //获取公告
   listNotice().then(res => {
     noticeInfo.value = res.rows[0]
@@ -169,7 +176,7 @@ onMounted(() => {
   //获取分类
   listSort().then(res => {
     sortList.value = res.rows
-    //获取分类后获取文章信息
+    //获取分类后获取文章信息列表
     for (let index = 0; index < sortList.value.length; index++) {
       listBySortId(sortList.value[index].id).then(res => {
         sortList.value[index].articleList = res.rows
@@ -192,7 +199,7 @@ function goDown() {
 }
 //跳转链接
 function goHref(url) {
-    window.open(url, "_blank")
+  window.open(url, "_blank")
 }
 </script>
 <style lang="scss" scoped>

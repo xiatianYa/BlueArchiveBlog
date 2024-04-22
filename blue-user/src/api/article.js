@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+
+// 搜索文章列表
+export function searchArticle(query) {
+  return request({
+    url: '/system/article/search',
+    method: 'get',
+    params: query
+  })
+}
 // 查询文章列表
 export function listArticle(query) {
   return request({
