@@ -9,6 +9,7 @@ import com.blue.common.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
 @Service
 public class BlueWebsiteServiceImpl implements IBlueWebsiteService 
 {
-    @Autowired
+    @Resource
     private BlueWebsiteMapper blueWebsiteMapper;
 
     /**

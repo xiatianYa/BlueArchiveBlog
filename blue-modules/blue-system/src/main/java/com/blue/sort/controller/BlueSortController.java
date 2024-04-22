@@ -12,6 +12,7 @@ import com.blue.sort.service.IBlueSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
 @RequestMapping("/sort")
 public class BlueSortController extends BaseController
 {
-    @Autowired
+    @Resource
     private IBlueSortService blueSortService;
 
     /**

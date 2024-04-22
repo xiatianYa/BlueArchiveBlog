@@ -6,9 +6,9 @@ import com.blue.blog.service.IBlueFriendInfoService;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class BlueFriendInfoServiceImpl implements IBlueFriendInfoService 
 {
-    @Autowired
+    @Resource
     private BlueFriendInfoMapper blueFriendInfoMapper;
 
     /**

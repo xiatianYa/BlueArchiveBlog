@@ -9,9 +9,9 @@ import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
 import com.blue.sort.domain.BlueMusicSort;
 import com.blue.sort.service.IBlueMusicSortService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/musicSort")
 public class BlueMusicSortController extends BaseController
 {
-    @Autowired
+    @Resource
     private IBlueMusicSortService blueMusicSortService;
 
     /**

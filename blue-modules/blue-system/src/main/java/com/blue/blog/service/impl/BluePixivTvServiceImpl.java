@@ -14,10 +14,10 @@ import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BluePixivType;
 import com.blue.sort.mapper.BluePixivTypeMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -29,13 +29,13 @@ import java.util.List;
 @Service
 public class BluePixivTvServiceImpl implements IBluePixivTvService 
 {
-    @Autowired
+    @Resource
     private BluePixivTvMapper bluePixivTvMapper;
-    @Autowired
+    @Resource
     private BluePixivTypeMapper bluePixivTypeService;
-    @Autowired
+    @Resource
     private BluePixivEpisodeMapper bluePixivEpisodeMapper;
-    @Autowired
+    @Resource
     private BluePixivLeaveMessageMapper bluePixivLeaveMessageMapper;
 
     /**

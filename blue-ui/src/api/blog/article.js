@@ -42,3 +42,12 @@ export function delArticle(id) {
     method: 'delete'
   })
 }
+
+// 文章审核
+export function auditingArticle(data) {
+  return request({
+    url: '/system/article/auditing',
+    method: 'put',
+    data: data
+  })
+}

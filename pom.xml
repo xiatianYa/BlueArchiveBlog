@@ -36,6 +36,8 @@
         <poi.version>4.1.2</poi.version>
         <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <jakarta.json.version>2.1.1</jakarta.json.version>
+        <co.elastic.clients.version>8.8.1</co.elastic.clients.version>
     </properties>
 
     <!-- 依赖声明 -->

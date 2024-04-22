@@ -4,9 +4,9 @@ import com.blue.blog.domain.BluePixivEpisode;
 import com.blue.blog.mapper.BluePixivEpisodeMapper;
 import com.blue.blog.service.IBluePixivEpisodeService;
 import com.blue.common.core.utils.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class BluePixivEpisodeServiceImpl implements IBluePixivEpisodeService 
 {
-    @Autowired
+    @Resource
     private BluePixivEpisodeMapper bluePixivEpisodeMapper;
 
     /**

@@ -9,6 +9,7 @@ import com.blue.sort.service.IBlueProgramToolSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
 @Service
 public class BlueProgramToolSortServiceImpl implements IBlueProgramToolSortService 
 {
-    @Autowired
+    @Resource
     private BlueProgramToolSortMapper blueProgramToolSortMapper;
 
     /**

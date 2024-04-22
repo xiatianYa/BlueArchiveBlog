@@ -9,9 +9,9 @@ import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.mapper.SysUserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +24,9 @@ import java.util.List;
 @Service
 public class BlueCommentServiceImpl implements IBlueCommentService 
 {
-    @Autowired
+    @Resource
     private BlueCommentMapper blueCommentMapper;
-    @Autowired
+    @Resource
     private SysUserMapper sysUserMapper;
 
     /**

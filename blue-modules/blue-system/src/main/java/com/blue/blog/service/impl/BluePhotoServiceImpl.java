@@ -11,9 +11,9 @@ import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
 import com.blue.system.mapper.SysUserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,9 +26,9 @@ import java.util.List;
 @Service
 public class BluePhotoServiceImpl implements IBluePhotoService 
 {
-    @Autowired
+    @Resource
     private BluePhotoMapper bluePhotoMapper;
-    @Autowired
+    @Resource
     private SysUserMapper userMapper;
     /**
      * 查询相册

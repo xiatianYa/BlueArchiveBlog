@@ -10,20 +10,20 @@ import com.blue.blog.mapper.BluePhotoMapper;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.echarts.domain.UserHeatMapDataVo;
 import com.blue.echarts.service.BlueEchartsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class BlueEchartsServiceImpl implements BlueEchartsService {
-    @Autowired
+    @Resource
     private BlueArticleMapper blueArticleMapper;
-    @Autowired
+    @Resource
     private BluePhotoMapper bluePhotoMapper;
-    @Autowired
+    @Resource
     private BlueErchuangMapper blueErchuangMapper;
     @Override
     public List<UserHeatMapDataVo> selectUserHeatMapData() {

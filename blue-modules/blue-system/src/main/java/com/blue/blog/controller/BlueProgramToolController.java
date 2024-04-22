@@ -10,9 +10,9 @@ import com.blue.common.core.web.page.TableDataInfo;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/tool")
 public class BlueProgramToolController extends BaseController
 {
-    @Autowired
+    @Resource
     private IBlueProgramToolService blueProgramToolService;
 
     /**

@@ -67,8 +67,8 @@
 </template>
 
 <script>
-import {addArticle, delArticle, getArticle, listArticle, updateArticle} from "@/api/blog/article";
-import {listSort} from '@/api/sort/sort'
+import { addArticle, delArticle, getArticle, listArticle,auditingArticle } from "@/api/blog/article";
+import { listSort } from '@/api/sort/sort'
 
 export default {
   name: "Article",
@@ -142,13 +142,13 @@ export default {
   },
   methods: {
     //前往编辑页面
-    goEdit(sortId){
-      this.$router.push({path:"/article/edit",query:{sortId:sortId}})
+    goEdit(sortId) {
+      this.$router.push({ path: "/article/edit", query: { sortId: sortId } })
     },
     //通过
     success(article) {
       article.status = "1";
-      updateArticle(article).then(res => {
+      auditingArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList()
       })
@@ -156,7 +156,7 @@ export default {
     //驳回
     danger(article) {
       article.status = "2";
-      updateArticle(article).then(res => {
+      auditingArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList()
       })

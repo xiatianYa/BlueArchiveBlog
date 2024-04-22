@@ -6,9 +6,9 @@ import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BluePhotoSort;
 import com.blue.sort.mapper.BluePhotoSortMapper;
 import com.blue.sort.service.IBluePhotoSortService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class BluePhotoSortServiceImpl implements IBluePhotoSortService 
 {
-    @Autowired
+    @Resource
     private BluePhotoSortMapper bluePhotoSortMapper;
 
     /**

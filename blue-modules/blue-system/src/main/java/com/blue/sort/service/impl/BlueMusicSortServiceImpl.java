@@ -6,9 +6,9 @@ import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BlueMusicSort;
 import com.blue.sort.mapper.BlueMusicSortMapper;
 import com.blue.sort.service.IBlueMusicSortService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class BlueMusicSortServiceImpl implements IBlueMusicSortService 
 {
-    @Autowired
+    @Resource
     private BlueMusicSortMapper blueMusicSortMapper;
 
     /**

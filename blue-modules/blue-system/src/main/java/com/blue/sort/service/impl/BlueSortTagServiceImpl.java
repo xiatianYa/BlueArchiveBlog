@@ -15,6 +15,7 @@ import com.blue.sort.service.IBlueSortTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,11 +27,11 @@ import java.util.List;
 @Service
 public class BlueSortTagServiceImpl implements IBlueSortTagService 
 {
-    @Autowired
+    @Resource
     private BlueSortTagMapper blueSortTagMapper;
-    @Autowired
+    @Resource
     private BlueArticleTagMapper blueArticleTagMapper;
-    @Autowired
+    @Resource
     private BlueArticleMapper blueArticleMapper;
 
     /**

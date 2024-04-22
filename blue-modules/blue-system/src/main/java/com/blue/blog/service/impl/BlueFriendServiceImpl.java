@@ -7,9 +7,9 @@ import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class BlueFriendServiceImpl implements IBlueFriendService 
 {
-    @Autowired
+    @Resource
     private BlueFriendMapper blueFriendMapper;
 
     /**

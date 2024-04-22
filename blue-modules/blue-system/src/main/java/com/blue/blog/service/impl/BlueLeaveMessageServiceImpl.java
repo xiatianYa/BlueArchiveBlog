@@ -9,9 +9,9 @@ import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.mapper.SysUserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,9 +25,9 @@ import java.util.regex.Pattern;
 @Service
 public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService 
 {
-    @Autowired
+    @Resource
     private BlueLeaveMessageMapper blueLeaveMessageMapper;
-    @Autowired
+    @Resource
     private SysUserMapper userMapper;
 
     /**
