@@ -13,6 +13,7 @@
         <module>blue-gen</module>
         <module>blue-job</module>
         <module>blue-file</module>
+        <module>blue-rabbitmq</module>
     </modules>
 
     <artifactId>blue-modules</artifactId>
