@@ -1,7 +1,7 @@
 package com.blue.sort.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueArticle;
+import com.blue.blog.entry.dao.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
@@ -12,7 +12,6 @@ import com.blue.sort.domain.BlueSortTag;
 import com.blue.sort.mapper.BlueSortMapper;
 import com.blue.sort.mapper.BlueSortTagMapper;
 import com.blue.sort.service.IBlueSortService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

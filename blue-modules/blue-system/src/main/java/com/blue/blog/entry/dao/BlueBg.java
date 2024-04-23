@@ -1,4 +1,4 @@
-package com.blue.blog.domain;
+package com.blue.blog.entry.dao;
 
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
@@ -8,27 +8,31 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * 公告信息对象 blue_notice
+ * 网站背景资源信息对象 blue_bg
  * 
  * @author ruoyi
- * @date 2024-03-23
+ * @date 2024-03-19
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlueNotice extends BaseEntity
+public class BlueBg extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** id */
     private Long id;
 
-    /** 公告的标题 */
-    @Excel(name = "公告的标题")
-    private String noticeTitle;
+    /** 背景类型 */
+    @Excel(name = "背景类型")
+    private String bgType;
 
-    /** 公告的内容 */
-    @Excel(name = "公告的内容")
-    private String noticeContent;
+    /** 背景路径 */
+    @Excel(name = "背景路径")
+    private String bgUrl;
+
+    /** 背景位置类型 */
+    @Excel(name = "背景位置类型")
+    private String bgPosition;
 }

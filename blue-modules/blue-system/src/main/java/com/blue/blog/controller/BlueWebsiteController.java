@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueWebsite;
+import com.blue.blog.entry.dao.BlueWebsite;
 import com.blue.blog.service.IBlueWebsiteService;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.core.utils.poi.ExcelUtil;
@@ -11,7 +11,6 @@ import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
 import com.blue.common.security.utils.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

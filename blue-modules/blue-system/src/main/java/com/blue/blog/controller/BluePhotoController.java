@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BluePhoto;
+import com.blue.blog.entry.dao.BluePhoto;
 import com.blue.blog.service.IBluePhotoService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;

@@ -1,7 +1,7 @@
 package com.blue.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.blue.blog.domain.BlueNotice;
+import com.blue.blog.entry.dao.BlueNotice;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

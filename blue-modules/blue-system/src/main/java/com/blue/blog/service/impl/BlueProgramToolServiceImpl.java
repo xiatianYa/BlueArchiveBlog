@@ -1,8 +1,8 @@
 package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueProgramTool;
-import com.blue.blog.domain.dto.BlueProgramToolBySort;
+import com.blue.blog.entry.dao.BlueProgramTool;
+import com.blue.blog.entry.dto.BlueProgramToolBySortDTO;
 import com.blue.blog.mapper.BlueProgramToolMapper;
 import com.blue.blog.service.IBlueProgramToolService;
 import com.blue.common.core.utils.DateUtils;
@@ -10,7 +10,6 @@ import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BlueProgramToolSort;
 import com.blue.sort.mapper.BlueProgramToolSortMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -124,25 +123,25 @@ public class BlueProgramToolServiceImpl implements IBlueProgramToolService
     }
 
     @Override
-    public List<BlueProgramToolBySort> selectBlueProgramToolListBySortId(BlueProgramTool blueProgramTool) {
+    public List<BlueProgramToolBySortDTO> selectBlueProgramToolListBySortId(BlueProgramTool blueProgramTool) {
         //获取所有工具
         List<BlueProgramTool> blueProgramTools = blueProgramToolMapper.selectList(new LambdaQueryWrapper<>());
         //获取所有工具分类
         List<BlueProgramToolSort> blueProgramToolSorts = blueProgramToolSortMapper.selectList(new LambdaQueryWrapper<>());
         //返回数据列表
-        List<BlueProgramToolBySort> blueProgramToolBySorts =new ArrayList<>();
+        List<BlueProgramToolBySortDTO> blueProgramToolBySortDTOS =new ArrayList<>();
         for (BlueProgramToolSort blueProgramToolSort : blueProgramToolSorts) {
-            BlueProgramToolBySort blueProgramToolBySort = new BlueProgramToolBySort();
+            BlueProgramToolBySortDTO blueProgramToolBySortDTO = new BlueProgramToolBySortDTO();
             //初始化数据
-            blueProgramToolBySort.setBlueProgramToolList(new ArrayList<>());
-            blueProgramToolBySort.setSortName(blueProgramToolSort.getSortName());
+            blueProgramToolBySortDTO.setBlueProgramToolList(new ArrayList<>());
+            blueProgramToolBySortDTO.setSortName(blueProgramToolSort.getSortName());
             for (BlueProgramTool programTool : blueProgramTools) {
                 if (programTool.getSortId().equals(blueProgramToolSort.getId())){
-                    blueProgramToolBySort.getBlueProgramToolList().add(programTool);
-                    blueProgramToolBySorts.add(blueProgramToolBySort);
+                    blueProgramToolBySortDTO.getBlueProgramToolList().add(programTool);
+                    blueProgramToolBySortDTOS.add(blueProgramToolBySortDTO);
                 }
             }
         }
-        return blueProgramToolBySorts;
+        return blueProgramToolBySortDTOS;
     }
 }

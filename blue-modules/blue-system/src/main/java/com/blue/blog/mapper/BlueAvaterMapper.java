@@ -1,7 +1,7 @@
 package com.blue.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.blue.blog.domain.BlueAvater;
+import com.blue.blog.entry.dao.BlueAvater;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

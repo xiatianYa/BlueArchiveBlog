@@ -1,7 +1,7 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueProgramTool;
-import com.blue.blog.domain.dto.BlueProgramToolBySort;
+import com.blue.blog.entry.dao.BlueProgramTool;
+import com.blue.blog.entry.dto.BlueProgramToolBySortDTO;
 import com.blue.blog.service.IBlueProgramToolService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;
@@ -47,7 +47,7 @@ public class BlueProgramToolController extends BaseController
     public TableDataInfo listBySortId(BlueProgramTool blueProgramTool)
     {
         startPage();
-        List<BlueProgramToolBySort> list = blueProgramToolService.selectBlueProgramToolListBySortId(blueProgramTool);
+        List<BlueProgramToolBySortDTO> list = blueProgramToolService.selectBlueProgramToolListBySortId(blueProgramTool);
         return getDataTable(list);
     }
 

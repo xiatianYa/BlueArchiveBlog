@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueLeaveMessage;
+import com.blue.blog.entry.dao.BlueLeaveMessage;
 
 import java.util.List;
 

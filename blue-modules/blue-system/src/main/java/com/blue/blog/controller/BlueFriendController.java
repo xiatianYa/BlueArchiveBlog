@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueFriend;
+import com.blue.blog.entry.dao.BlueFriend;
 import com.blue.blog.service.IBlueFriendService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;

@@ -1,12 +1,11 @@
 package com.blue.blog.service.impl;
 
-import com.blue.blog.domain.BlueWebsite;
+import com.blue.blog.entry.dao.BlueWebsite;
 import com.blue.blog.mapper.BlueWebsiteMapper;
 import com.blue.blog.service.IBlueWebsiteService;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

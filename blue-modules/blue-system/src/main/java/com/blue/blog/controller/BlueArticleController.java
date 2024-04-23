@@ -1,8 +1,8 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueArticle;
-import com.blue.blog.domain.dto.BlueArticleSearchDTO;
-import com.blue.blog.domain.vo.BlueArticleSearchVo;
+import com.blue.blog.entry.dao.BlueArticle;
+import com.blue.blog.entry.dto.BlueArticleSearchDTO;
+import com.blue.blog.entry.vo.BlueArticleSearchVo;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.core.utils.poi.ExcelUtil;

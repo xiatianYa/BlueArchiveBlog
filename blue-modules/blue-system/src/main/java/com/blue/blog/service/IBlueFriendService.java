@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueFriend;
+import com.blue.blog.entry.dao.BlueFriend;
 
 import java.util.List;
 

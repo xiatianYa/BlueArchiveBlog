@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BluePixivLeaveMessage;
+import com.blue.blog.entry.dao.BluePixivLeaveMessage;
 
 import java.util.List;
 

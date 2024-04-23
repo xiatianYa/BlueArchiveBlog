@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueNotice;
+import com.blue.blog.entry.dao.BlueNotice;
 
 import java.util.List;
 

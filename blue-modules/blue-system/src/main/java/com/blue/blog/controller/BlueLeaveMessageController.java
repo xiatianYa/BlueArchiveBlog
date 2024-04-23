@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueLeaveMessage;
+import com.blue.blog.entry.dao.BlueLeaveMessage;
 import com.blue.blog.service.IBlueLeaveMessageService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;

@@ -1,8 +1,8 @@
 package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueMusic;
-import com.blue.blog.domain.dto.BlueMusicListBySort;
+import com.blue.blog.entry.dao.BlueMusic;
+import com.blue.blog.entry.dto.BlueMusicListBySortDTO;
 import com.blue.blog.mapper.BlueMusicMapper;
 import com.blue.blog.service.IBlueMusicService;
 import com.blue.common.core.utils.DateUtils;
@@ -119,15 +119,15 @@ public class BlueMusicServiceImpl implements IBlueMusicService
      * @return 结果
      */
     @Override
-    public List<BlueMusicListBySort> getMusicListBySort(Long type) {
+    public List<BlueMusicListBySortDTO> getMusicListBySort(Long type) {
         //获取全部音乐分类
         List<BlueMusicSort> blueMusicSorts = blueMusicSortMapper.selectList(new LambdaQueryWrapper<>());
         //获取全部音乐列表
         List<BlueMusic> blueMusics = blueMusicMapper.selectList(new LambdaQueryWrapper<>());
         //返回列表
-        List<BlueMusicListBySort> musicListBySorts=new ArrayList<>();
+        List<BlueMusicListBySortDTO> musicListBySorts=new ArrayList<>();
         for (BlueMusicSort blueMusicSort : blueMusicSorts) {
-            BlueMusicListBySort musicByType = getMusicByType(blueMusics,blueMusicSort.getSortName(),blueMusicSort.getId());
+            BlueMusicListBySortDTO musicByType = getMusicByType(blueMusics,blueMusicSort.getSortName(),blueMusicSort.getId());
             musicListBySorts.add(musicByType);
         }
         return musicListBySorts;
@@ -138,11 +138,11 @@ public class BlueMusicServiceImpl implements IBlueMusicService
      * @param type 音乐主键
      * @return 结果
      */
-    public BlueMusicListBySort getMusicByType(List<BlueMusic> blueMusics,String sortName,Long type){
-        BlueMusicListBySort blueMusicListBySort = new BlueMusicListBySort();
-        blueMusicListBySort.setMusicList(new ArrayList<>());
-        List<BlueMusic> musicList = blueMusicListBySort.getMusicList();
-        blueMusicListBySort.setSortName(sortName);
+    public BlueMusicListBySortDTO getMusicByType(List<BlueMusic> blueMusics, String sortName, Long type){
+        BlueMusicListBySortDTO blueMusicListBySortDTO = new BlueMusicListBySortDTO();
+        blueMusicListBySortDTO.setMusicList(new ArrayList<>());
+        List<BlueMusic> musicList = blueMusicListBySortDTO.getMusicList();
+        blueMusicListBySortDTO.setSortName(sortName);
         for (BlueMusic blueMusic : blueMusics) {
             if (StringUtils.isNotNull(type)){
                 //匹配 则添加
@@ -154,6 +154,6 @@ public class BlueMusicServiceImpl implements IBlueMusicService
                 musicList.add(blueMusic);
             }
         }
-        return blueMusicListBySort;
+        return blueMusicListBySortDTO;
     }
 }

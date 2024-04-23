@@ -1,6 +1,6 @@
 package com.blue.blog.service.impl;
 
-import com.blue.blog.domain.BlueNotice;
+import com.blue.blog.entry.dao.BlueNotice;
 import com.blue.blog.mapper.BlueNoticeMapper;
 import com.blue.blog.service.IBlueNoticeService;
 import com.blue.common.core.utils.DateUtils;

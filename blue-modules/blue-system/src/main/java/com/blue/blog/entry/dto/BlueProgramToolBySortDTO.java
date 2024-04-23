@@ -1,19 +1,17 @@
-package com.blue.blog.domain.dto;
+package com.blue.blog.entry.dto;
 
-import com.blue.blog.domain.BlueProgramTool;
+import com.blue.blog.entry.dao.BlueProgramTool;
 import com.blue.common.core.annotation.Excel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlueProgramToolBySort {
+public class BlueProgramToolBySortDTO {
     /** 工具分类名称 */
     @Excel(name = "音乐分类")
     private String sortName;

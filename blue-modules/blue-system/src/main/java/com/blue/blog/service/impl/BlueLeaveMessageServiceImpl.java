@@ -1,6 +1,6 @@
 package com.blue.blog.service.impl;
 
-import com.blue.blog.domain.BlueLeaveMessage;
+import com.blue.blog.entry.dao.BlueLeaveMessage;
 import com.blue.blog.mapper.BlueLeaveMessageMapper;
 import com.blue.blog.service.IBlueLeaveMessageService;
 import com.blue.common.core.exception.ServiceException;

@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BluePixivEpisode;
+import com.blue.blog.entry.dao.BluePixivEpisode;
 import com.blue.blog.service.IBluePixivEpisodeService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;

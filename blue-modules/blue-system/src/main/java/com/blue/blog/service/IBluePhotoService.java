@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BluePhoto;
+import com.blue.blog.entry.dao.BluePhoto;
 
 import java.util.List;
 

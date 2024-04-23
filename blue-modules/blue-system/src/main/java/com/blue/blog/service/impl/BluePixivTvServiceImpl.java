@@ -1,9 +1,9 @@
 package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BluePixivEpisode;
-import com.blue.blog.domain.BluePixivLeaveMessage;
-import com.blue.blog.domain.BluePixivTv;
+import com.blue.blog.entry.dao.BluePixivEpisode;
+import com.blue.blog.entry.dao.BluePixivLeaveMessage;
+import com.blue.blog.entry.dao.BluePixivTv;
 import com.blue.blog.mapper.BluePixivEpisodeMapper;
 import com.blue.blog.mapper.BluePixivLeaveMessageMapper;
 import com.blue.blog.mapper.BluePixivTvMapper;

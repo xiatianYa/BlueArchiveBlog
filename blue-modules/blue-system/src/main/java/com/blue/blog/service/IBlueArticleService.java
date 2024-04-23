@@ -1,8 +1,10 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueArticle;
-import com.blue.blog.domain.dto.BlueArticleSearchDTO;
-import com.blue.blog.domain.vo.BlueArticleSearchVo;
+import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
+import com.blue.blog.entry.dao.BlueArticle;
+import com.blue.blog.entry.dto.BlueArticleDTO;
+import com.blue.blog.entry.dto.BlueArticleSearchDTO;
+import com.blue.blog.entry.vo.BlueArticleSearchVo;
 
 import java.util.List;
 
@@ -73,4 +75,17 @@ public interface IBlueArticleService
     int auditing(BlueArticle blueArticle);
 
     BlueArticleSearchDTO search(BlueArticleSearchVo blueArticleSearchVo);
+    /**
+     * 添加文章文档
+     */
+    boolean createOrUpdateArticleDocument(String indexName, String id, BlueArticle blueArticle);
+
+    /**
+     * 删除文章文档
+     */
+    boolean deleteArticleDocument(String indexName, String id);
+    /**
+     * 搜索文章文档
+     */
+    HitsMetadata<BlueArticleDTO> searchArticleDocument(BlueArticleSearchVo searchVo, String indexName);
 }

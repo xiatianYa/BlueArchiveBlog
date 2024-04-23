@@ -1,9 +1,9 @@
 package com.blue.echarts.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueArticle;
-import com.blue.blog.domain.BlueErchuang;
-import com.blue.blog.domain.BluePhoto;
+import com.blue.blog.entry.dao.BlueArticle;
+import com.blue.blog.entry.dao.BlueErchuang;
+import com.blue.blog.entry.dao.BluePhoto;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.blog.mapper.BlueErchuangMapper;
 import com.blue.blog.mapper.BluePhotoMapper;

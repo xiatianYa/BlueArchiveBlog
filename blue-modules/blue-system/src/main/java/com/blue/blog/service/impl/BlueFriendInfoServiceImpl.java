@@ -1,6 +1,6 @@
 package com.blue.blog.service.impl;
 
-import com.blue.blog.domain.BlueFriendInfo;
+import com.blue.blog.entry.dao.BlueFriendInfo;
 import com.blue.blog.mapper.BlueFriendInfoMapper;
 import com.blue.blog.service.IBlueFriendInfoService;
 import com.blue.common.core.utils.DateUtils;

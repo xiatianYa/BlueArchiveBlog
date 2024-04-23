@@ -1,7 +1,7 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueMusic;
-import com.blue.blog.domain.dto.BlueMusicListBySort;
+import com.blue.blog.entry.dao.BlueMusic;
+import com.blue.blog.entry.dto.BlueMusicListBySortDTO;
 
 import java.util.List;
 
@@ -61,5 +61,5 @@ public interface IBlueMusicService
      */
     public int deleteBlueMusicById(Long id);
 
-    List<BlueMusicListBySort> getMusicListBySort(Long type);
+    List<BlueMusicListBySortDTO> getMusicListBySort(Long type);
 }

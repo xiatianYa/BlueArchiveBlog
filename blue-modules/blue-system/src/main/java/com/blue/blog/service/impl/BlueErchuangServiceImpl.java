@@ -1,7 +1,7 @@
 package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueErchuang;
+import com.blue.blog.entry.dao.BlueErchuang;
 import com.blue.blog.mapper.BlueErchuangMapper;
 import com.blue.blog.service.IBlueErchuangService;
 import com.blue.common.core.enums.AuditingStatus;

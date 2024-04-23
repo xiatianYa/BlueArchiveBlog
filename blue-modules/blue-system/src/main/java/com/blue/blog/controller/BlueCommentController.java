@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueComment;
+import com.blue.blog.entry.dao.BlueComment;
 import com.blue.blog.service.IBlueCommentService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;

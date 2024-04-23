@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueAvater;
+import com.blue.blog.entry.dao.BlueAvater;
 
 import java.util.List;
 

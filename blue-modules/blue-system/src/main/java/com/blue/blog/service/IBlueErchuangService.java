@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueErchuang;
+import com.blue.blog.entry.dao.BlueErchuang;
 
 import java.util.List;
 

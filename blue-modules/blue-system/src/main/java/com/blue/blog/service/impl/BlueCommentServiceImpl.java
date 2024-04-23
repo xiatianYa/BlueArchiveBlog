@@ -1,7 +1,7 @@
 package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueComment;
+import com.blue.blog.entry.dao.BlueComment;
 import com.blue.blog.mapper.BlueCommentMapper;
 import com.blue.blog.service.IBlueCommentService;
 import com.blue.common.core.utils.DateUtils;

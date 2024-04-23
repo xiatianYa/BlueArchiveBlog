@@ -1,6 +1,6 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BluePixivTv;
+import com.blue.blog.entry.dao.BluePixivTv;
 
 import java.util.List;
 

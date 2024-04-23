@@ -1,4 +1,4 @@
-package com.blue.elastic.dao;
+package com.blue.blog.entry.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlueArticleDAO implements Serializable
+public class BlueArticleDTO implements Serializable
 {
 
     /** id */

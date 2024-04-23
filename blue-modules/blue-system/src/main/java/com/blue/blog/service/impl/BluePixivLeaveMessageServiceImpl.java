@@ -1,6 +1,6 @@
 package com.blue.blog.service.impl;
 
-import com.blue.blog.domain.BluePixivLeaveMessage;
+import com.blue.blog.entry.dao.BluePixivLeaveMessage;
 import com.blue.blog.mapper.BluePixivLeaveMessageMapper;
 import com.blue.blog.service.IBluePixivLeaveMessageService;
 import com.blue.common.core.utils.DateUtils;

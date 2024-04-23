@@ -1,4 +1,4 @@
-package com.blue.blog.domain;
+package com.blue.blog.entry.dao;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.blue.common.core.annotation.Excel;

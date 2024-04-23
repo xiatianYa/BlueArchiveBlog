@@ -1,7 +1,7 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueMusic;
-import com.blue.blog.domain.dto.BlueMusicListBySort;
+import com.blue.blog.entry.dao.BlueMusic;
+import com.blue.blog.entry.dto.BlueMusicListBySortDTO;
 import com.blue.blog.service.IBlueMusicService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;
@@ -31,7 +31,7 @@ public class BlueMusicController extends BaseController
 
 
     @GetMapping("/bySortList")
-    public List<BlueMusicListBySort> getMusicListBySort(BlueMusic blueMusic){
+    public List<BlueMusicListBySortDTO> getMusicListBySort(BlueMusic blueMusic){
         return blueMusicService.getMusicListBySort(blueMusic.getSortId());
     }
     /**

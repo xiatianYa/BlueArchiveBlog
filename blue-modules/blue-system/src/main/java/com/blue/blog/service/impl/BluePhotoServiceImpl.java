@@ -1,7 +1,7 @@
 package com.blue.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BluePhoto;
+import com.blue.blog.entry.dao.BluePhoto;
 import com.blue.blog.mapper.BluePhotoMapper;
 import com.blue.blog.service.IBluePhotoService;
 import com.blue.common.core.enums.AuditingStatus;

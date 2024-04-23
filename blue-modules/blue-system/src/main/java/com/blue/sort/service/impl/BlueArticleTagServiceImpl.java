@@ -1,7 +1,7 @@
 package com.blue.sort.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueArticle;
+import com.blue.blog.entry.dao.BlueArticle;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;

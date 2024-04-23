@@ -1,6 +1,6 @@
 package com.blue.blog.service.impl;
 
-import com.blue.blog.domain.BlueFriend;
+import com.blue.blog.entry.dao.BlueFriend;
 import com.blue.blog.mapper.BlueFriendMapper;
 import com.blue.blog.service.IBlueFriendService;
 import com.blue.common.core.enums.AuditingStatus;

@@ -1,11 +1,13 @@
 package com.blue.blog.service.impl;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.blue.blog.domain.BlueArticle;
-import com.blue.blog.domain.dto.BlueArticleSearchDTO;
-import com.blue.blog.domain.vo.BlueArticleSearchVo;
+import com.blue.blog.entry.dao.BlueArticle;
+import com.blue.blog.entry.dto.BlueArticleDTO;
+import com.blue.blog.entry.dto.BlueArticleSearchDTO;
+import com.blue.blog.entry.vo.BlueArticleSearchVo;
 import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.constant.ElasticSearchConstants;
@@ -14,8 +16,6 @@ import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
-import com.blue.elastic.dao.BlueArticleDAO;
-import com.blue.elastic.service.ElasticSearchService;
 import com.blue.sort.domain.BlueArticleTag;
 import com.blue.sort.domain.BlueSort;
 import com.blue.sort.domain.BlueSortTag;
@@ -25,6 +25,7 @@ import com.blue.sort.mapper.BlueSortTagMapper;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
 import com.blue.system.mapper.SysUserMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +55,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Resource
     private BlueSortTagMapper blueSortTagMapper;
     @Resource
-    private ElasticSearchService elasticSearchService;
+    private ElasticsearchClient client;
 
     /**
      * 查询文章
@@ -194,7 +195,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             }
         }
         //修改文章文档
-        elasticSearchService.createOrUpdateArticleDocument(ElasticSearchConstants.ArticleIndex,String.valueOf(blueArticle.getId()),blueArticle);
+        createOrUpdateArticleDocument(ElasticSearchConstants.ArticleIndex,String.valueOf(blueArticle.getId()),blueArticle);
         return blueArticleMapper.updateBlueArticle(blueArticle);
     }
 
@@ -215,7 +216,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //批量删除文档
         for (Long id : ids) {
             //删除文档
-            elasticSearchService.deleteArticleDocument(ElasticSearchConstants.ArticleIndex,String.valueOf(id));
+            deleteArticleDocument(ElasticSearchConstants.ArticleIndex,String.valueOf(id));
         }
         return blueArticleMapper.deleteBatchIds(Arrays.asList(ids));
     }
@@ -235,7 +236,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getArticleId,id);
         blueArticleTagMapper.delete(blueArticleTagLambdaQueryWrapper);
         //删除文档
-        elasticSearchService.deleteArticleDocument(ElasticSearchConstants.ArticleIndex,String.valueOf(id));
+        deleteArticleDocument(ElasticSearchConstants.ArticleIndex,String.valueOf(id));
         return blueArticleMapper.deleteById(id);
     }
 
@@ -366,10 +367,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //通过审核
         if (blueArticle.getStatus().equals(AuditingStatus.DISABLE.getCode())){
             //创建ElasticSearch文档
-            elasticSearchService.createOrUpdateArticleDocument(ElasticSearchConstants.ArticleIndex, String.valueOf(blueArticle.getId()),blueArticle);
+            createOrUpdateArticleDocument(ElasticSearchConstants.ArticleIndex, String.valueOf(blueArticle.getId()),blueArticle);
         }else{
             //未通过审核
-            elasticSearchService.deleteArticleDocument(ElasticSearchConstants.ArticleIndex, String.valueOf(blueArticle.getId()));
+            deleteArticleDocument(ElasticSearchConstants.ArticleIndex, String.valueOf(blueArticle.getId()));
         }
         return blueArticleMapper.updateBlueArticle(blueArticle);
     }
@@ -383,15 +384,15 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Override
     public BlueArticleSearchDTO search(BlueArticleSearchVo blueArticleSearchVo) {
         //查询回来的hits
-        HitsMetadata<BlueArticleDAO> blueArticleDAOHitsMetadata =
-                elasticSearchService.searchArticleDocument(blueArticleSearchVo, ElasticSearchConstants.ArticleIndex);
+        HitsMetadata<BlueArticleDTO> blueArticleDAOHitsMetadata =
+                searchArticleDocument(blueArticleSearchVo, ElasticSearchConstants.ArticleIndex);
         //封装返回对象
         BlueArticleSearchDTO blueArticleSearchDTO = new BlueArticleSearchDTO();
         if (StringUtils.isNotNull(blueArticleDAOHitsMetadata)){
             blueArticleSearchDTO.setBlueArticleList(new ArrayList<>());
             blueArticleSearchDTO.setTotal(Objects.requireNonNull(blueArticleDAOHitsMetadata.total()).value());
-            for (Hit<BlueArticleDAO> hit : blueArticleDAOHitsMetadata.hits()) {
-                BlueArticleDAO source = hit.source();
+            for (Hit<BlueArticleDTO> hit : blueArticleDAOHitsMetadata.hits()) {
+                BlueArticleDTO source = hit.source();
                 blueArticleSearchDTO.getBlueArticleList().add(source);
             }
             return blueArticleSearchDTO;
@@ -399,7 +400,87 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             return null;
         }
     }
+    /**
+     * 创建修改文章文档
+     */
+    @Override
+    public boolean createOrUpdateArticleDocument(String indexName, String id, BlueArticle blueArticle) {
+        try {
+            BlueArticleDTO blueArticleDTO = new BlueArticleDTO();
+            BeanUtils.copyProperties(blueArticle, blueArticleDTO);
+            boolean exists = client.exists(req -> req.index(indexName).id(id)).value();
+            if (exists){
+                client.update(req-> req
+                                .index(indexName)
+                                .id(id)
+                                .doc(blueArticleDTO),
+                        BlueArticleDTO.class);
+            }else{
+                client.create(req -> req
+                        .index(indexName)
+                        .id(id)
+                        .document(blueArticleDTO)
+                );
+            }
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
 
+    /**
+     * 删除文章文档
+     */
+    @Override
+    public boolean deleteArticleDocument(String indexName, String id) {
+        try {
+            client.delete(req -> req
+                    .index(indexName)
+                    .id(id));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+    /**
+     * 查询文章文档带分页
+     */
+    @Override
+    public HitsMetadata<BlueArticleDTO> searchArticleDocument(BlueArticleSearchVo searchVo, String indexName) {
+        try {
+            return client.search(
+                    req -> {req
+                            .index(ElasticSearchConstants.ArticleIndex)
+                            //查询匹配字段 满足其中一条就匹配
+                            .query(query->query
+                                    .bool(bool->bool
+                                            .should(should->should
+                                                    .match(match->match
+                                                            .field("articleName").query(searchVo.getSearchValue())
+                                                    )
+                                            )
+                                            .should(should->should
+                                                    .match(match->match
+                                                            .field("articleDescribe").query(searchVo.getSearchValue())
+                                                    )
+                                            ).should(should->should
+                                                    .match(match->match
+                                                            .field("userName").query(searchVo.getSearchValue())
+                                                    )
+                                            )
+                                    )
+                            )
+                            .from(searchVo.getPageNum())
+                            .size(searchVo.getPageSize())
+                    ;
+                        return req;
+                    },
+                    BlueArticleDTO.class
+            ).hits();
+        }catch (Exception e){
+            return null;
+        }
+    }
     public void isCheckArticle(BlueArticle blueArticle){
         if (!StringUtils.isNotEmpty(blueArticle.getArticleName())){
             throw new ServiceException("文章标题为空...");

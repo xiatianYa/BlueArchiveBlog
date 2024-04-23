@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueErchuang;
+import com.blue.blog.entry.dao.BlueErchuang;
 import com.blue.blog.service.IBlueErchuangService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;

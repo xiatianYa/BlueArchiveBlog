@@ -1,6 +1,6 @@
 package com.blue.blog.service.impl;
 
-import com.blue.blog.domain.BlueBg;
+import com.blue.blog.entry.dao.BlueBg;
 import com.blue.blog.mapper.BlueBgMapper;
 import com.blue.blog.service.IBlueBgService;
 import com.blue.common.core.utils.DateUtils;

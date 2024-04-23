@@ -1,7 +1,7 @@
 package com.blue.blog.service;
 
-import com.blue.blog.domain.BlueProgramTool;
-import com.blue.blog.domain.dto.BlueProgramToolBySort;
+import com.blue.blog.entry.dao.BlueProgramTool;
+import com.blue.blog.entry.dto.BlueProgramToolBySortDTO;
 
 import java.util.List;
 
@@ -61,5 +61,5 @@ public interface IBlueProgramToolService
      */
     public int deleteBlueProgramToolById(Long id);
 
-    List<BlueProgramToolBySort> selectBlueProgramToolListBySortId(BlueProgramTool blueProgramTool);
+    List<BlueProgramToolBySortDTO> selectBlueProgramToolListBySortId(BlueProgramTool blueProgramTool);
 }

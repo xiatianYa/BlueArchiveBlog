@@ -1,6 +1,6 @@
 package com.blue.blog.controller;
 
-import com.blue.blog.domain.BlueAvater;
+import com.blue.blog.entry.dao.BlueAvater;
 import com.blue.blog.service.IBlueAvaterService;
 import com.blue.common.core.utils.poi.ExcelUtil;
 import com.blue.common.core.web.controller.BaseController;
