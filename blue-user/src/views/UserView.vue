@@ -26,7 +26,7 @@
           <input type="password" placeholder="密码" v-model="userInfo.password">
           <div class="verification">
             <input type="text" placeholder="请输入验证码" v-model="userInfo.code">
-            <img :src="'data:image/gif;base64,' + codeImg" @click="getCode">
+            <img v-lazy="'data:image/gif;base64,' + codeImg" @click="getCode">
           </div>
           <button @click="userLogin">登录</button>
         </div>

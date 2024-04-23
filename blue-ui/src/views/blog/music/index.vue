@@ -203,7 +203,6 @@ export default {
       for (const item of res.rows) {
         this.musicDict.push({ value: item.id, label: item.sortName })
       }
-      console.log(this.musicDict);
     })
     this.getList();
   },

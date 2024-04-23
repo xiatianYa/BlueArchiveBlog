@@ -3,7 +3,7 @@
     <div v-show="NavShow" class="header_box header_fixed">
       <div class="pc_menu">
         <div class="header_log">
-          <img v-lazy="'/static/images/logo.png'" />
+          <img src="/static/images/logo.png" />
         </div>
         <div class="header_menu">
           <ul class="menus">

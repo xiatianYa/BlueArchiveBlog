@@ -260,6 +260,12 @@ function search() {
 }
 //关闭搜索框
 function closeSearchDialog() {
+  //清空搜索条件
+  queryParams.value = {
+    pageNum: 0,
+    pageSize: 10,
+    searchValue: ""
+  }
   //清空列表
   searchArticle.value = {
     total: "",
@@ -975,6 +981,7 @@ function goHref(url) {
           flex-direction: column;
           font-size: 12px;
           margin-top: 10px;
+          border-bottom: 1px solid #A1B6C3;
 
           .article_name {
             padding: 5px 0;
