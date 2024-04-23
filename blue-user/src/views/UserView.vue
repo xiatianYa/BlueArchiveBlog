@@ -26,7 +26,7 @@
           <input type="password" placeholder="密码" v-model="userInfo.password">
           <div class="verification">
             <input type="text" placeholder="请输入验证码" v-model="userInfo.code">
-            <img v-lazy="'data:image/gif;base64,' + codeImg" @click="getCode">
+            <img v-lazy="codeImg" @click="getCode">
           </div>
           <button @click="userLogin">登录</button>
         </div>
@@ -104,7 +104,7 @@ function selectAvatar(isOpen) {
 //获取验证码
 function getCode() {
   getCodeImg().then(res => {
-    codeImg.value = res.img
+    codeImg.value = 'data:image/gif;base64,'+res.img
     userInfo.uuid = res.uuid
   })
 }

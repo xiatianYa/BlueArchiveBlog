@@ -73,7 +73,11 @@
                   <div class="recommend_img">
                     <img v-lazy="article.cover" alt="背景" />
                   </div>
-                  <span>{{ article.articleName }}</span>
+                  <div class="recommend_info">
+                    <span class="article_name">{{ article.articleName }}</span>
+                    <span class="article_author">作者 : {{ article.userName }}</span>
+                    <span class="article_time">{{ article.createTime }}</span>
+                  </div>
                 </div>
                 <div class="recommend_time">
                   <svg class="icon" aria-hidden="true">
@@ -552,41 +556,56 @@ function goHref(url) {
 
             .recommend_message {
               width: 100%;
+              margin: 7px 0;
               display: flex;
-
-              span {
-                flex: 1;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                text-align: center;
-                padding-left: 5px;
-                font-size: 14px;
-              }
+              flex-direction: row;
 
               .recommend_img {
+                width: 50%;
                 margin-left: 10px;
+                border-radius: 10px;
                 overflow: hidden;
-                flex: 1;
-
 
                 img {
                   width: 100%;
                   height: 100%;
-                  max-width: 100px;
-                  max-height: 100px;
-                  object-fit: cover;
+                  object-fit: fill;
                   transition: all .3s ease-in 0s;
-                  border-radius: 10px;
                 }
 
                 img:hover {
                   border-radius: 10px;
-                  object-fit: cover;
+                  object-fit: fill;
                   transform: scale(1.1);
                   transition: all 0.3s ease-in;
                 }
 
+              }
+
+              .recommend_info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 50%;
+                padding: 0px 7px;
+
+                .article_name {
+                  width: 100%;
+                  font-size: 12px;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 2;
+                  -webkit-box-orient: vertical;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                }
+                .article_author{
+                  width: 100%;
+                  font-size: 12px;
+                }
+                .article_time{
+                  width: 100%;
+                  font-size: 10px;
+                }
               }
             }
 
@@ -597,12 +616,7 @@ function goHref(url) {
               padding-top: 2px;
 
               .icon {
-                width: 1em;
-                height: 1em;
-                vertical-align: -0.15em;
-                fill: currentColor;
-                overflow: hidden;
-                font-size: 16px;
+                font-size: 14px;
                 padding-left: 5px;
                 padding-right: 5px;
               }

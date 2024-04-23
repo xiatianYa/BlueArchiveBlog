@@ -12,9 +12,12 @@
         <a style="cursor: pointer">{{ anchor.title }}</a>
       </div>
     </div>
-
     <div class="preview_content">
-      <v-md-editor v-model="article.content" :include-level="[2]" mode="preview" height="100%" style="background: #ECEBEC;"></v-md-editor>
+      <video class="video" controls v-if="article.videoUrl">
+        <source :src="article.videoUrl" type="video/mp4">
+      </video>
+      <v-md-editor class="md" v-model="article.content" :include-level="[2]" mode="preview" height="100%"
+        style="background: #ECEBEC;"></v-md-editor>
     </div>
   </div>
 
@@ -54,7 +57,7 @@ watch(article, async (newVal, oldVal) => {
 //获取锚点列表  
 function getAnchors() {
   // 选择所有的标题元素  
-  const allHeadings = document.querySelectorAll('h1,h2,h3,h4,h5,h6');
+  const allHeadings = document.querySelectorAll('h2,h3');
 
   // 过滤和映射标题到所需的对象格式  
   const titlesWithValue = Array.from(allHeadings).filter((heading) => {
@@ -63,7 +66,7 @@ function getAnchors() {
   }).map((heading) => ({
     title: heading.innerText.trim(),
     lineIndex: heading.getAttribute('data-v-md-line'),
-    indent: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].indexOf(heading.tagName.toUpperCase())
+    indent: ['H2', 'H3'].indexOf(heading.tagName.toUpperCase())
   }));
 
   // 设置titles.value为找到的标题数组或空数组  
@@ -86,25 +89,14 @@ function handleAnchorClick(anchor) {
 </script>
 <style lang="scss" scoped>
 .preview {
-  width: 100%;
   height: 100%;
   padding-top: 60px;
   padding-bottom: 40px;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
 
   .preview_navigation {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    top: 100px;
-    left: 0px;
-    margin-left: 30px;
-    margin-top: 10px;
+    width: 30%;
     padding: 20px 10px 10px 10px;
     font-size: 15px;
     border-radius: 10px;
@@ -133,14 +125,13 @@ function handleAnchorClick(anchor) {
   }
 
   .preview_content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-    height: 100%;
-    margin-top: 20px;
-    border-radius: 10px;
-    overflow: hidden;
+    width: 70%;
+
+    .video {
+      width: 100%;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
   }
 }
 </style>

@@ -76,19 +76,18 @@ function goArticlePreview(articleId) {
 <style lang="scss" scoped>
 .category_detail {
   width: 30%;
-  max-height: 300px;
   display: flex;
   flex-direction: column;
   border-radius: 10px 10px 10px 10px;
 
   .category_img {
+    border-radius: 10px 10px 0 0;
     overflow: hidden;
-
     img {
       width: 100%;
       height: 100%;
+      max-height: 200px;
       object-fit: cover;
-      border-radius: 10px 10px 0 0;
       transition: all .3s ease-in 0s;
     }
 

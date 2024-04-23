@@ -8,7 +8,7 @@
         <div class="banner_nav">
           <div class="top">
             <span class="top_link">
-              www.baidu.com
+              www.bluearchive.top
             </span>
             <span class="top_title">
               记忆照片

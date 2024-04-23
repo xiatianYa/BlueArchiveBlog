@@ -115,7 +115,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             for (SysUser sysUser : sysUsers) {
                 //判断用户id是否一致
                 if (sysUser.getUserId().equals(article.getUserId())){
-                    article.setUserName(sysUser.getUserName());
+                    article.setUserName(sysUser.getNickName());
                 }
             }
         }
@@ -450,7 +450,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         try {
             return client.search(
                     req -> {req
-                            .index(ElasticSearchConstants.ArticleIndex)
+                            .index(indexName)
                             //查询匹配字段 满足其中一条就匹配
                             .query(query->query
                                     .bool(bool->bool
