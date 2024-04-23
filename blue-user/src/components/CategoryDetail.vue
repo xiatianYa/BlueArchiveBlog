@@ -18,6 +18,9 @@
       <span>
         {{ article.articleDescribe }}
       </span>
+      <span>
+        作者 : {{ article.userName }}
+      </span>
     </div>
     <div class="category_info" @click="goArticlePreview(article.id)">
       <div class="info">
@@ -65,8 +68,8 @@ function goSort(sortId, tagId) {
   router.push({ path: '/sort', query: { sortId: sortId, tagId: tagId } })
 }
 //前往文章浏览页
-function goArticlePreview(sortId) {
-  router.push({ path: '/editPreView', query: { sortId: sortId } })
+function goArticlePreview(articleId) {
+  router.push({ path: '/editPreView', query: { articleId: articleId } })
 }
 </script>
 
@@ -154,6 +157,7 @@ function goArticlePreview(sortId) {
   }
 
   .category_msg {
+    display: flex;
     font-size: 12px;
 
     span {

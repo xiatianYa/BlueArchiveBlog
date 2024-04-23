@@ -319,6 +319,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
         //标签分类列表
         List<BlueSortTag> blueSortTags = blueSortTagMapper.selectList(new LambdaQueryWrapper<>());
+        //用户列表
+        List<SysUser> sysUsers = userMapper.selectUserList(new SysUser());
         //查询出文章列表下全部的标签
         for (BlueArticle blueArticle : blueArticles) {
             LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -331,6 +333,12 @@ public class BlueArticleServiceImpl implements IBlueArticleService
                     if (blueArticleTag.getTagId().equals(blueSortTag.getId())){
                         blueArticleTag.setTagName(blueSortTag.getTagName());
                     }
+                }
+            }
+            //设置每个文章的作者名称
+            for (SysUser sysUser : sysUsers) {
+                if (blueArticle.getUserId().equals(sysUser.getUserId())){
+                    blueArticle.setUserName(sysUser.getNickName());
                 }
             }
             blueArticle.setTagList(blueArticleTags);

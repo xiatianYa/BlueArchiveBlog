@@ -7,7 +7,7 @@
     </div>
     <div class="home_center_box">
       <div class="typewriter animation_writer">
-        <span>眼 前 所 见 ， 皆 为 奇 迹 .</span>
+        <span>眼 前 所 见 , 皆 为 奇 迹 .</span>
       </div>
       <div class="down pointer">
         <svg class="icon pointer" aria-hidden="true" @click="goDown">
@@ -51,8 +51,8 @@
                 搜索
               </div>
               <div class="search_box">
-                <input type="text" placeholder="搜索文章" class="search_txt">
-                <svg class="icon pointer" aria-hidden="true">
+                <input type="text" placeholder="搜索文章" class="search_txt" v-model="queryParams.searchValue">
+                <svg class="icon pointer" aria-hidden="true" @click="search">
                   <use xlink:href="#icon-daohang"></use>
                 </svg>
               </div>
@@ -136,13 +136,67 @@
         </div>
       </div>
     </div>
+    <div class="article_dialog" v-show="searchShow">
+      <div class="dialog">
+        <div class="article_title">
+          <span>文章信息</span>
+          <svg class="icon pointer" aria-hidden="true" @click="closeSearchDialog">
+            <use xlink:href="#icon-guanbi"></use>
+          </svg>
+        </div>
+        <div class="article_list">
+          <div class="article pointer" v-for="article in searchArticle.blueArticleList"
+            v-show="searchArticle.blueArticleList.length > 0" @click="goArticlePreview(article.id)">
+            <div class="article_name">{{ article.articleName }}</div>
+            <div class="article_describe">{{ article.articleDescribe }}</div>
+            <div class="article_info">
+              <div class="info_left">
+                <div class="info">
+                  <svg class="icon pointer" aria-hidden="true">
+                    <use xlink:href="#icon-remen"></use>
+                  </svg>
+                  <span>
+                    0 热度
+                  </span>
+                </div>
+                <div class="info">
+                  <svg class="icon pointer" aria-hidden="true">
+                    <use xlink:href="#icon-pinglun"></use>
+                  </svg>
+                  <span>
+                    0 评论
+                  </span>
+                </div>
+                <div class="info">
+                  <svg class="icon pointer" aria-hidden="true">
+                    <use xlink:href="#icon-dianzan1"></use>
+                  </svg>
+                  0 点赞
+                </div>
+              </div>
+              <div class="info_right">
+                <span>
+                  {{ article.userName }}
+                </span>
+                <span>{{ article.createTime }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="prompt" v-show="searchArticle.blueArticleList <= 0">
+            <span>
+              很抱歉,没有找到与 "{{ queryParams.searchValue }}" 相关的文章
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
 import {onMounted, ref} from 'vue'
 import {useBgStore} from '@/store/bg'
 import {listNotice} from '@/api/notice'
-import {listArticle, listBySortId, searchArticle} from '@/api/article'
+import {listArticle, listBySortId, searchArticleList} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {useRouter} from 'vue-router'
 import {useUserStore} from '@/store/user'
@@ -159,16 +213,20 @@ const sortList = ref({})
 const recommendArticleList = ref({})
 //背景视频
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
+//搜索显示
+const searchShow = ref(false)
 //搜索条件
 const queryParams = ref({
   pageNum: 0,
   pageSize: 10,
-  searchValue:"学习"
+  searchValue: ""
+})
+//搜索文章列表
+const searchArticle = ref({
+  total: "",
+  blueArticleList: []
 })
 onMounted(() => {
-  searchArticle(queryParams.value).then(res => {
-    console.log(res);
-  })
   //获取公告
   listNotice().then(res => {
     noticeInfo.value = res.rows[0]
@@ -188,6 +246,27 @@ onMounted(() => {
     recommendArticleList.value = res.rows.slice(0, 3)
   })
 })
+//前往文章浏览页
+function goArticlePreview(articleId) {
+  router.push({ path: '/editPreView', query: { articleId: articleId } })
+}
+//搜索
+function search() {
+  //查询匹配文章
+  searchArticleList(queryParams.value).then(res => {
+    searchArticle.value = res.data
+    searchShow.value = true;
+  })
+}
+//关闭搜索框
+function closeSearchDialog() {
+  //清空列表
+  searchArticle.value = {
+    total: "",
+    blueArticleList: []
+  }
+  searchShow.value = false;
+}
 //前往分类,携带分类ID
 function goArticleBySortId(sortId) {
   router.push({ path: '/sort', query: { sortId: sortId } })
@@ -412,7 +491,6 @@ function goHref(url) {
 
               .icon {
                 flex: 2;
-                width: 1rem;
                 vertical-align: -0.15em;
                 fill: currentColor;
                 overflow: hidden;
@@ -834,6 +912,106 @@ function goHref(url) {
               }
             }
           }
+        }
+      }
+    }
+  }
+
+  .article_dialog {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 70px;
+    background-color: rgba(rgb(0, 0, 0), 0.3);
+    z-index: 99;
+
+    .dialog {
+      position: fixed;
+      width: 50%;
+      height: 70%;
+      border-radius: 10px;
+      background-color: #FFFFFF;
+
+      .article_title {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 10%;
+        text-align: center;
+        padding: 10px 0;
+
+        .icon {
+          position: absolute;
+          top: 10;
+          right: 10px;
+          /* 初始状态 */
+          transition: transform 0.5s ease-in-out;
+          /* 定义过渡效果，持续时间为0.5秒，使用ease-in-out缓动函数 */
+          transform: rotate(0deg);
+          /* 初始旋转角度为0度 */
+        }
+
+        .icon:hover {
+          /* 鼠标移入状态 */
+          transform: rotate(240deg);
+          /* 旋转角度为360度，即一圈 */
+        }
+      }
+
+      .article_list {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 20px;
+        height: 90%;
+        overflow: auto;
+
+        .article {
+          display: flex;
+          flex-direction: column;
+          font-size: 12px;
+          margin-top: 10px;
+
+          .article_name {
+            padding: 5px 0;
+            font-size: 14px;
+          }
+
+          .article_describe {
+            padding: 5px 0;
+          }
+
+          .article_info {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+
+            .info_left {
+              display: flex;
+
+              .info {
+                padding: 0 3px;
+              }
+            }
+
+            .info_right {
+              display: flex;
+
+              span {
+                padding-right: 10px;
+              }
+            }
+          }
+        }
+
+        .prompt {
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       }
     }

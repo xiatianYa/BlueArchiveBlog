@@ -19,15 +19,6 @@
             </div>
         </div>
         <div class="right">
-            <div class="article_info">
-                <div class="article_img animate__animated animate__fadeInDown" v-show="ArticleIndex.cover">
-                    <img :src="ArticleIndex.cover">
-                </div>
-                <div class="article_video animate__animated animate__fadeInDown" v-show="ArticleIndex.videoUrl">
-                    <ArticleVideo @get-instance="getInstance" :style="style"
-                        style="overflow: hidden; padding: 10px 5px;box-sizing: border-box;" />
-                </div>
-            </div>
             <div class="animate__animated animate__fadeInRight">
                 <v-md-editor v-model="ArticleIndex.content" :include-level="[2,3,4]"  mode="editable" height="100vh" style="background: #ECEBEC;"
                     @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
@@ -101,7 +92,6 @@
 
 <script setup>
 import {onMounted, ref, watch} from 'vue'
-import ArticleVideo from '@/components/ArticleVideo.vue'
 import {addArticle, delArticle, getArticle, listArticleByUser, updateArticle} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {uploadImages} from "@/api/file";
@@ -125,16 +115,7 @@ const tagList = ref()
 const deleteArticleList = ref([])
 //删除提示框
 const ArticleDeleteShow = ref(false)
-//视频播放器对象
-const artInstance = ref()
-//视频播放器样式
-const style = ref({
-    width: '100%',
-    height: '200px',
-})
 onMounted(() => {
-    //获取视频播放示例对象
-    getInstance()
     //初始化数据
     init();
 })
@@ -144,10 +125,6 @@ function openArticleUpdate(articleId) {
         Article.value = res.data;
         ArticleShow.value = true;
     })
-}
-//获取视频播放实例
-function getInstance(art) {
-    artInstance.value = art;
 }
 //数据初始化
 function init() {
@@ -160,9 +137,6 @@ function init() {
         }
         //获取第一条数据ID
         ArticleIndex.value = ArticleList.value[0];
-        //初始化视频
-        artInstance.value.url = ArticleIndex.value.videoUrl;
-
     })
     listSort().then(res => {
         SortList.value = res.rows;
@@ -176,9 +150,6 @@ function changeArticle(article) {
             res.data.content = ''
         }
         ArticleIndex.value = res.data;
-        artInstance.value.url = ArticleIndex.value.videoUrl;
-        //播放
-        artInstance.value.play()
     })
 
 }
@@ -423,30 +394,6 @@ watch(
         flex-grow: 1;
         height: 100%;
         margin: 20px;
-
-        .article_info {
-            display: flex;
-            width: 100%;
-
-            .article_img {
-                box-sizing: border-box;
-                padding: 10px 5px;
-                width: 50%;
-                height: 200px;
-                object-fit: cover;
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
-
-            .article_video {
-                width: 50%;
-                height: 200px
-            }
-        }
     }
 
     .article_dialog {

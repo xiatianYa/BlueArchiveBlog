@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 
 // 搜索文章列表
-export function searchArticle(query) {
+export function searchArticleList(query) {
   return request({
     url: '/system/article/search',
     method: 'get',

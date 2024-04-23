@@ -104,7 +104,7 @@ onBeforeMount(() => {
 function updateScrollPosition() {
   scrollPosition.x = window.scrollX;
   scrollPosition.y = window.scrollY;
-  if (scrollPosition.y >= 53) {
+  if (scrollPosition.y >= 10) {
     NavShow.value = false
   } else {
     NavShow.value = true

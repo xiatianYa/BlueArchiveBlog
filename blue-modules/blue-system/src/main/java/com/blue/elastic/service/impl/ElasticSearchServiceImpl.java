@@ -126,7 +126,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
     @Override
     public HitsMetadata<BlueArticleDAO> searchArticleDocument(BlueArticleSearchVo searchVo, String indexName) {
         try {
-            HitsMetadata<BlueArticleDAO> hits = client.search(
+            return client.search(
                     req -> {req
                             .index(ElasticSearchConstants.ArticleIndex)
                             //查询匹配字段 满足其中一条就匹配
@@ -155,7 +155,6 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                     },
                     BlueArticleDAO.class
             ).hits();
-            return hits;
         }catch (Exception e){
             return null;
         }

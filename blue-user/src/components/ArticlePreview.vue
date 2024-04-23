@@ -35,7 +35,7 @@ const article = ref({
 })
 
 onMounted(async () => {
-  const res = await getArticle(route.query.sortId)
+  const res = await getArticle(route.query.articleId)
   if (res.data.content) {
     article.value = res.data
   } else {
