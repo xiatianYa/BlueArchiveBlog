@@ -14,21 +14,18 @@
       </div>
     </div>
     <div class="leaver_comments">
-      <CommentDetail :comment-type="0"/>
+      <CommentDetail :comment-type="0" />
     </div>
   </div>
 </template>
 
 <script setup>
 import {onMounted, onUnmounted, ref} from "vue";
-import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'
 import {addMessage, listMessage} from '@/api/message'
 import CommentDetail from '@/components/CommentDetail.vue';
 import promptMsg from "@/components/PromptBoxView"
 import 'vue3-emoji/dist/style.css'
-
-const gloBalStore = useGloBalStore()
 //定时器
 const timer = ref([])
 // 定义弹幕数据
@@ -144,7 +141,19 @@ function showBarrage(barrage) {
   // 设置其文本内容为参数值
   BarrageSpan.innerText = barrage.content;
   // 设置其的高度
-  Barrage.style.top = barrage.barrageHeight + "px";
+  if (barrage.barrageHeight > container.clientHeight) {
+    // 设置其随机的高度
+    var BarrageHeight = Math.floor(Math.random() * container.clientHeight);
+    if (BarrageHeight < 53) {
+      BarrageHeight = 53;
+    } else if (BarrageHeight > container.clientHeight - 40) {
+      BarrageHeight = container.clientHeight - 40
+    }
+    Barrage.style.top = BarrageHeight + "px";
+  } else {
+    //以原来的高度设置
+    Barrage.style.top = barrage.barrageHeight + "px";
+  }
   // 设置其随机的颜色
   Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
   //将Img元素插入到容器元素中
@@ -173,9 +182,7 @@ function getRandomItem(array) {
 </script>
 
 <style lang="scss" scoped>
-
 .leave {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,7 +250,8 @@ function getRandomItem(array) {
 
     }
   }
-  .leaver_comments{
+
+  .leaver_comments {
     width: 60%;
     margin: auto;
   }

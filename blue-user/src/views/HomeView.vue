@@ -1,11 +1,9 @@
 <template>
-  <div class="home_box">
+  <div class="home_box no_select">
     <div class="animate__animated animate__slideInDown video_bg">
       <video autoplay class="video-background" loop muted>
         <source :src="bgUrl" type="video/mp4">
       </video>
-    </div>
-    <div class="home_center_box">
       <div class="typewriter animation_writer">
         <span>眼 前 所 见 , 皆 为 奇 迹 .</span>
       </div>
@@ -14,6 +12,8 @@
           <use xlink:href="#icon-down"></use>
         </svg>
       </div>
+    </div>
+    <div class="home_center_box">
       <div class="home_content">
         <div class="content_left animate__animated animate__slideInLeft">
           <div class="content_info box_shadow box_radius">
@@ -40,6 +40,21 @@
                 <li @click="goHref('https://github.com/xiatianYa')">
                   <svg class="icon pointer" aria-hidden="true">
                     <use xlink:href="#icon-icon-github"></use>
+                  </svg>
+                </li>
+                <li @click="goHref('https://github.com/xiatianYa')">
+                  <svg class="icon pointer" aria-hidden="true">
+                    <use xlink:href="#icon-gitee-fill-round"></use>
+                  </svg>
+                </li>
+                <li @click="goHref('https://github.com/xiatianYa')">
+                  <svg class="icon pointer" aria-hidden="true">
+                    <use xlink:href="#icon-QQ"></use>
+                  </svg>
+                </li>
+                <li @click="goHref('https://github.com/xiatianYa')">
+                  <svg class="icon pointer" aria-hidden="true">
+                    <use xlink:href="#icon-iconweixin"></use>
                   </svg>
                 </li>
               </ul>
@@ -151,8 +166,8 @@
         <div class="article_list">
           <div class="article pointer" v-for="article in searchArticle.blueArticleList"
             v-show="searchArticle.blueArticleList.length > 0" @click="goArticlePreview(article.id)">
-            <div class="article_name">{{ article.articleName }}</div>
-            <div class="article_describe">{{ article.articleDescribe }}</div>
+            <div class="article_name" v-html="article.articleName"></div>
+            <div class="article_describe" v-html="article.articleDescribe"></div>
             <div class="article_info">
               <div class="info_left">
                 <div class="info">
@@ -179,18 +194,18 @@
                 </div>
               </div>
               <div class="info_right">
-                <span>
-                  {{ article.userName }}
+                <span v-html="article.userName">
                 </span>
                 <span>{{ article.createTime }}</span>
               </div>
             </div>
           </div>
-          <div class="prompt" v-show="searchArticle.blueArticleList <= 0">
+          <div v-show="!searchLoading && searchArticle.blueArticleList <= 0">
             <span>
               很抱歉,没有找到与 "{{ queryParams.searchValue }}" 相关的文章
             </span>
           </div>
+          <Loading v-show="searchLoading" />
         </div>
       </div>
     </div>
@@ -205,6 +220,7 @@ import {listSort} from '@/api/sort/sort'
 import {useRouter} from 'vue-router'
 import {useUserStore} from '@/store/user'
 import CategoryDetail from '@/components/CategoryDetail.vue'
+import Loading from '@/components/CssLoadingView.vue'
 
 const userStore = useUserStore()
 //路由
@@ -217,6 +233,8 @@ const sortList = ref({})
 const recommendArticleList = ref({})
 //背景视频
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
+//搜索加载中
+const searchLoading = ref(false);
 //搜索显示
 const searchShow = ref(false)
 //搜索条件
@@ -257,9 +275,13 @@ function goArticlePreview(articleId) {
 //搜索
 function search() {
   //查询匹配文章
+  searchShow.value = true;
+  //加载中
+  searchLoading.value = true;
   searchArticleList(queryParams.value).then(res => {
     searchArticle.value = res.data
-    searchShow.value = true;
+    //加载完成
+    searchLoading.value = false;
   })
 }
 //关闭搜索框
@@ -275,6 +297,9 @@ function closeSearchDialog() {
     total: "",
     blueArticleList: []
   }
+  //关闭加载
+  searchLoading.value = false;
+  //关闭窗口
   searchShow.value = false;
 }
 //前往分类,携带分类ID
@@ -308,20 +333,14 @@ function goHref(url) {
       object-fit: cover;
       z-index: -1;
     }
-  }
-
-  .home_center_box {
-    display: flex;
-    width: 100%;
-    position: relative;
 
     .typewriter {
       z-index: 1;
       position: absolute;
       width: 0;
+      top: 50%;
       left: 50%;
-      top: -17%;
-      transform: translate(-50%, 0%);
+      transform: translate(-50%, -50%);
       margin-left: 18px;
 
       span {
@@ -334,7 +353,7 @@ function goHref(url) {
 
     .animation_writer {
       animation: grow 7s steps(44) 1s normal infinite,
-        blink 1s steps(44) infinite normal;
+        blink 0.5s steps(44) normal infinite;
       white-space: nowrap;
       border-right: 2px solid #eeeeee;
       overflow: hidden;
@@ -342,8 +361,9 @@ function goHref(url) {
 
     .down {
       position: absolute;
+      top: 53%;
       left: 50%;
-      top: -13%;
+      transform: translate(-50%, -50%);
       z-index: 99;
       animation-name: updown;
       animation-duration: 2.5s;
@@ -355,6 +375,12 @@ function goHref(url) {
       }
 
     }
+  }
+
+  .home_center_box {
+    display: flex;
+    width: 100%;
+    position: relative;
 
     .home_content {
       display: flex;
@@ -598,11 +624,13 @@ function goHref(url) {
                   text-overflow: ellipsis;
                   overflow: hidden;
                 }
-                .article_author{
+
+                .article_author {
                   width: 100%;
                   font-size: 12px;
                 }
-                .article_time{
+
+                .article_time {
                   width: 100%;
                   font-size: 10px;
                 }
@@ -985,6 +1013,9 @@ function goHref(url) {
 
       .article_list {
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
         padding: 10px 20px;
         height: 90%;
@@ -993,6 +1024,7 @@ function goHref(url) {
         .article {
           display: flex;
           flex-direction: column;
+          width: 100%;
           font-size: 12px;
           margin-top: 10px;
           border-bottom: 1px solid #A1B6C3;
@@ -1027,12 +1059,6 @@ function goHref(url) {
               }
             }
           }
-        }
-
-        .prompt {
-          display: flex;
-          justify-content: center;
-          align-items: center;
         }
       }
     }

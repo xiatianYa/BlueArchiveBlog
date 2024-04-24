@@ -22,7 +22,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'loading',
-            component: LoadingVuew
+            component: LoadingVuew,
         },
         {
             path: '/home',

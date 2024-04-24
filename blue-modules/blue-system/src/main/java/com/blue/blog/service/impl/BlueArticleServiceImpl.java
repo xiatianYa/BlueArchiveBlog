@@ -30,10 +30,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 文章Service业务层处理
@@ -73,15 +71,12 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //文章关联标签
         List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(wrapper);
         //标签列表
-        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectList(new LambdaQueryWrapper<>());
+        Map<Long, String> sortTags =
+                blueSortTagMapper.selectList(new LambdaQueryWrapper<>()).stream().collect(Collectors.toMap(BlueSortTag::getId, BlueSortTag::getTagName));
         //为关联标签列表赋值
         for (BlueArticleTag blueArticleTag : blueArticleTags) {
-            for (BlueSortTag blueSortTag : blueSortTags) {
-                if (blueArticleTag.getTagId().equals(blueSortTag.getId())){
-                    blueArticleTag.setTagName(blueSortTag.getTagName());
-                    blueArticleTag.setArticleName(blueArticle.getArticleName());
-                }
-            }
+            blueArticleTag.setTagName(sortTags.get(blueArticleTag.getTagId()));
+            blueArticleTag.setArticleName(blueArticle.getArticleName());
         }
         blueArticle.setTagList(blueArticleTags);
         return blueArticle;
@@ -101,24 +96,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticle.setStatus(AuditingStatus.DISABLE.getCode());
         }
         List<BlueArticle> blueArticles = blueArticleMapper.selectBlueArticleList(blueArticle);
-        //分类列表
-        List<BlueSort> blueSorts = blueSortMapper.selectList(new LambdaQueryWrapper<>());
-        //用户列表
-        List<SysUser> sysUsers = userMapper.selectUserList(new SysUser());
-        for (BlueArticle article : blueArticles) {
-            for (BlueSort blueSort : blueSorts) {
-                //判断分类ID是否一致
-                if (blueSort.getId().equals(article.getSortId())){
-                    article.setSortName(blueSort.getSortName());
-                }
-            }
-            for (SysUser sysUser : sysUsers) {
-                //判断用户id是否一致
-                if (sysUser.getUserId().equals(article.getUserId())){
-                    article.setUserName(sysUser.getNickName());
-                }
-            }
-        }
+        //设置分类名称
+        setSortName(blueArticles);
+        //设置用户名称
+        setUserName(blueArticles);
         return blueArticles;
     }
 
@@ -170,29 +151,31 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Override
     public int updateBlueArticle(BlueArticle blueArticle)
     {
+        //判断用户操作权限
+        isCheckUser(blueArticle.getId());
+        //文章校验
+        isCheckArticle(blueArticle);
         Long userId = SecurityUtils.getUserId();
         if (StringUtils.isNotNull(userId)){
             blueArticle.setUpdateBy(userId.toString());
         }
+        //设置文章修改时间
         blueArticle.setUpdateTime(DateUtils.getNowDate());
-        //然后向文章标签表里插入标签
-        if (StringUtils.isNotNull(blueArticle.getTagList())){
-            //文章的标签列表
-            List<BlueArticleTag> tagList = blueArticle.getTagList();
-            for (BlueArticleTag blueArticleTag : tagList) {
-                //默认先删除所有和文章匹配的标签数据
-                LambdaQueryWrapper<BlueArticleTag> wrapper = new LambdaQueryWrapper<>();
-                wrapper.eq(BlueArticleTag::getArticleId,blueArticle.getId());
-                blueArticleTagMapper.delete(wrapper);
-                //设置文章ID
-                blueArticleTag.setArticleId(blueArticle.getId());
-                //设置创建人ID
-                blueArticleTag.setCreateBy(String.valueOf(userId));
-                //设置修改人ID
-                blueArticleTag.setUpdateBy(String.valueOf(userId));
-                //然后重新插入新的数据
-                blueArticleTagMapper.insertBlueArticleTag(blueArticleTag);
-            }
+        //文章的标签列表
+        List<BlueArticleTag> tagList = blueArticle.getTagList();
+        //默认先删除所有和文章匹配的标签数据
+        LambdaQueryWrapper<BlueArticleTag> wrapper = new LambdaQueryWrapper<>();
+        wrapper.in(BlueArticleTag::getArticleId,blueArticle.getId());
+        blueArticleTagMapper.delete(wrapper);
+        for (BlueArticleTag blueArticleTag : tagList) {
+            //设置文章ID
+            blueArticleTag.setArticleId(blueArticle.getId());
+            //设置创建人ID
+            blueArticleTag.setCreateBy(String.valueOf(userId));
+            //设置修改人ID
+            blueArticleTag.setUpdateBy(String.valueOf(userId));
+            //然后重新插入新的数据
+            blueArticleTagMapper.insertBlueArticleTag(blueArticleTag);
         }
         //修改文章文档
         createOrUpdateArticleDocument(ElasticSearchConstants.ArticleIndex,String.valueOf(blueArticle.getId()),blueArticle);
@@ -209,6 +192,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Transactional
     public int deleteBlueArticleByIds(Long[] ids)
     {
+        //判断用户操作权限
+        for (Long id : ids) {
+            isCheckUser(id);
+        }
         //同时批量删除文字标签关联表数据
         LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
         blueArticleTagLambdaQueryWrapper.in(BlueArticleTag::getArticleId,ids);
@@ -231,6 +218,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Transactional
     public int deleteBlueArticleById(Long id)
     {
+        //判断用户操作权限
+        isCheckUser(id);
         //同时批量删除文字标签关联表数据
         LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
         blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getArticleId,id);
@@ -252,26 +241,19 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         if (!StringUtils.isNotNull(tagId)){
             throw new ServiceException("标签ID为空");
         }
+        //通过标签ID获取匹配的文章ID列表
         blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getTagId,tagId);
-        //通过标签ID获取文章标签列表
-        List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(blueArticleTagLambdaQueryWrapper);
-        //返回列表
-        List<BlueArticle> blueArticleList=new ArrayList<>();
+        List<Long> articleIdList = blueArticleTagMapper.selectList(blueArticleTagLambdaQueryWrapper).
+                stream().map(BlueArticleTag::getArticleId).collect(Collectors.toList());
+        if (!StringUtils.isNotEmpty(articleIdList)){
+            return new ArrayList<>();
+        }
+        //获取全部文章列表
         LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
         //默认查询已通过审核数据
         wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
-        //获取全部文章列表
-        List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
-        for (BlueArticleTag blueArticleTag : blueArticleTags) {
-            //通过文章标签中文章ID获取文章
-            for (BlueArticle blueArticle : blueArticles) {
-                //命中
-                if (blueArticle.getId().equals(blueArticleTag.getArticleId())){
-                    blueArticleList.add(blueArticle);
-                }
-            }
-        }
-        return blueArticleList;
+        wrapper.in(BlueArticle::getId,articleIdList);
+        return blueArticleMapper.selectList(wrapper);
     }
 
     /**
@@ -303,7 +285,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
         //查询用户发布的所有文章
         wrapper.eq(BlueArticle::getUserId,loginUser.getUserid());
-        return blueArticleMapper.selectList(wrapper);
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
+        //设置文章下标签列表
+        setTagName(blueArticles);
+        return blueArticles;
     }
 
     /**
@@ -318,32 +303,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         wrapper.eq(BlueArticle::getSortId,sortId);
         //文章列表
         List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
-        //标签分类列表
-        List<BlueSortTag> blueSortTags = blueSortTagMapper.selectList(new LambdaQueryWrapper<>());
-        //用户列表
-        List<SysUser> sysUsers = userMapper.selectUserList(new SysUser());
-        //查询出文章列表下全部的标签
-        for (BlueArticle blueArticle : blueArticles) {
-            LambdaQueryWrapper<BlueArticleTag> blueArticleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            blueArticleTagLambdaQueryWrapper.eq(BlueArticleTag::getArticleId,blueArticle.getId());
-            //查询文章下包含的标签列表
-            List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(blueArticleTagLambdaQueryWrapper);
-            //设置每个标签下 所有的标签分类列表
-            for (BlueArticleTag blueArticleTag : blueArticleTags) {
-                for (BlueSortTag blueSortTag : blueSortTags) {
-                    if (blueArticleTag.getTagId().equals(blueSortTag.getId())){
-                        blueArticleTag.setTagName(blueSortTag.getTagName());
-                    }
-                }
-            }
-            //设置每个文章的作者名称
-            for (SysUser sysUser : sysUsers) {
-                if (blueArticle.getUserId().equals(sysUser.getUserId())){
-                    blueArticle.setUserName(sysUser.getNickName());
-                }
-            }
-            blueArticle.setTagList(blueArticleTags);
-        }
+        //文章文章标签列表
+        setTagName(blueArticles);
+        //设置文章用户名称
+        setUserName(blueArticles);
         return blueArticles;
     }
 
@@ -393,6 +356,20 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticleSearchDTO.setTotal(Objects.requireNonNull(blueArticleDAOHitsMetadata.total()).value());
             for (Hit<BlueArticleDTO> hit : blueArticleDAOHitsMetadata.hits()) {
                 BlueArticleDTO source = hit.source();
+                if (StringUtils.isNull(source)){
+                    continue;
+                }
+                //高亮显示
+                Map<String, List<String>> highlight = hit.highlight();
+                if (StringUtils.isNotNull(highlight.get("articleName"))){
+                    source.setArticleName(highlight.get("articleName").get(0));
+                }
+                if (StringUtils.isNotNull(highlight.get("articleDescribe"))){
+                    source.setArticleDescribe(highlight.get("articleDescribe").get(0));
+                }
+                if (StringUtils.isNotNull(highlight.get("userName"))){
+                    source.setUserName(highlight.get("userName").get(0));
+                }
                 blueArticleSearchDTO.getBlueArticleList().add(source);
             }
             return blueArticleSearchDTO;
@@ -470,6 +447,15 @@ public class BlueArticleServiceImpl implements IBlueArticleService
                                             )
                                     )
                             )
+                            //匹配字段高亮显示
+                            .highlight(high->high
+                                    .fields("articleName",field->field.preTags("<span style='color:#fc5531'>")
+                                            .postTags("</span>"))
+                                    .fields("articleDescribe",field->field.preTags("<span style='color:#fc5531'>")
+                                            .postTags("</span>"))
+                                    .fields("userName",field->field.preTags("<span style='color:#fc5531'>")
+                                            .postTags("</span>"))
+                            )
                             .from(searchVo.getPageNum())
                             .size(searchVo.getPageSize())
                     ;
@@ -481,12 +467,68 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             return null;
         }
     }
+    /**
+     * 为文章列表设置分类名称
+     */
+    public void setSortName(List<BlueArticle> blueArticleList){
+        //初始化列表
+        Map<Long, String> sortName =
+                blueSortMapper.selectList(new LambdaQueryWrapper<>()).stream().collect(Collectors.toMap(BlueSort::getId, BlueSort::getSortName));
+        //设置每个标签下 所有的标签分类列表
+        for (BlueArticle blueArticle : blueArticleList) {
+            blueArticle.setSortName(sortName.get(blueArticle.getSortId()));
+        }
+    }
+    /**
+     * 为文章列表设置标签列表
+     */
+    public void setTagName(List<BlueArticle> blueArticleList){
+        //初始化列表
+        //标签分类列表
+        Map<Long, String> sortTags =
+                blueSortTagMapper.selectList(new LambdaQueryWrapper<>()).stream().collect(Collectors.toMap(BlueSortTag::getId, BlueSortTag::getTagName));
+        //查询文章下包含的标签列表
+        List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(new LambdaQueryWrapper<>());
+        //设置每个标签下 所有的标签分类列表
+        for (BlueArticle blueArticle : blueArticleList) {
+            List<BlueArticleTag> tagList=new ArrayList<>();
+            for (BlueArticleTag blueArticleTag : blueArticleTags) {
+                if (blueArticle.getId().equals(blueArticleTag.getArticleId())){
+                    //设置标签名称
+                    blueArticleTag.setTagName(sortTags.get(blueArticleTag.getTagId()));
+                    tagList.add(blueArticleTag);
+                }
+            }
+            blueArticle.setTagList(tagList);
+        }
+    }
+    /**
+     * 为文章列表设置用户名称
+     */
+    public void setUserName(List<BlueArticle> blueArticleList){
+        //用户列表
+        Map<Long, String> userMap =
+                userMapper.selectUserList(new SysUser()).stream().collect(Collectors.toMap(SysUser::getUserId, SysUser::getNickName));
+        for (BlueArticle blueArticle : blueArticleList) {
+            //设置每个文章的作者名称
+            blueArticle.setUserName(userMap.get(blueArticle.getUserId()));
+        }
+    }
+    /**
+     * 检测字段是否合理
+     */
     public void isCheckArticle(BlueArticle blueArticle){
         if (!StringUtils.isNotEmpty(blueArticle.getArticleName())){
             throw new ServiceException("文章标题为空...");
         }
+        if (blueArticle.getArticleName().length()>40){
+            throw new ServiceException("文章标题字数大于40");
+        }
         if (!StringUtils.isNotEmpty(blueArticle.getArticleDescribe())){
             throw new ServiceException("文章描述为空...");
+        }
+        if (blueArticle.getArticleDescribe().length()>100){
+            throw new ServiceException("文章描述字数大于100");
         }
         if (!StringUtils.isNotNull(blueArticle.getSortId())){
             throw new ServiceException("文章分类为空...");
@@ -496,6 +538,21 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         }
         if (!StringUtils.isNotEmpty(blueArticle.getCover())){
             throw new ServiceException("文章封面为空...");
+        }
+    }
+    /**
+     * 检测用户操作是否合法
+     */
+    public void isCheckUser(Long articleId){
+        Long userId = SecurityUtils.getUserId();
+        //管理员操作
+        if(SecurityUtils.isAdmin(userId)){
+            return;
+        }
+        BlueArticle blueArticle = blueArticleMapper.selectById(articleId);
+        //非本人操作
+        if (!userId.equals(blueArticle.getUserId())){
+            throw new ServiceException("您没有权限操作该文章...");
         }
     }
 }

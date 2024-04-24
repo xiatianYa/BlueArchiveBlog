@@ -1,9 +1,9 @@
 <template>
-  <div class="category_detail box_shadow pointer">
-    <div class="category_img" @click="goArticlePreview(article.id)">
+  <div class="category_detail box_shadow pointer" @click="goArticlePreview(article.id)">
+    <div class="category_img">
       <img v-lazy="article.cover">
     </div>
-    <div class="category_time" @click="goArticlePreview(article.id)">
+    <div class="category_time">
       <svg class="icon pointer" aria-hidden="true">
         <use xlink:href="#icon-rili2"></use>
       </svg>
@@ -11,10 +11,10 @@
         {{ article.createTime }}
       </span>
     </div>
-    <div class="category_title" @click="goArticlePreview(article.id)">
+    <div class="category_title">
       {{ article.articleName }}
     </div>
-    <div class="category_msg" @click="goArticlePreview(article.id)">
+    <div class="category_msg">
       <span>
         {{ article.articleDescribe }}
       </span>
@@ -22,7 +22,7 @@
         作者 : {{ article.userName }}
       </span>
     </div>
-    <div class="category_info" @click="goArticlePreview(article.id)">
+    <div class="category_info">
       <div class="info">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-remen"></use>
@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="category_target">
-      <div class="target" v-for="tag in article.tagList" @click="goSort(article.sortId, tag.tagId)">
+      <div class="target" v-for="tag in article.tagList" @click.stop="goSort(article.sortId, tag.tagId)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-wenjianjia"></use>
         </svg>
@@ -83,10 +83,11 @@ function goArticlePreview(articleId) {
   .category_img {
     border-radius: 10px 10px 0 0;
     overflow: hidden;
+
     img {
       width: 100%;
       height: 100%;
-      max-height: 200px;
+      max-height: 170px;
       object-fit: cover;
       transition: all .3s ease-in 0s;
     }
@@ -126,7 +127,7 @@ function goArticlePreview(articleId) {
   .category_title {
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
     margin: 5px 5px 5px 7px;
     flex-grow: 1;
   }
@@ -163,7 +164,7 @@ function goArticlePreview(articleId) {
       text-overflow: ellipsis;
       overflow: hidden;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 1;
       -webkit-box-orient: vertical;
       margin: 5px 5px 5px 7px;
     }

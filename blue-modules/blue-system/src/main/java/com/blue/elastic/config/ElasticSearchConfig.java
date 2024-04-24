@@ -15,19 +15,26 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @Data
-public class ElasticSearchConfig {
+public class ElasticSearchConfig{
     @Value("${spring.elasticsearch.uris}")
     private String uris;
-    @Bean
-    public ElasticsearchClient elasticsearchClient() {
+    @Bean("restClientBuilder")
+    public RestClientBuilder elasticsearchClient() {
         String[] split = uris.split(":");
         String hostname= split[0];
         int port = Integer.parseInt(split[1]);
         // 基本的用户名密码认证
         BasicCredentialsProvider basicCredentialsProvider = new BasicCredentialsProvider();
-        RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost(hostname, port, "http"));
+        RestClientBuilder restClientBuilder = RestClient.builder(new HttpHost(hostname, port, "http"))
+                .setRequestConfigCallback(requestConfigBuilder ->requestConfigBuilder
+                        .setConnectTimeout(10000)
+                        .setSocketTimeout(60000));
         restClientBuilder.setHttpClientConfigCallback(httpAsyncClientBuilder ->
                 httpAsyncClientBuilder.setDefaultCredentialsProvider(basicCredentialsProvider));
+        return restClientBuilder;
+    }
+    @Bean
+    public ElasticsearchClient elasticsearchClient(RestClientBuilder restClientBuilder) {
         RestClient restClient = restClientBuilder.build();
         ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
         return new ElasticsearchClient(transport);

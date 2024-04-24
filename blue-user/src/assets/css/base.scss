@@ -4,13 +4,6 @@
   padding: 0;
   /*文字样式*/
   font-family: "Regular", "Microsoft Yahei" !important;
-  //设置文字不被点击选中
-  -webkit-user-select: none;
-  /* Safari */
-  -ms-user-select: none;
-  /* IE10+/Edge */
-  user-select: none;
-  /* Standard syntax */
 }
 
 
@@ -30,14 +23,14 @@ input {
   border: 0;
 }
 
-//文字可以被选择
-.select {
+//文字不可以被选择
+.no_select {
   //设置文字不被点击选中
-  -webkit-user-select: text;
+  -webkit-user-select: none;
   /* Safari */
-  -ms-user-select: text;
+  -ms-user-select: none;
   /* IE10+/Edge */
-  user-select: text;
+  user-select: none;
   /* Standard syntax */
 }
 

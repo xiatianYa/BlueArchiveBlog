@@ -1,7 +1,8 @@
 <template>
   <div class="edit" v-loading="loading">
-    <v-md-editor v-model="article.content" class="md_edit" :include-level="[2,3,4]" :disabled-menus="[]" @save="saveArticle"
-      @upload-image="handleUploadImage"></v-md-editor>
+    <v-md-editor v-model="article.content" class="md_edit"
+      left-toolbar="undo  redo h bold italic strikethrough quote ul ol table hr link image code save todo-list emoji tip"
+      :include-level="[2, 3, 4]" :disabled-menus="[]" @save="saveArticle" @upload-image="handleUploadImage" @copy-code-success="handleCopyCodeSuccess"></v-md-editor>
   </div>
 </template>
 
@@ -36,6 +37,13 @@ export default {
     }
   },
   methods: {
+    //代码复制
+    handleCopyCodeSuccess(){
+      this.$message({
+          message: '复制成功',
+          type: 'success'
+        });
+    },
     //图片上传
     handleUploadImage(event, insertImage, file) {
       const formData = new FormData();

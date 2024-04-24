@@ -115,7 +115,7 @@ function goArticlePreview(sortId) {
         width: 100%;
         display: flex;
         align-items: center;
-        font-size: 16px;
+        font-size: 14px;
         margin: 7px 8px 8px 8px;
         flex-grow: 1;
       }

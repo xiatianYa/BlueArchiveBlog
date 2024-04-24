@@ -1,6 +1,7 @@
 import axios from 'axios'
-import {getToken} from '@/utils/auth.ts'
+import {getToken} from '@/utils/auth'
 import {useUserStore} from '@/store/user'
+import promptMsg from "@/components/PromptBoxView"
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -26,14 +27,19 @@ service.interceptors.request.use(config => {
 
 // 响应拦截器
 service.interceptors.response.use(res => {
+    const UserStore = useUserStore()
     // 未设置状态码则默认成功状态
     const code: number = res.data.code || 200;
     // 获取错误信息
     const msg = res.data.msg
     if (code === 401) {
-        //验证码失效 清空用户数据 前往登录页面
-        const UserStore = useUserStore()
+        //验证码失效 清空用户数据 和Token 前往登录页面
         UserStore.CLEAR_USERINFO()
+        //提示信息
+        promptMsg({ type: "warn", msg: "用户信息获取失败,请重新登录!" })
+        setTimeout(() => {
+            location.href = '/user';
+        }, 2000)
         return Promise.reject(msg)
     } else if (code === 500) {
         return Promise.reject(msg)

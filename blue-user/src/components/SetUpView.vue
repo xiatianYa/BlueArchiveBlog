@@ -38,6 +38,7 @@ function goTop() {
   position: fixed;
   right: 30px;
   bottom: 40px;
+  z-index: 99;
 
   .icon {
     width: 1em;

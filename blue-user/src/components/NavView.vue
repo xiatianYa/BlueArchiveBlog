@@ -11,50 +11,50 @@
               <svg aria-hidden="true" class="icon pointer">
                 <use xlink:href="#icon-shouye"></use>
               </svg>
-              <span class="pointer">首页</span>
+              <span class="pointer" :class="routerPath == '/home' ? 'select' : ''">首页</span>
             </router-link>
             <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/found">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-faxian"></use>
               </svg>
-              <span class="pointer">发现</span>
+              <span class="pointer" :class="routerPath == '/found' ? 'select' : ''">发现</span>
             </router-link>
             <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/sort">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-fenlei"></use>
               </svg>
-              <span class="pointer">分类</span>
+              <span class="pointer" :class="routerPath == '/sort' ? 'select' : ''">分类</span>
             </router-link>
             <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/photo">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiangce"></use>
               </svg>
-              <span class="pointer">相册</span>
+              <span class="pointer" :class="routerPath == '/photo' ? 'select' : ''">相册</span>
             </router-link>
             <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/friend">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-jiqiren"></use>
               </svg>
-              <span class="pointer">友链</span>
+              <span class="pointer" :class="routerPath == '/friend' ? 'select' : ''">友链</span>
             </router-link>
             <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/leave">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiaoxi"></use>
               </svg>
-              <span class="pointer">留言</span>
+              <span class="pointer" :class="routerPath == '/leave' ? 'select' : ''">留言</span>
             </router-link>
             <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/song">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-jita"></use>
               </svg>
-              <span class="pointer">听歌</span>
+              <span class="pointer" :class="routerPath == '/song' ? 'select' : ''">听歌</span>
             </router-link>
             <router-link v-show="!UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'"
               class="li" to="/user">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-wode"></use>
               </svg>
-              <span class="pointer">登录</span>
+              <span class="pointer" :class="routerPath == '/user' ? 'select' : ''">登录</span>
             </router-link>
             <div v-show="UserStore.token" class="nav-item">
               <a :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
@@ -83,7 +83,7 @@
   </transition>
 </template>
 <script setup>
-import {onBeforeMount, onMounted, reactive, ref} from 'vue'
+import {onBeforeMount, onMounted, reactive, ref, watch} from 'vue'
 import {useGloBalStore} from '@/store/global'
 import {useUserStore} from '@/store/user'
 import promptMsg from "@/components/PromptBoxView"
@@ -94,6 +94,7 @@ const UserStore = useUserStore()
 const gloBalStore = useGloBalStore()
 const scrollPosition = reactive({ x: 0, y: 0 })
 const NavShow = ref(true)
+const routerPath = ref("")
 onMounted(() => {
   window.addEventListener("scroll", updateScrollPosition);
 })
@@ -119,6 +120,14 @@ function logOut() {
 function go(path) {
   router.push({ path: path })
 }
+//监听路由
+watch(
+  () => router.currentRoute.value,
+  (newPath) => {
+    routerPath.value = newPath.path
+  },
+  { immediate: true }
+)
 </script>
 <style lang="scss" scoped>
 .color_white {
@@ -301,6 +310,10 @@ function go(path) {
             align-items: center;
             height: 100%;
             flex: 2;
+          }
+
+          .select {
+            color: #00e0ff;
           }
 
           span:hover {

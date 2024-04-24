@@ -1,5 +1,5 @@
 <template>
-  <div class="preview">
+  <div class="preview select">
     <div class="preview_navigation">
       <div class="title">
         <svg class="icon pointer" aria-hidden="true">
@@ -16,7 +16,7 @@
       <video class="video" controls v-if="article.videoUrl">
         <source :src="article.videoUrl" type="video/mp4">
       </video>
-      <v-md-editor class="md" v-model="article.content" :include-level="[2]" mode="preview" height="100%"
+      <v-md-editor class="md" v-model="article.content" :include-level="[2]" mode="preview"
         style="background: #ECEBEC;"></v-md-editor>
     </div>
   </div>
@@ -57,7 +57,7 @@ watch(article, async (newVal, oldVal) => {
 //获取锚点列表  
 function getAnchors() {
   // 选择所有的标题元素  
-  const allHeadings = document.querySelectorAll('h2,h3');
+  const allHeadings = document.querySelectorAll('h2,h3,h4');
 
   // 过滤和映射标题到所需的对象格式  
   const titlesWithValue = Array.from(allHeadings).filter((heading) => {
@@ -66,7 +66,7 @@ function getAnchors() {
   }).map((heading) => ({
     title: heading.innerText.trim(),
     lineIndex: heading.getAttribute('data-v-md-line'),
-    indent: ['H2', 'H3'].indexOf(heading.tagName.toUpperCase())
+    indent: ['H2', 'H3','H4'].indexOf(heading.tagName.toUpperCase())
   }));
 
   // 设置titles.value为找到的标题数组或空数组  

@@ -80,7 +80,7 @@ function startMusic(event, musicUrl) {
   //设置新的音乐地址
   music.src = musicUrl
   //设置img图片旋转
-  img.className = "rotateAll";
+  img.className = "music_img rotateAll";
   //设置ImgNBefore
   BeforeImg = img
   //开始播放音乐

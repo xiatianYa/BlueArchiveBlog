@@ -47,17 +47,6 @@
   }
 }
 
-/** 首页打字机白条 */
-@keyframes blink {
-  from {
-    border-right-color: #eee;
-  }
-
-  to {
-    border-right-color: transparent;
-  }
-}
-
 /** 首页箭头动画 */
 @keyframes updown {
   0% {

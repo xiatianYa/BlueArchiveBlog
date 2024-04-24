@@ -5,6 +5,7 @@ import com.blue.blog.entry.dao.BluePhoto;
 import com.blue.blog.mapper.BluePhotoMapper;
 import com.blue.blog.service.IBluePhotoService;
 import com.blue.common.core.enums.AuditingStatus;
+import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -97,6 +98,8 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Override
     public int updateBluePhoto(BluePhoto bluePhoto)
     {
+        //检测用户操作权限
+        isCheckUser(bluePhoto.getUserId());
         //设置修改用户ID
         bluePhoto.setUpdateBy(SecurityUtils.getLoginUser().getUserid().toString());
         bluePhoto.setUpdateTime(DateUtils.getNowDate());
@@ -112,6 +115,10 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Override
     public int deleteBluePhotoByIds(Long[] ids)
     {
+        for (Long id : ids) {
+            //检测用户操作权限
+            isCheckUser(id);
+        }
         return bluePhotoMapper.deleteBatchIds(Arrays.asList(ids));
     }
 
@@ -124,9 +131,15 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Override
     public int deleteBluePhotoById(Long id)
     {
+        //检测用户操作权限
+        isCheckUser(id);
         return bluePhotoMapper.deleteById(id);
     }
 
+
+    /**
+     * 查询用户下的相册列表
+     */
     @Override
     public List<BluePhoto> selectBluePhotoListByUser() {
         LambdaQueryWrapper<BluePhoto> wrapper = new LambdaQueryWrapper<>();
@@ -138,5 +151,21 @@ public class BluePhotoServiceImpl implements IBluePhotoService
             photo.setUserName(loginUser.getUsername());
         }
         return bluePhotos;
+    }
+
+    /**
+     * 检测用户操作是否合法
+     */
+    public void isCheckUser(Long photoId){
+        Long userId = SecurityUtils.getUserId();
+        //管理员操作
+        if(SecurityUtils.isAdmin(userId)){
+            return;
+        }
+        BluePhoto bluePhoto = bluePhotoMapper.selectById(photoId);
+        //非本人操作
+        if (!userId.equals(bluePhoto.getUserId())){
+            throw new ServiceException("您没有权限操作该文章...");
+        }
     }
 }

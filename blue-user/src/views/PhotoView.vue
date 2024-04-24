@@ -200,7 +200,6 @@ function isLastPage(total) {
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        color: #222831;
 
         .top_link {
           font-size: 14px;

@@ -40,6 +40,12 @@ public class BlueArticle extends BaseEntity
     @Excel(name = "分类ID")
     @TableField("sort_id")
     private Long sortId;
+
+    /** 分类名称 */
+    @Excel(name = "分类名称")
+    @TableField(exist = false)
+    private String sortName;
+
     /** 用户名称 */
     @Excel(name = "用户名称")
     @TableField(exist = false)
@@ -53,10 +59,6 @@ public class BlueArticle extends BaseEntity
     @Excel(name = "文章描述")
     @TableField("article_describe")
     private String articleDescribe;
-    /** 分类名称 */
-    @Excel(name = "分类名称")
-    @TableField(exist = false)
-    private String sortName;
 
     /** 审核状态 */
     @Excel(name = "审核状态")

@@ -1,13 +1,16 @@
 import router from './router'
 import {getToken} from '@/utils/auth'
 import {useUserStore} from '@/store/user'
+import {listBg} from '@/api/bg'
 import {useBgStore} from '@/store/bg'
 
 router.beforeEach((to, from, next) => {
+    //背景仓库
     const BgStore = useBgStore()
-    //如果没有背景则去查询背景
     if (BgStore.bgList.length <= 1) {
-        BgStore.SET_BGLIST()
+        listBg().then((res: any) => {
+            BgStore.SET_BGLIST(res)
+        })
     }
     //没有token
     if (!getToken()) {

@@ -20,8 +20,9 @@
         </div>
         <div class="right">
             <div class="animate__animated animate__fadeInRight">
-                <v-md-editor v-model="ArticleIndex.content" :include-level="[2,3,4]"  mode="editable" height="100vh" style="background: #ECEBEC;"
-                    @save="saveArticle" :disabled-menus="[]" @upload-image="handleUploadImage"></v-md-editor>
+                <v-md-editor v-model="ArticleIndex.content" :include-level="[2, 3, 4]" mode="editable" height="100vh"
+                    style="background: #ECEBEC;" @save="saveArticle" :disabled-menus="[]" left-toolbar="undo  redo h bold italic strikethrough quote ul ol table hr link image code save todo-list emoji tip" right-toolbar="preview toc sync-scroll"
+                    @upload-image="handleUploadImage" @copy-code-success="handleCopyCodeSuccess"></v-md-editor>
             </div>
         </div>
         <!-- 添加修改框 -->
@@ -119,6 +120,10 @@ onMounted(() => {
     //初始化数据
     init();
 })
+//复制代码
+function handleCopyCodeSuccess(){
+    promptMsg({ type: "success", msg: "复制成功" })
+}
 //修改文章
 function openArticleUpdate(articleId) {
     getArticle(articleId).then(res => {

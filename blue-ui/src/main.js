@@ -38,6 +38,21 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
+
+//快捷复制代码
+import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
+import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
+//任务列表
+import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
+import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
+//表情
+import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
+import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
+//提示信息
+import createTipPlugin from '@kangc/v-md-editor/lib/plugins/tip/index';
+// 代码行号
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+import '@kangc/v-md-editor/lib/plugins/tip/tip.css';
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
@@ -91,7 +106,11 @@ new Vue({
   render: h => h(App)
 })
 
-
+VueMarkdownEditor.use(createLineNumbertPlugin());
+VueMarkdownEditor.use(createCopyCodePlugin())
+VueMarkdownEditor.use(createTodoListPlugin())
+VueMarkdownEditor.use(createEmojiPlugin())
+VueMarkdownEditor.use(createTipPlugin())
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
   extend(md) {

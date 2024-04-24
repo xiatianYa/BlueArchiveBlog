@@ -26,8 +26,13 @@ export const useUserStore = defineStore('user', {
             this.id = ""
             this.nickName = ""
             this.avatar = ""
+            this.email = ""
+            this.phone = ""
+            this.createTime = ""
             this.roles = []
             this.permissions = []
+            this.token = ""
+            removeToken()
         },
         SET_USERINFO() {
             //获取用户信息
@@ -36,9 +41,9 @@ export const useUserStore = defineStore('user', {
                 this.id = user.userId
                 this.nickName = user.nickName
                 this.avatar = user.avatar
-                this.email=user.email
-                this.phone=user.phonenumber
-                this.createTime=user.createTime
+                this.email = user.email
+                this.phone = user.phonenumber
+                this.createTime = user.createTime
                 this.roles = res.roles
                 this.permissions = res.permissions
             })
@@ -47,14 +52,14 @@ export const useUserStore = defineStore('user', {
         },
         LogOut() {
             //清除TOKEN 清除用户消息
-            this.id=""
-            this.nickName=""
-            this.avatar=""
-            this.phone=""
-            this.email=""
-            this.createTime=""
-            this.roles=[]
-            this.permissions=[]
+            this.id = ""
+            this.nickName = ""
+            this.avatar = ""
+            this.phone = ""
+            this.email = ""
+            this.createTime = ""
+            this.roles = []
+            this.permissions = []
             this.token = ""
             removeToken()
         }
@@ -66,9 +71,9 @@ export const useUserStore = defineStore('user', {
             id: '',
             nickName: '',
             avatar: '',
-            email:'',
-            phone:'',
-            createTime:'',
+            email: '',
+            phone: '',
+            createTime: '',
             roles: [],
             permissions: []
         }
