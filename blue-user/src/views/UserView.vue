@@ -6,11 +6,12 @@
         <div class="register-box hidden">
           <h1>注册</h1>
           <div class="avater_box">
-            <img :src="userInfo.avater">
+            <img :src="userInfo.avatar">
             <a class="pointer avater_select" @click="selectAvatar(openAvater)">选择头像</a>
           </div>
-          <input type="text" placeholder="用户名" v-model="userInfo.username">
-          <input type="password" placeholder="密码" v-model="userInfo.password">
+          <input type="text" placeholder="用户名" v-model="userInfo.userName">
+          <input type="text" placeholder="用户昵称" v-model="userInfo.nickName">
+          <input type="password" placeholder="密码" v-model="userInfo.passWord">
           <input type="password" placeholder="确认密码" v-model="userInfo.entryPassword">
           <div class="Sms_box">
             <input type="password" placeholder="请填写手机号" v-model="userInfo.phone">
@@ -22,8 +23,8 @@
         <!-- 登录 -->
         <div class="login-box">
           <h1>登录</h1>
-          <input type="text" placeholder="用户名" v-model="userInfo.username">
-          <input type="password" placeholder="密码" v-model="userInfo.password">
+          <input type="text" placeholder="用户名" v-model="userInfo.userName">
+          <input type="password" placeholder="密码" v-model="userInfo.passWord">
           <div class="verification">
             <input type="text" placeholder="请输入验证码" v-model="userInfo.code">
             <img v-lazy="codeImg" @click="getCode">
@@ -73,17 +74,18 @@ let avaterUrls = ref([])
 let codeImg = ref([""])
 //用户信息
 let userInfo = reactive({
-  username: "",
-  password: "",
+  userName: "",
+  passWord: "",
   entryPassword: null,
-  avater: "",
+  avatar: "",
   phone: "",
   sms: null,
   code: null,
   uuid: null,
 })
 onMounted(() => {
-  listAvater().then(res => {
+  //获取用户头像
+  listAvater({pageSize:999}).then(res => {
     avaterUrls.value = res.rows
   })
   getCode()
@@ -110,8 +112,8 @@ function getCode() {
 }
 //用户登录
 function userLogin() {
-  const username = userInfo.username.trim()
-  const password = userInfo.password
+  const username = userInfo.userName.trim()
+  const password = userInfo.passWord
   const code = userInfo.code
   const uuid = userInfo.uuid
   login(username, password, code, uuid).then(res => {
@@ -143,13 +145,16 @@ function userRegister() {
 }
 //清空表单
 function clearUserInfo() {
-  userInfo.username = ""
-  userInfo.password = ""
+  userInfo.userName = ""
+  userInfo.nickName = ""
+  userInfo.passWord = ""
   userInfo.entryPassword = ""
   userInfo.code = ""
   userInfo.uuid = ""
   userInfo.phone = ""
-  userInfo.avater=""
+  userInfo.avatar=""
+  userInfo.code=""
+  userInfo.sms=""
 }
 //前往登录
 function goLogin() {
@@ -167,7 +172,7 @@ function goLogin() {
 
 //切换用户头像
 function exchangeAvater(imgUrl) {
-  userInfo.avater = imgUrl
+  userInfo.avatar = imgUrl
   openAvater.value = false
 }
 
@@ -212,10 +217,10 @@ function goRegister() {
     .form-box {
       /* 绝对定位 */
       position: absolute;
-      top: -10%;
+      top: -20%;
       left: 5%;
       width: 320px;
-      height: 500px;
+      height: 600px;
       border-radius: 5px;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
       display: flex;

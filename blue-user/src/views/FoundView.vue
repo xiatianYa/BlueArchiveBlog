@@ -64,17 +64,17 @@
 
 <script setup>
 import {onMounted, onUnmounted, ref} from 'vue'
-import {useBgStore} from '@/store/bg'
 import {listTv} from '@/api/tv'
 import {listErchuang} from '@/api/erchuang'
 import {listToolBySort} from '@/api/tool'
 import {useRouter} from 'vue-router'
+import {useBgStore} from '@/store/bg'
 import Loading from '@/components/CssLoadingView.vue'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 import ToolDetail from '@/components/ToolDetail.vue'
 //背景视频
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1"))
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (4)_20240426122822A006.mp4")
 //路由
 const router = useRouter()
 //番剧列表
@@ -105,12 +105,15 @@ onUnmounted(() => {
 function init() {
   if (type.value === 0) {
     listTv(queryParam.value).then(res => {
+      isLastPage(res.total)
       pixivList.value = res.rows
     })
   }
 }
 //选择导航
 function selectSort(index) {
+  //点击后回到顶部
+  window.scrollTo({ behavior: 'smooth', top: 0 });
   type.value = index
   //清除到底标记
   loadingEnd.value = false;
@@ -122,11 +125,13 @@ function selectSort(index) {
   //番剧
   if (type.value === 0) {
     listTv(queryParam.value).then(res => {
+      isLastPage(res.total)
       pixivList.value = res.rows
     })
     //二创
   } else if (type.value === 1) {
     listErchuang(queryParam.value).then(res => {
+      isLastPage(res.total)
       erchuangList.value = res.rows
     })
     //编程工具
@@ -144,26 +149,21 @@ function goPixiv(pixivId) {
   router.push({ path: '/pixivView', query: { pixivId: pixivId } })
 }
 //加载数据
-const loadData = () => {
+function loadData() {
+  loading.value = true
   if (type.value === 0) {
-    loading.value = true
     queryParam.value.pageNum += 1;
     listTv(queryParam.value).then(res => {
-      if (isLastPage(res.total)) {
-        loadingEnd.value = true
-      }
+      isLastPage(res.total)
       for (const item of res.rows) {
         pixivList.value.push(item)
       }
       loading.value = false;
     })
   } else if (type.value === 1) {
-    loading.value = true
     queryParam.value.pageNum += 1;
     listErchuang(queryParam.value).then(res => {
-      if (isLastPage(res.total)) {
-        loadingEnd.value = true
-      }
+      isLastPage(res.total)
       for (const item of res.rows) {
         erchuangList.value.push(item)
       }
@@ -192,7 +192,9 @@ function isLastPage(total) {
   // 计算总页数  
   var totalPages = Math.ceil(total / queryParam.value.pageSize);
   // 如果当前页码等于总页数，那么就是最后一页  
-  return queryParam.value.pageNum >= totalPages;
+  if (queryParam.value.pageNum >= totalPages) {
+    loadingEnd.value = true;
+  }
 }
 </script>
 

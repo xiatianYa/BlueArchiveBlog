@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- 添加修改框 -->
-    <div class="found_dialog" v-show="erchuangShow">
+    <div class="found_dialog" v-if="erchuangShow">
       <div class="dialog">
         <div class="found_title">
           <span v-show="!erchuang.id">添加二创</span>

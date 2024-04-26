@@ -26,8 +26,7 @@
       </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>
-          <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label"
-            :value="dict.value" />
+          <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="是否完结" prop="isEnd">
@@ -113,7 +112,7 @@
         <el-form-item label="番剧图片" prop="pixivAvater">
           <image-upload v-model="form.pixivAvater" />
         </el-form-item>
-        <el-form-item label="番剧集">
+        <el-form-item label="番剧集" v-show="form.id">
           <el-button type="primary" @click="uploadEpisode(form.id)">上传番剧集<i
               class="el-icon-upload el-icon--right"></i></el-button>
         </el-form-item>
@@ -165,10 +164,12 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="danger" icon="el-icon-delete" circle @click="deleteEpisode(scope.row)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="deleteEpisode(scope.row.id)"></el-button>
           </template>
         </el-table-column>
       </el-table>
+      <pagination v-show="EpisodeTotal > 0" :total="EpisodeTotal" :page.sync="EpisodequeryParams.pageNum" :limit.sync="EpisodequeryParams.pageSize"
+        @pagination="listEpisodeByTvId" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEpisodeVisible = false">取 消</el-button>
         <el-button type="primary" @click="saveEpisode">确 定</el-button>
@@ -178,7 +179,7 @@
     <el-dialog title="添加番剧集" :visible.sync="addEpisodeVisible" width="500px" append-to-body>
       <el-form ref="episodeForm" :model="addEpisodeForm" :rules="episodeRules" label-width="80px">
         <el-form-item label="番剧集" prop="pixivChapters">
-          <el-input v-model="addEpisodeForm.pixivChapters"></el-input>
+          <el-input-number v-model="addEpisodeForm.pixivChapters" :min="1" label="番剧第几集"></el-input-number>
         </el-form-item>
         <el-form-item label="番剧集路径" prop="pixivUrl">
           <file-upload v-model="addEpisodeForm.pixivUrl" />
@@ -195,7 +196,7 @@
 <script>
 import {addTv, delTv, getTv, listTv, updateTv} from "@/api/blog/tv";
 import {listType} from "@/api/sort/pixivSort";
-import {listEpisode} from '@/api/blog/episode';
+import {addEpisode, delEpisode, listEpisode} from '@/api/blog/episode';
 
 export default {
   name: "Tv",
@@ -233,6 +234,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
+      // 总条数
+      EpisodeTotal: 0,
       // 番剧信息表格数据
       tvList: [],
       // 弹出层标题
@@ -253,6 +256,11 @@ export default {
         pixivPlay: null,
         status: null,
         isEnd: null,
+      },
+      // 番剧集查询参数
+      EpisodequeryParams: {
+        pageNum: 1,
+        pageSize: 10,
       },
       // 表单参数
       form: {},
@@ -310,16 +318,31 @@ export default {
         pixivUrl: "",
       }
     },
-    /** 删除单挑番剧集 */
-    deleteEpisode(episode) {
-      this.EpisodeData = this.EpisodeData.filter(item => item.pixivChapters != episode.pixivChapters)
+    /** 删除单条番剧集 */
+    deleteEpisode(id) {
+      this.$modal.confirm('是否确认删除番剧集信息编号为"' + id + '"的数据项？').then(function () {
+        return delEpisode(id);
+      }).then(() => {
+        this.$modal.msgSuccess("删除成功");
+        //重新查询番剧集
+        this.listEpisodeByTvId();
+      }).catch(() => {
+        this.$modal.msgError("删除失败");
+      });
     },
     /** 添加单条番剧集 */
     addEpisode() {
       this.$refs["episodeForm"].validate(valid => {
         if (valid) {
-          this.EpisodeData.push(this.addEpisodeForm)
-          this.resetAddEpisode()
+          this.addEpisodeForm.pixivId = this.form.id;
+          //保存记录
+          addEpisode(this.addEpisodeForm).then(response => {
+            this.$modal.msgSuccess("添加成功");
+            this.listEpisodeByTvId();
+          }).catch(error => {
+            this.$modal.msgError("添加失败");
+          })
+          this.resetAddEpisode();
           this.addEpisodeVisible = false;
         }
       });
@@ -338,12 +361,8 @@ export default {
     handleEpisodeAdd() {
       this.addEpisodeVisible = true;
     },
-    /** 番剧集删除 */
-    handleEpisodeDelete() {
-
-    },
     /** 上传番剧集 */
-    uploadEpisode(pixivId) {
+    uploadEpisode() {
       //打开拟态框
       this.dialogEpisodeVisible = true;
     },
@@ -355,6 +374,18 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    /** 查询当前番剧的番剧集列表 */
+    listEpisodeByTvId() {
+      //清空列表
+      this.EpisodequeryParams.pixivId = this.form.id;
+      listEpisode(this.EpisodequeryParams).then(res => {
+        this.EpisodeTotal=res.total;
+        this.EpisodeData = []
+        for (const episode of res.rows) {
+          this.EpisodeData.push(episode);
+        }
+      })
     },
     // 取消按钮
     cancel() {
@@ -413,14 +444,7 @@ export default {
       getTv(id).then(response => {
         this.form = response.data;
         //查询当前番剧拥有的番剧集
-        const query = {
-          pixivId: id
-        }
-        listEpisode(query).then(res => {
-          for (const episode of res.rows) {
-            this.EpisodeData.push(episode);
-          }
-        })
+        this.listEpisodeByTvId()
         this.open = true;
         this.title = "修改番剧信息";
       });
@@ -430,14 +454,12 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            this.form.episodeList = this.EpisodeData;
             updateTv(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            this.form.episodeList = this.EpisodeData;
             addTv(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;

@@ -22,7 +22,7 @@ function goHref(url: string) {
 
 <style lang="scss" scoped>
 .erchuang {
-    width: 29%;
+    width: 32%;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -37,6 +37,7 @@ function goHref(url: string) {
 
         img {
             width: 100%;
+            min-height: 170px;
             max-height: 170px;
             transition: all 0.3s ease-in-out;
             object-fit: cover;

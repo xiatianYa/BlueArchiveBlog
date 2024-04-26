@@ -80,7 +80,7 @@ import {listFriend} from '@/api/friend'
 import {listInfo} from '@/api/info'
 import {listWebsite} from '@/api/website'
 
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4"))
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (2)_20240426121911A004.mp4")
 //友链列表
 const FriednList = ref([])
 //网站信息

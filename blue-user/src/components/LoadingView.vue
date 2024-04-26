@@ -39,7 +39,7 @@ onMounted(() => {
     })
     Maxpercentages.value = 100;
   } else {
-    Maxpercentages.value = 100;
+    Maxpercentages.value = 20;
   }
   //定时切换阿罗那图片 1s
   timer.value.push(setInterval(() => {

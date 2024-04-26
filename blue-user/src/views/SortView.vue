@@ -1,16 +1,16 @@
 <template>
   <div class="sort">
-    <div class="banner">
+    <div class="banner no_select">
       <div class="animate__animated animate__slideInDown banner_video">
         <video autoplay loop muted>
           <source :src="bgUrl" type="video/mp4">
         </video>
 
         <div class="sorts">
-          <svg class="icon pointer" aria-hidden="true">
+          <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
-          <div :id="sort.id == sortIndex ? 'select' : ''" class="sort" v-for="sort in sortList"
+          <div :id="sort.id == sortIndex ? 'select' : ''" class="sort pointer" v-for="sort in sortList"
             @click="selectSort(sort)">
             <span class="sort_name">
               {{ sort.sortName }}
@@ -21,10 +21,10 @@
           </div>
         </div>
         <div class="tags">
-          <svg aria-hidden="true" class="icon pointer" @click="goDown">
+          <svg aria-hidden="true" class="icon" @click="goDown">
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
-          <div :id="tag.id == tagIndex ? 'select' : ''" class="tag" v-for="tag in tagList"
+          <div :id="tag.id == tagIndex ? 'select' : ''" class="tag pointer" v-for="tag in tagList"
             @click="selectArticleListByTagId(tag.id)">
             <span class="tag_name">
               {{ tag.tagName }}
@@ -39,11 +39,11 @@
     <div class="container">
       <div class="content">
         <div class="content_body">
-          <SortDetail :article="article" v-for="article in articleList"></SortDetail>
+          <SortDetail :article="article" v-for="article in articleList"  @click="goArticlePreview(article.id)"></SortDetail>
         </div>
       </div>
     </div>
-    <Loading v-show="loading"/>
+    <Loading v-show="loading" />
   </div>
 </template>
 
@@ -59,7 +59,7 @@ import Loading from '@/components/CssLoadingView.vue'
 import promptMsg from "@/components/PromptBoxView"
 
 const router = useRouter()
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2"))
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (3)_20240426122240A005.mp4")
 //分类下标
 const sortIndex = ref(0)
 //标签下标
@@ -80,6 +80,14 @@ const loadingEnd = ref(false)
 //是否加载中
 const loading = ref(false)
 onMounted(() => {
+  init()
+})
+onUnmounted(() => {
+  //移除滚动事件
+  window.removeEventListener('scroll', handleScroll)
+})
+//初始化
+function init() {
   //添加滚动事件
   window.addEventListener('scroll', handleScroll)
   //获取分类列表
@@ -137,11 +145,11 @@ onMounted(() => {
       })
     })
   })
-})
-onUnmounted(() => {
-  //移除滚动事件
-  window.removeEventListener('scroll', handleScroll)
-})
+}
+//跳转到文章浏览页
+function goArticlePreview(articleId) {
+  router.push({ path: '/editPreView', query: { articleId: articleId } })
+}
 //设置标签下标 和标签列表
 function selectSort(sort) {
   //清除查询列表
@@ -171,7 +179,7 @@ function selectSort(sort) {
     })
   }
 }
-//查询所有标签下的文章列表
+//查询标签下的文章列表
 function selectArticleListByTagId(tagId) {
   //清除查询列表
   queryParam.value = {

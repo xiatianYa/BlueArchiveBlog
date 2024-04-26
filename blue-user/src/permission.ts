@@ -1,17 +1,8 @@
 import router from './router'
 import {getToken} from '@/utils/auth'
 import {useUserStore} from '@/store/user'
-import {listBg} from '@/api/bg'
-import {useBgStore} from '@/store/bg'
 
 router.beforeEach((to, from, next) => {
-    //背景仓库
-    const BgStore = useBgStore()
-    if (BgStore.bgList.length <= 1) {
-        listBg().then((res: any) => {
-            BgStore.SET_BGLIST(res)
-        })
-    }
     //没有token
     if (!getToken()) {
         next()
@@ -29,6 +20,5 @@ router.beforeEach((to, from, next) => {
     }
 })
 //路由跳转后
-router.afterEach(() => {
-
+router.afterEach((next) => {
 })

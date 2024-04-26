@@ -6,16 +6,26 @@ package com.blue.auth.form;
  *
  * @author ruoyi
  */
-public class RegisterBody extends LoginBody {
+public class RegisterBody{
     /**
      * 用户名
      */
-    private String username;
+    private String userName;
+
+    /**
+     * 用户名
+     */
+    private String nickName;
+
+    /**
+     * 手机号
+     */
+    private String phone;
 
     /**
      * 用户密码
      */
-    private String password;
+    private String passWord;
     /**
      * 用户确认密码
      */
@@ -23,34 +33,43 @@ public class RegisterBody extends LoginBody {
     /**
      * 用户头像
      */
-    private String avater;
-    /**
-     * 用户手机号
-     */
-    private String phone;
+    private String avatar;
+
     /**
      * 用户手机验证码
      */
     private String sms;
 
-    @Override
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    @Override
-    public String getPassword() {
-        return password;
+    public String getNickName() {
+        return nickName;
     }
 
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
     public String getEntryPassword() {
@@ -61,20 +80,12 @@ public class RegisterBody extends LoginBody {
         this.entryPassword = entryPassword;
     }
 
-    public String getAvater() {
-        return avater;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvater(String avater) {
-        this.avater = avater;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getSms() {

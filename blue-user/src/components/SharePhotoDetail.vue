@@ -320,7 +320,8 @@ function handleImageUpload(event) {
           display: flex;
           justify-content: center;
           width: 80%;
-          height: auto;
+          min-height: 60%;
+          max-height: 60%;
           overflow: hidden;
           border-radius: 10px;
           margin: 10px;

@@ -1,12 +1,5 @@
 package com.blue.file.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Objects;
-
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.web.multipart.MultipartFile;
 import com.blue.common.core.exception.file.FileException;
 import com.blue.common.core.exception.file.FileNameLengthLimitExceededException;
 import com.blue.common.core.exception.file.FileSizeLimitExceededException;
@@ -16,6 +9,13 @@ import com.blue.common.core.utils.StringUtils;
 import com.blue.common.core.utils.file.FileTypeUtils;
 import com.blue.common.core.utils.file.MimeTypeUtils;
 import com.blue.common.core.utils.uuid.Seq;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 /**
  * 文件上传工具类
@@ -24,9 +24,9 @@ import com.blue.common.core.utils.uuid.Seq;
  */
 public class FileUploadUtils {
     /**
-     * 默认大小 50M
+     * 默认大小 2000M
      */
-    public static final long DEFAULT_MAX_SIZE = 200 * 1024 * 1024;
+    public static final long DEFAULT_MAX_SIZE = 3072L * 1024 * 1024;
 
     /**
      * 默认的文件名最大长度 100

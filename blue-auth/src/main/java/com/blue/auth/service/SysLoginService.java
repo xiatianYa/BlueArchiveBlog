@@ -108,12 +108,14 @@ public class SysLoginService {
      * 注册
      */
     public String register(RegisterBody registerBody) {
-        // 用户名或密码为空
-        if (StringUtils.isAnyBlank(registerBody.getUsername(), registerBody.getPassword())) {
-            throw new ServiceException("用户/密码必须填写");
-        }
+        // 用户名 用户昵称 密码 为空就进入
+        if (!StringUtils.isNotEmpty(registerBody.getUserName())
+                || !StringUtils.isNotEmpty(registerBody.getNickName())
+                || !StringUtils.isNotEmpty(registerBody.getPassWord())) {
+            throw new ServiceException("用户名|用户昵称|密码 为空");
+       }
         // 未选择头像
-        if (!StringUtils.isNotEmpty(registerBody.getAvater())) {
+        if (!StringUtils.isNotEmpty(registerBody.getAvatar())) {
             throw new ServiceException("请选择头像");
         }
         //校验手机号是否为空
@@ -134,13 +136,22 @@ public class SysLoginService {
         }else {
             throw new ServiceException("请先填写验证码");
         }
+        //用户名 用户名称长度校验
+        if (registerBody.getUserName().length() < UserConstants.USERNAME_MIN_LENGTH
+                || registerBody.getUserName().length() > UserConstants.USERNAME_MAX_LENGTH) {
+            throw new ServiceException("用户名长度必须在2到20个字符之间");
+        }
+        if (registerBody.getNickName().length() < UserConstants.USERNAME_MIN_LENGTH
+                || registerBody.getNickName().length() > UserConstants.USERNAME_MAX_LENGTH) {
+            throw new ServiceException("用户名长度必须在2到20个字符之间");
+        }
         // 密码长度不正确
-        if (registerBody.getPassword().length() < UserConstants.PASSWORD_MIN_LENGTH
-                || registerBody.getPassword().length() > UserConstants.PASSWORD_MAX_LENGTH) {
+        if (registerBody.getPassWord().length() < UserConstants.PASSWORD_MIN_LENGTH
+                || registerBody.getPassWord().length() > UserConstants.PASSWORD_MAX_LENGTH) {
             throw new ServiceException("密码长度必须在5到20个字符之间");
         }
-        // 密码长度不一致
-        if (!registerBody.getPassword().equals(registerBody.getEntryPassword())) {
+        // 密码不一致
+        if (!registerBody.getPassWord().equals(registerBody.getEntryPassword())) {
             throw new ServiceException("两次密码不一致");
         }
         //校验手机号格式是否正确
@@ -154,13 +165,15 @@ public class SysLoginService {
         // 注册用户信息
         SysUser sysUser = new SysUser();
         // 设置用户名称
-        sysUser.setUserName(registerBody.getUsername());
+        sysUser.setUserName(registerBody.getUserName());
         //设置用户NickName
-        sysUser.setNickName(registerBody.getUsername());
+        sysUser.setNickName(registerBody.getNickName());
+        //设置用户手机号
+        sysUser.setPhonenumber(registerBody.getPhone());
         // 设置用户密码
-        sysUser.setPassword(SecurityUtils.encryptPassword(registerBody.getPassword()));
+        sysUser.setPassword(SecurityUtils.encryptPassword(registerBody.getPassWord()));
         // 设置用户头像
-        sysUser.setAvatar(registerBody.getAvater());
+        sysUser.setAvatar(registerBody.getAvatar());
         //设置用户角色为普通用户
         sysUser.setRoleId(100L);
         R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
@@ -170,7 +183,7 @@ public class SysLoginService {
         //清除Redis验证码缓存
         redisService.deleteObject(registerBody.getPhone());
         //返回成功信息
-        recordLogService.recordLogininfor(registerBody.getUsername(), Constants.REGISTER, "注册成功");
+        recordLogService.recordLogininfor(registerBody.getUserName(), Constants.REGISTER, "注册成功");
         return "注册成功";
     }
     /**

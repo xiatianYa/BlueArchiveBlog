@@ -16,7 +16,8 @@
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
+CREATE DATABASE IF NOT EXISTS `bluearchive` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `bluearchive`;
 DROP TABLE IF EXISTS `blue_article`;
 CREATE TABLE `blue_article`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -293,7 +294,7 @@ CREATE TABLE `blue_pixiv_leave_message`  (
   `create_by` int NULL DEFAULT NULL COMMENT '创建人',
   `update_by` int NULL DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '番剧弹幕表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '番剧弹幕表' ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `blue_pixiv_tv`;
 CREATE TABLE `blue_pixiv_tv`  (

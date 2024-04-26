@@ -1,7 +1,7 @@
 <template>
   <div class="home_box no_select">
     <div class="animate__animated animate__slideInDown video_bg">
-      <video autoplay class="video-background" loop muted>
+      <video autoplay id="bg_Video" class="video-background" loop muted>
         <source :src="bgUrl" type="video/mp4">
       </video>
       <div class="typewriter animation_writer">
@@ -232,7 +232,7 @@ const sortList = ref({})
 //推荐文章
 const recommendArticleList = ref({})
 //背景视频
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp_20240426120315A001.mp4")
 //搜索加载中
 const searchLoading = ref(false);
 //搜索显示
@@ -403,36 +403,25 @@ function goHref(url) {
         }
 
         .content_info {
-          display: flex;
-          flex-direction: column;
           transition-duration: 0.5s;
           background: linear-gradient(to right, #9fe1fa, #f4edc9);
 
           .info_link {
             display: flex;
             justify-content: center;
-            align-items: center;
             padding: 20px 0 20px 0;
 
             ul {
               display: flex;
               height: 100%;
-              flex-direction: row;
-              justify-content: center;
-              align-items: center;
               /* 默认有边距，都要清除 */
               margin: 0;
               padding: 0;
               list-style: none;
 
               li {
-                padding-left: 10px;
-
+                box-sizing: border-box;
                 .icon {
-                  flex: 1;
-                  width: 1em;
-                  height: 1em;
-                  vertical-align: -0.15em;
                   fill: currentColor;
                   overflow: hidden;
                   font-size: 32px;

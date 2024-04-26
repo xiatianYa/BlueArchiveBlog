@@ -1,7 +1,7 @@
 <template>
   <div class="sort_detail">
     <div class="sort_cards">
-      <div class="card box_shadow  animate__animated animate__slideInUp" @click="goArticlePreview(article.id)">
+      <div class="card box_shadow  animate__animated animate__slideInUp">
         <div class="card_img">
           <img v-lazy="article.cover">
         </div>
@@ -47,12 +47,6 @@
 
 <script setup>
 const props = defineProps(['article'])
-import {useRouter} from 'vue-router'
-
-const router = useRouter()
-function goArticlePreview(sortId) {
-  router.push({ path: '/editPreView', query: { sortId: sortId } })
-}
 </script>
 
 <style lang="scss" scoped>

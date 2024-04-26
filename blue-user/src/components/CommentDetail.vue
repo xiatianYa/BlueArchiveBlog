@@ -139,9 +139,11 @@ function addLeaverComment() {
 }
 //添加子节点
 function addLeaverCommentChile() {
+  //回复信息 要携带@头
   if (commentLeaver.value.reply) {
     commentLeaver.value.commentContent = "@" + commentLeaver.value.reply.userName + ":" + commentLeaver.value.commentContent;
   }
+  //添加评论
   addComment(commentLeaver.value).then(res => {
     promptMsg({ type: "success", msg: res.msg })
     //重新获取数据

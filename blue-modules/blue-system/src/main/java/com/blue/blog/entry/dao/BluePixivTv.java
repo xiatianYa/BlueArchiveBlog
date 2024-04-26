@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 番剧信息对象 blue_pixiv_tv
@@ -76,8 +75,5 @@ public class BluePixivTv extends BaseEntity
     @Excel(name = "是否完结")
     private Long isEnd;
 
-    /** 番剧集资源列表 */
-    @Excel(name = "番剧集资源列表")
-    private List<BluePixivEpisode> episodeList;
 
 }

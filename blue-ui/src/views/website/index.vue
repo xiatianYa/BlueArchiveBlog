@@ -93,7 +93,7 @@ export default {
     methods: {
         clearWebsite() {
             this.websiteInfo = {
-                id:this.websiteInfo.id || "",
+                id: this.websiteInfo.id || "",
                 websiteName: '',
                 websiteCover: '',
                 websiteUrl: '',
@@ -103,14 +103,14 @@ export default {
         },
         clearNotice() {
             this.noticeInfo = {
-                id:this.noticeInfo.id || "",
+                id: this.noticeInfo.id || "",
                 noticeTitle: '',
                 noticeContent: '',
             }
         },
         clearFriendInfo() {
             this.friendInfo = {
-                id:this.friendInfo.id || "",
+                id: this.friendInfo.id || "",
                 friendUrl: '',
                 friendContent: '',
                 friendDetail: ''
@@ -208,15 +208,21 @@ export default {
         init() {
             //获取网站信息
             listWebsite().then(res => {
-                this.websiteInfo = res.rows[0]
+                if (!res.rows) {
+                    this.websiteInfo = res.rows[0]
+                }
             })
             //获取公告信息
             listNotice().then(res => {
-                this.noticeInfo = res.rows[0]
+                if (!res.rows) {
+                    this.noticeInfo = res.rows[0]
+                }
             })
             //获取友链信息
             listInfo().then(res => {
-                this.friendInfo = res.rows[0]
+                if (!res.rows) {
+                    this.friendInfo = res.rows[0]
+                }
             })
         },
     }

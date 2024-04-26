@@ -49,7 +49,7 @@ import {onMounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {bySortList} from '@/api/music'
 
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("5"))
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("5") || "http://127.0.0.1:9300/statics/2024/04/26/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd_20240426121202A002.mp4")
 //音乐列表
 const musicList = ref([])
 //存储上一个img图片

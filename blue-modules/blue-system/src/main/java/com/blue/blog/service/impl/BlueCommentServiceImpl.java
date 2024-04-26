@@ -64,7 +64,7 @@ public class BlueCommentServiceImpl implements IBlueCommentService
             for (SysUser sysUser : sysUsers) {
                 if (sysUser.getUserId().equals(Long.valueOf(comment.getCreateBy()))){
                     //设置用户名称
-                    comment.setUserName(sysUser.getUserName());
+                    comment.setUserName(sysUser.getNickName());
                     //设置用户头像
                     comment.setUserAvatar(sysUser.getAvatar());
                 }
@@ -90,7 +90,7 @@ public class BlueCommentServiceImpl implements IBlueCommentService
                     for (SysUser sysUser : sysUsers) {
                         if (sysUser.getUserId().equals(Long.valueOf(commentChile.getCreateBy()))){
                             //设置用户名称
-                            commentChile.setUserName(sysUser.getUserName());
+                            commentChile.setUserName(sysUser.getNickName());
                             //设置用户头像
                             commentChile.setUserAvatar(sysUser.getAvatar());
                         }
@@ -168,6 +168,11 @@ public class BlueCommentServiceImpl implements IBlueCommentService
         return blueCommentMapper.deleteBlueCommentById(id);
     }
 
+
+    /**
+     * 根据条件查询全部评论
+     * @param blueComment 查询对象
+     */
     @Override
     public List<BlueComment> selectBlueCommentListAll(BlueComment blueComment) {
         return blueCommentMapper.selectBlueCommentList(blueComment);

@@ -1,9 +1,13 @@
 package com.blue.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.entry.dao.BluePixivEpisode;
 import com.blue.blog.mapper.BluePixivEpisodeMapper;
 import com.blue.blog.service.IBluePixivEpisodeService;
+import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -54,6 +58,18 @@ public class BluePixivEpisodeServiceImpl implements IBluePixivEpisodeService
     @Override
     public int insertBluePixivEpisode(BluePixivEpisode bluePixivEpisode)
     {
+        //查询有没有番剧集是一样的数据
+        LambdaQueryWrapper<BluePixivEpisode> bluePixivEpisodeLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        bluePixivEpisodeLambdaQueryWrapper.eq(BluePixivEpisode::getPixivId,bluePixivEpisode.getPixivId());
+        bluePixivEpisodeLambdaQueryWrapper.eq(BluePixivEpisode::getPixivChapters,bluePixivEpisode.getPixivChapters());
+        BluePixivEpisode selectOne = bluePixivEpisodeMapper.selectOne(bluePixivEpisodeLambdaQueryWrapper);
+        if (StringUtils.isNotNull(selectOne)){
+            throw new ServiceException("番剧集存储已存在");
+        }
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            bluePixivEpisode.setCreateBy(String.valueOf(userId));
+        }
         bluePixivEpisode.setCreateTime(DateUtils.getNowDate());
         return bluePixivEpisodeMapper.insertBluePixivEpisode(bluePixivEpisode);
     }
@@ -67,6 +83,10 @@ public class BluePixivEpisodeServiceImpl implements IBluePixivEpisodeService
     @Override
     public int updateBluePixivEpisode(BluePixivEpisode bluePixivEpisode)
     {
+        Long userId = SecurityUtils.getUserId();
+        if (StringUtils.isNotNull(userId)){
+            bluePixivEpisode.setUpdateBy(String.valueOf(userId));
+        }
         bluePixivEpisode.setUpdateTime(DateUtils.getNowDate());
         return bluePixivEpisodeMapper.updateBluePixivEpisode(bluePixivEpisode);
     }

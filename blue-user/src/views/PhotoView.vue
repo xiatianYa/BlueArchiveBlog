@@ -67,7 +67,7 @@ import {listSort} from '@/api/sort/photoSort'
 import Loading from '@/components/CssLoadingView.vue'
 
 //视频背景
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3"))
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (1)_20240426121632A003.mp4")
 //相册列表
 const PhotoList = ref([])
 //相册分类
@@ -266,29 +266,21 @@ function isLastPage(total) {
 
     .photo {
       box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
       width: 20%;
       border-radius: 10px;
       padding-bottom: 0;
       margin: 20px;
       max-height: 300px;
 
-      .photo_msg {
-        display: flex;
-        align-items: center;
-        width: 80%;
-        height: auto;
-
-        span {
-          font-size: 16px;
-        }
-      }
-
       .photo_img {
         flex-grow: 1;
         display: flex;
         justify-content: center;
-        width: 80%;
-        height: auto;
+        width: 90%;
+        max-height: 60%;
+        min-height: 60%;
         overflow: hidden;
         border-radius: 10px;
         margin-top: 10px;
@@ -304,6 +296,17 @@ function isLastPage(total) {
           object-fit: cover;
           transform: scale(1.1);
           transition: all 0.3s ease-in;
+        }
+      }
+
+      .photo_msg {
+        display: flex;
+        align-items: center;
+        width: 80%;
+        height: auto;
+
+        span {
+          font-size: 16px;
         }
       }
 
