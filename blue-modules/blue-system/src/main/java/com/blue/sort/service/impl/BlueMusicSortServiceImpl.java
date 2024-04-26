@@ -56,7 +56,7 @@ public class BlueMusicSortServiceImpl implements IBlueMusicSortService
     @Override
     public int insertBlueMusicSort(BlueMusicSort blueMusicSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueMusicSort.setCreateBy(userId.toString());
         }
@@ -73,7 +73,7 @@ public class BlueMusicSortServiceImpl implements IBlueMusicSortService
     @Override
     public int updateBlueMusicSort(BlueMusicSort blueMusicSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueMusicSort.setUpdateBy(userId.toString());
         }

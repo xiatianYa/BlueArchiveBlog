@@ -85,7 +85,7 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
     @Override
     public int insertBlueSortTag(BlueSortTag blueSortTag)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueSortTag.setCreateBy(userId.toString());
         }
@@ -102,7 +102,7 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
     @Override
     public int updateBlueSortTag(BlueSortTag blueSortTag)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueSortTag.setUpdateBy(userId.toString());
         }

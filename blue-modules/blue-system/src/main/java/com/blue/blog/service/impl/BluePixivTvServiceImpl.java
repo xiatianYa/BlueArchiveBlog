@@ -96,7 +96,7 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     @Transactional
     public int insertBluePixivTv(BluePixivTv bluePixivTv)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             bluePixivTv.setCreateBy(String.valueOf(userId));
         }
@@ -122,7 +122,7 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     @Transactional
     public int updateBluePixivTv(BluePixivTv bluePixivTv)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             //设置修改时间
             bluePixivTv.setUpdateBy(String.valueOf(userId));

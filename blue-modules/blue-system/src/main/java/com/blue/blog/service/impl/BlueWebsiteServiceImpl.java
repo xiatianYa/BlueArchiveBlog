@@ -56,7 +56,7 @@ public class BlueWebsiteServiceImpl implements IBlueWebsiteService
     @Override
     public int insertBlueWebsite(BlueWebsite blueWebsite)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueWebsite.setCreateBy(String.valueOf(userId));
         }
@@ -73,7 +73,7 @@ public class BlueWebsiteServiceImpl implements IBlueWebsiteService
     @Override
     public int updateBlueWebsite(BlueWebsite blueWebsite)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueWebsite.setUpdateBy(String.valueOf(userId));
         }

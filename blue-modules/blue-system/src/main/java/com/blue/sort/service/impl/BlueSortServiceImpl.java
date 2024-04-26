@@ -90,7 +90,7 @@ public class BlueSortServiceImpl implements IBlueSortService
     @Override
     public int insertBlueSort(BlueSort blueSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueSort.setCreateBy(userId.toString());
         }
@@ -107,7 +107,7 @@ public class BlueSortServiceImpl implements IBlueSortService
     @Override
     public int updateBlueSort(BlueSort blueSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueSort.setUpdateBy(userId.toString());
         }

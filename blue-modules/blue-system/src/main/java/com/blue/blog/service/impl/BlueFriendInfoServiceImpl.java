@@ -56,7 +56,7 @@ public class BlueFriendInfoServiceImpl implements IBlueFriendInfoService
     @Override
     public int insertBlueFriendInfo(BlueFriendInfo blueFriendInfo)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueFriendInfo.setCreateBy(String.valueOf(userId));
         }
@@ -73,7 +73,7 @@ public class BlueFriendInfoServiceImpl implements IBlueFriendInfoService
     @Override
     public int updateBlueFriendInfo(BlueFriendInfo blueFriendInfo)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueFriendInfo.setUpdateBy(String.valueOf(userId));
         }

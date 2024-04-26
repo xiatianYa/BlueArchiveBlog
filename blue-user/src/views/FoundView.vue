@@ -35,16 +35,16 @@
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
-          <span v-if="type === 0">
+          <span v-show="type === 0">
             番剧
           </span>
-          <span v-if="type === 1">
+          <span v-show="type === 1">
             二创
           </span>
-          <span v-if="type === 2">
+          <span v-show="type === 2">
             编程工具
           </span>
-          <span v-if="type === 3">
+          <span v-show="type === 3">
             小游戏
           </span>
           <svg class="icon pointer" aria-hidden="true">
@@ -114,7 +114,9 @@ function init() {
 function selectSort(index) {
   //点击后回到顶部
   window.scrollTo({ behavior: 'smooth', top: 0 });
-  type.value = index
+  type.value = index;
+  //清除加载
+  loading.value = false;
   //清除到底标记
   loadingEnd.value = false;
   //清除分页数据
@@ -150,8 +152,9 @@ function goPixiv(pixivId) {
 }
 //加载数据
 function loadData() {
-  loading.value = true
   if (type.value === 0) {
+    //开始加载
+    loading.value = true
     queryParam.value.pageNum += 1;
     listTv(queryParam.value).then(res => {
       isLastPage(res.total)
@@ -161,6 +164,8 @@ function loadData() {
       loading.value = false;
     })
   } else if (type.value === 1) {
+    //开始加载
+    loading.value = true
     queryParam.value.pageNum += 1;
     listErchuang(queryParam.value).then(res => {
       isLastPage(res.total)

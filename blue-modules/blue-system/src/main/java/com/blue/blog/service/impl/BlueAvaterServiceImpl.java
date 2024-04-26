@@ -56,7 +56,7 @@ public class BlueAvaterServiceImpl implements IBlueAvaterService
     @Override
     public int insertBlueAvater(BlueAvater blueAvater)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueAvater.setCreateBy(userId.toString());
         }
@@ -73,7 +73,7 @@ public class BlueAvaterServiceImpl implements IBlueAvaterService
     @Override
     public int updateBlueAvater(BlueAvater blueAvater)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueAvater.setUpdateBy(userId.toString());
         }

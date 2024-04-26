@@ -114,7 +114,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     public int insertBlueArticle(BlueArticle blueArticle)
     {
         isCheckArticle(blueArticle);
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             //设置创建者ID
             blueArticle.setCreateBy(userId.toString());
@@ -155,7 +155,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         isCheckUser(blueArticle.getId());
         //文章校验
         isCheckArticle(blueArticle);
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueArticle.setUpdateBy(userId.toString());
         }
@@ -318,7 +318,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      */
     @Override
     public int auditing(BlueArticle blueArticle) {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueArticle.setUpdateBy(userId.toString());
         }

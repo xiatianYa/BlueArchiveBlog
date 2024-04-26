@@ -73,7 +73,7 @@ public class BlueProgramToolServiceImpl implements IBlueProgramToolService
     @Override
     public int insertBlueProgramTool(BlueProgramTool blueProgramTool)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueProgramTool.setCreateBy(String.valueOf(userId));
         }
@@ -90,7 +90,7 @@ public class BlueProgramToolServiceImpl implements IBlueProgramToolService
     @Override
     public int updateBlueProgramTool(BlueProgramTool blueProgramTool)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueProgramTool.setUpdateBy(String.valueOf(userId));
         }

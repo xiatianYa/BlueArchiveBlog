@@ -56,7 +56,7 @@ public class BluePixivLeaveMessageServiceImpl implements IBluePixivLeaveMessageS
     @Override
     public int insertBluePixivLeaveMessage(BluePixivLeaveMessage bluePixivLeaveMessage)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             bluePixivLeaveMessage.setCreateBy(userId.toString());
         }
@@ -73,7 +73,7 @@ public class BluePixivLeaveMessageServiceImpl implements IBluePixivLeaveMessageS
     @Override
     public int updateBluePixivLeaveMessage(BluePixivLeaveMessage bluePixivLeaveMessage)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             bluePixivLeaveMessage.setCreateBy(userId.toString());
         }

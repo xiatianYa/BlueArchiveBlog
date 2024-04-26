@@ -56,7 +56,7 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService
     @Override
     public int insertBluePhotoSort(BluePhotoSort bluePhotoSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             bluePhotoSort.setCreateBy(userId.toString());
         }
@@ -73,7 +73,7 @@ public class BluePhotoSortServiceImpl implements IBluePhotoSortService
     @Override
     public int updateBluePhotoSort(BluePhotoSort bluePhotoSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             bluePhotoSort.setUpdateBy(userId.toString());
         }

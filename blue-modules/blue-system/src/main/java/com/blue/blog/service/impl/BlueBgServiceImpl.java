@@ -56,7 +56,7 @@ public class BlueBgServiceImpl implements IBlueBgService
     @Override
     public int insertBlueBg(BlueBg blueBg)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueBg.setCreateBy(userId.toString());
         }
@@ -73,7 +73,7 @@ public class BlueBgServiceImpl implements IBlueBgService
     @Override
     public int updateBlueBg(BlueBg blueBg)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueBg.setUpdateBy(userId.toString());
         }

@@ -66,12 +66,11 @@ function goHref(toolUrl: string) {
                 height: 100%;
 
                 img {
-                    width: 70px;
-                    height: 70px;
-                    display: flex;
-                    padding: 15px;
+                    width: 80px;
+                    height: 80px;
+                    padding: 0 15px;
                     border-radius: 50%;
-                    object-fit: cover;
+                    object-fit:cover;
                     transition: all 0.7s ease-in-out;
                 }
             }
@@ -116,8 +115,6 @@ function goHref(toolUrl: string) {
                     object-fit: cover;
                 }
             }
-
-            .tool_right {}
         }
     }
 

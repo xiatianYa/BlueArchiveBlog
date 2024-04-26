@@ -85,7 +85,7 @@ public class BlueArticleTagServiceImpl implements IBlueArticleTagService
     @Override
     public int insertBlueArticleTag(BlueArticleTag blueArticleTag)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueArticleTag.setCreateBy(userId.toString());
         }
@@ -102,7 +102,7 @@ public class BlueArticleTagServiceImpl implements IBlueArticleTagService
     @Override
     public int updateBlueArticleTag(BlueArticleTag blueArticleTag)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueArticleTag.setUpdateBy(userId.toString());
         }

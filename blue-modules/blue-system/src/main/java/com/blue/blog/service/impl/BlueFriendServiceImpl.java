@@ -58,7 +58,7 @@ public class BlueFriendServiceImpl implements IBlueFriendService
     public int insertBlueFriend(BlueFriend blueFriend)
     {
         //设置创建人
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueFriend.setCreateBy(String.valueOf(userId));
         }
@@ -78,7 +78,7 @@ public class BlueFriendServiceImpl implements IBlueFriendService
     public int updateBlueFriend(BlueFriend blueFriend)
     {
         //设置修改人
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueFriend.setUpdateBy(String.valueOf(userId));
         }

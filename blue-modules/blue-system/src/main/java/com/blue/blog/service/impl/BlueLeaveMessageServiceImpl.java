@@ -84,15 +84,15 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
         // 使用正则表达式判断是否为纯数字
         Pattern pattern = Pattern.compile("^\\d+$");
         Matcher matcher = pattern.matcher(blueLeaveMessage.getContent());
-        if (blueLeaveMessage.getContent().length()<4 || matcher.matches()){
-            throw new ServiceException("弹幕内容少于4个字或内容为纯数字");
+        if (blueLeaveMessage.getContent().length()<3 || matcher.matches()){
+            throw new ServiceException("弹幕内容少于3个字或内容为纯数字");
         }
         if (!StringUtils.isNotNull(blueLeaveMessage.getUserId()) ||
                 !StringUtils.isNotEmpty(blueLeaveMessage.getBarrageHeight().toString()) ||
                 !StringUtils.isNotEmpty(blueLeaveMessage.getUserAvater())){
             throw new ServiceException("出错了,请刷新页面");
         }
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueLeaveMessage.setCreateBy(userId.toString());
         }
@@ -109,7 +109,7 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
     @Override
     public int updateBlueLeaveMessage(BlueLeaveMessage blueLeaveMessage)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if(StringUtils.isNotNull(userId)){
             blueLeaveMessage.setUpdateBy(userId.toString());
         }

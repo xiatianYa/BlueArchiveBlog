@@ -66,6 +66,7 @@ public class BluePixivLeaveMessageController extends BaseController
      * 新增番剧弹幕
      */
     @Log(title = "番剧弹幕", businessType = BusinessType.INSERT)
+    @RequiresPermissions("blog:message:add")
     @PostMapping
     public AjaxResult add(@RequestBody BluePixivLeaveMessage bluePixivLeaveMessage)
     {

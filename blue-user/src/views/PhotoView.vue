@@ -40,17 +40,17 @@
             {{ item.photoName }}
           </span>
         </div>
+        <div class="photo_name">
+          <span>
+            发布者: {{ item.userName }}
+          </span>
+        </div>
         <div class="photo_time">
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-shalou"></use>
           </svg>
           <span>
             {{ item.createTime }}
-          </span>
-        </div>
-        <div class="photo_name">
-          <span>
-            发布者: {{ item.userName }}
           </span>
         </div>
       </div>
@@ -306,7 +306,7 @@ function isLastPage(total) {
         height: auto;
 
         span {
-          font-size: 16px;
+          font-size: 14px;
         }
       }
 
@@ -319,7 +319,7 @@ function isLastPage(total) {
         align-items: center;
         width: 80%;
         height: 10%;
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .photo_name {

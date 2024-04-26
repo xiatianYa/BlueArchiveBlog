@@ -76,7 +76,8 @@ function addBarrage() {
   //创建一个img元素
   var BarrageImg = new Image();
   //设置img图片地址
-  BarrageImg.src = UserStore.avatar || "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png";
+  BarrageImg.src = UserStore.avatar ||
+    "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/avater35.png";
   //设置Barrage的ClassName
   Barrage.className = "Barrage";
   //设置BarrageSpan的ClassName
@@ -96,29 +97,30 @@ function addBarrage() {
 
   //添加到弹幕表中
   BarrageInfo.value.userId = UserStore.id || 0;
-  BarrageInfo.value.userAvater = UserStore.avatar || "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png";
+  BarrageInfo.value.userAvater = UserStore.avatar ||
+    "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/avater35.png";
   BarrageInfo.value.barrageHeight = BarrageHeight;
   addMessage(BarrageInfo.value).then(res => {
     promptMsg({ type: "success", msg: res.msg })
+    BarrageInfo.value.content = ""
+    // 设置其随机的颜色
+    Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
+    //将Img元素插入到容器元素中
+    Barrage.appendChild(BarrageImg)
+    //将Span元素插入到Barrage中
+    Barrage.appendChild(BarrageSpan)
+    //将Barrage元素插入到容器元素中
+    container.appendChild(Barrage);
+    //获取动画时间
+    var startTime = (7 + Math.random() * 5);
+    // 使用CSS动画来让span元素从右向左移动
+    Barrage.style.animation = "BarrageMove " + startTime + "s linear infinite";
+    setTimeout(() => {
+      container.removeChild(Barrage)
+    }, startTime * 1000)
   }).catch(error => {
     promptMsg({ type: "warn", msg: error })
   })
-  BarrageInfo.value.content = ""
-  // 设置其随机的颜色
-  Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
-  //将Img元素插入到容器元素中
-  Barrage.appendChild(BarrageImg)
-  //将Span元素插入到Barrage中
-  Barrage.appendChild(BarrageSpan)
-  //将Barrage元素插入到容器元素中
-  container.appendChild(Barrage);
-  //获取动画时间
-  var startTime = (7 + Math.random() * 5);
-  // 使用CSS动画来让span元素从右向左移动
-  Barrage.style.animation = "BarrageMove " + startTime + "s linear infinite";
-  setTimeout(() => {
-    container.removeChild(Barrage)
-  }, startTime * 1000)
 }
 
 //展示弹幕

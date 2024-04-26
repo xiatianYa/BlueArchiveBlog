@@ -56,7 +56,7 @@ public class BlueNoticeServiceImpl implements IBlueNoticeService
     @Override
     public int insertBlueNotice(BlueNotice blueNotice)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueNotice.setCreateBy(String.valueOf(userId));
         }
@@ -73,7 +73,7 @@ public class BlueNoticeServiceImpl implements IBlueNoticeService
     @Override
     public int updateBlueNotice(BlueNotice blueNotice)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueNotice.setUpdateBy(String.valueOf(userId));
         }

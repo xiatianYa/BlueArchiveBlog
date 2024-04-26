@@ -56,7 +56,7 @@ public class BluePixivTypeServiceImpl implements IBluePixivTypeService
     @Override
     public int insertBluePixivType(BluePixivType bluePixivType)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             bluePixivType.setCreateBy(String.valueOf(userId));
         }
@@ -73,7 +73,7 @@ public class BluePixivTypeServiceImpl implements IBluePixivTypeService
     @Override
     public int updateBluePixivType(BluePixivType bluePixivType)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             bluePixivType.setUpdateBy(String.valueOf(userId));
         }

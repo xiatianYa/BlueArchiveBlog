@@ -63,7 +63,7 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
     @Override
     public int insertBlueErchuang(BlueErchuang blueErchuang)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueErchuang.setCreateBy(String.valueOf(userId));
         }
@@ -86,7 +86,7 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
     {
         //检测用户操作权限
         isCheckUser(blueErchuang.getId());
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueErchuang.setUpdateBy(String.valueOf(userId));
         }
@@ -138,7 +138,7 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
      * 检测用户操作是否合法
      */
     public void isCheckUser(Long erchuangId){
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         //管理员操作
         if(SecurityUtils.isAdmin(userId)){
             return;

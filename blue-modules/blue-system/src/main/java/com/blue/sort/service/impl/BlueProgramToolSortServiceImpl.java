@@ -6,7 +6,6 @@ import com.blue.common.security.utils.SecurityUtils;
 import com.blue.sort.domain.BlueProgramToolSort;
 import com.blue.sort.mapper.BlueProgramToolSortMapper;
 import com.blue.sort.service.IBlueProgramToolSortService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -57,7 +56,7 @@ public class BlueProgramToolSortServiceImpl implements IBlueProgramToolSortServi
     @Override
     public int insertBlueProgramToolSort(BlueProgramToolSort blueProgramToolSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueProgramToolSort.setCreateBy(String.valueOf(userId));
         }
@@ -74,7 +73,7 @@ public class BlueProgramToolSortServiceImpl implements IBlueProgramToolSortServi
     @Override
     public int updateBlueProgramToolSort(BlueProgramToolSort blueProgramToolSort)
     {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueProgramToolSort.setUpdateBy(String.valueOf(userId));
         }
