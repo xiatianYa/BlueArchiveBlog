@@ -258,6 +258,7 @@ function handleImageUpload(event) {
       .item {
         display: flex;
         justify-content: center;
+        align-items: center;
         width: 100%;
         height: 30px;
         padding: 10px 0;
@@ -271,10 +272,17 @@ function handleImageUpload(event) {
 
         span {
           display: flex;
-          justify-content: end;
           align-items: center;
-          height: 100%;
+          justify-content: center;
           flex-grow: 1;
+        }
+
+        span:first-of-type {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         span:last-child {

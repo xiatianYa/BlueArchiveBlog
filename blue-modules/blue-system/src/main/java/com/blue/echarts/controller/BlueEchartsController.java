@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 数据图标Controller
+ * 数据统计Controller
  *
  * @author summer
  * @date 2024-04-16

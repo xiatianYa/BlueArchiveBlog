@@ -92,7 +92,7 @@ onMounted(() => {
         //获取当前番剧中的番剧集列表
         const query = {
             pixivId: pixiv.value.id,
-            pageNum:1,
+            pageNum: 1,
             pageSize: 999,
         }
         listEpisode(query).then(res => {

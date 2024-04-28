@@ -37,9 +37,6 @@ service.interceptors.response.use(res => {
         UserStore.CLEAR_USERINFO()
         //提示信息
         promptMsg({ type: "warn", msg: "用户信息获取失败,请重新登录!" })
-        setTimeout(() => {
-            location.href = '/user';
-        }, 2000)
         return Promise.reject(msg)
     } else if (code === 500) {
         return Promise.reject(msg)

@@ -18,9 +18,9 @@ import {listBg} from '@/api/bg'
 //路由
 const router = useRouter()
 //加载阿罗那图片
-const AlonaList = ref(['/static/images/Alona01.png', '/static/images/Alona02.png', '/static/images/Alona03.png', '/static/images/Alona04.png'])
+const AlonaList = ref(['https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/Alona01.png', 'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/Alona02.png', 'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/Alona03.png', 'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/Alona04.png'])
 //当前是张图片
-const AlonaUrl = ref("/static/images/Alona01.png")
+const AlonaUrl = ref("https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/Alona01.png")
 //加载进度
 const Percentages = ref(0)
 //最大加载进度

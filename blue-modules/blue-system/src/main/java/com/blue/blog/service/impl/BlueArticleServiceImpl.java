@@ -153,8 +153,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     {
         //判断用户操作权限
         isCheckUser(blueArticle.getId());
-        //文章校验
-        isCheckArticle(blueArticle);
         Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueArticle.setUpdateBy(userId.toString());
@@ -163,6 +161,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         blueArticle.setUpdateTime(DateUtils.getNowDate());
         //文章的标签列表
         List<BlueArticleTag> tagList = blueArticle.getTagList();
+        //只对文章内容做修改
+        if (StringUtils.isNull(tagList)){
+            return blueArticleMapper.updateBlueArticle(blueArticle);
+        }
         //默认先删除所有和文章匹配的标签数据
         LambdaQueryWrapper<BlueArticleTag> wrapper = new LambdaQueryWrapper<>();
         wrapper.in(BlueArticleTag::getArticleId,blueArticle.getId());

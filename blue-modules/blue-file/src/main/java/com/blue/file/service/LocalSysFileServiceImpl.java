@@ -1,10 +1,10 @@
 package com.blue.file.service;
 
+import com.blue.file.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.blue.file.utils.FileUploadUtils;
 
 /**
  * 本地文件存储
@@ -42,7 +42,6 @@ public class LocalSysFileServiceImpl implements ISysFileService {
     @Override
     public String uploadFile(MultipartFile file) throws Exception {
         String name = FileUploadUtils.upload(localFilePath, file);
-        String url = domain + localFilePrefix + name;
-        return url;
+        return domain + localFilePrefix + name;
     }
 }

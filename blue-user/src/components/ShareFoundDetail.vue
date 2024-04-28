@@ -263,10 +263,20 @@ function handleImageUpload(event) {
           margin: 0 10px;
         }
 
+        span:first-of-type {
+          max-width: 50%;
+          min-width: 50%;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+
         span {
           display: flex;
           align-items: center;
-          height: 100%;
+          justify-content: center;
           flex-grow: 1;
         }
 

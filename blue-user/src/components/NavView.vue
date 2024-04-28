@@ -3,7 +3,7 @@
     <div v-show="NavShow" class="header_box header_fixed">
       <div class="pc_menu">
         <div class="header_log">
-          <img src="/static/images/logo.png" />
+          <img src="https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/logo.png" />
         </div>
         <div class="header_menu">
           <ul class="menus">
@@ -37,9 +37,15 @@
               </svg>
               <span class="pointer" :class="routerPath == '/friend' ? 'select' : ''">友链</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/leave">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/chat">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiaoxi"></use>
+              </svg>
+              <span class="pointer" :class="routerPath == '/chat' ? 'select' : ''">聊天室</span>
+            </router-link>
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/leave">
+              <svg class="icon pointer" aria-hidden="true">
+                <use xlink:href="#icon-tongzhi"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/leave' ? 'select' : ''">留言</span>
             </router-link>
@@ -287,13 +293,12 @@ watch(
 
         .li {
           display: flex;
-          width: 100%;
-          height: 100%;
           align-items: center;
-          background: none;
+          justify-content: center;
           text-decoration: none;
           position: relative;
-
+          width: 100%;
+          height: 100%;
 
           .icon {
             flex: 1;
@@ -306,9 +311,7 @@ watch(
           }
 
           span {
-            display: flex;
-            align-items: center;
-            height: 100%;
+            flex-grow: 1;
             flex: 2;
           }
 

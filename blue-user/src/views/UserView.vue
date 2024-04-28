@@ -35,14 +35,14 @@
       <div class="con-box left">
         <h2><span>BlueAchiveBlog</span></h2>
         <p>快来<span>注册</span>吧</p>
-        <img src="/static/images/zi.png" alt="">
+        <img src="https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/zi.png" alt="">
         <p>已有账号</p>
         <button id="login" @click="goLogin">去登录</button>
       </div>
       <div class="con-box right">
         <h2><span>BlueAchiveBlog</span></h2>
         <p>快来<span>登录</span>吧</p>
-        <img src="/static/images/xiaocun.png" alt="">
+        <img src="https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/xiaocun.png" alt="">
         <p>没有账号？</p>
         <button id="register" @click="goRegister">去注册</button>
       </div>

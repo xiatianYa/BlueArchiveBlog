@@ -3,7 +3,7 @@
     <div class="pixiv_left">
       <div class="left_title">{{ pixiv.pixivName }}</div>
       <div class="left_info">
-        <span>{{ pixiv.pixivPlay }}播放</span> · <span>876.6万弹幕</span> · <span>872.3万点赞</span>
+        <span>0播放</span> · <span>0弹幕</span> · <span>0点赞</span>
       </div>
       <div class="left_type">
         <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0, 4) }}</span>

@@ -21,11 +21,6 @@
               编程工具
             </span>
           </div>
-          <div class="menu pointer" :class="type === 3 ? 'selectMenu' : ''" @click="selectSort(3)">
-            <span class="title">
-              小游戏
-            </span>
-          </div>
         </div>
       </div>
     </div>
@@ -44,17 +39,14 @@
           <span v-show="type === 2">
             编程工具
           </span>
-          <span v-show="type === 3">
-            小游戏
-          </span>
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-icon-gengduo"></use>
           </svg>
         </div>
         <div class="found_body">
           <PixivDetail v-show="type === 0" :pixiv="pixiv" v-for="pixiv in pixivList" @click="goPixiv(pixiv.id)" />
-          <ErchuangDetail v-show="type === 1" :erchuang="erchuang" v-for="erchuang in erchuangList"></ErchuangDetail>
-          <ToolDetail v-show="type === 2" :tool="tool" v-for="tool in toolList"></ToolDetail>
+          <ErchuangDetail v-show="type === 1" :erchuang="erchuang" v-for="erchuang in erchuangList" />
+          <ToolDetail v-show="type === 2" :tool="tool" v-for="tool in toolList" />
         </div>
       </div>
     </div>
@@ -141,9 +133,6 @@ function selectSort(index) {
     listToolBySort().then(res => {
       toolList.value = res.rows
     })
-    //小游戏
-  } else {
-
   }
 }
 //跳转路由到番剧页面
@@ -304,7 +293,8 @@ function isLastPage(total) {
       .found_body {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
+        flex-grow: 1;
+        justify-content: space-between;
 
         .found_Detail:nth-child(even) {
           flex-direction: row-reverse;

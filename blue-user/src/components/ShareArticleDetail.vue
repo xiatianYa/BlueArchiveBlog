@@ -21,8 +21,10 @@
         <div class="right">
             <div class="animate__animated animate__fadeInRight">
                 <v-md-editor v-model="ArticleIndex.content" :include-level="[2, 3, 4]" mode="editable" height="100vh"
-                    style="background: #ECEBEC;" @save="saveArticle" :disabled-menus="[]" left-toolbar="undo  redo h bold italic strikethrough quote ul ol table hr link image code save todo-list emoji tip" right-toolbar="preview toc sync-scroll"
-                    @upload-image="handleUploadImage" @copy-code-success="handleCopyCodeSuccess"></v-md-editor>
+                    style="background: #ECEBEC;" @save="saveArticle" :disabled-menus="[]"
+                    left-toolbar="undo  redo h bold italic strikethrough quote ul ol table hr link image code save todo-list emoji tip"
+                    right-toolbar="preview toc sync-scroll" @upload-image="handleUploadImage"
+                    @copy-code-success="handleCopyCodeSuccess"></v-md-editor>
             </div>
         </div>
         <!-- 添加修改框 -->
@@ -121,7 +123,7 @@ onMounted(() => {
     init();
 })
 //复制代码
-function handleCopyCodeSuccess(){
+function handleCopyCodeSuccess() {
     promptMsg({ type: "success", msg: "复制成功" })
 }
 //修改文章
@@ -363,6 +365,7 @@ watch(
             .item {
                 display: flex;
                 justify-content: center;
+                align-items: center;
                 width: 100%;
                 height: 30px;
                 padding: 10px 0;
@@ -377,8 +380,18 @@ watch(
                 span {
                     display: flex;
                     align-items: center;
-                    height: 100%;
+                    justify-content: center;
                     flex-grow: 1;
+                }
+
+                span:first-of-type {
+                    max-width: 50%;
+                    min-width: 50%;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                 }
 
                 span:last-child {
@@ -536,7 +549,9 @@ watch(
                 padding-left: 10px;
                 margin-top: 20px;
                 display: flex;
+                flex-wrap: wrap;
                 justify-content: left;
+                align-items: center;
 
                 span {
                     display: flex;

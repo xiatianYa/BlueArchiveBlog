@@ -194,7 +194,7 @@ function getRandomItem(array) {
   .leave_header {
     width: 100%;
     height: 100vh;
-    background: url("/static/images/liuyan.png") no-repeat;
+    background: url("https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/liuyan.png") no-repeat;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;

@@ -102,8 +102,6 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
         }
         //设置审核状态 默认为未通过
         bluePixivTv.setStatus(AuditingStatus.OK.getCode());
-        //设置播放数
-        bluePixivTv.setPixivPlay(0L);
         //设置创建时间
         bluePixivTv.setCreateTime(DateUtils.getNowDate());
         //设置创建者
