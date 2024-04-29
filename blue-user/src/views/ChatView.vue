@@ -38,9 +38,9 @@
                                     :options-name="optionsName" :fulldata="true" :recent="true" />
                             </div>
                             <div class="chat_box">
-                                <input class="chat_txt" type="text">
+                                <input class="chat_txt" type="text" v-model="msg">
                             </div>
-                            <div class="send">
+                            <div class="send" @click="sendMsg()">
                                 <svg class="icon pointer" aria-hidden="true">
                                     <use xlink:href="#icon-fasong"></use>
                                 </svg>
@@ -55,10 +55,47 @@
 
 <script setup>
 import V3Emoji from "vue3-emoji";
-import {onMounted} from "vue"
+import {onMounted, ref} from "vue"
+import {getUserList} from '@/api/chat'
 
+const msg = ref("")
+const socket = ref()
 onMounted(() => {
+    var socketUrl = "http://127.0.0.1:8080/websocket/server/1";
+    socketUrl = socketUrl.replace("https", "ws").replace("http", "ws");
+    if (socket.value != null) {
+        socket.value.close();
+        socket.value = null;
+    }
+    socket.value = new WebSocket(socketUrl);
+    //打开事件
+    socket.value.onopen = function () {
+        console.log("websocket已打开");
+    };
+    //获得消息事件
+    socket.value.onmessage = function (msg) {
+        console.log(msg.data);
+    };
+    //关闭事件
+    socket.value.onclose = function () {
+        console.log("websocket已关闭");
+    };
+    //发生了错误事件
+    socket.value.onerror = function () {
+        console.log("websocket发生了错误");
+    }
+    //获取用户列表
+    getUserList().then(res=>{
+        console.log(1);
+        console.log(res);
+    })
 })
+function sendMsg() {
+    const data = {
+        msg: msg.value
+    }
+    socket.value.send(JSON.stringify(data))
+}
 </script>
 
 <style lang="scss" scoped>
@@ -116,7 +153,7 @@ onMounted(() => {
                         flex-direction: row;
                         padding: 10px 0;
                         width: 100%;
-                        margin-top: 20px;
+                        margin-top: 5px;
                         background-color: #323647;
                         border-radius: 10px;
 
@@ -224,6 +261,10 @@ onMounted(() => {
                             margin-right: 10px;
                             background-color: #434765;
                             border: #e3fdfd 2px solid;
+                        }
+
+                        .emoji:hover {
+                            background-color: #128BFB;
                         }
 
                         .chat_box {

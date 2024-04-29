@@ -14,6 +14,7 @@
         <module>blue-job</module>
         <module>blue-file</module>
         <module>blue-rabbitmq</module>
+        <module>Blue-websocket</module>
     </modules>
 
     <artifactId>blue-modules</artifactId>
