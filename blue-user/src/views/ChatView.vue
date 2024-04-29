@@ -10,12 +10,12 @@
                         聊天列表
                     </span>
                     <div class="container">
-                        <div class="item">
+                        <div class="item" v-for="user in onlineUserList" @click="changChatUser(user)">
                             <div class="item_avatar">
-                                <img v-lazy="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/zi.png'">
+                                <img v-lazy="user.userAvatar">
                             </div>
                             <div class="item_info">
-                                <span>用户名</span>
+                                <span>{{ user.userNickName }}</span>
                             </div>
                         </div>
                     </div>
@@ -24,10 +24,10 @@
             <div class="right">
                 <div class="title">
                     <div class="avatar">
-                        <img v-lazy="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/zi.png'">
+                        <img v-lazy="chatUser.userAvatar" v-if="chatUser.userAvatar">
                     </div>
                     <div class="info">
-                        <span>用户名</span>
+                        <span>{{ chatUser.userNickName }}</span>
                     </div>
                 </div>
                 <div class="body">
@@ -38,7 +38,7 @@
                                     :options-name="optionsName" :fulldata="true" :recent="true" />
                             </div>
                             <div class="chat_box">
-                                <input class="chat_txt" type="text" v-model="msg">
+                                <input class="chat_txt" type="text" v-model="inputMsg">
                             </div>
                             <div class="send" @click="sendMsg()">
                                 <svg class="icon pointer" aria-hidden="true">
@@ -57,24 +57,64 @@
 import V3Emoji from "vue3-emoji";
 import {onMounted, ref} from "vue"
 import {getUserList} from '@/api/chat'
-
-const msg = ref("")
+import {useUserStore} from '@/store/user'
+//用户仓库
+const UserStore = useUserStore()
+//输入框消息
+const inputMsg = ref("")
+//socket连接对象
 const socket = ref()
+//连接地址
+const socketUrl = ref("http://127.0.0.1:8080/websocket/server/")
+//在线用户列表
+const onlineUserList = ref()
+//当前聊天的用户信息
+const chatUser = ref({
+    userId: null,
+    userAvatar: "",
+    userNickName: ""
+})
 onMounted(() => {
-    var socketUrl = "http://127.0.0.1:8080/websocket/server/1";
-    socketUrl = socketUrl.replace("https", "ws").replace("http", "ws");
+    init();
+})
+//初始化
+function init() {
+    //拼接用户id
+    socketUrl.value += UserStore.id;
+    socketUrl.value = socketUrl.value.replace("https", "ws").replace("http", "ws");
     if (socket.value != null) {
         socket.value.close();
         socket.value = null;
     }
-    socket.value = new WebSocket(socketUrl);
+    socket.value = new WebSocket(socketUrl.value);
     //打开事件
     socket.value.onopen = function () {
         console.log("websocket已打开");
     };
     //获得消息事件
-    socket.value.onmessage = function (msg) {
-        console.log(msg.data);
+    socket.value.onmessage = function (message) {
+        //查看是什么类型的消息
+        const data = JSON.parse(message.data)
+        //正常聊天消息
+        if (data.type === 201) {
+
+        } else if (data.type === 202) {
+            //离线消息
+            //获取用户列表
+            getOnLineUserList();
+            //如果离线用户是当前聊天对象 则清空对象
+            if (data.message == chatUser.value.userId) {
+                chatUser.value = {
+                    userId: null,
+                    userAvatar: "",
+                    userNickName: ""
+                }
+            }
+        } else if (data.type === 203) {
+            //上线消息
+            //获取用户列表
+            getOnLineUserList();
+        }
     };
     //关闭事件
     socket.value.onclose = function () {
@@ -84,15 +124,25 @@ onMounted(() => {
     socket.value.onerror = function () {
         console.log("websocket发生了错误");
     }
+
+}
+//获取在线用户列表
+function getOnLineUserList() {
     //获取用户列表
-    getUserList().then(res=>{
-        console.log(1);
-        console.log(res);
+    getUserList().then(res => {
+        onlineUserList.value = res.data;
     })
-})
+}
+//切换聊天对象
+function changChatUser(user) {
+    chatUser.value = user;
+}
+//发送消息
 function sendMsg() {
     const data = {
-        msg: msg.value
+        toUserId: chatUser.value.userId,
+        fromUserId: UserStore.id,
+        message: inputMsg.value
     }
     socket.value.send(JSON.stringify(data))
 }

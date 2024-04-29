@@ -1,13 +1,14 @@
 package com.blue.system.api.factory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.openfeign.FallbackFactory;
-import org.springframework.stereotype.Component;
 import com.blue.common.core.domain.R;
 import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
+import com.blue.system.api.model.UserVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.FallbackFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * 用户服务降级处理
@@ -24,6 +25,11 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService() {
             @Override
             public R<LoginUser> getUserInfo(String username, String source) {
+                return R.fail("获取用户失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<UserVo> getUserInfoById(Long userId, String source) {
                 return R.fail("获取用户失败:" + throwable.getMessage());
             }
 

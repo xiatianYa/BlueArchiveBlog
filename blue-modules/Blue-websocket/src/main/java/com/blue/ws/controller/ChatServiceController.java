@@ -13,6 +13,10 @@ import javax.annotation.Resource;
 public class ChatServiceController {
     @Resource
     private ChatService chatService;
+
+    /**
+     * 获取用户列表
+     */
     @GetMapping("/getUserList")
     public AjaxResult getUserList() {
         return AjaxResult.success(chatService.getUserList());

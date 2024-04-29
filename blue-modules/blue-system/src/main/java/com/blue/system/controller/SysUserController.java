@@ -1,23 +1,5 @@
 package com.blue.system.controller;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.blue.common.core.domain.R;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.core.utils.poi.ExcelUtil;
@@ -33,12 +15,19 @@ import com.blue.system.api.domain.SysDept;
 import com.blue.system.api.domain.SysRole;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
-import com.blue.system.service.ISysConfigService;
-import com.blue.system.service.ISysDeptService;
-import com.blue.system.service.ISysPermissionService;
-import com.blue.system.service.ISysPostService;
-import com.blue.system.service.ISysRoleService;
-import com.blue.system.service.ISysUserService;
+import com.blue.system.api.model.UserVo;
+import com.blue.system.service.*;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息
@@ -178,7 +167,21 @@ public class SysUserController extends BaseController {
         }
         return ajax;
     }
-
+    /**
+     * 根据用户ID查询用户信息
+     */
+    @GetMapping("/infoById/{userId}")
+    public R<UserVo> getUserInfoById(@PathVariable(value = "userId") Long userId){
+        SysUser sysUser = userService.selectUserById(userId);
+        if (StringUtils.isNull(sysUser)){
+            return R.fail("用户名不存在");
+        }
+        UserVo userVo = new UserVo();
+        userVo.setUserId(userId);
+        userVo.setUserNickName(sysUser.getNickName());
+        userVo.setUserAvatar(sysUser.getAvatar());
+        return R.ok(userVo);
+    }
     /**
      * 新增用户
      */
