@@ -10,4 +10,8 @@ public interface ChatService {
      * 获取用户列表
      */
     List<UserVo> getUserList();
+    /**
+     * 获取用户消息
+     */
+    UserVo getUserVo(Long userId);
 }

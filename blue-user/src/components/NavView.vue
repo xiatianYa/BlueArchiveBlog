@@ -37,7 +37,7 @@
               </svg>
               <span class="pointer" :class="routerPath == '/friend' ? 'select' : ''">友链</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/chat">
+            <router-link v-show="UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/chat">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiaoxi"></use>
               </svg>

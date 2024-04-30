@@ -37,4 +37,9 @@ public class ChatServiceImpl implements ChatService {
         return userVoList;
     }
 
+    @Override
+    public UserVo getUserVo(Long userId) {
+        return remoteUserService.getUserInfoById(userId, SecurityConstants.INNER).getData();
+    }
+
 }

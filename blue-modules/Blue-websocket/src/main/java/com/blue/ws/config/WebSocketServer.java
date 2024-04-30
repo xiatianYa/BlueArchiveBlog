@@ -23,7 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/server/{userId}")
 @Component
 public class WebSocketServer {
-
     /**静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。*/
     private static int onlineCount = 0;
     /**concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。*/
@@ -66,7 +65,7 @@ public class WebSocketServer {
     }
 
     /**
-     * 收到客户端消息后调用的方法
+     * 客户端发送消息
      *
      * @param message 客户端发送过来的消息*/
     @OnMessage
@@ -74,16 +73,16 @@ public class WebSocketServer {
         //Json实例化对象
         SendMessageVo sendMessageVo = JSONObject.parseObject(message, SendMessageVo.class);
         if(StringUtils.isNull(sendMessageVo)){
-            throw new ServiceException("消息体为空");
+            throw new ServiceException("消息不能为空");
         }
-        sendMessageVo.setType(ChatConstants.ChatType);
-        if(!webSocketMap.containsKey(sendMessageVo.getToUserId())){
-            throw new ServiceException("用户已下线");
+        //设置消息类型
+        sendMessageVo.setType(ChatConstants.ChatGroupType);
+        //设置用户ID
+        sendMessageVo.setFromUserId(userId);
+        //向所有在线用户发送消息
+        for (WebSocketServer item : webSocketMap.values()) {
+            item.sendMessage(JSONObject.toJSONString(sendMessageVo));
         }
-        //获取接受对象webSocketServer
-        WebSocketServer webSocketServer = webSocketMap.get(sendMessageVo.getToUserId());
-        //发送消息
-        webSocketServer.sendMessage(message);
     }
 
     /**
@@ -96,7 +95,7 @@ public class WebSocketServer {
         System.out.println("用户错误:"+this.userId+",原因:"+error.getMessage());
     }
     /**
-     * 实现服务器主动推送
+     * 实现服务器主动推送消息(所有人)
      */
     public void sendMessage(String message){
         try {

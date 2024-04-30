@@ -7,16 +7,16 @@
 <script setup>
 import {ref, watch} from 'vue'
 import {RouterView, useRouter} from 'vue-router'
+import {useGloBalStore} from '@/store/global'
 import NavView from '@/components/NavView.vue'
 import FooterView from '@/components/FooterView.vue'
 import setUpView from '@/components/SetUpView.vue'
-import {useGloBalStore} from '@/store/global'
 
+//全局仓库
 const gloBalStore = useGloBalStore()
 let isShow = ref(true)
 let navShow = ref(true)
 let router = useRouter()
-
 // 监听当前路由
 watch(
   () => router.currentRoute.value,

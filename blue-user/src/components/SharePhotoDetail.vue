@@ -37,11 +37,6 @@
               {{ photo.createTime }}
             </span>
           </div>
-          <div class="photo_name">
-            <span>
-              发布者: {{ photo.userName }}
-            </span>
-          </div>
         </div>
       </div>
     </div>
@@ -370,15 +365,6 @@ function handleImageUpload(event) {
           span {
             font-size: 10px;
           }
-        }
-
-        .photo_name {
-          display: flex;
-          align-items: center;
-          width: 80%;
-          height: 10%;
-          margin: 5px 0;
-          font-size: 10px;
         }
       }
     }

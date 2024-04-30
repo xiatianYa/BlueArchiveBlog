@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 public class SendMessageVo {
     //发送者
     private Long fromUserId;
-    //接受者
-    private Long toUserId;
+    //发送者头像
+    private String fromUserAvatar;
+    //发送者昵称
+    private String fromUserNickName;
     //消息体
     private String message;
     //消息类型

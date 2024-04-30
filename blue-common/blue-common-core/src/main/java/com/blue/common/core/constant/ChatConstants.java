@@ -7,9 +7,9 @@ package com.blue.common.core.constant;
  */
 public class ChatConstants {
     /**
-     * 私发消息
+     * 群发消息
      */
-    public static final Integer ChatType = 201;
+    public static final Integer ChatGroupType = 201;
     /**
      * 离线消息
      */

@@ -1,5 +1,5 @@
 <template>
-    <div class="game">
+    <div class="game no_select">
         <div class="drawing animate__animated animate__fadeIn">
             <div class="left">
                 <div class="title">
@@ -7,10 +7,10 @@
                 </div>
                 <div class="chart_list">
                     <span>
-                        聊天列表
+                        在线列表
                     </span>
                     <div class="container">
-                        <div class="item" v-for="user in onlineUserList" @click="changChatUser(user)">
+                        <div class="item" v-for="user in onlineUserList">
                             <div class="item_avatar">
                                 <img v-lazy="user.userAvatar">
                             </div>
@@ -24,14 +24,35 @@
             <div class="right">
                 <div class="title">
                     <div class="avatar">
-                        <img v-lazy="chatUser.userAvatar" v-if="chatUser.userAvatar">
+                        <img v-lazy="UserStore.avatar">
                     </div>
                     <div class="info">
-                        <span>{{ chatUser.userNickName }}</span>
+                        <span>{{ UserStore.nickName }}</span>
                     </div>
                 </div>
                 <div class="body">
                     <div class="container">
+                        <div class="msg_list">
+                            <div class="item" v-for="message in messageList"
+                                :style="UserStore.id == message.fromUserId ? 'justify-content: end;flex-direction:row-reverse;' : ''">
+                                <div class="avatar">
+                                    <img v-lazy="message.fromUserAvatar">
+                                </div>
+                                <div class="info"
+                                    :style="UserStore.id == message.fromUserId ? 'padding-right: 10px;' : ''">
+                                    <div class="user_name" :style="UserStore.id == message.fromUserId ? 'justify-content: end;' : ''">
+                                        <span style="text-align: end;">
+                                            {{ message.fromUserNickName }}
+                                        </span>
+                                    </div>
+                                    <div class="send_msg">
+                                        <span>
+                                            {{ message.message }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="chat_input">
                             <div class="emoji">
                                 <V3Emoji :disable-group="disableGroup" @click-emoji="appendCommentChile"
@@ -58,73 +79,56 @@ import V3Emoji from "vue3-emoji";
 import {onMounted, ref} from "vue"
 import {getUserList} from '@/api/chat'
 import {useUserStore} from '@/store/user'
+import {useSocketStore} from '@/store/socket'
+import promptMsg from "@/components/PromptBoxView"
 //用户仓库
 const UserStore = useUserStore()
+//socket仓库
+const socketStore = useSocketStore()
 //输入框消息
 const inputMsg = ref("")
 //socket连接对象
 const socket = ref()
-//连接地址
-const socketUrl = ref("http://127.0.0.1:8080/websocket/server/")
 //在线用户列表
 const onlineUserList = ref()
-//当前聊天的用户信息
-const chatUser = ref({
-    userId: null,
-    userAvatar: "",
-    userNickName: ""
-})
+//接受的消息列表
+const messageList = ref([])
 onMounted(() => {
     init();
 })
 //初始化
 function init() {
-    //拼接用户id
-    socketUrl.value += UserStore.id;
-    socketUrl.value = socketUrl.value.replace("https", "ws").replace("http", "ws");
-    if (socket.value != null) {
-        socket.value.close();
-        socket.value = null;
-    }
-    socket.value = new WebSocket(socketUrl.value);
-    //打开事件
-    socket.value.onopen = function () {
-        console.log("websocket已打开");
-    };
+    socket.value = socketStore.socket
     //获得消息事件
-    socket.value.onmessage = function (message) {
-        //查看是什么类型的消息
-        const data = JSON.parse(message.data)
-        //正常聊天消息
-        if (data.type === 201) {
-
-        } else if (data.type === 202) {
-            //离线消息
-            //获取用户列表
-            getOnLineUserList();
-            //如果离线用户是当前聊天对象 则清空对象
-            if (data.message == chatUser.value.userId) {
-                chatUser.value = {
-                    userId: null,
-                    userAvatar: "",
-                    userNickName: ""
-                }
-            }
-        } else if (data.type === 203) {
-            //上线消息
-            //获取用户列表
-            getOnLineUserList();
+    if (socket.value) {
+        socket.value.onmessage = (env) => {
+            handleMessage(env)
         }
-    };
-    //关闭事件
-    socket.value.onclose = function () {
-        console.log("websocket已关闭");
-    };
-    //发生了错误事件
-    socket.value.onerror = function () {
-        console.log("websocket发生了错误");
+    } else {
+        promptMsg({ type: "warn", msg: "聊天室连接失败!" })
     }
-
+    getOnLineUserList();
+}
+//处理表情
+function appendCommentChile(emajor){
+    inputMsg.value+=emajor.emoji;
+}
+//处理服务端发送消息
+function handleMessage(env) {
+    //查看是什么类型的消息
+    const data = JSON.parse(env.data)
+    //群发聊天消息
+    if (data.type === 201) {
+        messageList.value.push(data)
+    } else if (data.type === 202) {
+        //离线消息
+        //获取用户列表
+        getOnLineUserList();
+    } else if (data.type === 203) {
+        //上线消息
+        //获取用户列表
+        getOnLineUserList();
+    }
 }
 //获取在线用户列表
 function getOnLineUserList() {
@@ -133,18 +137,16 @@ function getOnLineUserList() {
         onlineUserList.value = res.data;
     })
 }
-//切换聊天对象
-function changChatUser(user) {
-    chatUser.value = user;
-}
 //发送消息
 function sendMsg() {
     const data = {
-        toUserId: chatUser.value.userId,
-        fromUserId: UserStore.id,
+        fromUserAvatar: UserStore.avatar,
+        fromUserNickName: UserStore.nickName,
         message: inputMsg.value
     }
     socket.value.send(JSON.stringify(data))
+    //清空输入框
+    inputMsg.value = "";
 }
 </script>
 
@@ -289,6 +291,60 @@ function sendMsg() {
                     background-color: #323647;
                     position: relative;
 
+                    .msg_list {
+                        box-sizing: border-box;
+                        overflow: auto;
+                        width: 100%;
+                        height: 90%;
+                        padding: 10px;
+
+                        .item {
+                            margin-bottom: 15px;
+                            display: flex;
+                            align-items: center;
+                            width: 100%;
+
+                            .avatar {
+                                overflow: hidden;
+
+                                img {
+                                    min-width: 40px;
+                                    max-width: 40px;
+                                    max-height: 40px;
+                                    min-height: 40px;
+                                    object-fit: cover;
+                                    border-radius: 50%;
+                                }
+                            }
+
+                            .info {
+                                display: flex;
+                                flex-direction: column;
+                                height: 100%;
+                                padding-left: 10px;
+
+                                .user_name {
+                                    display: flex;
+                                    font-size: 12px;
+                                    padding-bottom: 5px;
+                                    color: #808080;
+
+                                    span {
+                                        text-align: left;
+                                    }
+                                }
+
+                                .send_msg {
+                                    font-size: 14px;
+                                    padding: 10px;
+                                    border-radius: 5px;
+                                    color: #fff;
+                                    background-color: #262626;
+                                }
+                            }
+                        }
+                    }
+
                     .chat_input {
                         width: 80%;
                         height: 40px;
@@ -310,7 +366,7 @@ function sendMsg() {
                             border-radius: 7px;
                             margin-right: 10px;
                             background-color: #434765;
-                            border: #e3fdfd 2px solid;
+                            border: #e3fdfd 1px solid;
                         }
 
                         .emoji:hover {
@@ -325,7 +381,7 @@ function sendMsg() {
                             justify-content: center;
                             align-items: center;
                             flex-wrap: nowrap;
-                            border: #e3fdfd 2px solid;
+                            border: #e3fdfd 1px solid;
                             border-radius: 7px;
 
                             .chat_txt {
@@ -351,7 +407,7 @@ function sendMsg() {
                             border-radius: 7px;
                             margin-left: 10px;
                             background-color: #434765;
-                            border: #e3fdfd 2px solid;
+                            border: #e3fdfd 1px solid;
                         }
 
                         .send:hover {
