@@ -47,16 +47,6 @@
                     <use xlink:href="#icon-gitee-fill-round"></use>
                   </svg>
                 </li>
-                <li @click="goHref('https://github.com/xiatianYa')">
-                  <svg class="icon pointer" aria-hidden="true">
-                    <use xlink:href="#icon-QQ"></use>
-                  </svg>
-                </li>
-                <li @click="goHref('https://github.com/xiatianYa')">
-                  <svg class="icon pointer" aria-hidden="true">
-                    <use xlink:href="#icon-iconweixin"></use>
-                  </svg>
-                </li>
               </ul>
             </div>
           </div>
