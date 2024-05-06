@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4767013",
+      "name": "up",
+      "font_class": "up01",
+      "unicode": "e7eb",
+      "unicode_decimal": 59371
+    },
+    {
       "icon_id": "9706029",
       "name": "发送",
       "font_class": "fasong",
@@ -172,6 +179,13 @@
       "font_class": "tongzhi1",
       "unicode": "e606",
       "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "4767014",
+      "name": "down",
+      "font_class": "down01",
+      "unicode": "e7ec",
+      "unicode_decimal": 59372
     },
     {
       "icon_id": "13743932",

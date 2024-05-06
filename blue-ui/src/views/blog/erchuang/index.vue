@@ -62,7 +62,7 @@
           <span>{{ parseTime(scope.row.ecPublish, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="二创简介" align="center" prop="ecSynopsis" />
+      <el-table-column label="二创简介" align="center" prop="ecSynopsis" show-overflow-tooltip />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_shenhe" :value="scope.row.status" />

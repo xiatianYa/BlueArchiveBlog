@@ -208,19 +208,19 @@ export default {
         init() {
             //获取网站信息
             listWebsite().then(res => {
-                if (!res.rows) {
+                if (res.rows) {
                     this.websiteInfo = res.rows[0]
                 }
             })
             //获取公告信息
             listNotice().then(res => {
-                if (!res.rows) {
+                if (res.rows) {
                     this.noticeInfo = res.rows[0]
                 }
             })
             //获取友链信息
             listInfo().then(res => {
-                if (!res.rows) {
+                if (res.rows) {
                     this.friendInfo = res.rows[0]
                 }
             })

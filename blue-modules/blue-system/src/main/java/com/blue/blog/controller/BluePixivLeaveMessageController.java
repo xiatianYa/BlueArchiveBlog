@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -36,6 +37,7 @@ public class BluePixivLeaveMessageController extends BaseController
     {
         startPage();
         List<BluePixivLeaveMessage> list = bluePixivLeaveMessageService.selectBluePixivLeaveMessageList(bluePixivLeaveMessage);
+        list.sort(Comparator.comparing(BluePixivLeaveMessage::getTime));
         return getDataTable(list);
     }
 

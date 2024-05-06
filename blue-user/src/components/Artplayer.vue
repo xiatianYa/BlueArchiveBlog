@@ -4,8 +4,8 @@
 
 <script setup>
 import Artplayer from 'artplayer';
-import {nextTick, onBeforeUnmount, onMounted, ref, watch} from 'vue';
-import {addMessage, listMessage} from '@/api/pixivMessage'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { addMessage, listMessage } from '@/api/pixivMessage'
 import artplayerPluginDanmuku from 'artplayer-plugin-danmuku'
 import promptMsg from "@/components/PromptBoxView"
 
@@ -61,8 +61,10 @@ onMounted(() => {
           danmuku: function () {
             return new Promise((resovle) => {
               const query = {
+                pageNum: 0,
+                pageSize: 9999,
                 pixivId: props.pixivId,
-                episodeId: 1,
+                episodeId: props.chaptersIndex,
               }
               listMessage(query).then(res => {
                 for (const item of res.rows) {
