@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {getToken} from '@/utils/auth'
-import {useUserStore} from '@/store/user'
+import { getToken } from '@/utils/auth'
+import { useUserStore } from '@/store/user'
 import promptMsg from "@/components/PromptBoxView"
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
@@ -9,7 +9,9 @@ const service = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
     baseURL: "/api",
     // 超时
-    timeout: 10000
+    timeout: 10000,
+    //重试次数
+    
 })
 
 // request拦截器

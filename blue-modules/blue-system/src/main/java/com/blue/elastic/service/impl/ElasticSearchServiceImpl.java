@@ -23,7 +23,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         //客户端对象
         ElasticsearchIndicesClient indices = client.indices();
         try {
-            //判断索引是否操作
+            //判断索引是否存在
             boolean flag = indices.exists(req -> req.index(indexName)).value();
             if (flag){
                 //索引存在

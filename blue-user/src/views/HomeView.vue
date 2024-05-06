@@ -190,9 +190,9 @@
               </div>
             </div>
           </div>
-          <div v-show="!searchLoading && searchArticle.blueArticleList <= 0">
+          <div v-show="!searchLoading && searchArticle.blueArticleList == 0">
             <span>
-              很抱歉,没有找到与 "{{ queryParams.searchValue }}" 相关的文章
+              {{ searchArticle.msg }}
             </span>
           </div>
           <Loading v-show="searchLoading" />
@@ -202,13 +202,13 @@
   </div>
 </template>
 <script setup>
-import {onMounted, ref} from 'vue'
-import {useBgStore} from '@/store/bg'
-import {listNotice} from '@/api/notice'
-import {listArticle, listBySortId, searchArticleList} from '@/api/article'
-import {listSort} from '@/api/sort/sort'
-import {useRouter} from 'vue-router'
-import {useUserStore} from '@/store/user'
+import { onMounted, ref } from 'vue'
+import { useBgStore } from '@/store/bg'
+import { listNotice } from '@/api/notice'
+import { listArticle, listBySortId, searchArticleList } from '@/api/article'
+import { listSort } from '@/api/sort/sort'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user'
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import Loading from '@/components/CssLoadingView.vue'
 
@@ -235,8 +235,12 @@ const queryParams = ref({
 })
 //搜索文章列表
 const searchArticle = ref({
+  //总条目
   total: "",
-  blueArticleList: []
+  //文章列表
+  blueArticleList: [],
+  //信息
+  msg: "",
 })
 onMounted(() => {
   //获取公告
@@ -272,6 +276,22 @@ function search() {
     searchArticle.value = res.data
     //加载完成
     searchLoading.value = false;
+    //列表为空
+    if (res.data.blueArticleList == 0) {
+      searchArticle.value.msg = "很抱歉,没有找到与 " + queryParams.value.searchValue + " 相关的文章";
+    }
+  }).catch(() => {
+    //超时 出错 重发请求
+    searchArticleList(queryParams.value).then(res => {
+      searchArticle.value = res.data
+      //加载完成
+      searchLoading.value = false;
+      if (res.data.blueArticleList == 0) {
+        searchArticle.value.msg = "很抱歉,没有找到与 " + queryParams.value.searchValue + " 相关的文章";
+      }
+    }).catch(() => {
+      searchArticle.value.msg = "很抱歉,连接超时,请重试...";
+    })
   })
 }
 //关闭搜索框
@@ -411,6 +431,7 @@ function goHref(url) {
 
               li {
                 box-sizing: border-box;
+
                 .icon {
                   fill: currentColor;
                   overflow: hidden;

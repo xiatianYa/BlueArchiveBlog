@@ -67,13 +67,24 @@ public interface IBlueArticleService
     List<BlueArticle> selectBlueArticleListByTagId(Long tagId);
 
     List<BlueArticle> selectBlueArticleListBySortId(Long sortId);
+    /**
+     * 搜索文章根据用户
+     */
 
     List<BlueArticle> selectBlueArticleListByUser();
+    /**
+     * 搜索文章根据分类ID
+     */
 
     List<BlueArticle> listBySortId(Long sortId);
+    /**
+     * 文章审核
+     */
 
     int auditing(BlueArticle blueArticle);
-
+    /**
+     * 搜索文章列表
+     */
     BlueArticleSearchDTO search(BlueArticleSearchVo blueArticleSearchVo);
     /**
      * 添加文章文档
