@@ -1,27 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="申请手机号" prop="friendPhone">
-        <el-input v-model="queryParams.friendPhone" placeholder="请输入申请手机号" clearable
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
       <el-form-item label="网站名称" prop="friendName">
         <el-input v-model="queryParams.friendName" placeholder="请输入网站名称" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="介绍" prop="friendIntroduce">
-        <el-input v-model="queryParams.friendIntroduce" placeholder="请输入介绍" clearable
-          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="申请状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择申请状态" clearable>
           <el-option v-for="dict in dict.type.sys_apply_status" :key="dict.value" :label="dict.label"
             :value="dict.value" />
         </el-select>
-      </el-form-item>
-      <el-form-item label="发布时间" prop="pleaseTime">
-        <el-date-picker clearable v-model="queryParams.pleaseTime" type="date" value-format="yyyy-MM-dd"
-          placeholder="请选择发布时间">
-        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>

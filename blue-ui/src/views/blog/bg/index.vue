@@ -11,7 +11,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="背景位置类型" prop="bgPosition">
+      <el-form-item label="背景位置类型" prop="bgPosition" label-width="100px">
         <el-select v-model="queryParams.bgPosition" placeholder="请选择背景位置类型" clearable>
           <el-option
             v-for="dict in dict.type.sys_bg_use"

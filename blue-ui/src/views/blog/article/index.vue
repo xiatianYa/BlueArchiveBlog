@@ -7,10 +7,6 @@
       <el-form-item label="文章名称" prop="articleName">
         <el-input v-model="queryParams.articleName" placeholder="请输入文章名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="文章描述" prop="articleDescribe">
-        <el-input v-model="queryParams.articleDescribe" placeholder="请输入文章描述" clearable
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
       <el-form-item label="分类名称" prop="sortId">
         <el-select v-model="queryParams.sortId" placeholder="请选择分类名词" clearable>
           <el-option v-for="dict in sortDict" :key="dict.value" :label="dict.label" :value="dict.value" />
@@ -20,9 +16,6 @@
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>
           <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
-      </el-form-item>
-      <el-form-item label="文章内容" prop="content">
-        <el-input v-model="queryParams.content" placeholder="请输入文章内容" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>

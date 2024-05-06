@@ -4,13 +4,10 @@
       <el-form-item label="用户id" prop="userId">
         <el-input v-model="queryParams.userId" placeholder="请输入用户id" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="分类id" prop="sortId">
-        <el-select v-model="queryParams.sortId" placeholder="请选择分类id" clearable>
+      <el-form-item label="分类名称" prop="sortId">
+        <el-select v-model="queryParams.sortId" placeholder="请选择分类名称" clearable>
           <el-option v-for="dict in photoDict" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
-      </el-form-item>
-      <el-form-item label="图片名称" prop="photoName">
-        <el-input v-model="queryParams.photoName" placeholder="请输入图片名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>

@@ -17,9 +17,6 @@
           <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="文章内容" prop="content">
-        <el-input v-model="queryParams.content" placeholder="请输入文章内容" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>

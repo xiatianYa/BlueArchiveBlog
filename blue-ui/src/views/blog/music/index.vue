@@ -9,7 +9,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="音乐分类名称" prop="sortId">
+      <el-form-item label="音乐分类名称" prop="sortId" label-width="100px">
         <el-select v-model="queryParams.sortId" placeholder="请选择音乐分类名称" clearable>
           <el-option
             v-for="dict in musicDict"

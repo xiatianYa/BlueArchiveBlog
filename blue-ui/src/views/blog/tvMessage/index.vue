@@ -7,18 +7,8 @@
       <el-form-item label="集ID" prop="episodeId">
         <el-input v-model="queryParams.episodeId" placeholder="请输入集ID" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="是否描边" prop="border">
-        <el-input v-model="queryParams.border" placeholder="请输入是否描边 0表示描边,1不描边" clearable
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="背景色" prop="color">
-        <el-input v-model="queryParams.color" placeholder="请输入背景色" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
       <el-form-item label="弹幕内容" prop="text">
         <el-input v-model="queryParams.text" placeholder="请输入弹幕内容" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="发送时间" prop="time">
-        <el-input v-model="queryParams.time" placeholder="请输入弹幕发送时间" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="弹幕模式" prop="mode">
         <el-input v-model="queryParams.mode" placeholder="请输入弹幕模式: 0表示滚动, 1静止" clearable

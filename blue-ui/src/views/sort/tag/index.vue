@@ -11,7 +11,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="标签的名称" prop="tagName">
+      <el-form-item label="标签的名称" prop="tagName" label-width="100px">
         <el-input
           v-model="queryParams.tagName"
           placeholder="请输入标签的名称"

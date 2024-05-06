@@ -4,20 +4,9 @@
       <el-form-item label="番剧名称" prop="pixivName">
         <el-input v-model="queryParams.pixivName" placeholder="请输入番剧名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="发布时间" prop="pixivPublish">
-        <el-date-picker clearable v-model="queryParams.pixivPublish" type="date" value-format="yyyy-MM-dd"
-          placeholder="请选择番剧发布时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="评分" prop="pixivScore">
-        <el-input v-model="queryParams.pixivScore" placeholder="请输入评分" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
       <el-form-item label="声优" prop="pixivVoiceActor">
         <el-input v-model="queryParams.pixivVoiceActor" placeholder="请输入声优" clearable
           @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="播放数" prop="pixivPlay">
-        <el-input v-model="queryParams.pixivPlay" placeholder="请输入播放数" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>

@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pixivPublish != null "> and pixiv_publish = #{pixivPublish}</if>
             <if test="pixivScore != null  and pixivScore != ''"> and pixiv_score = #{pixivScore}</if>
             <if test="pixivType != null "> and pixiv_type = #{pixivType}</if>
-            <if test="pixivVoiceActor != null  and pixivVoiceActor != ''"> and pixiv_voice_actor = #{pixivVoiceActor}</if>
+            <if test="pixivVoiceActor != null  and pixivVoiceActor != ''"> and pixiv_voice_actor like concat('%', #{pixivVoiceActor}, '%')</if>
             <if test="pixivSynopsis != null  and pixivSynopsis != ''"> and pixiv_synopsis = #{pixivSynopsis}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="isEnd != null "> and is_end = #{isEnd}</if>

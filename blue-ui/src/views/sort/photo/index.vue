@@ -1,20 +1,5 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="相册分类名称" prop="sortName">
-        <el-input
-          v-model="queryParams.sortName"
-          placeholder="请输入相册分类名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button

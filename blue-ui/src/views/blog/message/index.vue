@@ -9,30 +9,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="弹幕内容" prop="content">
-        <el-input
-          v-model="queryParams.content"
-          placeholder="请输入弹幕内容"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="用户头像" prop="userAvater">
-        <el-input
-          v-model="queryParams.userAvater"
-          placeholder="请输入用户头像"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="弹幕高度" prop="barrageHeight">
-        <el-input
-          v-model="queryParams.barrageHeight"
-          placeholder="请输入弹幕高度"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>

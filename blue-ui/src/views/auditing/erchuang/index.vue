@@ -7,14 +7,6 @@
       <el-form-item label="二创标题" prop="ecName">
         <el-input v-model="queryParams.ecName" placeholder="请输入二创标题" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="二创路径" prop="ecUrl">
-        <el-input v-model="queryParams.ecUrl" placeholder="请输入二创路径" clearable @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="发布时间" prop="ecPublish">
-        <el-date-picker clearable v-model="queryParams.ecPublish" type="date" value-format="yyyy-MM-dd"
-          placeholder="请选择二创发布时间">
-        </el-date-picker>
-      </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable>
           <el-option v-for="dict in dict.type.sys_shenhe" :key="dict.value" :label="dict.label" :value="dict.value" />
