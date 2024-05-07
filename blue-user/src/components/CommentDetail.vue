@@ -109,6 +109,7 @@ onMounted(() => {
   nextTick(() => {
     commentType.value = props.commentType;
     commonId.value = props.commonId;
+    console.log(commonId.value);
     init();
   })
 })

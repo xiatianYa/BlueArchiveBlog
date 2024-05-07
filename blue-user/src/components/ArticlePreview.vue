@@ -60,6 +60,7 @@
       <v-md-editor class="md" v-model="article.content" :include-level="[2]" mode="preview"
         style="background: #ECEBEC;"></v-md-editor>
     </div>
+    <CommentDetail style="width: 90%;margin: 0 auto;" :comment-type="2" :common-id="article.id" />
   </div>
 
 </template>
@@ -68,6 +69,7 @@
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getArticle, addLike } from '@/api/article'
+import CommentDetail from '@/components/CommentDetail.vue';
 import promptMsg from "@/components/PromptBoxView"
 //路由  
 const router = useRoute()
@@ -77,14 +79,16 @@ const titles = ref([])
 const article = ref({
   content: ""
 })
-
 onMounted(async () => {
-  const res = await getArticle(router.query.articleId)
-  if (res.data.content) {
-    article.value = res.data
-  } else {
-    promptMsg({ type: "warn", msg: "暂无内容!" })
-  }
+  //初始话文章ID
+  article.value.id = router.query.articleId
+  getArticle(router.query.articleId).then(res => {
+    if (res.data.content) {
+      article.value = res.data
+    } else {
+      promptMsg({ type: "warn", msg: "暂无内容!" })
+    }
+  })
 })
 
 // 监听article的变化，当article改变时获取锚点列表  
