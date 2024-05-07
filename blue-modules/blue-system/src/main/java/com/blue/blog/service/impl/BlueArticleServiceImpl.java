@@ -5,10 +5,14 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.entry.dao.BlueArticle;
+import com.blue.blog.entry.dao.BlueArticleInformation;
+import com.blue.blog.entry.dao.BlueComment;
 import com.blue.blog.entry.dto.BlueArticleDTO;
 import com.blue.blog.entry.dto.BlueArticleSearchDTO;
 import com.blue.blog.entry.vo.BlueArticleSearchVo;
+import com.blue.blog.mapper.BlueArticleInformationMapper;
 import com.blue.blog.mapper.BlueArticleMapper;
+import com.blue.blog.mapper.BlueCommentMapper;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.constant.ElasticSearchConstants;
 import com.blue.common.core.enums.AuditingStatus;
@@ -26,6 +30,7 @@ import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
 import com.blue.system.mapper.SysUserMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +59,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     private BlueSortTagMapper blueSortTagMapper;
     @Resource
     private ElasticsearchClient client;
+    @Resource
+    private BlueArticleInformationMapper blueArticleInformationMapper;
+    @Resource
+    private BlueCommentMapper blueCommentMapper;
 
     /**
      * 查询文章
@@ -78,7 +87,40 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticleTag.setTagName(sortTags.get(blueArticleTag.getTagId()));
             blueArticleTag.setArticleName(blueArticle.getArticleName());
         }
+        //查询作者名称
+        //用户列表
+        Map<Long, String> userMap =
+                userMapper.selectUserList(new SysUser()).stream().collect(Collectors.toMap(SysUser::getUserId, SysUser::getNickName));
+        //设置用户名称
+        blueArticle.setUserName(userMap.get(blueArticle.getUserId()));
+        //设置标签列表
         blueArticle.setTagList(blueArticleTags);
+
+        //给文章添加浏览量
+        Long userid = SecurityUtils.getLoginUser().getUserid();
+        //设置匹配条件
+        LambdaQueryWrapper<BlueArticleInformation> informationLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        informationLambdaQueryWrapper.eq(BlueArticleInformation::getArticleId,blueArticle.getId());
+        informationLambdaQueryWrapper.eq(BlueArticleInformation::getUserId,userid);
+        //获取匹配数据
+        BlueArticleInformation blueArticleInformation = blueArticleInformationMapper.selectOne(informationLambdaQueryWrapper);
+        if (StringUtils.isNull(blueArticleInformation)){
+            blueArticleInformation=new BlueArticleInformation();
+            blueArticleInformation.setArticleId(blueArticle.getId());
+            blueArticleInformation.setUserId(userid);
+            //设置状态已浏览
+            blueArticleInformation.setIsBrowse("1");
+            //设置是否点赞 默认未点赞
+            blueArticleInformation.setIsLike("0");
+            //设置创建时间
+            blueArticleInformation.setCreateTime(DateUtils.getNowDate());
+            //设置创建着
+            blueArticleInformation.setCreateBy(String.valueOf(userid));
+            blueArticleInformationMapper.insertBlueArticleInformation(blueArticleInformation);
+        }
+
+        //获取统计数据
+        initArticleCount(blueArticle);
         return blueArticle;
     }
 
@@ -255,7 +297,11 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //默认查询已通过审核数据
         wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
         wrapper.in(BlueArticle::getId,articleIdList);
-        return blueArticleMapper.selectList(wrapper);
+
+        //设置统计数
+        List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
+        blueArticles.forEach(this::initArticleCount);
+        return blueArticles;
     }
 
     /**
@@ -309,6 +355,9 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         setTagName(blueArticles);
         //设置文章用户名称
         setUserName(blueArticles);
+
+        //设置文章统计数量
+        blueArticles.forEach(this::initArticleCount);
         return blueArticles;
     }
 
@@ -469,6 +518,50 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             return null;
         }
     }
+
+    /**
+     * 给文章点赞
+     */
+    @Override
+    public String addLike(Long id) {
+        Long userid = SecurityUtils.getLoginUser().getUserid();
+        //设置匹配条件
+        LambdaQueryWrapper<BlueArticleInformation> informationLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        informationLambdaQueryWrapper.eq(BlueArticleInformation::getArticleId,id);
+        informationLambdaQueryWrapper.eq(BlueArticleInformation::getUserId,userid);
+        //获取匹配数据
+        BlueArticleInformation blueArticleInformation = blueArticleInformationMapper.selectOne(informationLambdaQueryWrapper);
+        if (StringUtils.isNull(blueArticleInformation)){
+            blueArticleInformation=new BlueArticleInformation();
+            blueArticleInformation.setArticleId(id);
+            blueArticleInformation.setUserId(userid);
+            //设置状态已浏览
+            blueArticleInformation.setIsBrowse("1");
+            //设置是否点赞 默认点赞
+            blueArticleInformation.setIsLike("1");
+            //设置创建时间
+            blueArticleInformation.setCreateTime(DateUtils.getNowDate());
+            //设置创建着
+            blueArticleInformation.setCreateBy(String.valueOf(userid));
+            blueArticleInformationMapper.insertBlueArticleInformation(blueArticleInformation);
+            return "点赞成功";
+        }else{
+            if (blueArticleInformation.getIsLike().equals("1")){
+                blueArticleInformation.setIsLike("0");
+                blueArticleInformation.setUpdateBy(String.valueOf(userid));
+                blueArticleInformation.setUpdateTime(DateUtils.getNowDate());
+                blueArticleInformationMapper.updateBlueArticleInformation(blueArticleInformation);
+                return "取消点赞";
+            }else{
+                blueArticleInformation.setIsLike("1");
+                blueArticleInformation.setUpdateBy(String.valueOf(userid));
+                blueArticleInformation.setUpdateTime(DateUtils.getNowDate());
+                blueArticleInformationMapper.updateBlueArticleInformation(blueArticleInformation);
+                return "点赞成功";
+            }
+        }
+    }
+
     /**
      * 为文章列表设置分类名称
      */
@@ -516,6 +609,25 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticle.setUserName(userMap.get(blueArticle.getUserId()));
         }
     }
+
+    /**
+     * 为文章列表设置热度 评论数 点赞数
+     */
+    public void initArticleCount(BlueArticle blueArticle){
+        //热度
+        Long hotCount = blueArticleInformationMapper.selectCount(new LambdaQueryWrapper<BlueArticleInformation>()
+                .eq(BlueArticleInformation::getArticleId, blueArticle.getId()));
+        //评论数
+        Long commentCount = blueCommentMapper.selectCount(new LambdaQueryWrapper<BlueComment>()
+                .eq(BlueComment::getCommentType,"2").eq(BlueComment::getCommonId, blueArticle.getId()));
+        //点赞数
+        Long likeCount = blueArticleInformationMapper.selectCount(new LambdaQueryWrapper<BlueArticleInformation>()
+                .eq(BlueArticleInformation::getArticleId, blueArticle.getId()).eq(BlueArticleInformation::getIsLike,"1"));
+        blueArticle.setHot(hotCount.intValue());
+        blueArticle.setComment(commentCount.intValue());
+        blueArticle.setLike(likeCount.intValue());
+    }
+
     /**
      * 检测字段是否合理
      */

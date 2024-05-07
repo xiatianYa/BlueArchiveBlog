@@ -99,4 +99,8 @@ public interface IBlueArticleService
      * 搜索文章文档
      */
     HitsMetadata<BlueArticleDTO> searchArticleDocument(BlueArticleSearchVo searchVo, String indexName);
+    /**
+     * 文章点赞
+     */
+    String addLike(Long id);
 }

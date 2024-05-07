@@ -39,7 +39,8 @@
     <div class="container">
       <div class="content">
         <div class="content_body">
-          <SortDetail :article="article" v-for="article in articleList"  @click="goArticlePreview(article.id)"></SortDetail>
+          <SortDetail :article="article" v-for="article in articleList" @click="goArticlePreview(article.id)">
+          </SortDetail>
         </div>
       </div>
     </div>
@@ -49,12 +50,12 @@
 
 <script setup>
 import SortDetail from '@/components/SortDetail.vue'
-import {onMounted, onUnmounted, ref} from "vue"
-import {useBgStore} from '@/store/bg'
-import {listSort} from '@/api/sort/sort'
-import {listTag} from '@/api/sort/tagSort'
-import {listByTagId} from '@/api/article'
-import {useRouter} from 'vue-router'
+import { onMounted, onUnmounted, ref } from "vue"
+import { useBgStore } from '@/store/bg'
+import { listSort } from '@/api/sort/sort'
+import { listTag } from '@/api/sort/tagSort'
+import { listByTagId } from '@/api/article'
+import { useRouter } from 'vue-router'
 import Loading from '@/components/CssLoadingView.vue'
 import promptMsg from "@/components/PromptBoxView"
 

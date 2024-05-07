@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.blog.mapper.BlueArticleInformationMapper">
+    
+    <resultMap type="BlueArticleInformation" id="BlueArticleInformationResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="isBrowse"    column="is_browse"    />
+        <result property="isLike"    column="is_like"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBlueArticleInformationVo">
+        select id, user_id, article_id, is_browse, is_like, create_time, update_time, create_by, update_by, remark from blue_article_information
+    </sql>
+
+    <select id="selectBlueArticleInformationList" parameterType="BlueArticleInformation" resultMap="BlueArticleInformationResult">
+        <include refid="selectBlueArticleInformationVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="isBrowse != null  and isBrowse != ''"> and is_browse = #{isBrowse}</if>
+            <if test="isLike != null  and isLike != ''"> and is_like = #{isLike}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueArticleInformationById" parameterType="Long" resultMap="BlueArticleInformationResult">
+        <include refid="selectBlueArticleInformationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueArticleInformation" parameterType="BlueArticleInformation" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_article_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="articleId != null">article_id,</if>
+            <if test="isBrowse != null and isBrowse != ''">is_browse,</if>
+            <if test="isLike != null and isLike != ''">is_like,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="articleId != null">#{articleId},</if>
+            <if test="isBrowse != null and isBrowse != ''">#{isBrowse},</if>
+            <if test="isLike != null and isLike != ''">#{isLike},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueArticleInformation" parameterType="BlueArticleInformation">
+        update blue_article_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="isBrowse != null and isBrowse != ''">is_browse = #{isBrowse},</if>
+            <if test="isLike != null and isLike != ''">is_like = #{isLike},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueArticleInformationById" parameterType="Long">
+        delete from blue_article_information where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueArticleInformationByIds" parameterType="String">
+        delete from blue_article_information where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,5 +1,46 @@
 <template>
   <div class="preview select">
+    <div class="preview_info">
+      <div class="title">
+        {{ article.articleName }}
+      </div>
+      <div class="info">
+        <span>
+          作者 : {{ article.userName }}
+        </span>
+        <span>
+          发表时间 : {{ article.createTime }}
+        </span>
+      </div>
+      <div class="count">
+        <span>
+          <svg class="icon pointer" aria-hidden="true">
+            <use xlink:href="#icon-remen"></use>
+          </svg>
+          {{ article.hot }} 热度
+        </span>
+        <span>
+          <svg class="icon pointer" aria-hidden="true">
+            <use xlink:href="#icon-pinglun"></use>
+          </svg>
+          {{ article.comment }} 评论
+        </span>
+        <span>
+          <svg class="icon pointer" aria-hidden="true" @click="addArticleLike">
+            <use xlink:href="#icon-dianzan"></use>
+          </svg>
+          {{ article.like }} 点赞
+        </span>
+      </div>
+      <div class="tags">
+        <div class="target" v-for="tag in article.tagList">
+          <svg class="icon pointer" aria-hidden="true">
+            <use xlink:href="#icon-wenjianjia"></use>
+          </svg>
+          <span>{{ tag.tagName }}</span>
+        </div>
+      </div>
+    </div>
     <div class="preview_navigation">
       <div class="title">
         <svg class="icon pointer" aria-hidden="true">
@@ -24,12 +65,12 @@
 </template>
 
 <script setup>
-import {nextTick, onMounted, ref, watch} from 'vue'
-import {useRoute} from 'vue-router'
-import {getArticle} from '@/api/article'
+import { nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { getArticle, addLike } from '@/api/article'
 import promptMsg from "@/components/PromptBoxView"
 //路由  
-const route = useRoute()
+const router = useRoute()
 //锚点列表  
 const titles = ref([])
 //文章对象  
@@ -38,7 +79,7 @@ const article = ref({
 })
 
 onMounted(async () => {
-  const res = await getArticle(route.query.articleId)
+  const res = await getArticle(router.query.articleId)
   if (res.data.content) {
     article.value = res.data
   } else {
@@ -66,7 +107,7 @@ function getAnchors() {
   }).map((heading) => ({
     title: heading.innerText.trim(),
     lineIndex: heading.getAttribute('data-v-md-line'),
-    indent: ['H2', 'H3','H4'].indexOf(heading.tagName.toUpperCase())
+    indent: ['H2', 'H3', 'H4'].indexOf(heading.tagName.toUpperCase())
   }));
 
   // 设置titles.value为找到的标题数组或空数组  
@@ -85,21 +126,100 @@ function handleAnchorClick(anchor) {
       behavior: 'smooth'
     });
   }
-}  
+}
+//文章点赞
+function addArticleLike() {
+  addLike(article.value.id).then(res => {
+    promptMsg({ type: "success", msg: res.msg })
+  })
+}
+//前往分类浏览页
+function goSort(sortId, tagId) {
+  router.value.push({ path: '/sort', query: { sortId: sortId, tagId: tagId } })
+}
 </script>
 <style lang="scss" scoped>
 .preview {
+  display: flex;
   height: 100%;
   padding-top: 60px;
   padding-bottom: 40px;
   min-height: 100vh;
-  display: flex;
+  flex-wrap: wrap;
+
+  .preview_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 200px;
+
+    .title {
+      font-weight: 100;
+      font-size: 24px;
+    }
+
+    .info {
+      margin-top: 15px;
+      font-size: 14px;
+
+      span {
+        margin-right: 5px;
+      }
+    }
+
+    .count {
+      margin-top: 15px;
+      font-size: 14px;
+
+      span {
+        margin-right: 5px;
+      }
+    }
+
+    .tags {
+      display: flex;
+      margin-top: 10px;
+
+      .target {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #bfbfbf;
+        margin: 5px 5px 5px 8px;
+        border-radius: 4px;
+        padding: 2px;
+        font-size: 12px;
+        transition: 0.5s ease;
+
+        span {
+          padding: 0 3px 0 3px;
+        }
+
+        .icon {
+          width: 1em;
+          height: 1em;
+          vertical-align: -0.15em;
+          fill: currentColor;
+          overflow: hidden;
+          font-size: 16px;
+        }
+      }
+
+      .target:hover {
+        background: #fdda09;
+      }
+    }
+  }
 
   .preview_navigation {
+    box-sizing: border-box;
     width: 30%;
     padding: 20px 10px 10px 10px;
     font-size: 15px;
     border-radius: 10px;
+    margin-top: 20px;
 
     div {
       a {
@@ -125,7 +245,9 @@ function handleAnchorClick(anchor) {
   }
 
   .preview_content {
+    box-sizing: border-box;
     width: 70%;
+    margin-top: 20px;
 
     .video {
       width: 100%;

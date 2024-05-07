@@ -152,4 +152,14 @@ public class BlueArticleController extends BaseController
     {
         return toAjax(blueArticleService.auditing(blueArticle));
     }
+    /**
+     * 文章点赞
+     */
+    @RequiresPermissions("blog:article:add")
+    @Log(title = "文章", businessType = BusinessType.INSERT)
+    @PostMapping("/addLike/{id}")
+    public AjaxResult addLike(@PathVariable Long id)
+    {
+        return AjaxResult.success(blueArticleService.addLike(id));
+    }
 }

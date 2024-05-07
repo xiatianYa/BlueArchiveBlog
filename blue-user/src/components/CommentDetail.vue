@@ -27,7 +27,7 @@
               <div class="publish_info">
                 <span class="user_name">{{ comment.userName }}</span>
                 <span class="publish_time">{{ comment.createTime.substring(0, 16) }}</span>
-                <span class="reply" @click="openLeaverDialogParent(comment.id)">回复</span>
+                <span class="reply pointer" @click="openLeaverDialogParent(comment.id)">回复</span>
               </div>
               <div class="comment_content">
                 <span class="content">{{ comment.commentContent }}</span>
@@ -42,7 +42,7 @@
                   <div class="reply_info">
                     <span class="user_name">{{ reply.userName }}</span>
                     <span class="reply_time">{{ reply.createTime.substring(0, 16) }}</span>
-                    <span class="reply" @click="openLeaverDialog(reply, comment.id)">回复</span>
+                    <span class="reply pointer" @click="openLeaverDialog(reply, comment.id)">回复</span>
                   </div>
                   <div class="reply_content">
                     <span class="replyAt" v-show="reply.atUserName">@{{ reply.atUserName }}&nbsp;:&nbsp;</span>

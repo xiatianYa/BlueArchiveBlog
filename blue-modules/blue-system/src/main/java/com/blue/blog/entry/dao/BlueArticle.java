@@ -84,6 +84,17 @@ public class BlueArticle extends BaseEntity
     @TableField(exist = false)
     private List<BlueArticleTag> tagList;
 
+    /** 文章热度数 */
+    @TableField(exist = false)
+    private Integer hot;
+
+    /** 文章评论数 */
+    @TableField(exist = false)
+    private Integer comment;
+    /** 文章点赞数 */
+    @TableField(exist = false)
+    private Integer like;
+
     /** 逻辑删除 */
     @TableField("del_flag")
     private Integer delFlag;

@@ -3,7 +3,7 @@
     <div class="pixiv_left">
       <div class="left_title">{{ pixiv.pixivName }}</div>
       <div class="left_info">
-        <span>0播放</span> · <span>0弹幕</span> · <span>0点赞</span>
+        <span>0 播放</span> · <span>0 弹幕</span>
       </div>
       <div class="left_type">
         <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0, 4) }}</span>
@@ -38,6 +38,7 @@ const props = defineProps(['pixiv'])
   border-radius: 10px 10px 10px 10px;
   margin-top: 30px;
   max-height: 270px;
+  overflow: hidden;
 
   .pixiv_left {
     flex: 1;

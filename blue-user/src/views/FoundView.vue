@@ -171,6 +171,7 @@ const handleScroll = () => {
   const foundBody = document.querySelector('.found_body') // 获取滚动容器
   const banner = document.querySelector('.banner') // 获取前面高度容器
   if (isScrolledToBottom(foundBody, banner)) {
+    console.log("加载数据");
     loadData()
   }
 }

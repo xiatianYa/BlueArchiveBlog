@@ -22,7 +22,7 @@
               <use xlink:href="#icon-remen"></use>
             </svg>
             <span>
-              0 热度
+              {{ article.hot }} 热度
             </span>
           </div>
           <div class="info">
@@ -30,14 +30,14 @@
               <use xlink:href="#icon-pinglun"></use>
             </svg>
             <span>
-              0 评论
+              {{ article.comment }} 评论
             </span>
           </div>
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-dianzan1"></use>
             </svg>
-            0 点赞
+            {{ article.like }} 点赞
           </div>
         </div>
       </div>

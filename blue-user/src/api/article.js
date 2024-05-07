@@ -25,17 +25,17 @@ export function listArticleByUser() {
   })
 }
 // 根据标签ID查询文章
-export function listByTagId(tagId,query) {
+export function listByTagId(tagId, query) {
   return request({
-    url: '/system/article/listByTagId/'+tagId,
+    url: '/system/article/listByTagId/' + tagId,
     method: 'get',
-    params:query
+    params: query
   })
 }
 // 根据分类ID查询文章
 export function listBySortId(sortId) {
   return request({
-    url: '/system/article/listBySortId/'+sortId,
+    url: '/system/article/listBySortId/' + sortId,
     method: 'get',
   })
 }
@@ -70,5 +70,13 @@ export function delArticle(id) {
   return request({
     url: '/system/article/' + id,
     method: 'delete'
+  })
+}
+
+// 文章点赞
+export function addLike(id) {
+  return request({
+    url: '/system/article/addLike/' + id,
+    method: 'post',
   })
 }
