@@ -80,6 +80,10 @@ const article = ref({
   content: ""
 })
 onMounted(async () => {
+  init();
+})
+//初始化
+function init() {
   //初始话文章ID
   article.value.id = router.query.articleId
   getArticle(router.query.articleId).then(res => {
@@ -89,15 +93,7 @@ onMounted(async () => {
       promptMsg({ type: "warn", msg: "暂无内容!" })
     }
   })
-})
-
-// 监听article的变化，当article改变时获取锚点列表  
-watch(article, async (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    await nextTick() // 确保DOM更新后再获取锚点  
-    getAnchors()
-  }
-}, { deep: true })
+}
 
 //获取锚点列表  
 function getAnchors() {
@@ -135,12 +131,23 @@ function handleAnchorClick(anchor) {
 function addArticleLike() {
   addLike(article.value.id).then(res => {
     promptMsg({ type: "success", msg: res.msg })
+    //数据初始化
+    init()
   })
 }
 //前往分类浏览页
 function goSort(sortId, tagId) {
   router.value.push({ path: '/sort', query: { sortId: sortId, tagId: tagId } })
 }
+
+// 监听article的变化，当article改变时获取锚点列表  
+watch(article, async (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    await nextTick() // 确保DOM更新后再获取锚点  
+    getAnchors()
+  }
+}, { deep: true })
+
 </script>
 <style lang="scss" scoped>
 .preview {

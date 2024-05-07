@@ -7,7 +7,7 @@
                 <div class="found_left">
                     <div class="left_title">{{ pixiv.pixivName }}</div>
                     <div class="left_info">
-                        <span>{{ pixiv.pixivPlay }}播放</span> · <span>876.6万弹幕</span> · <span>872.3万点赞</span>
+                        <span>{{ pixiv.pixivPlay }} 播放</span> · <span>{{ pixiv.pixivDanmaku }} 弹幕</span>
                     </div>
                     <div class="left_type">
                         <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0, 10) }}</span>

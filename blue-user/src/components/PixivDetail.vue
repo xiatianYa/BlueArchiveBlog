@@ -3,7 +3,7 @@
     <div class="pixiv_left">
       <div class="left_title">{{ pixiv.pixivName }}</div>
       <div class="left_info">
-        <span>0 播放</span> · <span>0 弹幕</span>
+        <span>{{ pixiv.pixivPlay }} 播放</span> · <span>{{ pixiv.pixivDanmaku }} 弹幕</span>
       </div>
       <div class="left_type">
         <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0, 4) }}</span>

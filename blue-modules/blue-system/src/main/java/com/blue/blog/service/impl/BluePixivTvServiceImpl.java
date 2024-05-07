@@ -48,6 +48,10 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     public BluePixivTv selectBluePixivTvById(Long id)
     {
         BluePixivTv bluePixivTv = bluePixivTvMapper.selectBluePixivTvById(id);
+        //增加播放量
+        bluePixivTv.setPixivPlay(bluePixivTv.getPixivPlay()+1);
+        //修改数据
+        bluePixivTvMapper.updateBluePixivTv(bluePixivTv);
         //番剧分类列表
         List<BluePixivType> bluePixivTypes = bluePixivTypeService.selectList(new LambdaQueryWrapper<>());
         for (BluePixivType bluePixivType : bluePixivTypes) {
@@ -55,6 +59,8 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
                 bluePixivTv.setTypeName(bluePixivType.getTypeName());
             }
         }
+        //设置弹幕数
+        setDanmuCount(bluePixivTv);
         return bluePixivTv;
     }
 
@@ -81,6 +87,8 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
                 if (pixivTv.getPixivType().equals(bluePixivType.getId())){
                     pixivTv.setTypeName(bluePixivType.getTypeName());
                 }
+                //设置弹幕数
+                setDanmuCount(pixivTv);
             }
         }
         return bluePixivTvs;
@@ -106,6 +114,8 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
         bluePixivTv.setCreateTime(DateUtils.getNowDate());
         //设置创建者
         bluePixivTv.setCreateBy(String.valueOf(userId));
+        //设置默认播放数
+        bluePixivTv.setPixivPlay(0);
         //如果是新增 就先插入值 获取返回ID
         return bluePixivTvMapper.insertBluePixivTv(bluePixivTv);
     }
@@ -161,5 +171,14 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     public int deleteBluePixivTvById(Long id)
     {
         return bluePixivTvMapper.deleteBluePixivTvById(id);
+    }
+
+    /**
+     * 统计番剧弹幕数
+     */
+    public void setDanmuCount(BluePixivTv bluePixivTv){
+        LambdaQueryWrapper<BluePixivLeaveMessage> leaveMessageLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        leaveMessageLambdaQueryWrapper.eq(BluePixivLeaveMessage::getPixivId,bluePixivTv.getId());
+        bluePixivTv.setPixivDanmaku(bluePixivLeaveMessageMapper.selectCount(leaveMessageLambdaQueryWrapper));
     }
 }

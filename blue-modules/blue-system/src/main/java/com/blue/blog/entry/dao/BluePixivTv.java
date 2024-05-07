@@ -63,6 +63,13 @@ public class BluePixivTv extends BaseEntity
     @Excel(name = "番剧简介")
     private String pixivSynopsis;
 
+    /** 播放数 */
+    @Excel(name = "播放数")
+    private Integer pixivPlay;
+
+    /** 弹幕数 */
+    @Excel(name = "弹幕数")
+    private Long pixivDanmaku;
 
     /** 审核状态 */
     @Excel(name = "审核状态")

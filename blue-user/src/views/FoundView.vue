@@ -55,12 +55,12 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref} from 'vue'
-import {listTv} from '@/api/tv'
-import {listErchuang} from '@/api/erchuang'
-import {listToolBySort} from '@/api/tool'
-import {useRouter} from 'vue-router'
-import {useBgStore} from '@/store/bg'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { listTv } from '@/api/tv'
+import { listErchuang } from '@/api/erchuang'
+import { listToolBySort } from '@/api/tool'
+import { useRouter } from 'vue-router'
+import { useBgStore } from '@/store/bg'
 import Loading from '@/components/CssLoadingView.vue'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
