@@ -123,8 +123,8 @@
         <el-form-item label="音乐名称" prop="musicName">
           <el-input v-model="form.musicName" placeholder="请输入音乐名称" />
         </el-form-item>
-        <el-form-item label="音乐分类ID" prop="sortId">
-          <el-select v-model="form.sortId" placeholder="请选择音乐分类ID">
+        <el-form-item label="音乐分类名称" prop="sortId">
+          <el-select v-model="form.sortId" placeholder="请选择音乐分类名称">
             <el-option
               v-for="dict in musicDict"
               :key="dict.value"

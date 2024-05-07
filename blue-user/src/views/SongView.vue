@@ -45,9 +45,9 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue"
-import {useBgStore} from '@/store/bg'
-import {bySortList} from '@/api/music'
+import { onMounted, ref } from "vue"
+import { useBgStore } from '@/store/bg'
+import { bySortList } from '@/api/music'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("5") || "http://127.0.0.1:9300/statics/2024/04/26/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd_20240426121202A002.mp4")
 //音乐列表
@@ -161,15 +161,16 @@ function startMusic(event, musicUrl) {
   }
 
   .container {
-    width: 100%;
+    width: 90%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     padding-top: 40px;
+    margin: 0 auto;
 
     .title {
-      width: 90%;
+      width: 100%;
       padding-top: 40px;
 
       .icon {
@@ -191,16 +192,16 @@ function startMusic(event, musicUrl) {
 
 
     .musics {
-      width: 90%;
       display: flex;
       flex-wrap: wrap;
+      max-width: 150px;
+      flex: 1;
 
       .title {
         width: 100%;
         display: flex;
         align-items: center;
         padding: 20px 0px 0px 20px;
-
       }
 
       .music {

@@ -94,7 +94,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch} from 'vue'
+import {onMounted, ref, watch,nextTick} from 'vue'
 import {addArticle, delArticle, getArticle, listArticleByUser, updateArticle} from '@/api/article'
 import {listSort} from '@/api/sort/sort'
 import {uploadImages} from "@/api/file";
@@ -130,7 +130,16 @@ function handleCopyCodeSuccess() {
 function openArticleUpdate(articleId) {
     getArticle(articleId).then(res => {
         Article.value = res.data;
-        ArticleShow.value = true;
+        let ResultTagList=Article.value.tagList;
+        nextTick(()=>{   
+            //清空标签列表
+            Article.value.tagList=[];
+            //给标签列表赋值
+            for (const tag of ResultTagList) {
+                Article.value.tagList.push(tag.tagId)
+            }
+            ArticleShow.value = true;
+        })
     })
 }
 //数据初始化

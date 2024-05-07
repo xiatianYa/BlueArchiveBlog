@@ -129,7 +129,7 @@ function userLogin() {
     router.push({ path: "/home" })
   }).catch(error => {
     //提示用户信息
-    promptMsg({ type: "success", msg: error })
+    promptMsg({ type: "error", msg: error })
     getCode()
   })
 }
