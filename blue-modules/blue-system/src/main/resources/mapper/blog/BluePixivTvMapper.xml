@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="pixivType != null">#{pixivType},</if>
             <if test="pixivVoiceActor != null and pixivVoiceActor != ''">#{pixivVoiceActor},</if>
             <if test="pixivSynopsis != null and pixivSynopsis != ''">#{pixivSynopsis},</if>
-            <if test="pixiv_play != null">#{pixivPlay},</if>
+            <if test="pixivPlay != null">#{pixivPlay},</if>
             <if test="status != null">#{status},</if>
             <if test="isEnd != null">#{isEnd},</if>
             <if test="createTime != null">#{createTime},</if>

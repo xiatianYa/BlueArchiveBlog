@@ -18,7 +18,7 @@
             </span>
           </div>
           <div class="botton">
-            <div class="target pointer scaleDraw" v-for="item in PhotoSort" :key="item.id" @click="searchSort(item.id)">
+            <div class="target pointer scaleDraw" :id="item.id == sortIndex ? 'select' : ''" v-for="item in PhotoSort" :key="item.id" @click="searchSort(item.id)">
               <svg class="icon pointer" aria-hidden="true" @click="goDown">
                 <use xlink:href="#icon-sekuaibiaoqian"></use>
               </svg>
@@ -82,6 +82,8 @@ const queryParam = ref({
 const loadingEnd = ref(false)
 //是否加载中
 const loading = ref(false)
+//当前选中的分类ID
+const sortIndex=ref()
 onMounted(() => {
   listPhoto(queryParam.value).then(res => {
     if (isLastPage(res.total)) {
@@ -105,12 +107,13 @@ function searchSort(sortId) {
     pageNum: 1,
     pageSize: 8,
   }
-  queryParam.value.sortId = sortId
+  queryParam.value.sortId = sortId;
+  sortIndex.value=sortId;
   listPhoto(queryParam.value).then(res => {
     if (isLastPage(res.total)) {
       loadingEnd.value = true;
     }
-    PhotoList.value = res.rows
+    PhotoList.value = res.rows;
   })
 }
 //加载数据
@@ -331,5 +334,13 @@ function isLastPage(total) {
       }
     }
   }
+}
+//被选择的效果
+#select {
+  background-color: #8ef6e4;
+}
+
+#select:hover {
+  background-color: #8ef6e4 !important;
 }
 </style>

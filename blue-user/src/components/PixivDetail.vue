@@ -6,7 +6,7 @@
         <span>{{ pixiv.pixivPlay }} 播放</span> · <span>{{ pixiv.pixivDanmaku }} 弹幕</span>
       </div>
       <div class="left_type">
-        <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0, 4) }}</span>
+        <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.pixivPublish.substring(0, 4) }}</span>
       </div>
       <div class="left_shengyou">
         <span>声优 : {{ pixiv.pixivVoiceActor }}</span>
@@ -77,6 +77,11 @@ const props = defineProps(['pixiv'])
       font-weight: 100;
       font-size: 14px;
       padding-top: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 

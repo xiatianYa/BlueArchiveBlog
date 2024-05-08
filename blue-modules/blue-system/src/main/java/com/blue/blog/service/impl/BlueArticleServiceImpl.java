@@ -97,28 +97,29 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         blueArticle.setTagList(blueArticleTags);
 
         //给文章添加浏览量
-        Long userid = SecurityUtils.getLoginUser().getUserid();
-        //设置匹配条件
-        LambdaQueryWrapper<BlueArticleInformation> informationLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        informationLambdaQueryWrapper.eq(BlueArticleInformation::getArticleId,blueArticle.getId());
-        informationLambdaQueryWrapper.eq(BlueArticleInformation::getUserId,userid);
-        //获取匹配数据
-        BlueArticleInformation blueArticleInformation = blueArticleInformationMapper.selectOne(informationLambdaQueryWrapper);
-        if (StringUtils.isNull(blueArticleInformation)){
-            blueArticleInformation=new BlueArticleInformation();
-            blueArticleInformation.setArticleId(blueArticle.getId());
-            blueArticleInformation.setUserId(userid);
-            //设置状态已浏览
-            blueArticleInformation.setIsBrowse("1");
-            //设置是否点赞 默认未点赞
-            blueArticleInformation.setIsLike("0");
-            //设置创建时间
-            blueArticleInformation.setCreateTime(DateUtils.getNowDate());
-            //设置创建着
-            blueArticleInformation.setCreateBy(String.valueOf(userid));
-            blueArticleInformationMapper.insertBlueArticleInformation(blueArticleInformation);
+        if (StringUtils.isNotNull(SecurityUtils.getLoginUser())){
+            Long userid = SecurityUtils.getLoginUser().getUserid();
+            //设置匹配条件
+            LambdaQueryWrapper<BlueArticleInformation> informationLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            informationLambdaQueryWrapper.eq(BlueArticleInformation::getArticleId,blueArticle.getId());
+            informationLambdaQueryWrapper.eq(BlueArticleInformation::getUserId,userid);
+            //获取匹配数据
+            BlueArticleInformation blueArticleInformation = blueArticleInformationMapper.selectOne(informationLambdaQueryWrapper);
+            if (StringUtils.isNull(blueArticleInformation)){
+                blueArticleInformation=new BlueArticleInformation();
+                blueArticleInformation.setArticleId(blueArticle.getId());
+                blueArticleInformation.setUserId(userid);
+                //设置状态已浏览
+                blueArticleInformation.setIsBrowse("1");
+                //设置是否点赞 默认未点赞
+                blueArticleInformation.setIsLike("0");
+                //设置创建时间
+                blueArticleInformation.setCreateTime(DateUtils.getNowDate());
+                //设置创建着
+                blueArticleInformation.setCreateBy(String.valueOf(userid));
+                blueArticleInformationMapper.insertBlueArticleInformation(blueArticleInformation);
+            }
         }
-
         //获取统计数据
         initArticleCount(blueArticle);
         return blueArticle;

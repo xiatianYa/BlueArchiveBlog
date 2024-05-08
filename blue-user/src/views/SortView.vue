@@ -305,9 +305,8 @@ const loadData = () => {
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          margin-right: 20px;
-          border-radius: 5px;
-          padding: 0;
+          padding: 3px;
+          border-radius: 10px;
 
           .sort_name {
             display: flex;
@@ -357,8 +356,8 @@ const loadData = () => {
           justify-content: center;
           align-items: center;
           margin-right: 20px;
-          border-radius: 5px;
-          padding: 0;
+          border-radius: 10px;
+          padding: 3px;
 
           .tag_name {
             display: flex;

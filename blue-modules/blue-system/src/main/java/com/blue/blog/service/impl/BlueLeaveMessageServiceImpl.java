@@ -8,6 +8,7 @@ import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.domain.SysUser;
+import com.blue.system.api.model.LoginUser;
 import com.blue.system.mapper.SysUserMapper;
 import org.springframework.stereotype.Service;
 
@@ -92,8 +93,9 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
                 !StringUtils.isNotEmpty(blueLeaveMessage.getUserAvater())){
             throw new ServiceException("出错了,请刷新页面");
         }
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if(StringUtils.isNotNull(userId)){
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        if(StringUtils.isNotNull(loginUser)){
+            Long userId = loginUser.getUserid();
             blueLeaveMessage.setCreateBy(userId.toString());
         }
         blueLeaveMessage.setCreateTime(DateUtils.getNowDate());

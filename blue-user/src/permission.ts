@@ -1,7 +1,7 @@
 import router from './router'
-import {getToken} from '@/utils/auth'
-import {useUserStore} from '@/store/user'
-import {useSocketStore} from '@/store/socket'
+import { getToken } from '@/utils/auth'
+import { useUserStore } from '@/store/user'
+import { useSocketStore } from '@/store/socket'
 
 router.beforeEach((to, from, next) => {
     //没有token

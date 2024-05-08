@@ -55,12 +55,12 @@
 </template>
 
 <script setup>
-import {onMounted, reactive, ref} from 'vue'
-import {getCodeImg, getSms, login, register} from '@/api/login'
-import {listAvater} from '@/api/avater'
-import {useUserStore} from '@/store/user'
-import {setExpiresIn, setToken} from '@/utils/auth'
-import {useRouter} from "vue-router";
+import { onMounted, reactive, ref } from 'vue'
+import { getCodeImg, getSms, login, register } from '@/api/login'
+import { listAvater } from '@/api/avater'
+import { useUserStore } from '@/store/user'
+import { setExpiresIn, setToken } from '@/utils/auth'
+import { useRouter } from "vue-router";
 import promptMsg from "@/components/PromptBoxView"
 //路由
 const router = useRouter()
@@ -85,7 +85,7 @@ let userInfo = reactive({
 })
 onMounted(() => {
   //获取用户头像
-  listAvater({pageSize:999}).then(res => {
+  listAvater({ pageSize: 999 }).then(res => {
     avaterUrls.value = res.rows
   })
   getCode()
@@ -106,7 +106,7 @@ function selectAvatar(isOpen) {
 //获取验证码
 function getCode() {
   getCodeImg().then(res => {
-    codeImg.value = 'data:image/gif;base64,'+res.img
+    codeImg.value = 'data:image/gif;base64,' + res.img
     userInfo.uuid = res.uuid
   })
 }
@@ -152,9 +152,9 @@ function clearUserInfo() {
   userInfo.code = ""
   userInfo.uuid = ""
   userInfo.phone = ""
-  userInfo.avatar=""
-  userInfo.code=""
-  userInfo.sms=""
+  userInfo.avatar = ""
+  userInfo.code = ""
+  userInfo.sms = ""
 }
 //前往登录
 function goLogin() {

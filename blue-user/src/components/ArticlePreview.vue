@@ -33,7 +33,7 @@
         </span>
       </div>
       <div class="tags">
-        <div class="target" v-for="tag in article.tagList">
+        <div class="target" v-for="tag in article.tagList" @click="goSort(article.sortId, tag.tagId)">
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-wenjianjia"></use>
           </svg>
@@ -67,12 +67,14 @@
 
 <script setup>
 import { nextTick, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getArticle, addLike } from '@/api/article'
 import CommentDetail from '@/components/CommentDetail.vue';
 import promptMsg from "@/components/PromptBoxView"
-//路由  
-const router = useRoute()
+//路由信息
+const route = useRoute()
+//路由导航
+const router = useRouter()
 //锚点列表  
 const titles = ref([])
 //文章对象  
@@ -85,8 +87,8 @@ onMounted(async () => {
 //初始化
 function init() {
   //初始话文章ID
-  article.value.id = router.query.articleId
-  getArticle(router.query.articleId).then(res => {
+  article.value.id = route.query.articleId
+  getArticle(route.query.articleId).then(res => {
     if (res.data.content) {
       article.value = res.data
     } else {
@@ -137,9 +139,8 @@ function addArticleLike() {
 }
 //前往分类浏览页
 function goSort(sortId, tagId) {
-  router.value.push({ path: '/sort', query: { sortId: sortId, tagId: tagId } })
+  router.push({ path: '/sort', query: { sortId: sortId, tagId: tagId } })
 }
-
 // 监听article的变化，当article改变时获取锚点列表  
 watch(article, async (newVal, oldVal) => {
   if (newVal !== oldVal) {

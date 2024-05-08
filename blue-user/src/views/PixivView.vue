@@ -10,7 +10,7 @@
                         <span>{{ pixiv.pixivPlay }} 播放</span> · <span>{{ pixiv.pixivDanmaku }} 弹幕</span>
                     </div>
                     <div class="left_type">
-                        <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.createTime.substring(0, 10) }}</span>
+                        <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.pixivPublish.substring(0, 10) }}</span>
                     </div>
                     <div class="left_shengyou">
                         <span>声优 : {{ pixiv.pixivVoiceActor }}</span>
