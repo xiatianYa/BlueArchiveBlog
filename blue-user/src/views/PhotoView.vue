@@ -64,7 +64,7 @@ import {onMounted, onUnmounted, ref} from "vue"
 import {useBgStore} from '@/store/bg'
 import {listPhoto} from '@/api/photo'
 import {listSort} from '@/api/sort/photoSort'
-import Loading from '@/components/CssLoadingView.vue'
+import Loading from '@/components/CssLoadingView01.vue'
 
 //视频背景
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (1)_20240426121632A003.mp4")

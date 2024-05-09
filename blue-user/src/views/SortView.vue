@@ -56,7 +56,7 @@ import { listSort } from '@/api/sort/sort'
 import { listTag } from '@/api/sort/tagSort'
 import { listByTagId } from '@/api/article'
 import { useRouter } from 'vue-router'
-import Loading from '@/components/CssLoadingView.vue'
+import Loading from '@/components/CssLoadingView01.vue'
 import promptMsg from "@/components/PromptBoxView"
 
 const router = useRouter()

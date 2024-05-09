@@ -61,7 +61,7 @@ import { listErchuang } from '@/api/erchuang'
 import { listToolBySort } from '@/api/tool'
 import { useRouter } from 'vue-router'
 import { useBgStore } from '@/store/bg'
-import Loading from '@/components/CssLoadingView.vue'
+import Loading from '@/components/CssLoadingView01.vue'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 import ToolDetail from '@/components/ToolDetail.vue'

@@ -18,7 +18,10 @@
             <a class="pointer code_select" @click="getPhoneCode()">发送</a>
           </div>
           <input type="text" placeholder="请输入验证码" v-model="userInfo.sms">
-          <button @click="userRegister">注册</button>
+          <button @click="userRegister" v-show="!loading">注册</button>
+          <button v-show="loading">
+            <Loading/>
+          </button>
         </div>
         <!-- 登录 -->
         <div class="login-box">
@@ -29,7 +32,10 @@
             <input type="text" placeholder="请输入验证码" v-model="userInfo.code">
             <img v-lazy="codeImg" @click="getCode">
           </div>
-          <button @click="userLogin">登录</button>
+          <button @click="userLogin" v-show="!loading">登录</button>
+          <button v-show="loading">
+            <Loading/>
+          </button>
         </div>
       </div>
       <div class="con-box left">
@@ -61,6 +67,7 @@ import { listAvater } from '@/api/avater'
 import { useUserStore } from '@/store/user'
 import { setExpiresIn, setToken } from '@/utils/auth'
 import { useRouter } from "vue-router";
+import Loading from '@/components/CssLoadingView02.vue'
 import promptMsg from "@/components/PromptBoxView"
 //路由
 const router = useRouter()
@@ -83,6 +90,8 @@ let userInfo = reactive({
   code: null,
   uuid: null,
 })
+//是否加载Loading
+const loading=ref(false)
 onMounted(() => {
   //获取用户头像
   listAvater({ pageSize: 999 }).then(res => {
@@ -112,6 +121,7 @@ function getCode() {
 }
 //用户登录
 function userLogin() {
+  loading.value=true;
   const username = userInfo.userName.trim()
   const password = userInfo.passWord
   const code = userInfo.code
@@ -127,20 +137,25 @@ function userLogin() {
     //提示用户信息
     promptMsg({ type: "success", msg: "登录成功" })
     router.push({ path: "/home" })
+    loading.value=false;
   }).catch(error => {
     //提示用户信息
     promptMsg({ type: "error", msg: error })
     getCode()
+    loading.value=false;
   })
 }
 //用户注册
 function userRegister() {
+  loading.value=true;
   register(userInfo).then(res => {
     clearUserInfo();
     goLogin();
     promptMsg({ type: "success", msg: "注册成功" })
+    loading.value=false;
   }).catch(error => {
     promptMsg({ type: "warn", msg: error })
+    loading.value=false;
   })
 }
 //清空表单
@@ -272,7 +287,10 @@ function goRegister() {
   flex-direction: column;
   align-items: center;
   width: 100%;
-
+  button{
+    display:flex;
+    justify-content:center;
+  }
   .Sms_box {
     display: flex;
     align-items: center;

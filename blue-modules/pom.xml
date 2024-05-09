@@ -15,6 +15,7 @@
         <module>blue-file</module>
         <module>blue-rabbitmq</module>
         <module>Blue-websocket</module>
+        <module>blue-blog</module>
     </modules>
 
     <artifactId>blue-modules</artifactId>

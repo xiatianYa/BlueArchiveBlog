@@ -210,7 +210,7 @@ import { listSort } from '@/api/sort/sort'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import CategoryDetail from '@/components/CategoryDetail.vue'
-import Loading from '@/components/CssLoadingView.vue'
+import Loading from '@/components/CssLoadingView01.vue'
 
 const userStore = useUserStore()
 //路由

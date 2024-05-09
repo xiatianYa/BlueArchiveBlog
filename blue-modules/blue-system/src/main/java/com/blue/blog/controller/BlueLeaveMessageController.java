@@ -27,7 +27,11 @@ public class BlueLeaveMessageController extends BaseController
 {
     @Resource
     private IBlueLeaveMessageService blueLeaveMessageService;
-
+    @GetMapping("/test")
+    public String test(){
+        System.out.println("测试");
+        return "测试";
+    }
     /**
      * 查询弹幕列表
      */
