@@ -1,16 +1,19 @@
-package com.blue.ws;
+package com.blue.gateway;
 
-import com.blue.common.security.annotation.EnableRyFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@EnableRyFeignClients
+/**
+ * 网关启动程序
+ *
+ * @author ruoyi
+ */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class WebSocketApplication {
+public class BlueGatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(WebSocketApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  WebSocket模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        SpringApplication.run(BlueGatewayApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  若依网关启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +

@@ -1,19 +1,13 @@
-package com.blue.gateway;
+package com.blue.rabbitmq;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-/**
- * 网关启动程序
- *
- * @author ruoyi
- */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class RuoYiGatewayApplication {
+@SpringBootApplication
+public class BlueRabbitMqApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RuoYiGatewayApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  若依网关启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        SpringApplication.run(BlueRabbitMqApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  RabbitMq模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +

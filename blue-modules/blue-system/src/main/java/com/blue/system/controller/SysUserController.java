@@ -174,7 +174,7 @@ public class SysUserController extends BaseController {
     public R<UserVo> getUserInfoById(@PathVariable(value = "userId") Long userId){
         SysUser sysUser = userService.selectUserById(userId);
         if (StringUtils.isNull(sysUser)){
-            return R.fail("用户名不存在");
+            return R.fail("用户不存在");
         }
         UserVo userVo = new UserVo();
         userVo.setUserId(userId);

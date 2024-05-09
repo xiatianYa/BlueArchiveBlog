@@ -13,6 +13,7 @@ export default defineConfig({
     ],
     // 设置代理
     server: {
+        host:'0.0.0.0',
         proxy: {
             '/api': {
                 target: 'http://localhost:8080',

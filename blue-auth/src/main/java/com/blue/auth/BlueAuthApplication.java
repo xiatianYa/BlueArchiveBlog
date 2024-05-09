@@ -16,9 +16,9 @@ import org.springframework.context.annotation.Bean;
  */
 @EnableRyFeignClients
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class RuoYiAuthApplication {
+public class BlueAuthApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RuoYiAuthApplication.class, args);
+        SpringApplication.run(BlueAuthApplication.class, args);
         System.out.println("(♥◠‿◠)ﾉﾞ  认证授权中心启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +

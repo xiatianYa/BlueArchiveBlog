@@ -51,7 +51,7 @@
             </router-link>
             <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/song">
               <svg class="icon pointer" aria-hidden="true">
-                <use xlink:href="#icon-jita"></use>
+                <use xlink:href="#icon-erji"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/song' ? 'select' : ''">听歌</span>
             </router-link>

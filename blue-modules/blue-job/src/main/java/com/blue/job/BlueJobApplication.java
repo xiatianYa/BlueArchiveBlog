@@ -15,9 +15,9 @@ import com.blue.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringBootApplication
-public class RuoYiJobApplication {
+public class BlueJobApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RuoYiJobApplication.class, args);
+        SpringApplication.run(BlueJobApplication.class, args);
         System.out.println("(♥◠‿◠)ﾉﾞ  定时任务模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +

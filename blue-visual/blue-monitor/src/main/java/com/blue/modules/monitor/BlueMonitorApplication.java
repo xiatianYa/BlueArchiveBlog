@@ -1,24 +1,20 @@
-package com.blue;
+package com.blue.modules.monitor;
 
-import com.blue.common.security.annotation.EnableCustomConfig;
-import com.blue.common.security.annotation.EnableRyFeignClients;
-import com.blue.common.swagger.annotation.EnableCustomSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 
 /**
- * 系统模块
+ * 监控中心
  *
  * @author ruoyi
  */
-@EnableCustomConfig
-@EnableCustomSwagger2
-@EnableRyFeignClients
+@EnableAdminServer
 @SpringBootApplication
-public class RuoYiSystemApplication {
+public class BlueMonitorApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RuoYiSystemApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  系统模块启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
+        SpringApplication.run(BlueMonitorApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  监控中心启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
                 " | ( ' )  |       \\  _. /  '       \n" +

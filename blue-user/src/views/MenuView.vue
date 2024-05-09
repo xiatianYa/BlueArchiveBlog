@@ -25,6 +25,12 @@
         </svg>
         <span :class="selectIndex === 3 ? 'nav_select' : ''">我的相册</span>
       </div>
+      <div class="nav">
+        <svg class="icon pointer" aria-hidden="true">
+          <use xlink:href="#icon-jita"></use>
+        </svg>
+        <span :class="selectIndex === 3 ? 'nav_select' : ''">分享歌单</span>
+      </div>
     </div>
     <div class="menu_right">
       <UserView :user="UserStore" v-show="selectIndex === 0" />
