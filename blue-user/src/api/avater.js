@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询用户头像列存储列表
 export function listAvater(query) {
   return request({
-    url: '/system/avater/list',
+    url: '/blog/avater/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listAvater(query) {
 // 查询用户头像列存储详细
 export function getAvater(id) {
   return request({
-    url: '/system/avater/' + id,
+    url: '/blog/avater/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getAvater(id) {
 // 新增用户头像列存储
 export function addAvater(data) {
   return request({
-    url: '/system/avater',
+    url: '/blog/avater',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addAvater(data) {
 // 修改用户头像列存储
 export function updateAvater(data) {
   return request({
-    url: '/system/avater',
+    url: '/blog/avater',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateAvater(data) {
 // 删除用户头像列存储
 export function delAvater(id) {
   return request({
-    url: '/system/avater/' + id,
+    url: '/blog/avater/' + id,
     method: 'delete'
   })
 }

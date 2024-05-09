@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询弹幕列表
 export function listMessage(query) {
   return request({
-    url: '/system/message/list',
+    url: '/blog/message/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listMessage(query) {
 // 查询弹幕详细
 export function getMessage(id) {
   return request({
-    url: '/system/message/' + id,
+    url: '/blog/message/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getMessage(id) {
 // 新增弹幕
 export function addMessage(data) {
   return request({
-    url: '/system/message',
+    url: '/blog/message',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addMessage(data) {
 // 修改弹幕
 export function updateMessage(data) {
   return request({
-    url: '/system/message',
+    url: '/blog/message',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateMessage(data) {
 // 删除弹幕
 export function delMessage(id) {
   return request({
-    url: '/system/message/' + id,
+    url: '/blog/message/' + id,
     method: 'delete'
   })
 }

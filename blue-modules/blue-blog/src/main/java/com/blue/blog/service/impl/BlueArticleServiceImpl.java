@@ -15,6 +15,7 @@ import com.blue.blog.mapper.BlueArticleMapper;
 import com.blue.blog.mapper.BlueCommentMapper;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.constant.ElasticSearchConstants;
+import com.blue.common.core.constant.SecurityConstants;
 import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
@@ -26,11 +27,10 @@ import com.blue.sort.domain.BlueSortTag;
 import com.blue.sort.mapper.BlueArticleTagMapper;
 import com.blue.sort.mapper.BlueSortMapper;
 import com.blue.sort.mapper.BlueSortTagMapper;
-import com.blue.system.api.domain.SysUser;
+import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.model.LoginUser;
-import com.blue.system.mapper.SysUserMapper;
+import com.blue.system.api.model.UserVo;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +52,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Resource
     private BlueSortMapper blueSortMapper;
     @Resource
-    private SysUserMapper userMapper;
-    @Resource
     private BlueArticleTagMapper blueArticleTagMapper;
     @Resource
     private BlueSortTagMapper blueSortTagMapper;
@@ -63,6 +61,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     private BlueArticleInformationMapper blueArticleInformationMapper;
     @Resource
     private BlueCommentMapper blueCommentMapper;
+    @Resource
+    private RemoteUserService remoteUserService;
 
     /**
      * 查询文章
@@ -89,10 +89,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         }
         //查询作者名称
         //用户列表
-        Map<Long, String> userMap =
-                userMapper.selectUserList(new SysUser()).stream().collect(Collectors.toMap(SysUser::getUserId, SysUser::getNickName));
+        UserVo sysUser =
+                remoteUserService.getUserInfoById(blueArticle.getUserId(), SecurityConstants.FROM_SOURCE).getData();
         //设置用户名称
-        blueArticle.setUserName(userMap.get(blueArticle.getUserId()));
+        blueArticle.setUserName(sysUser.getUserNickName());
         //设置标签列表
         blueArticle.setTagList(blueArticleTags);
 
@@ -375,8 +375,9 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticle.setUpdateBy(userId.toString());
         }
         //设置用户名称
-        SysUser sysUser = userMapper.selectUserById(blueArticle.getUserId());
-        blueArticle.setUserName(sysUser.getNickName());
+        UserVo sysUser =
+                remoteUserService.getUserInfoById(blueArticle.getUserId(), SecurityConstants.FROM_SOURCE).getData();
+        blueArticle.setUserName(sysUser.getUserNickName());
         //设置修改时间
         blueArticle.setUpdateTime(DateUtils.getNowDate());
         //通过审核
@@ -603,11 +604,11 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      */
     public void setUserName(List<BlueArticle> blueArticleList){
         //用户列表
-        Map<Long, String> userMap =
-                userMapper.selectUserList(new SysUser()).stream().collect(Collectors.toMap(SysUser::getUserId, SysUser::getNickName));
         for (BlueArticle blueArticle : blueArticleList) {
             //设置每个文章的作者名称
-            blueArticle.setUserName(userMap.get(blueArticle.getUserId()));
+            UserVo userVo =
+                    remoteUserService.getUserInfoById(blueArticle.getUserId(), SecurityConstants.FROM_SOURCE).getData();
+            blueArticle.setUserName(userVo.getUserNickName());
         }
     }
 

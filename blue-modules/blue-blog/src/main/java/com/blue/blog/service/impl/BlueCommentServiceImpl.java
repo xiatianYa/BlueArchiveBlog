@@ -4,11 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.entry.dao.BlueComment;
 import com.blue.blog.mapper.BlueCommentMapper;
 import com.blue.blog.service.IBlueCommentService;
+import com.blue.common.core.constant.SecurityConstants;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
-import com.blue.system.api.domain.SysUser;
-import com.blue.system.mapper.SysUserMapper;
+import com.blue.system.api.RemoteUserService;
+import com.blue.system.api.model.UserVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,7 +28,7 @@ public class BlueCommentServiceImpl implements IBlueCommentService
     @Resource
     private BlueCommentMapper blueCommentMapper;
     @Resource
-    private SysUserMapper sysUserMapper;
+    private RemoteUserService remoteUserService;
 
     /**
      * 查询评论
@@ -58,17 +59,13 @@ public class BlueCommentServiceImpl implements IBlueCommentService
             parentWrapper.eq(BlueComment::getCommonId,blueComment.getCommonId());
         }
         List<BlueComment> blueComments = blueCommentMapper.selectList(parentWrapper);
-        List<SysUser> sysUsers = sysUserMapper.selectUserList(new SysUser());
         //添加参数
         for (BlueComment comment : blueComments) {
-            for (SysUser sysUser : sysUsers) {
-                if (sysUser.getUserId().equals(Long.valueOf(comment.getCreateBy()))){
-                    //设置用户名称
-                    comment.setUserName(sysUser.getNickName());
-                    //设置用户头像
-                    comment.setUserAvatar(sysUser.getAvatar());
-                }
-            }
+            //设置用户信息
+            UserVo userVo =
+                    remoteUserService.getUserInfoById(Long.valueOf(comment.getCreateBy()), SecurityConstants.FROM_SOURCE).getData();
+            comment.setUserAvatar(userVo.getUserAvatar());
+            comment.setUserName(userVo.getUserNickName());
         }
         //遍历父节点 获取父节点下所有的子节点回复
         LambdaQueryWrapper<BlueComment> chileWrapper = new LambdaQueryWrapper<>();
@@ -87,14 +84,10 @@ public class BlueCommentServiceImpl implements IBlueCommentService
                 }
                 if (commentChile.getParentId().equals(comment.getId())){
                     //为子留言添加用户姓名 用户头像
-                    for (SysUser sysUser : sysUsers) {
-                        if (sysUser.getUserId().equals(Long.valueOf(commentChile.getCreateBy()))){
-                            //设置用户名称
-                            commentChile.setUserName(sysUser.getNickName());
-                            //设置用户头像
-                            commentChile.setUserAvatar(sysUser.getAvatar());
-                        }
-                    }
+                    UserVo userVo =
+                            remoteUserService.getUserInfoById(Long.valueOf(commentChile.getCreateBy()), SecurityConstants.FROM_SOURCE).getData();
+                    commentChile.setUserAvatar(userVo.getUserAvatar());
+                    commentChile.setUserName(userVo.getUserNickName());
                     comment.getReplyList().add(commentChile);
                 }
             }

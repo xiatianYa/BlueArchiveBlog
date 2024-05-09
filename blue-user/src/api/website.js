@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询网站信息列表
 export function listWebsite(query) {
   return request({
-    url: '/system/websiteInfo/list',
+    url: '/blog/websiteInfo/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listWebsite(query) {
 // 查询网站信息详细
 export function getWebsite(id) {
   return request({
-    url: '/system/websiteInfo/' + id,
+    url: '/blog/websiteInfo/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getWebsite(id) {
 // 新增网站信息
 export function addWebsite(data) {
   return request({
-    url: '/system/websiteInfo',
+    url: '/blog/websiteInfo',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addWebsite(data) {
 // 修改网站信息
 export function updateWebsite(data) {
   return request({
-    url: '/system/websiteInfo',
+    url: '/blog/websiteInfo',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateWebsite(data) {
 // 删除网站信息
 export function delWebsite(id) {
   return request({
-    url: '/system/websiteInfo/' + id,
+    url: '/blog/websiteInfo/' + id,
     method: 'delete'
   })
 }

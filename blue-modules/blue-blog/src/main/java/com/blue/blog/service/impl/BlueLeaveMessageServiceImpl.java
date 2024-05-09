@@ -3,13 +3,14 @@ package com.blue.blog.service.impl;
 import com.blue.blog.entry.dao.BlueLeaveMessage;
 import com.blue.blog.mapper.BlueLeaveMessageMapper;
 import com.blue.blog.service.IBlueLeaveMessageService;
+import com.blue.common.core.constant.SecurityConstants;
 import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
-import com.blue.system.api.domain.SysUser;
+import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.model.LoginUser;
-import com.blue.system.mapper.SysUserMapper;
+import com.blue.system.api.model.UserVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,7 +30,7 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
     @Resource
     private BlueLeaveMessageMapper blueLeaveMessageMapper;
     @Resource
-    private SysUserMapper userMapper;
+    private RemoteUserService remoteUserService;
 
     /**
      * 查询弹幕
@@ -53,14 +54,11 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
     public List<BlueLeaveMessage> selectBlueLeaveMessageList(BlueLeaveMessage blueLeaveMessage)
     {
         List<BlueLeaveMessage> blueLeaveMessages = blueLeaveMessageMapper.selectBlueLeaveMessageList(blueLeaveMessage);
-        List<SysUser> UserList = userMapper.selectUserList(new SysUser());
         //遍历获取用户名称
         for (BlueLeaveMessage leaveMessage : blueLeaveMessages) {
-            for (SysUser user : UserList) {
-                if (user.getUserId().equals(leaveMessage.getUserId())){
-                    leaveMessage.setUserName(user.getUserName());
-                }
-            }
+            UserVo userVo =
+                    remoteUserService.getUserInfoById(leaveMessage.getUserId(), SecurityConstants.FROM_SOURCE).getData();
+            leaveMessage.setUserName(userVo.getUserNickName());
             if (!StringUtils.isNotNull(leaveMessage.getUserName())){
                 leaveMessage.setUserName("游客");
             }

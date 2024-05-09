@@ -9,7 +9,6 @@ import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
 import com.blue.sort.domain.BlueSortTag;
 import com.blue.sort.service.IBlueSortTagService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

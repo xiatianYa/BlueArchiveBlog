@@ -4,14 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.blog.entry.dao.BluePhoto;
 import com.blue.blog.mapper.BluePhotoMapper;
 import com.blue.blog.service.IBluePhotoService;
+import com.blue.common.core.constant.SecurityConstants;
 import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
-import com.blue.system.mapper.SysUserMapper;
+import com.blue.system.api.model.UserVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,7 +32,7 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Resource
     private BluePhotoMapper bluePhotoMapper;
     @Resource
-    private SysUserMapper userMapper;
+    private RemoteUserService remoteUserService;
     /**
      * 查询相册
      * 
@@ -58,13 +60,10 @@ public class BluePhotoServiceImpl implements IBluePhotoService
         }
         //查询用户设置用户名称
         List<BluePhoto> bluePhotos = bluePhotoMapper.selectBluePhotoList(bluePhoto);
-        List<SysUser> sysUsers = userMapper.selectUserList(new SysUser());
         for (BluePhoto photo : bluePhotos) {
-            for (SysUser sysUser : sysUsers) {
-                if (sysUser.getUserId().equals(photo.getUserId())){
-                    photo.setUserName(sysUser.getNickName());
-                }
-            }
+            UserVo userVo =
+                    remoteUserService.getUserInfoById(photo.getUserId(), SecurityConstants.FROM_SOURCE).getData();
+            photo.setUserName(userVo.getUserNickName());
         }
         return bluePhotos;
     }

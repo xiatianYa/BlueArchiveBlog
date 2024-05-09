@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询音乐列表
 export function listMusic(query) {
   return request({
-    url: '/system/music/list',
+    url: '/blog/music/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listMusic(query) {
 // 查询音乐详细
 export function getMusic(id) {
   return request({
-    url: '/system/music/' + id,
+    url: '/blog/music/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getMusic(id) {
 // 新增音乐
 export function addMusic(data) {
   return request({
-    url: '/system/music',
+    url: '/blog/music',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addMusic(data) {
 // 修改音乐
 export function updateMusic(data) {
   return request({
-    url: '/system/music',
+    url: '/blog/music',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateMusic(data) {
 // 删除音乐
 export function delMusic(id) {
   return request({
-    url: '/system/music/' + id,
+    url: '/blog/music/' + id,
     method: 'delete'
   })
 }

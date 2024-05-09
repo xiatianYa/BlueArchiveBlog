@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询分类列表
 export function listSort(query) {
   return request({
-    url: '/system/sort/list',
+    url: '/blog/sort/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listSort(query) {
 // 查询分类详细
 export function getSort(id) {
   return request({
-    url: '/system/sort/' + id,
+    url: '/blog/sort/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getSort(id) {
 // 新增分类
 export function addSort(data) {
   return request({
-    url: '/system/sort',
+    url: '/blog/sort',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addSort(data) {
 // 修改分类
 export function updateSort(data) {
   return request({
-    url: '/system/sort',
+    url: '/blog/sort',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateSort(data) {
 // 删除分类
 export function delSort(id) {
   return request({
-    url: '/system/sort/' + id,
+    url: '/blog/sort/' + id,
     method: 'delete'
   })
 }

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询相册列表
 export function listPhotoByUser() {
   return request({
-    url: '/system/photo/listByUser',
+    url: '/blog/photo/listByUser',
     method: 'get',
   })
 }
@@ -11,7 +11,7 @@ export function listPhotoByUser() {
 // 查询相册列表
 export function listPhoto(query) {
   return request({
-    url: '/system/photo/list',
+    url: '/blog/photo/list',
     method: 'get',
     params: query
   })
@@ -20,7 +20,7 @@ export function listPhoto(query) {
 // 查询相册详细
 export function getPhoto(id) {
   return request({
-    url: '/system/photo/' + id,
+    url: '/blog/photo/' + id,
     method: 'get'
   })
 }
@@ -28,7 +28,7 @@ export function getPhoto(id) {
 // 新增相册
 export function addPhoto(data) {
   return request({
-    url: '/system/photo',
+    url: '/blog/photo',
     method: 'post',
     data: data
   })
@@ -37,7 +37,7 @@ export function addPhoto(data) {
 // 修改相册
 export function updatePhoto(data) {
   return request({
-    url: '/system/photo',
+    url: '/blog/photo',
     method: 'put',
     data: data
   })
@@ -46,7 +46,7 @@ export function updatePhoto(data) {
 // 删除相册
 export function delPhoto(id) {
   return request({
-    url: '/system/photo/' + id,
+    url: '/blog/photo/' + id,
     method: 'delete'
   })
 }

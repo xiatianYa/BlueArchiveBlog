@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询相册分类信息列表
 export function listSort(query) {
   return request({
-    url: '/system/photoSort/list',
+    url: '/blog/photoSort/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listSort(query) {
 // 查询相册分类信息详细
 export function getSort(id) {
   return request({
-    url: '/system/photoSort/' + id,
+    url: '/blog/photoSort/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getSort(id) {
 // 新增相册分类信息
 export function addSort(data) {
   return request({
-    url: '/system/photoSort',
+    url: '/blog/photoSort',
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function addSort(data) {
 // 修改相册分类信息
 export function updateSort(data) {
   return request({
-    url: '/system/photoSort',
+    url: '/blog/photoSort',
     method: 'put',
     data: data
   })
@@ -38,7 +38,7 @@ export function updateSort(data) {
 // 删除相册分类信息
 export function delSort(id) {
   return request({
-    url: '/system/photoSort/' + id,
+    url: '/blog/photoSort/' + id,
     method: 'delete'
   })
 }
