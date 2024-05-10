@@ -81,7 +81,8 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         List<BlueArticleTag> blueArticleTags = blueArticleTagMapper.selectList(wrapper);
         //标签列表
         Map<Long, String> sortTags =
-                blueSortTagMapper.selectList(new LambdaQueryWrapper<>()).stream().collect(Collectors.toMap(BlueSortTag::getId, BlueSortTag::getTagName));
+                blueSortTagMapper.selectList(new LambdaQueryWrapper<>()).stream()
+                        .collect(Collectors.toMap(BlueSortTag::getId, BlueSortTag::getTagName));
         //为关联标签列表赋值
         for (BlueArticleTag blueArticleTag : blueArticleTags) {
             blueArticleTag.setTagName(sortTags.get(blueArticleTag.getTagId()));
