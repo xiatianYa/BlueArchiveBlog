@@ -5,6 +5,7 @@ import com.blue.blog.entry.dao.BlueMusic;
 import com.blue.blog.entry.dto.BlueMusicListBySortDTO;
 import com.blue.blog.mapper.BlueMusicMapper;
 import com.blue.blog.service.IBlueMusicService;
+import com.blue.common.core.enums.AuditingStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
@@ -51,6 +52,10 @@ public class BlueMusicServiceImpl implements IBlueMusicService
     @Override
     public List<BlueMusic> selectBlueMusicList(BlueMusic blueMusic)
     {
+        //配置审核条件
+        if (StringUtils.isNull(blueMusic.getStatus())){
+            blueMusic.setStatus(AuditingStatus.DISABLE.getCode());
+        }
         return blueMusicMapper.selectBlueMusicList(blueMusic);
     }
 
@@ -127,7 +132,9 @@ public class BlueMusicServiceImpl implements IBlueMusicService
         }
         List<BlueMusicSort> blueMusicSorts = blueMusicSortMapper.selectList(blueMusicSortLambdaQueryWrapper);
         //获取全部音乐列表
-        List<BlueMusic> blueMusics = blueMusicMapper.selectList(new LambdaQueryWrapper<>());
+        LambdaQueryWrapper<BlueMusic> blueMusicLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        blueMusicLambdaQueryWrapper.eq(BlueMusic::getStatus,AuditingStatus.DISABLE.getCode());
+        List<BlueMusic> blueMusics = blueMusicMapper.selectList(blueMusicLambdaQueryWrapper);
         //返回列表
         List<BlueMusicListBySortDTO> musicListBySorts=new ArrayList<>();
         for (BlueMusicSort blueMusicSort : blueMusicSorts) {

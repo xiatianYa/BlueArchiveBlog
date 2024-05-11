@@ -39,4 +39,8 @@ public class BlueMusic extends BaseEntity
     @Excel(name = "音乐分类")
     private Long sortId;
 
+    /** 审核状态 */
+    @Excel(name = "审核状态")
+    private Long status;
+
 }
