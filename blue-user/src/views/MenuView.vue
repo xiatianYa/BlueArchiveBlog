@@ -25,29 +25,31 @@
         </svg>
         <span :class="selectIndex === 3 ? 'nav_select' : ''">我的相册</span>
       </div>
-      <div class="nav">
+      <div class="nav" @click="changSelect(4)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-jita"></use>
         </svg>
-        <span :class="selectIndex === 3 ? 'nav_select' : ''">分享歌单</span>
+        <span :class="selectIndex === 4 ? 'nav_select' : ''">分享歌单</span>
       </div>
     </div>
     <div class="menu_right">
-      <UserView :user="UserStore" v-show="selectIndex === 0" />
-      <ArticleView v-show="selectIndex === 1" />
-      <FoundView v-show="selectIndex === 2" />
-      <PhotoView v-show="selectIndex === 3" />
+      <UserView :user="UserStore" v-if="selectIndex === 0" />
+      <ArticleView v-if="selectIndex === 1" />
+      <FoundView v-if="selectIndex === 2" />
+      <PhotoView v-if="selectIndex === 3" />
+      <MusicView v-if="selectIndex === 4" />
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 import UserView from '@/components/ShareUserDetail.vue';
 import ArticleView from '@/components/ShareArticleDetail.vue';
 import FoundView from '@/components/ShareFoundDetail.vue';
 import PhotoView from '@/components/SharePhotoDetail.vue';
-import {useUserStore} from '@/store/user'
+import MusicView from '@/components/ShareMusicDetail.vue'
+import { useUserStore } from '@/store/user'
 
 const UserStore = useUserStore()
 const selectIndex = ref(0)

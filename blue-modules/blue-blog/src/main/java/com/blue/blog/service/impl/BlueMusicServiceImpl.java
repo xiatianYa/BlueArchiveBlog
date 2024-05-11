@@ -121,7 +121,11 @@ public class BlueMusicServiceImpl implements IBlueMusicService
     @Override
     public List<BlueMusicListBySortDTO> getMusicListBySort(Long type) {
         //获取全部音乐分类
-        List<BlueMusicSort> blueMusicSorts = blueMusicSortMapper.selectList(new LambdaQueryWrapper<>());
+        LambdaQueryWrapper<BlueMusicSort> blueMusicSortLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotNull(type)){
+            blueMusicSortLambdaQueryWrapper.eq(BlueMusicSort::getId,type);
+        }
+        List<BlueMusicSort> blueMusicSorts = blueMusicSortMapper.selectList(blueMusicSortLambdaQueryWrapper);
         //获取全部音乐列表
         List<BlueMusic> blueMusics = blueMusicMapper.selectList(new LambdaQueryWrapper<>());
         //返回列表

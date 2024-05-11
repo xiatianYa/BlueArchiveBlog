@@ -20,9 +20,9 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref} from "vue";
-import {useUserStore} from '@/store/user'
-import {addMessage, listMessage} from '@/api/message'
+import { onMounted, onUnmounted, ref } from "vue";
+import { useUserStore } from '@/store/user'
+import { addMessage, listMessage } from '@/api/message'
 import CommentDetail from '@/components/CommentDetail.vue';
 import promptMsg from "@/components/PromptBoxView"
 import 'vue3-emoji/dist/style.css'
@@ -133,7 +133,11 @@ function showBarrage(barrage) {
   //创建一个img元素
   var BarrageImg = new Image();
   //设置img图片地址
-  BarrageImg.src = barrage.userAvater || "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png";
+  if (barrage.userAvater) {
+    BarrageImg.src = barrage.userAvater
+  } else {
+    BarrageImg.src = "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/UserAvater/Pictures/avater01.png"
+  }
   //设置Barrage的ClassName
   Barrage.className = "Barrage";
   //设置BarrageSpan的ClassName

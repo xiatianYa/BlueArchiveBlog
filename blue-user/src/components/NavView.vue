@@ -49,11 +49,11 @@
               </svg>
               <span class="pointer" :class="routerPath == '/leave' ? 'select' : ''">留言</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/song">
+            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/music">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-erji"></use>
               </svg>
-              <span class="pointer" :class="routerPath == '/song' ? 'select' : ''">听歌</span>
+              <span class="pointer" :class="routerPath == '/music' ? 'select' : ''">听歌</span>
             </router-link>
             <router-link v-show="!UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'"
               class="li" to="/user">

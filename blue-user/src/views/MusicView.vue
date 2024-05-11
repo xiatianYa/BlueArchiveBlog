@@ -21,24 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="container" v-for="item in musicList">
-      <div class="title">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-xiaofengche"></use>
-        </svg>
-        <span>{{ item.sortName }}</span>
-      </div>
-      <div class="musics" v-for="music in item.musicList" :key="music.id">
-        <div class="music">
-          <div class="music_img" @click="startMusic($event, music.musicUrl)">
-            <img v-lazy="music.imgUrl">
-          </div>
-          <div class="music_name">
-            <span>{{ music.musicName }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <MusicDetail :musicList="musicList" :startMusic="startMusic" />
     <audio id="music">
     </audio>
   </div>
@@ -48,6 +31,7 @@
 import { onMounted, ref } from "vue"
 import { useBgStore } from '@/store/bg'
 import { bySortList } from '@/api/music'
+import MusicDetail from "@/components/MusicDetail.vue";
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("5") || "http://127.0.0.1:9300/statics/2024/04/26/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd_20240426121202A002.mp4")
 //音乐列表
@@ -59,6 +43,7 @@ onMounted(() => {
     musicList.value = res;
   })
 })
+//播放音乐
 function startMusic(event, musicUrl) {
   //获取音乐标签
   let music = document.getElementById("music");

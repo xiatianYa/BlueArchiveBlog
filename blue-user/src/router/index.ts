@@ -5,7 +5,7 @@ import SortView from '../views/SortView.vue'
 import PhotoView from '../views/PhotoView.vue'
 import FriendChainView from '../views/FriendChainView.vue'
 import LeaveMessageView from '../views/LeaveMessageView.vue'
-import SongView from '../views/SongView.vue'
+import MusicView from '../views/MusicView.vue'
 import UserView from '../views/UserView.vue'
 import PixivView from '../views/PixivView.vue'
 import MenuView from '../views/MenuView.vue'
@@ -54,9 +54,9 @@ const router = createRouter({
             name: 'leave',
             component: LeaveMessageView
         }, {
-            path: '/song',
-            name: 'song',
-            component: SongView
+            path: '/music',
+            name: 'music',
+            component: MusicView
         }, {
             path: '/user',
             name: 'user',
