@@ -60,7 +60,7 @@ import Loading from '@/components/CssLoadingView01.vue'
 import promptMsg from "@/components/PromptBoxView"
 
 const router = useRouter()
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (3)_20240426122240A005.mp4")
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (3)_20240426122240A005.mp4")
 //分类下标
 const sortIndex = ref(0)
 //标签下标

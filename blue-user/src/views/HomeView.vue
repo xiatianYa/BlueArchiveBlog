@@ -222,7 +222,7 @@ const sortList = ref({})
 //推荐文章
 const recommendArticleList = ref({})
 //背景视频
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp_20240426120315A001.mp4")
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp_20240426120315A001.mp4")
 //搜索加载中
 const searchLoading = ref(false);
 //搜索显示

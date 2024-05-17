@@ -67,7 +67,7 @@ import {listSort} from '@/api/sort/photoSort'
 import Loading from '@/components/CssLoadingView01.vue'
 
 //视频背景
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (1)_20240426121632A003.mp4")
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (1)_20240426121632A003.mp4")
 //相册列表
 const PhotoList = ref([])
 //相册分类

@@ -66,7 +66,7 @@ import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 import ToolDetail from '@/components/ToolDetail.vue'
 //背景视频
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1") || "http://127.0.0.1:9300/statics/2024/04/26/Untitled video - Made with Clipchamp (4)_20240426122822A006.mp4")
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (4)_20240426122822A006.mp4")
 //路由
 const router = useRouter()
 //番剧列表
