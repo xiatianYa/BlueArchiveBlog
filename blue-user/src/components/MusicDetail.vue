@@ -79,6 +79,7 @@ const props = defineProps(['musicList', 'startMusic'])
                 width: 100px;
                 height: 100px;
                 overflow: hidden;
+                flex: 5;
 
                 img {
                     border-radius: 50%;
@@ -100,6 +101,11 @@ const props = defineProps(['musicList', 'startMusic'])
                 align-items: center;
                 justify-content: center;
                 padding-top: 10px;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
         }
     }

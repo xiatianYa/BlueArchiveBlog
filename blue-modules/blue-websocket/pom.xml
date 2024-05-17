@@ -9,7 +9,7 @@
         <version>3.6.3</version>
     </parent>
 
-    <artifactId>Blue-modules-websocket</artifactId>
+    <artifactId>blue-modules-websocket</artifactId>
 
     <dependencies>
         <!-- WebSocket -->
@@ -51,6 +51,7 @@
             <artifactId>blue-common-security</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -64,7 +65,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><source>8</source><target>8</target></configuration></plugin>
+            </plugin>
         </plugins>
     </build>
 

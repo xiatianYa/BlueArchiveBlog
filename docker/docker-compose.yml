@@ -1,54 +1,5 @@
 version: '3.8'
 services:
-  blue-nacos:
-    container_name: blue-nacos
-    image: nacos/nacos-server
-    build:
-      context: ./nacos
-    environment:
-      - MODE=standalone
-    volumes:
-      - ./nacos/logs/:/home/nacos/logs
-      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
-    ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9849:9849"
-    depends_on:
-      - blue-mysql
-  blue-mysql:
-    container_name: blue-mysql
-    image: mysql:5.7
-    build:
-      context: ./mysql
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./mysql/conf:/etc/mysql/conf.d
-      - ./mysql/logs:/logs
-      - ./mysql/data:/var/lib/mysql
-    command: [
-      'mysqld',
-      '--innodb-buffer-pool-size=80M',
-      '--character-set-server=utf8mb4',
-      '--collation-server=utf8mb4_unicode_ci',
-      '--default-time-zone=+8:00',
-      '--lower-case-table-names=1'
-    ]
-    environment:
-      MYSQL_DATABASE: 'ry-cloud'
-      MYSQL_ROOT_PASSWORD: password
-  blue-redis:
-    container_name: blue-redis
-    image: redis
-    build:
-      context: ./redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./redis/conf/redis.conf:/home/blue/redis/redis.conf
-      - ./redis/data:/data
-    command: redis-server /home/blue/redis/redis.conf
   blue-nginx:
     container_name: blue-nginx
     image: nginx

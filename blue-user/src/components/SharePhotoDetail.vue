@@ -92,10 +92,10 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue'
-import {addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto} from '@/api/photo'
-import {listSort} from '@/api/sort/photoSort'
-import {uploadImages} from "@/api/file";
+import { onMounted, ref } from 'vue'
+import { addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto } from '@/api/photo'
+import { listSort } from '@/api/sort/photoSort'
+import { uploadImages } from "@/api/file";
 import promptMsg from "@/components/PromptBoxView"
 //相册列表
 const photoList = ref()
