@@ -16,7 +16,7 @@ export const useSocketStore = defineStore('socket', {
     // 真正存储数据的地方
     state() {
         return {
-            Url:"http://47.115.213.84:8080/websocket/server/",
+            Url:"http://47.113.197.48:8080/websocket/server/",
             socket: "",
             socketUrl: ""
         }

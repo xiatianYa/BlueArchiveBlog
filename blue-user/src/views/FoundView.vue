@@ -1,10 +1,10 @@
 <template>
   <div class="found">
     <div class="banner">
-      <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop muted>
-          <source :src="bgUrl" type="video/mp4">
-        </video>
+      <div class="animate__animated animate__slideInDown bg">
+        <div class="bg_img">
+          <img :src="bgUrl">
+        </div>
         <div class="menus">
           <div class="menu pointer" :class="type === 0 ? 'selectMenu' : ''" @click="selectSort(0)">
             <span class="title">
@@ -207,18 +207,22 @@ function isLastPage(total) {
     height: 400px;
     padding-top: 60px;
 
-    .banner_video {
+    .bg {
       width: 90%;
       height: 100%;
       border-radius: 25px;
       overflow: hidden;
       position: relative;
 
-      video {
+      .bg_img {
         width: 100%;
-        height: 400px;
-        object-fit: cover;
-        z-index: -1;
+        height: 100%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
 
       .menus {

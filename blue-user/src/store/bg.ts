@@ -1,8 +1,8 @@
-import {defineStore} from 'pinia'
+import { defineStore } from 'pinia'
 
 export const useBgStore = defineStore('bg', {
     actions: {
-        SET_BGLIST(res:any) {
+        SET_BGLIST(res: any) {
             for (let index = 0; index < res.rows.length; index++) {
                 this.bgList.push(res.rows[index])
             }

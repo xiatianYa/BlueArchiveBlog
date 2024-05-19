@@ -1,10 +1,10 @@
 <template>
   <div class="friend">
     <div class="banner">
-      <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop muted>
-          <source :src="bgUrl" type="video/mp4">
-        </video>
+      <div class="animate__animated animate__slideInDown bg">
+        <div class="bg_img">
+          <img :src="bgUrl">
+        </div>
       </div>
     </div>
     <div class="container animate__animated animate__fadeInLeft">
@@ -74,11 +74,11 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue"
-import {useBgStore} from '@/store/bg'
-import {listFriend} from '@/api/friend'
-import {listInfo} from '@/api/info'
-import {listWebsite} from '@/api/website'
+import { onMounted, ref } from "vue"
+import { useBgStore } from '@/store/bg'
+import { listFriend } from '@/api/friend'
+import { listInfo } from '@/api/info'
+import { listWebsite } from '@/api/website'
 
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (2)_20240426121911A004.mp4")
 //友链列表
@@ -119,18 +119,22 @@ onMounted(() => {
     height: 400px;
     padding-top: 60px;
 
-    .banner_video {
+    .bg {
       width: 80%;
       height: 100%;
       border-radius: 25px;
       overflow: hidden;
       position: relative;
 
-      video {
+      .bg_img {
         width: 100%;
-        height: 400px;
-        object-fit: cover;
-        z-index: -1;
+        height: 100%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }

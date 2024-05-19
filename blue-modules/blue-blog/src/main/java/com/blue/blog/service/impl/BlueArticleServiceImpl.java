@@ -89,11 +89,14 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticleTag.setArticleName(blueArticle.getArticleName());
         }
         //查询作者名称
-        //用户列表
         UserVo sysUser =
                 remoteUserService.getUserInfoById(blueArticle.getUserId(), SecurityConstants.FROM_SOURCE).getData();
         //设置用户名称
-        blueArticle.setUserName(sysUser.getUserNickName());
+        if (StringUtils.isNotNull(sysUser)){
+            blueArticle.setUserName(sysUser.getUserNickName());
+        }else{
+            blueArticle.setUserName("未知用户");
+        }
         //设置标签列表
         blueArticle.setTagList(blueArticleTags);
 
@@ -378,7 +381,11 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         //设置用户名称
         UserVo sysUser =
                 remoteUserService.getUserInfoById(blueArticle.getUserId(), SecurityConstants.FROM_SOURCE).getData();
-        blueArticle.setUserName(sysUser.getUserNickName());
+        if (StringUtils.isNotNull(sysUser)){
+            blueArticle.setUserName(sysUser.getUserNickName());
+        }else{
+            blueArticle.setUserName("未知用户");
+        }
         //设置修改时间
         blueArticle.setUpdateTime(DateUtils.getNowDate());
         //通过审核
@@ -609,7 +616,11 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             //设置每个文章的作者名称
             UserVo userVo =
                     remoteUserService.getUserInfoById(blueArticle.getUserId(), SecurityConstants.FROM_SOURCE).getData();
-            blueArticle.setUserName(userVo.getUserNickName());
+            if (StringUtils.isNotNull(userVo)){
+                blueArticle.setUserName(userVo.getUserNickName());
+            }else{
+                blueArticle.setUserName("未知用户");
+            }
         }
     }
 

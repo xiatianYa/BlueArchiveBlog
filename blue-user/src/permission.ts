@@ -13,6 +13,7 @@ router.beforeEach((to, from, next) => {
         const socketStore = useSocketStore()
         //建立Socket连接
         if (UserStore.id && !socketStore.socket) {
+            console.log(1);
             socketStore.INIT(Number(UserStore.id))
         }
         if (socketStore.socket) {

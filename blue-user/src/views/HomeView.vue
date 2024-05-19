@@ -1,9 +1,9 @@
 <template>
   <div class="home_box no_select">
-    <div class="animate__animated animate__slideInDown video_bg">
-      <video autoplay id="bg_Video" class="video-background" loop muted>
-        <source :src="bgUrl" type="video/mp4">
-      </video>
+    <div class="animate__animated animate__slideInDown bg">
+      <div class="bg_img">
+        <img :src="bgUrl">
+      </div>
       <div class="typewriter animation_writer">
         <span>眼 前 所 见 , 皆 为 奇 迹 .</span>
       </div>
@@ -221,8 +221,8 @@ const noticeInfo = ref({})
 const sortList = ref({})
 //推荐文章
 const recommendArticleList = ref({})
-//背景视频
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp_20240426120315A001.mp4")
+//背景路径
+const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
 //搜索加载中
 const searchLoading = ref(false);
 //搜索显示
@@ -333,15 +333,19 @@ function goHref(url) {
   overflow: hidden;
   padding-bottom: 40px;
 
-  .video_bg {
+  .bg {
     width: 100%;
     height: 100vh;
 
-    video {
+    .bg_img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      z-index: -1;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .typewriter {

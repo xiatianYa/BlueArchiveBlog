@@ -1,10 +1,10 @@
 <template>
   <div class="photo">
     <div class="banner">
-      <div class="animate__animated animate__slideInDown banner_video">
-        <video autoplay loop muted>
-          <source :src="bgUrl" type="video/mp4">
-        </video>
+      <div class="animate__animated animate__slideInDown bg">
+        <div class="bg_img">
+          <img :src="bgUrl">
+        </div>
         <div class="banner_nav">
           <div class="top">
             <span class="top_link">
@@ -18,7 +18,8 @@
             </span>
           </div>
           <div class="botton">
-            <div class="target pointer scaleDraw" :id="item.id == sortIndex ? 'select' : ''" v-for="item in PhotoSort" :key="item.id" @click="searchSort(item.id)">
+            <div class="target pointer scaleDraw" :id="item.id == sortIndex ? 'select' : ''" v-for="item in PhotoSort"
+              :key="item.id" @click="searchSort(item.id)">
               <svg class="icon pointer" aria-hidden="true" @click="goDown">
                 <use xlink:href="#icon-sekuaibiaoqian"></use>
               </svg>
@@ -60,10 +61,10 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref} from "vue"
-import {useBgStore} from '@/store/bg'
-import {listPhoto} from '@/api/photo'
-import {listSort} from '@/api/sort/photoSort'
+import { onMounted, onUnmounted, ref } from "vue"
+import { useBgStore } from '@/store/bg'
+import { listPhoto } from '@/api/photo'
+import { listSort } from '@/api/sort/photoSort'
 import Loading from '@/components/CssLoadingView01.vue'
 
 //视频背景
@@ -83,7 +84,7 @@ const loadingEnd = ref(false)
 //是否加载中
 const loading = ref(false)
 //当前选中的分类ID
-const sortIndex=ref()
+const sortIndex = ref()
 onMounted(() => {
   listPhoto(queryParam.value).then(res => {
     if (isLastPage(res.total)) {
@@ -108,7 +109,7 @@ function searchSort(sortId) {
     pageSize: 8,
   }
   queryParam.value.sortId = sortId;
-  sortIndex.value=sortId;
+  sortIndex.value = sortId;
   listPhoto(queryParam.value).then(res => {
     if (isLastPage(res.total)) {
       loadingEnd.value = true;
@@ -173,19 +174,24 @@ function isLastPage(total) {
     height: 400px;
     padding-top: 60px;
 
-    .banner_video {
+    .bg {
       width: 90%;
       height: 100%;
       border-radius: 25px;
       overflow: hidden;
       position: relative;
 
-      video {
+      .bg_img {
         width: 100%;
-        height: 400px;
-        object-fit: cover;
-        z-index: -1;
+        height: 100%;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
+
     }
 
     .banner_nav {
@@ -335,6 +341,7 @@ function isLastPage(total) {
     }
   }
 }
+
 //被选择的效果
 #select {
   background-color: #8ef6e4;
