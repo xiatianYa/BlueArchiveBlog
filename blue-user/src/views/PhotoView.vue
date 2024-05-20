@@ -3,7 +3,7 @@
     <div class="banner">
       <div class="animate__animated animate__slideInDown bg">
         <div class="bg_img">
-          <img :src="bgUrl">
+          <img v-lazy="bgUrl">
         </div>
         <div class="banner_nav">
           <div class="top">

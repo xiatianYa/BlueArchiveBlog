@@ -6,7 +6,6 @@ export const useSocketStore = defineStore('socket', {
             //拼接用户id
             this.socketUrl = this.Url+UserId;
             this.socketUrl = this.socketUrl.replace("https", "ws").replace("http", "ws");
-            console.log(this.socketUrl);
             this.socket = new WebSocket(this.socketUrl);
         },
         CLEAR_SOCKET() {

@@ -2,7 +2,7 @@
   <div class="home_box no_select">
     <div class="animate__animated animate__slideInDown bg">
       <div class="bg_img">
-        <img :src="bgUrl">
+        <img v-lazy="bgUrl">
       </div>
       <div class="typewriter animation_writer">
         <span>眼 前 所 见 , 皆 为 奇 迹 .</span>
@@ -42,7 +42,7 @@
                     <use xlink:href="#icon-icon-github"></use>
                   </svg>
                 </li>
-                <li @click="goHref('https://github.com/xiatianYa')">
+                <li @click="goHref('https://gitee.com/xiatianYa1003')">
                   <svg class="icon pointer" aria-hidden="true">
                     <use xlink:href="#icon-gitee-fill-round"></use>
                   </svg>
@@ -56,7 +56,7 @@
                 搜索
               </div>
               <div class="search_box">
-                <input type="text" placeholder="搜索文章" class="search_txt" v-model="queryParams.searchValue">
+                <input type="text" placeholder="搜索文章" class="search_txt" @keydown.enter="search" v-model="queryParams.searchValue">
                 <svg class="icon pointer" aria-hidden="true" @click="search">
                   <use xlink:href="#icon-daohang"></use>
                 </svg>

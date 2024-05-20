@@ -32,7 +32,7 @@
                 </div>
                 <div class="body">
                     <div class="container">
-                        <div class="msg_list">
+                        <div class="msg_list" id="scrollableDiv">
                             <div class="item" v-for="message in messageList"
                                 :style="UserStore.id == message.fromUserId ? 'justify-content: end;flex-direction:row-reverse;' : ''">
                                 <div class="avatar">
@@ -40,7 +40,8 @@
                                 </div>
                                 <div class="info"
                                     :style="UserStore.id == message.fromUserId ? 'padding-right: 10px;' : ''">
-                                    <div class="user_name" :style="UserStore.id == message.fromUserId ? 'justify-content: end;' : ''">
+                                    <div class="user_name"
+                                        :style="UserStore.id == message.fromUserId ? 'justify-content: end;' : ''">
                                         <span style="text-align: end;">
                                             {{ message.fromUserNickName }}
                                         </span>
@@ -59,7 +60,7 @@
                                     :options-name="optionsName" :fulldata="true" :recent="true" />
                             </div>
                             <div class="chat_box">
-                                <input class="chat_txt" type="text" v-model="inputMsg">
+                                <input class="chat_txt" type="text" @keydown.enter="sendMsg()" v-model="inputMsg">
                             </div>
                             <div class="send" @click="sendMsg()">
                                 <svg class="icon pointer" aria-hidden="true">
@@ -76,10 +77,10 @@
 
 <script setup>
 import V3Emoji from "vue3-emoji";
-import {onMounted, ref} from "vue"
-import {getUserList} from '@/api/chat'
-import {useUserStore} from '@/store/user'
-import {useSocketStore} from '@/store/socket'
+import { onMounted, ref,nextTick } from "vue"
+import { getUserList } from '@/api/chat'
+import { useUserStore } from '@/store/user'
+import { useSocketStore } from '@/store/socket'
 import promptMsg from "@/components/PromptBoxView"
 //用户仓库
 const UserStore = useUserStore()
@@ -90,7 +91,7 @@ const inputMsg = ref("")
 //socket连接对象
 const socket = ref()
 //在线用户列表
-const onlineUserList = ref()
+const onlineUserList = ref([])
 //接受的消息列表
 const messageList = ref([])
 onMounted(() => {
@@ -110,8 +111,8 @@ function init() {
     getOnLineUserList();
 }
 //处理表情
-function appendCommentChile(emajor){
-    inputMsg.value+=emajor.emoji;
+function appendCommentChile(emajor) {
+    inputMsg.value += emajor.emoji;
 }
 //处理服务端发送消息
 function handleMessage(env) {
@@ -120,6 +121,11 @@ function handleMessage(env) {
     //群发聊天消息
     if (data.type === 201) {
         messageList.value.push(data)
+        //滑动到底部
+        nextTick(()=>{
+            var scrollableDiv = document.getElementById('scrollableDiv');
+            scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+        })
     } else if (data.type === 202) {
         //离线消息
         //获取用户列表
@@ -144,7 +150,11 @@ function sendMsg() {
         fromUserNickName: UserStore.nickName,
         message: inputMsg.value
     }
-    socket.value.send(JSON.stringify(data))
+    if (inputMsg.value.length <= 50 && inputMsg.value.length) {
+        socket.value.send(JSON.stringify(data))
+    } else {
+        promptMsg({ type: "warn", msg: "消息长度不合规!" })
+    }
     //清空输入框
     inputMsg.value = "";
 }
@@ -293,10 +303,10 @@ function sendMsg() {
 
                     .msg_list {
                         box-sizing: border-box;
-                        overflow: auto;
                         width: 100%;
                         height: 90%;
                         padding: 10px;
+                        overflow-y: auto;
 
                         .item {
                             margin-bottom: 15px;

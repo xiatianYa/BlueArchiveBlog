@@ -10,11 +10,11 @@
   </div>
 </template>
 <script setup>
-import {useGloBalStore} from '@/store/global'
-import {onMounted, ref} from 'vue'
-import {useRouter} from "vue-router"
-import {useBgStore} from '@/store/bg'
-import {listBg} from '@/api/bg'
+import { useGloBalStore } from '@/store/global'
+import { onMounted, ref } from 'vue'
+import { useRouter } from "vue-router"
+import { useBgStore } from '@/store/bg'
+import { listBg } from '@/api/bg'
 //路由
 const router = useRouter()
 //加载阿罗那图片
@@ -51,7 +51,7 @@ onMounted(() => {
       rand = Math.random() * AlonaList.value.length | 0
       AlonaUrl.value = AlonaList.value[rand]
     }
-  }, 1000))
+  }, 500))
   //进度加载状态
   timer.value.push(setInterval(() => {
     if (Percentages.value < Maxpercentages.value) {

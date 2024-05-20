@@ -2,8 +2,17 @@ import router from './router'
 import { getToken } from '@/utils/auth'
 import { useUserStore } from '@/store/user'
 import { useSocketStore } from '@/store/socket'
-
+import { useBgStore } from '@/store/bg'
+import { listBg } from '@/api/bg'
 router.beforeEach((to, from, next) => {
+    //背景仓库
+    const BgStore = useBgStore()
+    //如果没有背景则去查询背景
+    if (BgStore.bgList.length <= 1) {
+        listBg().then((res) => {
+            BgStore.SET_BGLIST(res)
+        })
+    }
     //没有token
     if (!getToken()) {
         next()
@@ -13,7 +22,6 @@ router.beforeEach((to, from, next) => {
         const socketStore = useSocketStore()
         //建立Socket连接
         if (UserStore.id && !socketStore.socket) {
-            console.log(1);
             socketStore.INIT(Number(UserStore.id))
         }
         if (socketStore.socket) {
