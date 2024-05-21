@@ -68,7 +68,7 @@ export function updateArticle(data) {
 // 删除文章
 export function delArticle(id) {
   return request({
-    url: '/system/article/' + id,
+    url: '/blog/article/' + id,
     method: 'delete'
   })
 }
@@ -76,7 +76,7 @@ export function delArticle(id) {
 // 文章点赞
 export function addLike(id) {
   return request({
-    url: '/system/article/addLike/' + id,
+    url: '/blog/article/addLike/' + id,
     method: 'post',
   })
 }

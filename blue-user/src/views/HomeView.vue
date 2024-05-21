@@ -2,7 +2,7 @@
   <div class="home_box no_select">
     <div class="animate__animated animate__slideInDown bg">
       <div class="bg_img">
-        <img v-lazy="bgUrl">
+        <img :src="bgUrl">
       </div>
       <div class="typewriter animation_writer">
         <span>眼 前 所 见 , 皆 为 奇 迹 .</span>
@@ -56,7 +56,8 @@
                 搜索
               </div>
               <div class="search_box">
-                <input type="text" placeholder="搜索文章" class="search_txt" @keydown.enter="search" v-model="queryParams.searchValue">
+                <input type="text" placeholder="搜索文章" class="search_txt" @keydown.enter="search"
+                  v-model="queryParams.searchValue">
                 <svg class="icon pointer" aria-hidden="true" @click="search">
                   <use xlink:href="#icon-daohang"></use>
                 </svg>
@@ -318,8 +319,7 @@ function goArticleBySortId(sortId) {
 }
 //前往页面底部
 function goDown() {
-  let dom = document.documentElement;
-  window.scrollTo({ behavior: 'smooth', top: dom.scrollHeight });
+  window.scrollTo({ behavior: 'smooth', top: window.innerHeight });
 }
 //跳转链接
 function goHref(url) {

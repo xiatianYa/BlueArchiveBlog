@@ -321,7 +321,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         wrapper.eq(BlueArticle::getSortId,sortId);
         //默认查询已通过审核数据
         wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
-        //查询改文章下所包含的标签
+        //查询该文章下所包含的标签
         return blueArticleMapper.selectList(wrapper);
     }
 
@@ -354,6 +354,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     public List<BlueArticle> listBySortId(Long sortId) {
         LambdaQueryWrapper<BlueArticle> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(BlueArticle::getSortId,sortId);
+        wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
         //文章列表
         List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
         //文章文章标签列表

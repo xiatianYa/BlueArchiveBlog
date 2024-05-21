@@ -1,7 +1,7 @@
 <template>
-  <NavView v-show="navShow"></NavView>
+  <NavView v-if="navShow"></NavView>
   <RouterView :class="!isShow ? '' : gloBalStore.switch ? 'bg_white' : 'bg_black'" />
-  <FooterView></FooterView>
+  <FooterView v-if="navShow"></FooterView>
   <setUpView></setUpView>
 </template>
 <script setup>

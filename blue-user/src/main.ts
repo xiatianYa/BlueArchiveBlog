@@ -1,7 +1,7 @@
 //引入App.vue
 import App from './App.vue'
 //引入vue
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 
 //引入图片懒加载插件
 import Lazyload from "vue3-lazyload";
@@ -56,7 +56,7 @@ import createTipPlugin from '@kangc/v-md-editor/lib/plugins/tip/index';
 import '@kangc/v-md-editor/lib/plugins/tip/tip.css';
 // 代码行号
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
-import {createPinia} from 'pinia'
+import { createPinia } from 'pinia'
 import router from './router'
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
@@ -77,7 +77,7 @@ const app = createApp(App)
 
 //注册插件
 app.use(Lazyload, {
-  loading: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/loading.png",//可以指定加载中的图像
+  loading: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/55e714c791f85970e3e942464ee56e8f353403349.gif",//可以指定加载中的图像
 });
 
 app.use(VueCalendarHeatmap)

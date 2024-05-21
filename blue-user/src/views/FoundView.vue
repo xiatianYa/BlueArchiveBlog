@@ -3,7 +3,7 @@
     <div class="banner">
       <div class="animate__animated animate__slideInDown bg">
         <div class="bg_img">
-          <img v-lazy="bgUrl">
+          <img :src="bgUrl">
         </div>
         <div class="menus">
           <div class="menu pointer" :class="type === 0 ? 'selectMenu' : ''" @click="selectSort(0)">

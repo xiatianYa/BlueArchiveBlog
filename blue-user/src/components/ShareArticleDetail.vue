@@ -94,10 +94,10 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch,nextTick} from 'vue'
-import {addArticle, delArticle, getArticle, listArticleByUser, updateArticle} from '@/api/article'
-import {listSort} from '@/api/sort/sort'
-import {uploadImages} from "@/api/file";
+import { onMounted, ref, watch, nextTick } from 'vue'
+import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
+import { listSort } from '@/api/sort/sort'
+import { uploadImages } from "@/api/file";
 import promptMsg from "@/components/PromptBoxView"
 //文章列表
 const ArticleList = ref()
@@ -130,10 +130,10 @@ function handleCopyCodeSuccess() {
 function openArticleUpdate(articleId) {
     getArticle(articleId).then(res => {
         Article.value = res.data;
-        let ResultTagList=Article.value.tagList;
-        nextTick(()=>{   
+        let ResultTagList = Article.value.tagList;
+        nextTick(() => {
             //清空标签列表
-            Article.value.tagList=[];
+            Article.value.tagList = [];
             //给标签列表赋值
             for (const tag of ResultTagList) {
                 Article.value.tagList.push(tag.tagId)

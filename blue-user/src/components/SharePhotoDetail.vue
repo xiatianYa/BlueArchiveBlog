@@ -61,7 +61,7 @@
           </select>
         </div>
         <div class="photo_avatar">
-          <span>上传封面</span>
+          <span>上传照片</span>
           <input type="file" @change="handleImageUpload" accept="image/*">
         </div>
         <div class="button_box">
@@ -303,18 +303,19 @@ function handleImageUpload(event) {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      width: 90%;
+      width: 100%;
       height: 100%;
       min-height: 400px;
       margin-top: 20px;
 
       .photo {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         box-sizing: border-box;
         width: 20%;
+        margin: 0 2%;
         max-height: 300px;
         border-radius: 10px;
         padding-bottom: 0;
