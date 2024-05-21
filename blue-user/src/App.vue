@@ -38,11 +38,11 @@ watch(
   { immediate: true }
 )
 function handleKeyDown(event) {
-  // if (event.key === 'F12') {
-  //   // 阻止默认行为（但请注意，这可能不会总是有效）  
-  //   event.preventDefault();
-  //   // 阻止事件冒泡（可选）  
-  //   event.stopPropagation();
-  // }
+  if (event.key === 'F12') {
+    // 阻止默认行为（但请注意，这可能不会总是有效）  
+    event.preventDefault();
+    // 阻止事件冒泡（可选）  
+    event.stopPropagation();
+  }
 }
 </script>

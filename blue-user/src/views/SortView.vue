@@ -3,7 +3,7 @@
     <div class="banner no_select">
       <div class="animate__animated animate__slideInDown bg">
         <div class="bg_img">
-          <img v-lazy="bgUrl">
+          <img :src="bgUrl">
         </div>
         <div class="sorts">
           <svg class="icon" aria-hidden="true">

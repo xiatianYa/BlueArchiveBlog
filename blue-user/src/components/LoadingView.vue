@@ -65,7 +65,7 @@ onMounted(() => {
       timer.value = []
       router.push({ path: "/home" })
     }
-  }, 50))
+  }, 10))
 })
 </script>
 <style lang="scss" scoped>

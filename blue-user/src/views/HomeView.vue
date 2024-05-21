@@ -2,7 +2,7 @@
   <div class="home_box no_select">
     <div class="animate__animated animate__slideInDown bg">
       <div class="bg_img">
-        <img v-lazy="bgUrl">
+        <img :src="bgUrl">
       </div>
       <div class="typewriter animation_writer">
         <span>眼 前 所 见 , 皆 为 奇 迹 .</span>
