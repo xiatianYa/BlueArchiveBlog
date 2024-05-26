@@ -80,3 +80,11 @@ export function addLike(id) {
     method: 'post',
   })
 }
+
+// 获取首页文章
+export function listByHome() {
+  return request({
+    url: '/blog/article/listByHome',
+    method: 'get'
+  })
+}

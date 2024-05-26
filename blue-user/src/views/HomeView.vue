@@ -206,7 +206,7 @@
 import { onMounted, ref } from 'vue'
 import { useBgStore } from '@/store/bg'
 import { listNotice } from '@/api/notice'
-import { listArticle, listBySortId, searchArticleList } from '@/api/article'
+import { listArticle, listBySortId, searchArticleList, listByHome } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
@@ -251,12 +251,17 @@ onMounted(() => {
   //获取分类
   listSort().then(res => {
     sortList.value = res.rows
-    //获取分类后获取文章信息列表
-    for (let index = 0; index < sortList.value.length; index++) {
-      listBySortId(sortList.value[index].id).then(res => {
-        sortList.value[index].articleList = res.rows
-      })
-    }
+  })
+  //获取首页文章
+  listByHome().then(res => {
+    res.data.forEach(articleVo => {
+      sortList.value.forEach(sort => {
+        if (sort.id === articleVo.sortId) {
+          sort.articleList = articleVo.blueArticleList;
+        }
+      });
+    })
+    console.log(sortList.value);
   })
   //获取推荐文章
   listArticle().then(res => {

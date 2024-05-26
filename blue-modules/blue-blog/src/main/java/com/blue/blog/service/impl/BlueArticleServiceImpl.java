@@ -9,6 +9,7 @@ import com.blue.blog.entry.dao.BlueArticleInformation;
 import com.blue.blog.entry.dao.BlueComment;
 import com.blue.blog.entry.dto.BlueArticleDTO;
 import com.blue.blog.entry.dto.BlueArticleSearchDTO;
+import com.blue.blog.entry.vo.BlueArticleBySortVo;
 import com.blue.blog.entry.vo.BlueArticleSearchVo;
 import com.blue.blog.mapper.BlueArticleInformationMapper;
 import com.blue.blog.mapper.BlueArticleMapper;
@@ -361,7 +362,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         setTagName(blueArticles);
         //设置文章用户名称
         setUserName(blueArticles);
-
         //设置文章统计数量
         blueArticles.forEach(this::initArticleCount);
         return blueArticles;
@@ -571,6 +571,35 @@ public class BlueArticleServiceImpl implements IBlueArticleService
                 return "点赞成功";
             }
         }
+    }
+    /**
+     * 获取首页每个分类展示文章列表
+     */
+    @Override
+    public List<BlueArticleBySortVo> listByHome() {
+        //获取所有分类
+        List<BlueSort> blueSortList = blueSortMapper.selectList(new LambdaQueryWrapper<>());
+        List<BlueArticleBySortVo> blueArticleBySortVo = new ArrayList<>();
+        //查询分类下的文章 每个分类只查询6个
+        blueSortList.forEach(blueSort -> {
+            BlueArticleBySortVo bySortVo = new BlueArticleBySortVo();
+            LambdaQueryWrapper<BlueArticle> wrapper= new LambdaQueryWrapper<>();
+            wrapper.eq(BlueArticle::getSortId,blueSort.getId());
+            //分页 只查询前六条
+            wrapper.last("limit 6");
+            List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
+            //文章文章标签列表
+            setTagName(blueArticles);
+            //设置文章用户名称
+            setUserName(blueArticles);
+            //设置文章统计数量
+            blueArticles.forEach(this::initArticleCount);
+            //数据拷贝
+            bySortVo.setSortId(blueSort.getId());
+            bySortVo.setBlueArticleList(blueArticles);
+            blueArticleBySortVo.add(bySortVo);
+        });
+        return blueArticleBySortVo;
     }
 
     /**

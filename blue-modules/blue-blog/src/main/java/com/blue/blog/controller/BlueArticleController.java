@@ -2,6 +2,7 @@ package com.blue.blog.controller;
 
 import com.blue.blog.entry.dao.BlueArticle;
 import com.blue.blog.entry.dto.BlueArticleSearchDTO;
+import com.blue.blog.entry.vo.BlueArticleBySortVo;
 import com.blue.blog.entry.vo.BlueArticleSearchVo;
 import com.blue.blog.service.IBlueArticleService;
 import com.blue.common.core.utils.StringUtils;
@@ -161,5 +162,13 @@ public class BlueArticleController extends BaseController
     public AjaxResult addLike(@PathVariable Long id)
     {
         return AjaxResult.success(blueArticleService.addLike(id));
+    }
+    /**
+     * 获取首页每个分类展示文章列表
+     */
+    @GetMapping("/listByHome")
+    public AjaxResult listByHome(){
+        List<BlueArticleBySortVo> blueArticleBySortVo = blueArticleService.listByHome();
+        return AjaxResult.success(blueArticleBySortVo);
     }
 }

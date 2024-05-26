@@ -4,6 +4,7 @@ import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
 import com.blue.blog.entry.dao.BlueArticle;
 import com.blue.blog.entry.dto.BlueArticleDTO;
 import com.blue.blog.entry.dto.BlueArticleSearchDTO;
+import com.blue.blog.entry.vo.BlueArticleBySortVo;
 import com.blue.blog.entry.vo.BlueArticleSearchVo;
 
 import java.util.List;
@@ -103,4 +104,8 @@ public interface IBlueArticleService
      * 文章点赞
      */
     String addLike(Long id);
+    /**
+     * 获取首页每个分类展示文章列表
+     */
+    List<BlueArticleBySortVo> listByHome();
 }
