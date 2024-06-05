@@ -9,13 +9,13 @@ export const useSocketStore = defineStore('socket', {
             this.socket = new WebSocket(this.socketUrl);
         },
         CLEAR_SOCKET() {
-            this.socket = ""
+            this.socket=""
         }
     },
     // 真正存储数据的地方
     state() {
         return {
-            Url:"http://47.113.197.48:8080/websocket/server/",
+            Url:"http://bluearchive.top:8080/websocket/server/",
             socket: "",
             socketUrl: ""
         }
