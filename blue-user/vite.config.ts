@@ -16,7 +16,7 @@ export default defineConfig({
         host: '0.0.0.0',
         proxy: {
             '/api': {
-                target: 'http://127.0.0.1:8080',
+                target: 'http://bluearchive.top:8080',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, '') // 路径重写，将 '/api' 前缀去掉
             }
