@@ -18,8 +18,9 @@ public class AliYunSmsService {
     private String SignName;
     @Value("${aliyun.sms.TemplateCode}")
     private String TemplateCode;
+    @Value("${aliyun.sms.regionId}")
+    private String regionId;
     public void sendSms(String phone,String phoneCode) throws ClientException {
-        String regionId = "cn-shanghai";
         DefaultProfile profile = DefaultProfile.getProfile(regionId,AccessKeyId,Secret);
         IAcsClient client = new DefaultAcsClient(profile);
         SendSmsRequest request = new SendSmsRequest();
