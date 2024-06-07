@@ -584,7 +584,11 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         blueSortList.forEach(blueSort -> {
             BlueArticleBySortVo bySortVo = new BlueArticleBySortVo();
             LambdaQueryWrapper<BlueArticle> wrapper= new LambdaQueryWrapper<>();
+            //配置查询文章状态为审核通过
+            wrapper.eq(BlueArticle::getStatus,AuditingStatus.DISABLE.getCode());
             wrapper.eq(BlueArticle::getSortId,blueSort.getId());
+            //查询条件为最近的记录排序
+            wrapper.orderByDesc(BlueArticle::getCreateTime);
             //分页 只查询前六条
             wrapper.last("limit 6");
             List<BlueArticle> blueArticles = blueArticleMapper.selectList(wrapper);
