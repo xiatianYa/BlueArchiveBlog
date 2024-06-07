@@ -114,7 +114,7 @@ function init() {
           }
         }
       }
-      //获取从路由传递过来的参数
+      //获取从路由传递过来的分类参数
       if (router.currentRoute.value.query.sortId) {
         sortIndex.value = router.currentRoute.value.query.sortId
       } else {
@@ -123,17 +123,25 @@ function init() {
           sortIndex.value = sortList.value[0].id
         }
       }
+      //获取从路由传递过来的标签参数
       if (router.currentRoute.value.query.tagId) {
         tagIndex.value = router.currentRoute.value.query.tagId
         //设置分类ID下的标签列表
         const sort = sortList.value.find(item => item.id == sortIndex.value)
         tagList.value = sort.tagList;
       } else {
-        //设置标签列表
-        tagList.value = sortList.value[0].tagList
-        //设置第一个标签下标
-        if (tagList.value) {
-          tagIndex.value = tagList.value[0].id
+        //如果是从点击分类过来的 则匹配分类下的标签列表
+        if (router.currentRoute.value.query.sortId) {
+          //查询分类下标签列表
+          const sort = sortList.value.find(item => item.id == sortIndex.value)
+          tagList.value = sort.tagList;
+        } else {
+          //设置标签列表
+          tagList.value = sortList.value[0].tagList
+          //设置第一个标签下标
+          if (tagList.value) {
+            tagIndex.value = tagList.value[0].id
+          }
         }
       }
       //查询文章列表

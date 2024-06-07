@@ -29,6 +29,14 @@ public class BlueFriendController extends BaseController
     private IBlueFriendService blueFriendService;
 
     /**
+     * 友连申请接口
+     */
+    @GetMapping("/apply")
+    public AjaxResult apply(BlueFriend blueFriend)
+    {
+        return AjaxResult.success();
+    }
+    /**
      * 查询友情链接列表
      */
     @GetMapping("/list")
