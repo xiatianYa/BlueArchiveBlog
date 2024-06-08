@@ -68,7 +68,9 @@ import { useUserStore } from '@/store/user'
 import { setExpiresIn, setToken } from '@/utils/auth'
 import { useRouter } from "vue-router";
 import Loading from '@/components/CssLoadingView02.vue'
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //路由
 const router = useRouter()
 //Pinia
@@ -102,9 +104,9 @@ onMounted(() => {
 //获取注册短信验证码
 function getPhoneCode() {
   getSms(userInfo.phone).then(res => {
-    promptMsg({ type: "success", msg: res.data })
+    message.success(res.data)
   }).catch(error => {
-    promptMsg({ type: "warn", msg: error })
+    message.error(error)
   })
 }
 //用户选择头像
@@ -135,12 +137,12 @@ function userLogin() {
     //设置Token
     UserStore.SET_TOKEN(result.access_token)
     //提示用户信息
-    promptMsg({ type: "success", msg: "登录成功" })
+    message.success("登录成功")
     router.push({ path: "/home" })
     loading.value=false;
   }).catch(error => {
     //提示用户信息
-    promptMsg({ type: "error", msg: error })
+    message.error(error)
     getCode()
     loading.value=false;
   })
@@ -151,10 +153,10 @@ function userRegister() {
   register(userInfo).then(res => {
     clearUserInfo();
     goLogin();
-    promptMsg({ type: "success", msg: "注册成功" })
+    message.success("注册成功")
     loading.value=false;
   }).catch(error => {
-    promptMsg({ type: "warn", msg: error })
+    message.error(error)
     loading.value=false;
   })
 }

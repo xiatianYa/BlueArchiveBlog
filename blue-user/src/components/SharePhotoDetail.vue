@@ -96,7 +96,9 @@ import { onMounted, ref } from 'vue'
 import { addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto } from '@/api/photo'
 import { listSort } from '@/api/sort/photoSort'
 import { uploadImages } from "@/api/file";
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //相册列表
 const photoList = ref()
 //相册选中列表
@@ -131,44 +133,44 @@ function openPhotoUpdate(photoId) {
 //修改相册
 function updatePhotoSubmit() {
   if (!photo.value.photoName) {
-    promptMsg({ type: "warn", msg: "请添加相册名称" })
+    message.warning("请添加相册名称")
     return;
   }
   if (!photo.value.sortId) {
-    promptMsg({ type: "warn", msg: "请添加相册分类" })
+    message.warning("请添加相册分类")
     return;
   }
   if (!photo.value.photoUrl) {
-    promptMsg({ type: "warn", msg: "请添加相册图片" })
+    message.warning("请添加相册图片")
     return;
   }
   updatePhoto(photo.value).then(() => {
-    promptMsg({ type: "success", msg: "修改成功" })
+    message.success("修改成功")
     init();
   }).catch(() => {
-    promptMsg({ type: "error", msg: "修改失败" })
+    message.error("修改失败")
   })
   closePhoto();
 }
 //添加相册
 function addPhotoSubmit() {
   if (!photo.value.photoName) {
-    promptMsg({ type: "warn", msg: "请添加相册名称" })
+    message.warning("请添加相册名称")
     return;
   }
   if (!photo.value.sortId) {
-    promptMsg({ type: "warn", msg: "请添加相册分类" })
+    message.warning("请添加相册分类")
     return;
   }
   if (!photo.value.photoUrl) {
-    promptMsg({ type: "warn", msg: "请添加相册图片" })
+    message.warning("请添加相册图片")
     return;
   }
   addPhoto(photo.value).then(() => {
-    promptMsg({ type: "success", msg: "添加成功" })
+    message.success("添加成功")
     init();
   }).catch(() => {
-    promptMsg({ type: "error", msg: "添加失败" })
+    message.error("添加失败")
   })
   closePhoto();
 }
@@ -184,10 +186,10 @@ function closePhotoDelete() {
 //删除确认
 function deletePhotoSubmit() {
   delPhoto(deletePhotoList.value).then(() => {
-    promptMsg({ type: "success", msg: "删除成功" })
+    message.success("删除成功")
     init();
   }).catch(() => {
-    promptMsg({ type: "error", msg: "删除失败" })
+    message.error("删除失败")
   })
   closePhotoDelete();
 }
@@ -206,9 +208,9 @@ function handleImageUpload(event) {
   formData.append("file", event.target.files[0])
   uploadImages(formData).then(res => {
     photo.value.photoUrl = res.data.url;
-    promptMsg({ type: "success", msg: "上传图片成功!" })
+    message.success("上传图片成功")
   }).catch(error => {
-    promptMsg({ type: "error", msg: "上传图片失败!" + error })
+    message.success("上传图片失败")
   })
 }
 </script>

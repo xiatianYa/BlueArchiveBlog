@@ -72,7 +72,9 @@ import { nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getArticle, addLike } from '@/api/article'
 import CommentDetail from '@/components/CommentDetail.vue';
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //路由信息
 const route = useRoute()
 //路由导航
@@ -96,7 +98,7 @@ function init() {
     if (res.data.content) {
       article.value = res.data
     } else {
-      promptMsg({ type: "warn", msg: "暂无内容!" })
+      message.warning("暂无内容!")
     }
   })
 }

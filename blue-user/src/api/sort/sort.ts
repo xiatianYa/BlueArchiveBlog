@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询分类列表
-export function listSort(query) {
+export function listSort(query?) {
   return request({
     url: '/blog/sort/list',
     method: 'get',

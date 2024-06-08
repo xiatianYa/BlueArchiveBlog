@@ -37,7 +37,8 @@
               </svg>
               <span class="pointer" :class="routerPath == '/friend' ? 'select' : ''">友链</span>
             </router-link>
-            <router-link v-show="UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/chat">
+            <router-link v-show="UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li"
+              to="/chat">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiaoxi"></use>
               </svg>
@@ -89,11 +90,13 @@
   </transition>
 </template>
 <script setup lang="ts">
-import {onBeforeMount, onMounted, reactive, ref, watch} from 'vue'
-import {useGloBalStore} from '@/store/global'
-import {useUserStore} from '@/store/user'
-import promptMsg from "@/components/PromptBoxView"
-import {useRouter} from "vue-router";
+import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
+import { useGloBalStore } from '@/store/global'
+import { useUserStore } from '@/store/user'
+import { useMessage } from 'naive-ui'
+import { useRouter } from "vue-router";
+//提示框
+const message = useMessage()
 //路由
 const router = useRouter()
 const UserStore = useUserStore()
@@ -120,7 +123,7 @@ function updateScrollPosition() {
 //用户退出登录
 function logOut() {
   UserStore.LogOut()
-  promptMsg({ type: "success", msg: "退出成功" })
+  message.success("退出成功")
 }
 //跳转路由
 function go(path) {

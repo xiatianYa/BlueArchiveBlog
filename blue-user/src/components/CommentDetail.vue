@@ -76,10 +76,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import {nextTick, onMounted, ref} from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import V3Emoji from "vue3-emoji";
-import {addComment, listComment} from '@/api/comment'
-import promptMsg from "@/components/PromptBoxView"
+import { addComment, listComment } from '@/api/comment'
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 
 const props = defineProps(['commentType', 'commonId'])
 //通用ID
@@ -129,11 +131,11 @@ function addLeaverComment() {
   commentLeaver.value.commentContent = commentContent.value;
   commentLeaver.value.commonId = commonId.value;
   addComment(commentLeaver.value).then(res => {
-    promptMsg({ type: "success", msg: res.msg })
+    message.success(res.msg)
     //重新获取数据
     init();
   }).catch(error => {
-    promptMsg({ type: "warn", msg: "请先登录!" })
+    message.success("请先登录!")
   })
   closeLeaverDialog();
 }
@@ -145,11 +147,11 @@ function addLeaverCommentChile() {
   }
   //添加评论
   addComment(commentLeaver.value).then(res => {
-    promptMsg({ type: "success", msg: res.msg })
+    message.success(res.msg)
     //重新获取数据
     init();
   }).catch(error => {
-    promptMsg({ type: "warn", msg: "请先登录!" })
+    message.success("请先登录!")
   })
   closeLeaverDialog();
 }

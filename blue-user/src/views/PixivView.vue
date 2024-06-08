@@ -1,8 +1,10 @@
 <template>
     <div class="pixiv" :class="gloBalStore.switch ? 'bg_white' : 'bg_black'">
         <div class="pixiv_left">
-            <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :option="option"
-                :style="style" style="overflow: hidden" />
+            <n-message-provider>
+                <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex"
+                    :option="option" :style="style" style="overflow: hidden" />
+            </n-message-provider>
             <div class="pixiv_detail" v-if="pixiv">
                 <div class="found_left">
                     <div class="left_title">{{ pixiv.pixivName }}</div>
@@ -102,6 +104,7 @@ import { listEpisode } from '@/api/episode'
 import { useGloBalStore } from '@/store/global'
 import { listMessage } from '@/api/pixivMessage'
 import Artplayer from "@/components/Artplayer.vue";
+import { NMessageProvider } from 'naive-ui'
 import CommentDetail from '@/components/CommentDetail.vue';
 
 const gloBalStore = useGloBalStore()

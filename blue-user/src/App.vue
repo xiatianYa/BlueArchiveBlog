@@ -1,10 +1,10 @@
 <template>
-  <NavView v-if="navShow"></NavView>
   <n-message-provider>
+    <NavView v-if="navShow"></NavView>
     <RouterView :class="!isShow ? '' : gloBalStore.switch ? 'bg_white' : 'bg_black'" />
+    <FooterView v-if="navShow"></FooterView>
+    <setUpView></setUpView>
   </n-message-provider>
-  <FooterView v-if="navShow"></FooterView>
-  <setUpView></setUpView>
 </template>
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'

@@ -7,7 +7,9 @@ import Artplayer from 'artplayer';
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { addMessage, listMessage } from '@/api/pixivMessage'
 import artplayerPluginDanmuku from 'artplayer-plugin-danmuku'
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const messageBox = useMessage()
 
 const emit = defineEmits(['get-instance']);
 
@@ -128,7 +130,7 @@ onMounted(() => {
         time: danmu.time
       }
       addMessage(message).then(res => {
-        promptMsg({ type: "success", msg: "添加成功" })
+        messageBox.success("添加成功")
       })
     });
     emit('get-instance', art);

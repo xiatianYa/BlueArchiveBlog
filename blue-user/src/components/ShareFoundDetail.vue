@@ -80,11 +80,13 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
-import {addErchuang, delErchuang, getErchuang, listErchuangByUser, updateErchuang} from '@/api/erchuang'
+import { onMounted, ref } from 'vue'
+import { addErchuang, delErchuang, getErchuang, listErchuangByUser, updateErchuang } from '@/api/erchuang'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
-import {uploadImages} from "@/api/file";
-import promptMsg from "@/components/PromptBoxView"
+import { uploadImages } from "@/api/file";
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //二创列表
 const ErchuangList = ref()
 //选中列表
@@ -107,60 +109,60 @@ function init() {
 //修改二创
 function updateErchuangSubmit() {
   if (!erchuang.value.ecName) {
-    promptMsg({ type: "warn", msg: "请添加二创标题" })
+    message.warning("请添加二创标题")
     return;
   }
   if (!erchuang.value.ecAuthor) {
-    promptMsg({ type: "warn", msg: "请添加二创作者" })
+    message.warning("请添加二创作者")
     return;
   }
   if (!erchuang.value.ecAvater) {
-    promptMsg({ type: "warn", msg: "请添加二创封面" })
+    message.warning("请添加二创封面")
     return;
   }
   if (!erchuang.value.ecUrl) {
-    promptMsg({ type: "warn", msg: "请选择二创路径" })
+    message.warning("请选择二创路径")
     return;
   }
   if (!erchuang.value.ecSynopsis) {
-    promptMsg({ type: "warn", msg: "请选择二创简介" })
+    message.warning("请选择二创简介")
     return;
   }
   updateErchuang(erchuang.value).then(() => {
-    promptMsg({ type: "success", msg: "修改成功" })
+    message.warning("修改成功")
     init();
   }).catch(() => {
-    promptMsg({ type: "error", msg: "修改失败" })
+    message.error("修改失败")
   })
   closeErchuang();
 }
 //添加二创
 function addErchuangSubmit() {
   if (!erchuang.value.ecName) {
-    promptMsg({ type: "warn", msg: "请添加二创标题" })
+    message.warning("请添加二创标题")
     return;
   }
   if (!erchuang.value.ecAuthor) {
-    promptMsg({ type: "warn", msg: "请添加二创作者" })
+    message.warning("请添加二创作者")
     return;
   }
   if (!erchuang.value.ecAvater) {
-    promptMsg({ type: "warn", msg: "请添加二创封面" })
+    message.warning("请添加二创封面")
     return;
   }
   if (!erchuang.value.ecUrl) {
-    promptMsg({ type: "warn", msg: "请选择二创路径" })
+    message.warning("请选择二创路径")
     return;
   }
   if (!erchuang.value.ecSynopsis) {
-    promptMsg({ type: "warn", msg: "请选择二创简介" })
+    message.warning("请选择二创简介")
     return;
   }
   addErchuang(erchuang.value).then(() => {
-    promptMsg({ type: "success", msg: "添加成功" })
+    message.success("添加成功")
     init();
   }).catch(() => {
-    promptMsg({ type: "error", msg: "添加失败" })
+    message.error("添加失败")
   })
   closeErchuang();
 }
@@ -192,10 +194,10 @@ function closeErchuangDelete() {
 //删除二创
 function deleteErchuangSubmit() {
   delErchuang(deleteErchuangList.value).then(() => {
-    promptMsg({ type: "success", msg: "删除成功" })
+    message.success("删除成功")
     init();
   }).catch(() => {
-    promptMsg({ type: "error", msg: "删除成功" })
+    message.error("删除失败")
   })
   closeErchuangDelete();
 }
@@ -205,9 +207,9 @@ function handleImageUpload(event) {
   formData.append("file", event.target.files[0])
   uploadImages(formData).then(res => {
     erchuang.value.ecAvater = res.data.url;
-    promptMsg({ type: "success", msg: "上传图片成功!" })
+    message.success("上传图片成功")
   }).catch(error => {
-    promptMsg({ type: "error", msg: "上传图片失败!" + error })
+    message.error("上传图片失败")
   })
 }
 </script>

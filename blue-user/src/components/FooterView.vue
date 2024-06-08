@@ -3,7 +3,7 @@
     <div class="title">眼前所见 , 皆为奇迹</div>
     <div class="filings">
       <span>Copyright © 2024 XiaTianYa</span>
-      <span>湘ICP备2023024567号</span>
+      <span>湘ICP备2024066741号</span>
     </div>
   </div>
 </template>

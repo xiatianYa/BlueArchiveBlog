@@ -120,7 +120,9 @@ const props = defineProps({
 import {onMounted, ref} from 'vue'
 import {updateUserProfile, updateUserPwd} from '@/api/user'
 import {selectUserHeatMapData} from '@/api/charts'
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 
 const userPwd = ref({})
 const userHeatMapData = ref([])
@@ -139,34 +141,34 @@ function saveUserInfo() {
         email: user.email
     }
     updateUserProfile(form).then(() => {
-        promptMsg({ type: "success", msg: "修改用户信息成功" })
+        message.success("修改用户信息成功")
     }).catch((error) => {
-        promptMsg({ type: "error", msg: "修改用户信息失败" })
+        message.error("修改用户信息失败")
     })
 }
 //修改账号密码
 function submitPwd() {
     if (!userPwd.value.oldPwd) {
-        promptMsg({ type: "warn", msg: "请输入旧密码!" })
+        message.warning("请输入旧密码")
         return;
     }
     if (!userPwd.value.newPwd) {
-        promptMsg({ type: "warn", msg: "请输入新密码!" })
+        message.warning("请输入新密码")
         return;
     }
     if (!userPwd.value.entryPwd) {
-        promptMsg({ type: "warn", msg: "请输入确认密码!" })
+        message.warning("请输入确认密码")
         return;
     }
     if (userPwd.value.newPwd !== userPwd.value.entryPwd) {
-        promptMsg({ type: "warn", msg: "两次密码不一致!" })
+        message.warning("两次密码不一致")
         return;
     }
     updateUserPwd(userPwd.value.oldPwd, userPwd.value.newPwd).then(() => {
-        promptMsg({ type: "success", msg: "修改密码成功" })
+        message.success("修改密码成功")
         userPwd.value = {}
     }).catch((error) => {
-        promptMsg({ type: "error", msg: error })
+        message.error(error)
     })
 }
 </script>

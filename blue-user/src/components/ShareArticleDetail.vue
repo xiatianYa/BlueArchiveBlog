@@ -98,7 +98,9 @@ import { onMounted, ref, watch, nextTick } from 'vue'
 import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { uploadImages } from "@/api/file";
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //文章列表
 const ArticleList = ref()
 //添加文章框是否显示
@@ -124,10 +126,10 @@ onMounted(() => {
 })
 //复制代码
 function handleCopyCodeSuccess() {
-    promptMsg({ type: "success", msg: "复制成功" })
+    message.success("复制成功")
 }
 //修改文章
-function openArticleUpdate(articleId) {
+function openArticleUpdate(articleId: any) {
     getArticle(articleId).then(res => {
         Article.value = res.data;
         let ResultTagList = Article.value.tagList;
@@ -192,23 +194,23 @@ function closeArticleAdd() {
 //修改文章
 function updateArticleSubmit() {
     if (!Article.value.articleName) {
-        promptMsg({ type: "warn", msg: "请添加文章标题" })
+        message.warning("请添加文章标题")
         return;
     }
     if (!Article.value.articleDescribe) {
-        promptMsg({ type: "warn", msg: "请添加文章描述" })
+        message.warning("请添加文章描述")
         return;
     }
     if (!Article.value.cover) {
-        promptMsg({ type: "warn", msg: "请添加文章封面" })
+        message.warning("请添加文章封面")
         return;
     }
     if (!Article.value.sortId) {
-        promptMsg({ type: "warn", msg: "请选择文章分类" })
+        message.warning("请选择文章分类")
         return;
     }
     if (!Article.value.tagList || Article.value.tagList.length === 0) {
-        promptMsg({ type: "warn", msg: "请选择标签列表" })
+        message.warning("请选择标签列表")
         return;
     }
     //设置标签列表
@@ -218,33 +220,33 @@ function updateArticleSubmit() {
     }
     Article.value.tagList = tagList;
     updateArticle(Article.value).then(res => {
-        promptMsg({ type: "success", msg: "修改成功" })
+        message.success("修改成功")
         init();
     }).catch(error => {
-        promptMsg({ type: "error", msg: "修改失败" })
+        message.error("修改失败")
     })
     closeArticleAdd();
 }
 //新增文章
 function addArticleSubmit() {
     if (!Article.value.articleName) {
-        promptMsg({ type: "warn", msg: "请添加文章标题" })
+        message.warning("请添加文章标题")
         return;
     }
     if (!Article.value.articleDescribe) {
-        promptMsg({ type: "warn", msg: "请添加文章描述" })
+        message.warning("请添加文章描述")
         return;
     }
     if (!Article.value.cover) {
-        promptMsg({ type: "warn", msg: "请添加文章封面" })
+        message.warning("请添加文章封面")
         return;
     }
     if (!Article.value.sortId) {
-        promptMsg({ type: "warn", msg: "请选择文章分类" })
+        message.warning("请选择文章分类")
         return;
     }
     if (!Article.value.tagList || Article.value.tagList.length === 0) {
-        promptMsg({ type: "warn", msg: "请选择标签列表" })
+        message.warning("请选择标签列表")
         return;
     }
     //设置标签列表
@@ -254,29 +256,29 @@ function addArticleSubmit() {
     }
     Article.value.tagList = tagList;
     addArticle(Article.value).then(res => {
-        promptMsg({ type: "success", msg: "新增成功" })
+        message.success("新增成功")
         init();
     }).catch(error => {
-        promptMsg({ type: "error", msg: "新增失败" })
+        message.error("新增失败")
     })
     closeArticleAdd();
 }
 //删除文章
 function deleteArticleSubmit() {
     delArticle(deleteArticleList.value).then(res => {
-        promptMsg({ type: "success", msg: "删除成功" })
+        message.success("删除成功")
         init();
     }).catch(error => {
-        promptMsg({ type: "error", msg: "删除失败" })
+        message.error("删除失败")
     })
     closeArticleDelete();
 }
 //保存文章
 function saveArticle() {
     updateArticle(ArticleIndex.value).then(res => {
-        promptMsg({ type: "success", msg: "保存成功" })
+        message.success("保存成功")
     }).catch(error => {
-        promptMsg({ type: "error", msg: "保存失败" })
+        message.error("保存失败")
     })
 }
 //文章编辑器上传图片
@@ -290,9 +292,9 @@ function handleUploadImage(event, insertImage, file) {
             width: '300px',
             height: '300px',
         })
-        promptMsg({ type: "success", msg: "上传图片成功!" })
+        message.success("上传图片成功")
     }).catch(error => {
-        promptMsg({ type: "error", msg: "上传图片失败!" + error })
+        message.error("上传图片失败")
     })
 }
 //上传图片
@@ -301,9 +303,9 @@ function handleImageUpload(event) {
     formData.append("file", event.target.files[0])
     uploadImages(formData).then(res => {
         Article.value.cover = res.data.url;
-        promptMsg({ type: "success", msg: "上传图片成功!" })
+        message.success("上传图片成功")
     }).catch(error => {
-        promptMsg({ type: "error", msg: "上传图片失败!" + error })
+        message.error("上传图片失败")
     })
 }
 //上传文件
@@ -312,9 +314,9 @@ function handleFileUpload(event) {
     formData.append("file", event.target.files[0])
     uploadImages(formData).then(res => {
         Article.value.videoUrl = res.data.url;
-        promptMsg({ type: "success", msg: "上传文件成功!" })
+        message.success("上传文件成功")
     }).catch(error => {
-        promptMsg({ type: "error", msg: "上传文件失败!" + error })
+        message.error("上传文件失败")
     })
 }
 watch(

@@ -56,7 +56,9 @@ import { listTag } from '@/api/sort/tagSort'
 import { listByTagId } from '@/api/article'
 import { useRouter } from 'vue-router'
 import Loading from '@/components/CssLoadingView01.vue'
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 
 const router = useRouter()
 const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (3)_20240426122240A005.mp4")
@@ -209,7 +211,7 @@ function selectArticleListByTagId(tagId) {
     }
     articleList.value = res.rows
   }).catch(error => {
-    promptMsg({ type: "success", msg: error })
+    message.error(error)
   })
 }
 //滚动事件

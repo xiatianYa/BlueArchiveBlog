@@ -53,7 +53,9 @@ import { listSort } from '@/api/musicSort'
 import { bySortList, addMusic } from '@/api/music'
 import { uploadImages } from "@/api/file";
 import MusicDetail from "@/components/MusicDetail.vue";
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //音乐分类列表
 const musicSortList = ref()
 //音乐选中下标
@@ -147,9 +149,9 @@ function addMusicSubmit() {
         musicShow.value = false;
         //重新初始化
         init();
-        promptMsg({ type: "success", msg: "添加成功!" })
+        message.success("添加成功")
     }).catch(() => {
-        promptMsg({ type: "error", msg: "添加失败" })
+        message.error("添加失败")
     })
 }
 //上传图片
@@ -158,9 +160,9 @@ function handleImageUpload(event) {
     formData.append("file", event.target.files[0])
     uploadImages(formData).then(res => {
         music.value.imgUrl = res.data.url;
-        promptMsg({ type: "success", msg: "上传图片成功!" })
+        message.success("上传图片成功")
     }).catch(error => {
-        promptMsg({ type: "error", msg: "上传图片失败!" + error })
+        message.error("上传图片失败")
     })
 }
 //上传文件
@@ -169,9 +171,9 @@ function handleFileUpload(event) {
     formData.append("file", event.target.files[0])
     uploadImages(formData).then(res => {
         music.value.musicUrl = res.data.url;
-        promptMsg({ type: "success", msg: "上传文件成功!" })
+        message.success("上传文件成功")
     }).catch(error => {
-        promptMsg({ type: "error", msg: "上传文件失败!" + error })
+        message.error("上传文件失败")
     })
 }
 </script>

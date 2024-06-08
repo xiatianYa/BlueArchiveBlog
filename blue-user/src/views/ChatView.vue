@@ -81,7 +81,9 @@ import { onMounted, ref,nextTick } from "vue"
 import { getUserList } from '@/api/chat'
 import { useUserStore } from '@/store/user'
 import { useSocketStore } from '@/store/socket'
-import promptMsg from "@/components/PromptBoxView"
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //用户仓库
 const UserStore = useUserStore()
 //socket仓库
@@ -106,7 +108,7 @@ function init() {
             handleMessage(env)
         }
     } else {
-        promptMsg({ type: "warn", msg: "聊天室连接失败!" })
+        message.error("聊天室连接失败!")
     }
     getOnLineUserList();
 }
@@ -153,7 +155,7 @@ function sendMsg() {
     if (inputMsg.value.length <= 50 && inputMsg.value.length) {
         socket.value.send(JSON.stringify(data))
     } else {
-        promptMsg({ type: "warn", msg: "消息长度不合规!" })
+        message.warning("消息长度不合规")
     }
     //清空输入框
     inputMsg.value = "";
