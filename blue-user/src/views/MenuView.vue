@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import UserView from '@/components/ShareUserDetail.vue';
 import ArticleView from '@/components/ShareArticleDetail.vue';

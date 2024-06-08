@@ -29,6 +29,7 @@
     "@types/node": "^20.11.10",
     "@vitejs/plugin-vue": "^5.0.3",
     "@vue/tsconfig": "^0.5.1",
+    "naive-ui": "^2.38.2",
     "npm-run-all2": "^6.1.1",
     "sass": "^1.71.1",
     "sass-loader": "^14.1.1",

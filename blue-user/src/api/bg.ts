@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询网站背景资源信息列表
-export function listBg(query) {
+export function listBg(query?) {
   return request({
     url: '/blog/bg/list',
     method: 'get',

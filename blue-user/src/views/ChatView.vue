@@ -75,7 +75,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import V3Emoji from "vue3-emoji";
 import { onMounted, ref,nextTick } from "vue"
 import { getUserList } from '@/api/chat'

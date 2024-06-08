@@ -2,7 +2,7 @@
   <div ref="artRef"></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Artplayer from 'artplayer';
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { addMessage, listMessage } from '@/api/pixivMessage'

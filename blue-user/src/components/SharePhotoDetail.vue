@@ -91,7 +91,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto } from '@/api/photo'
 import { listSort } from '@/api/sort/photoSort'

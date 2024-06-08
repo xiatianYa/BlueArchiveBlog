@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询弹幕列表
-export function listMessage(query) {
+export function listMessage(query?) {
   return request({
     url: '/blog/message/list',
     method: 'get',

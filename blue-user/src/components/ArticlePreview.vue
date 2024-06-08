@@ -42,18 +42,20 @@
       </div>
     </div>
     <div class="preview_navigation">
-      <div class="title">
-        <svg class="icon pointer" aria-hidden="true">
-          <use xlink:href="#icon-shu1"></use>
-        </svg>
-        <span>目录导航</span>
-      </div>
-      <div v-for="anchor in titles" :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
-        @click="handleAnchorClick(anchor)">
-        <a style="cursor: pointer">{{ anchor.title }}</a>
+      <div class="navigation" ref="navigation">
+        <div class="title">
+          <svg class="icon pointer" aria-hidden="true">
+            <use xlink:href="#icon-shu1"></use>
+          </svg>
+          <span>目录导航</span>
+        </div>
+        <div v-for="anchor in titles" :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
+          @click="handleAnchorClick(anchor)">
+          <a style="cursor: pointer">{{ anchor.title }}</a>
+        </div>
       </div>
     </div>
-    <div class="preview_content">
+    <div class="preview_box">
       <video class="video" controls v-if="article.videoUrl">
         <source :src="article.videoUrl" type="video/mp4">
       </video>
@@ -81,6 +83,8 @@ const titles = ref([])
 const article = ref({
   content: ""
 })
+//导航栏对象
+const navigation = ref()
 onMounted(async () => {
   init();
 })
@@ -148,7 +152,6 @@ watch(article, async (newVal, oldVal) => {
     getAnchors()
   }
 }, { deep: true })
-
 </script>
 <style lang="scss" scoped>
 .preview {
@@ -227,13 +230,18 @@ watch(article, async (newVal, oldVal) => {
 
   .preview_navigation {
     box-sizing: border-box;
-    width: 30%;
+    width: 20%;
     padding: 20px 10px 10px 10px;
     font-size: 15px;
     border-radius: 10px;
     margin-top: 20px;
 
     div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
       a {
         padding: 0px 5px 0px 5px;
         border-radius: 10px;
@@ -256,9 +264,9 @@ watch(article, async (newVal, oldVal) => {
     }
   }
 
-  .preview_content {
+  .preview_box {
     box-sizing: border-box;
-    width: 70%;
+    width: 80%;
     margin-top: 20px;
 
     .video {

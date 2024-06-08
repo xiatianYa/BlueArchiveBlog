@@ -202,11 +202,11 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useBgStore } from '@/store/bg'
 import { listNotice } from '@/api/notice'
-import { listArticle, listBySortId, searchArticleList, listByHome } from '@/api/article'
+import { listArticle, searchArticleList, listByHome } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'

@@ -93,7 +93,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, watch, nextTick } from 'vue'
 import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'

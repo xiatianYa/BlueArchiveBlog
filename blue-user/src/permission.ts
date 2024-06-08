@@ -8,7 +8,7 @@ router.beforeEach((to, from, next) => {
     //背景仓库
     const BgStore = useBgStore()
     //如果没有背景则去查询背景
-    if (BgStore.bgList.length <= 1) {
+    if (!BgStore.bgList.length) {
         listBg().then((res) => {
             BgStore.SET_BGLIST(res)
         })

@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { listTv } from '@/api/tv'
 import { listErchuang } from '@/api/erchuang'

@@ -9,7 +9,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { useGloBalStore } from '@/store/global'
 import { onMounted, ref } from 'vue'
 import { useRouter } from "vue-router"

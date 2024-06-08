@@ -19,13 +19,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import { useUserStore } from '@/store/user'
 import { addMessage, listMessage } from '@/api/message'
 import CommentDetail from '@/components/CommentDetail.vue';
-import promptMsg from "@/components/PromptBoxView"
 import 'vue3-emoji/dist/style.css'
+import { useMessage } from 'naive-ui'
+//提示框
+const message = useMessage()
 //定时器
 const timer = ref([])
 // 定义弹幕数据
@@ -42,13 +44,13 @@ onMounted(() => {
 
 // 设置定时器
 const startTimer = () => {
-  let result = []
+  let result: any = []
   listMessage().then(res => {
     result = res.rows;
   })
   //每0.2秒添加一条随机弹幕
   timer.value.push(setInterval(() => {
-    let barrage = getRandomItem(result)
+    let barrage: any = getRandomItem(result)
     showBarrage(barrage)
   }, 150))
 };
@@ -101,7 +103,7 @@ function addBarrage() {
     "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/avater35.png";
   BarrageInfo.value.barrageHeight = BarrageHeight;
   addMessage(BarrageInfo.value).then(res => {
-    promptMsg({ type: "success", msg: res.msg })
+    message.success(res.msg)
     BarrageInfo.value.content = ""
     // 设置其随机的颜色
     Barrage.style.color = "rgb(" + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + "," + Math.floor(Math.random() * 256) + ")";
@@ -119,7 +121,7 @@ function addBarrage() {
       container.removeChild(Barrage)
     }, startTime * 1000)
   }).catch(error => {
-    promptMsg({ type: "warn", msg: error })
+    message.error(error)
   })
 }
 

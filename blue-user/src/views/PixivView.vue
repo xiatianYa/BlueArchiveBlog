@@ -94,7 +94,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from "vue"
 import { useRouter } from 'vue-router'
 import { getTv } from '@/api/tv'

@@ -60,7 +60,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { getCodeImg, getSms, login, register } from '@/api/login'
 import { listAvater } from '@/api/avater'

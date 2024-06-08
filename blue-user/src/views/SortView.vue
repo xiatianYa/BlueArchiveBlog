@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SortDetail from '@/components/SortDetail.vue'
 import { onMounted, onUnmounted, ref } from "vue"
 import { useBgStore } from '@/store/bg'

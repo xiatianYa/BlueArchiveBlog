@@ -75,7 +75,7 @@
     </div>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import {nextTick, onMounted, ref} from "vue";
 import V3Emoji from "vue3-emoji";
 import {addComment, listComment} from '@/api/comment'
