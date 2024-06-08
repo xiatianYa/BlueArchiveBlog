@@ -2,7 +2,7 @@
   <transition name="fade">
     <div v-show="NavShow" class="header_box header_fixed">
       <div class="pc_menu">
-        <div class="header_log">
+        <div class="header_log" @click="go('/home')">
           <img src="https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/logo.png" />
         </div>
         <div class="header_menu">
@@ -126,8 +126,12 @@ function logOut() {
   message.success("退出成功")
 }
 //跳转路由
-function go(path) {
-  router.push({ path: path })
+function go(newPath: string) {
+  let oldPath = router.currentRoute.value;
+  if (oldPath.path === newPath) {
+    message.info("别点了,你已经在当前页面了")
+  }
+  router.push({ path: newPath })
 }
 //监听路由
 watch(
@@ -140,11 +144,11 @@ watch(
 </script>
 <style lang="scss" scoped>
 .color_white {
-  color: #2b2b2b;
+  color: rgb(51, 54, 57) !important;
 }
 
 .color_black {
-  color: #FFFFFF;
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .header_box {

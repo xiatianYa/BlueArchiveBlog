@@ -27,12 +27,12 @@ onMounted(() => {
 watch(
   () => router.currentRoute.value,
   (newPath) => {
-    if (newPath.href == "/") {
+    if (newPath.path == "/") {
       navShow.value = false;
     } else {
       navShow.value = true;
     }
-    if (newPath.href == '/leave') {
+    if (newPath.path == '/leave') {
       isShow.value = false;
     } else {
       isShow.value = true;

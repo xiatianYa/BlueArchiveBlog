@@ -85,8 +85,8 @@ body::-webkit-scrollbar {
 /**黑夜模式*/
 .bg_black {
   position: relative;
-  background-color: rgb(27, 27, 27,0.9);
-  color: #FFFFFF;
+  background-color: rgb(16, 16, 20) !important;
+  color: rgba(255, 255, 255, 0.82) !important;
   transition: color 1s ease;
   transition: background-color 0.8s ease;
 }
@@ -94,7 +94,7 @@ body::-webkit-scrollbar {
 /**白昼模式*/
 .bg_white {
   position: relative;
-  color: #000000;
+  color: rgb(51, 54, 57) !important;
   transition: color 1s ease;
   transition: background-color 0.8s ease;
 }

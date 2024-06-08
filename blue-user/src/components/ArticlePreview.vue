@@ -43,24 +43,23 @@
     </div>
     <div class="preview_navigation">
       <div class="navigation" ref="navigation">
-        <div class="title">
-          <svg class="icon pointer" aria-hidden="true">
-            <use xlink:href="#icon-shu1"></use>
-          </svg>
-          <span>目录导航</span>
-        </div>
-        <div v-for="anchor in titles" :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
-          @click="handleAnchorClick(anchor)">
-          <a style="cursor: pointer">{{ anchor.title }}</a>
-        </div>
+        <n-anchor affix listen-to=".document-scroll-container" :trigger-top="24" :top="60" style="z-index: 1"
+          :bound="24" :show-background="showBackground">
+          <div class="title">
+            <svg class="icon pointer" aria-hidden="true">
+              <use xlink:href="#icon-shu1"></use>
+            </svg>
+            <span>目录导航</span>
+          </div>
+          <n-anchor-link :title="anchor.title" v-for="anchor in titles" @click="handleAnchorClick(anchor)" />
+        </n-anchor>
       </div>
     </div>
     <div class="preview_box">
       <video class="video" controls v-if="article.videoUrl">
         <source :src="article.videoUrl" type="video/mp4">
       </video>
-      <v-md-editor class="md" v-model="article.content" :include-level="[2]" mode="preview"
-        style="background: #ECEBEC;"></v-md-editor>
+      <v-md-editor class="md" v-model="article.content" :include-level="[2]" mode="preview"></v-md-editor>
     </div>
     <CommentDetail style="width: 90%;margin: 0 auto;" :comment-type="2" :common-id="article.id" />
   </div>
@@ -72,7 +71,7 @@ import { nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getArticle, addLike } from '@/api/article'
 import CommentDetail from '@/components/CommentDetail.vue';
-import { useMessage } from 'naive-ui'
+import { useMessage, NAnchor, NAnchorLink } from 'naive-ui'
 //提示框
 const message = useMessage()
 //路由信息
@@ -87,6 +86,10 @@ const article = ref({
 })
 //导航栏对象
 const navigation = ref()
+const showRail = ref(true)
+const showBackground = ref(true)
+
+
 onMounted(async () => {
   init();
 })
@@ -102,7 +105,6 @@ function init() {
     }
   })
 }
-
 //获取锚点列表  
 function getAnchors() {
   // 选择所有的标题元素  
@@ -115,7 +117,7 @@ function getAnchors() {
   }).map((heading) => ({
     title: heading.innerText.trim(),
     lineIndex: heading.getAttribute('data-v-md-line'),
-    indent: ['H2', 'H3', 'H4'].indexOf(heading.tagName.toUpperCase())
+    indent: ['H2', 'H3'].indexOf(heading.tagName.toUpperCase())
   }));
 
   // 设置titles.value为找到的标题数组或空数组  
@@ -138,9 +140,11 @@ function handleAnchorClick(anchor) {
 //文章点赞
 function addArticleLike() {
   addLike(article.value.id).then(res => {
-    promptMsg({ type: "success", msg: res.msg })
+    message.success(res.msg)
     //数据初始化
     init()
+  }).catch((error) => {
+    message.error(error)
   })
 }
 //前往分类浏览页
@@ -231,45 +235,25 @@ watch(article, async (newVal, oldVal) => {
   }
 
   .preview_navigation {
+    width: 15%;
     box-sizing: border-box;
-    width: 20%;
-    padding: 20px 10px 10px 10px;
-    font-size: 15px;
-    border-radius: 10px;
-    margin-top: 20px;
 
-    div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      a {
-        padding: 0px 5px 0px 5px;
-        border-radius: 10px;
-      }
-
-      a:hover {
-        background-color: #6EFEB9;
-      }
-    }
-
-    .title {
+    .navigation {
       width: 100%;
+      height: 100%;
       display: flex;
-      align-items: center;
       justify-content: center;
-
-      .icon {
-        font-size: 20px;
+      .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
 
   .preview_box {
     box-sizing: border-box;
-    width: 80%;
-    margin-top: 20px;
+    width: 85%;
 
     .video {
       width: 100%;

@@ -20,7 +20,7 @@
           <input type="text" placeholder="请输入验证码" v-model="userInfo.sms">
           <button @click="userRegister" v-show="!loading">注册</button>
           <button v-show="loading">
-            <Loading/>
+            <Loading />
           </button>
         </div>
         <!-- 登录 -->
@@ -34,7 +34,7 @@
           </div>
           <button @click="userLogin" v-show="!loading">登录</button>
           <button v-show="loading">
-            <Loading/>
+            <Loading />
           </button>
         </div>
       </div>
@@ -93,7 +93,7 @@ let userInfo = reactive({
   uuid: null,
 })
 //是否加载Loading
-const loading=ref(false)
+const loading = ref(false)
 onMounted(() => {
   //获取用户头像
   listAvater({ pageSize: 999 }).then(res => {
@@ -123,7 +123,7 @@ function getCode() {
 }
 //用户登录
 function userLogin() {
-  loading.value=true;
+  loading.value = true;
   const username = userInfo.userName.trim()
   const password = userInfo.passWord
   const code = userInfo.code
@@ -139,25 +139,25 @@ function userLogin() {
     //提示用户信息
     message.success("登录成功")
     router.push({ path: "/home" })
-    loading.value=false;
+    loading.value = false;
   }).catch(error => {
     //提示用户信息
     message.error(error)
     getCode()
-    loading.value=false;
+    loading.value = false;
   })
 }
 //用户注册
 function userRegister() {
-  loading.value=true;
+  loading.value = true;
   register(userInfo).then(res => {
     clearUserInfo();
     goLogin();
     message.success("注册成功")
-    loading.value=false;
+    loading.value = false;
   }).catch(error => {
     message.error(error)
-    loading.value=false;
+    loading.value = false;
   })
 }
 //清空表单
@@ -289,10 +289,12 @@ function goRegister() {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  button{
-    display:flex;
-    justify-content:center;
+
+  button {
+    display: flex;
+    justify-content: center;
   }
+
   .Sms_box {
     display: flex;
     align-items: center;

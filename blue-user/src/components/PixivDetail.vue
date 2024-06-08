@@ -42,6 +42,9 @@ const props = defineProps(['pixiv'])
 
   .pixiv_left {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 20px;
 
     .left_title {
@@ -52,31 +55,26 @@ const props = defineProps(['pixiv'])
     .left_info {
       font-weight: 100;
       font-size: 14px;
-      padding-top: 15px;
     }
 
     .left_type {
       font-weight: 100;
       font-size: 14px;
-      padding-top: 15px;
     }
 
     .left_shengyou {
       font-weight: 100;
       font-size: 14px;
-      padding-top: 15px;
     }
 
     .left_score {
       font-weight: 100;
       font-size: 14px;
-      padding-top: 15px;
     }
 
     .left_synopsis {
       font-weight: 100;
       font-size: 14px;
-      padding-top: 15px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;

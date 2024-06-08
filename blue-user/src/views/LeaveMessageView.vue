@@ -121,7 +121,7 @@ function addBarrage() {
       container.removeChild(Barrage)
     }, startTime * 1000)
   }).catch(error => {
-    message.error(error)
+    message.warning(error)
   })
 }
 

@@ -50,21 +50,21 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
         String token = getToken(request);
         if (StringUtils.isEmpty(token)) {
-            return unauthorizedResponse(exchange, "令牌不能为空");
+            return unauthorizedResponse(exchange, "令牌不能为空,请登录!");
         }
         Claims claims = JwtUtils.parseToken(token);
         if (claims == null) {
-            return unauthorizedResponse(exchange, "令牌已过期或验证不正确！");
+            return unauthorizedResponse(exchange, "令牌已过期或验证不正确!");
         }
         String userkey = JwtUtils.getUserKey(claims);
         boolean islogin = redisService.hasKey(getTokenKey(userkey));
         if (!islogin) {
-            return unauthorizedResponse(exchange, "登录状态已过期");
+            return unauthorizedResponse(exchange, "登录状态已过期!");
         }
         String userid = JwtUtils.getUserId(claims);
         String username = JwtUtils.getUserName(claims);
         if (StringUtils.isEmpty(userid) || StringUtils.isEmpty(username)) {
-            return unauthorizedResponse(exchange, "令牌验证失败");
+            return unauthorizedResponse(exchange, "令牌验证失败!");
         }
 
         // 设置用户信息到请求

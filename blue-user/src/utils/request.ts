@@ -1,9 +1,6 @@
 import axios from 'axios'
 import { getToken } from '@/utils/auth'
 import { useUserStore } from '@/store/user'
-import { useMessage } from 'naive-ui'
-//提示框
-const message = useMessage()
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
@@ -37,8 +34,6 @@ service.interceptors.response.use(res => {
     if (code === 401) {
         //验证码失效 清空用户数据 和Token 前往登录页面
         UserStore.CLEAR_USERINFO()
-        //提示信息
-        message.warning("用户消息已失效,请重新登录!")
         return Promise.reject(msg)
     } else if (code === 500) {
         return Promise.reject(msg)
