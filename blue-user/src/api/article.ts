@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 
 // 搜索文章列表
-export function searchArticleList(query) {
+export function searchArticleList(query?) {
   return request({
     url: '/blog/article/search',
     method: 'get',
@@ -10,7 +10,7 @@ export function searchArticleList(query) {
   })
 }
 // 查询文章列表
-export function listArticle(query) {
+export function listArticle(query?) {
   return request({
     url: '/blog/article/list',
     method: 'get',
@@ -25,7 +25,7 @@ export function listArticleByUser() {
   })
 }
 // 根据标签ID查询文章
-export function listByTagId(tagId, query) {
+export function listByTagId(tagId:any, query?) {
   return request({
     url: '/blog/article/listByTagId/' + tagId,
     method: 'get',
@@ -33,14 +33,14 @@ export function listByTagId(tagId, query) {
   })
 }
 // 根据分类ID查询文章
-export function listBySortId(sortId) {
+export function listBySortId(sortId:any) {
   return request({
     url: '/blog/article/listBySortId/' + sortId,
     method: 'get',
   })
 }
 // 查询文章详细
-export function getArticle(id) {
+export function getArticle(id:any) {
   return request({
     url: '/blog/article/' + id,
     method: 'get'
@@ -48,7 +48,7 @@ export function getArticle(id) {
 }
 
 // 新增文章
-export function addArticle(data) {
+export function addArticle(data:any) {
   return request({
     url: '/blog/article',
     method: 'post',
@@ -57,7 +57,7 @@ export function addArticle(data) {
 }
 
 // 修改文章
-export function updateArticle(data) {
+export function updateArticle(data:any) {
   return request({
     url: '/blog/article',
     method: 'put',
@@ -66,7 +66,7 @@ export function updateArticle(data) {
 }
 
 // 删除文章
-export function delArticle(id) {
+export function delArticle(id:any) {
   return request({
     url: '/blog/article/' + id,
     method: 'delete'
@@ -74,7 +74,7 @@ export function delArticle(id) {
 }
 
 // 文章点赞
-export function addLike(id) {
+export function addLike(id:any) {
   return request({
     url: '/blog/article/addLike/' + id,
     method: 'post',

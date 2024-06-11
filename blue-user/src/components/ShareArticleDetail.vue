@@ -27,69 +27,64 @@
                     @copy-code-success="handleCopyCodeSuccess"></v-md-editor>
             </div>
         </div>
-        <!-- 添加修改框 -->
-        <div class="article_dialog" v-if="ArticleShow">
-            <div class="dialog">
-                <div class="article_title">
-                    <span v-show="!Article.id">添加文章</span>
-                    <span v-show="Article.id">修改文章</span>
-                    <svg class="icon pointer" aria-hidden="true" @click="closeArticleAdd">
-                        <use xlink:href="#icon-guanbi"></use>
-                    </svg>
-                </div>
-                <div class="article_name">
-                    <span>文章名称</span>
-                    <input type="text" v-model="Article.articleName" placeholder="请输入文章名称">
-                </div>
-                <div class="article_describe">
-                    <span>文章描述</span>
-                    <input type="text" v-model="Article.articleDescribe" placeholder="请输入文章描述">
-                </div>
-                <div class="article_sort">
-                    <span>文章分类</span>
-                    <select id="sort" name="sort" v-model="Article.sortId">
-                        <option :value="sort.id" v-for="sort in SortList">{{ sort.sortName }}</option>
-                    </select>
-                </div>
-                <div class="article_tag" v-show="Article.sortId">
-                    <span>文章标签</span>
-                    <label v-for="tag in tagList" :key="tag.id">
-                        <input type="checkbox" v-model="Article.tagList" checked name="tags" :value="tag.id">
-                        {{ tag.tagName }}
-                    </label>
-                </div>
-                <div class="article_avatar">
-                    <span>上传封面</span>
-                    <input type="file" @change="handleImageUpload" accept="image/*">
-                </div>
-                <div class="article_file">
-                    <span>上传视频</span>
-                    <input type="file" @change="handleFileUpload" accept="video/*">
-                </div>
-                <div class="button_box">
-                    <button @click="addArticleSubmit" v-show="!Article.id">添加</button>
-                    <button @click="updateArticleSubmit" v-show="Article.id">修改</button>
-                </div>
-            </div>
-        </div>
+        <n-modal v-model:show="ArticleShow" transform-origin="center">
+            <n-card style="width: 600px" title="添加文章" :bordered="false" size="huge" role="dialog" aria-modal="true">
+                <n-form ref="formRef" :model="Article" :rules="rules" label-placement="left" label-width="auto"
+                    require-mark-placement="right-hanging" size="medium" :style="{
+                        maxWidth: '640px'
+                    }">
+                    <n-form-item label="文章名称" path="articleName">
+                        <n-input v-model:value="Article.articleName" placeholder="请输入文章名称" />
+                    </n-form-item>
+                    <n-form-item label="文章描述" path="articleDescribe">
+                        <n-input v-model:value="Article.articleDescribe" placeholder="请输入文章描述" />
+                    </n-form-item>
+                    <n-form-item label="文章分类" path="sortId">
+                        <n-select v-model:value="Article.sortId" :options="sortOptions" placeholder="请输入文章分类"
+                            clearable />
+                    </n-form-item>
+                    <n-form-item label="文章标签" path="tagList">
+                        <n-tree-select multiple cascade checkable check-strategy="parent" :options="tagOptions"
+                            placeholder="请输入文章标签" :default-value="Article.tagList" @update:value="handleUpdateValue" />
+                    </n-form-item>
+                    <n-form-item label="文章封面" path="cover">
+                        <n-upload action="/api/file/upload" list-type="image-card" @finish="handleFinish"
+                            :custom-request="customRequest" @before-upload="beforeUpload" :max="1" :headers="{
+                                'naive-info': 'hello!'
+                            }" :data="{
+                                'naive-data': 'cool! naive!'
+                            }">
+                            点击上传
+                        </n-upload>
+                    </n-form-item>
+                </n-form>
+                <template #footer>
+                    <n-space>
+                        <n-button secondary round @click="ArticleShow = false">
+                            取消
+                        </n-button>
+                        <n-button type="info" secondary round @click="addArticleSubmit">
+                            提交
+                        </n-button>
+                    </n-space>
+                </template>
+            </n-card>
+        </n-modal>
         <!-- 删除框 -->
-        <div class="article_delete_dialog" v-show="ArticleDeleteShow">
-            <div class="dialog">
-                <div class="article_title">
-                    <span>删除文章</span>
-                    <svg class="icon pointer" aria-hidden="true" @click="closeArticleDelete">
-                        <use xlink:href="#icon-guanbi"></use>
-                    </svg>
-                </div>
-                <div class="article_body">
-                    删除文章ID为: {{ deleteArticleList }} 的数据
-                </div>
-                <div class="button_box">
-                    <button @click="deleteArticleSubmit">确认删除</button>
-                    <button @click="closeArticleDelete">取消删除</button>
-                </div>
-            </div>
-        </div>
+        <n-modal v-model:show="ArticleDeleteShow" transform-origin="center">
+            <n-card style="width: 600px" title="删除文章" :bordered="false" size="huge" role="dialog" aria-modal="true">
+                <template #footer>
+                    <n-space>
+                        <n-button secondary round @click="ArticleDeleteShow = false">
+                            取消
+                        </n-button>
+                        <n-button type="info" secondary round @click="deleteArticleSubmit">
+                            提交
+                        </n-button>
+                    </n-space>
+                </template>
+            </n-card>
+        </n-modal>
     </div>
 </template>
 
@@ -98,24 +93,74 @@ import { onMounted, ref, watch, nextTick } from 'vue'
 import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { uploadImages } from "@/api/file";
-import { useMessage } from 'naive-ui'
+import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NTreeSelect, NUpload, type UploadCustomRequestOptions, type UploadFileInfo } from 'naive-ui'
+function handleUpdateValue(value: Array<number>, option: any) {
+    Article.value.tagList = value
+}
+const rules = ref({
+    articleName: {
+        required: true,
+        trigger: ['blur', '文章名称'],
+        message: '请输入文章名称'
+    },
+    articleDescribe: {
+        required: true,
+        trigger: ['blur', '文章描述'],
+        message: '请输入文章描述'
+    },
+    sortId: {
+        required: true,
+        trigger: ['blur', '文章分类'],
+        message: '请输入文章分类',
+        validator(rule: any, value: number) {
+            return !value ? false : true;
+        }
+    },
+    tagList: {
+        required: true,
+        trigger: ['blur', '文章标签'],
+        message: '请输入文章标签',
+        validator(rule: any, value: number[]) {
+            return !value.length ? false : true;
+        }
+    }
+})
 //提示框
 const message = useMessage()
 //文章列表
-const ArticleList = ref()
+const ArticleList = ref({
+    id: "",
+    articleName: ""
+})
 //添加文章框是否显示
 const ArticleShow = ref(false)
 //被选中的文章
 const ArticleIndex = ref({
     content: ''
 })
+
+// 定义Article的类型  
+interface ArticleType {
+    id: string;
+    articleName: string;
+    articleDescribe: string;
+    sortId: number | undefined;
+    tagList: number[];
+    cover: string;
+}
 //添加文章对象
-const Article = ref({
+const Article = ref<ArticleType>({
+    id: "",
+    articleName: "",
+    articleDescribe: "",
+    sortId: undefined,
+    tagList: [],
+    cover: ""
 })
-//分类列表
-const SortList = ref()
-//标签列表
-const tagList = ref()
+//分类配置
+const sortOptions = ref()
+//标签配置
+const tagOptions = ref()
 //删除列表
 const deleteArticleList = ref([])
 //删除提示框
@@ -157,7 +202,13 @@ function init() {
         ArticleIndex.value = ArticleList.value[0];
     })
     listSort().then(res => {
-        SortList.value = res.rows;
+        sortOptions.value = res.rows.map(item => {
+            return {
+                value: item.id,
+                label: item.sortName,
+                tagList: item.tagList
+            }
+        });
     })
 }
 //切换文章
@@ -173,82 +224,24 @@ function changeArticle(article) {
 }
 //打开新增文章
 function openArticleAdd() {
+    //清空
+    Article.value = {
+        id: "",
+        articleName: "",
+        articleDescribe: "",
+        sortId: undefined,
+        tagList: []
+    }
     ArticleShow.value = true;
 }
 //打开删除文章
 function openArticleDelete() {
     ArticleDeleteShow.value = true;
 }
-//关闭删除文章框
-function closeArticleDelete() {
-    deleteArticleList.value = []
-    ArticleDeleteShow.value = false;
-}
-//关闭添加文章框
-function closeArticleAdd() {
-    Article.value = {
-        tagList: []
-    }
-    ArticleShow.value = false;
-}
-//修改文章
-function updateArticleSubmit() {
-    if (!Article.value.articleName) {
-        message.warning("请添加文章标题")
-        return;
-    }
-    if (!Article.value.articleDescribe) {
-        message.warning("请添加文章描述")
-        return;
-    }
-    if (!Article.value.cover) {
-        message.warning("请添加文章封面")
-        return;
-    }
-    if (!Article.value.sortId) {
-        message.warning("请选择文章分类")
-        return;
-    }
-    if (!Article.value.tagList || Article.value.tagList.length === 0) {
-        message.warning("请选择标签列表")
-        return;
-    }
-    //设置标签列表
-    const tagList = [];
-    for (const tagId of Article.value.tagList) {
-        tagList.push({ tagId: tagId })
-    }
-    Article.value.tagList = tagList;
-    updateArticle(Article.value).then(res => {
-        message.success("修改成功")
-        init();
-    }).catch(error => {
-        message.error("修改失败")
-    })
-    closeArticleAdd();
-}
 //新增文章
 function addArticleSubmit() {
-    if (!Article.value.articleName) {
-        message.warning("请添加文章标题")
-        return;
-    }
-    if (!Article.value.articleDescribe) {
-        message.warning("请添加文章描述")
-        return;
-    }
-    if (!Article.value.cover) {
-        message.warning("请添加文章封面")
-        return;
-    }
-    if (!Article.value.sortId) {
-        message.warning("请选择文章分类")
-        return;
-    }
-    if (!Article.value.tagList || Article.value.tagList.length === 0) {
-        message.warning("请选择标签列表")
-        return;
-    }
+    console.log(Article.value);
+    return;
     //设置标签列表
     const tagList = [];
     for (const tagId of Article.value.tagList) {
@@ -261,7 +254,6 @@ function addArticleSubmit() {
     }).catch(error => {
         message.error("新增失败")
     })
-    closeArticleAdd();
 }
 //删除文章
 function deleteArticleSubmit() {
@@ -271,64 +263,70 @@ function deleteArticleSubmit() {
     }).catch(error => {
         message.error("删除失败")
     })
-    closeArticleDelete();
 }
 //保存文章
 function saveArticle() {
     updateArticle(ArticleIndex.value).then(res => {
         message.success("保存成功")
-    }).catch(error => {
+    }).catch(() => {
         message.error("保存失败")
     })
 }
 //文章编辑器上传图片
-function handleUploadImage(event, insertImage, file) {
+function handleUploadImage(insertImage: any, file: any) {
     const formData = new FormData();
     formData.append("file", file[0])
     uploadImages(formData).then(res => {
         insertImage({
             url: res.data.url,
             desc: res.data.name,
-            width: '300px',
+            width: '100%',
             height: '300px',
         })
         message.success("上传图片成功")
-    }).catch(error => {
+    }).catch(() => {
         message.error("上传图片失败")
     })
 }
-//上传图片
-function handleImageUpload(event) {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0])
-    uploadImages(formData).then(res => {
+//上传图片文件回调函数
+function handleFinish(file: any, event: any) {
+
+}
+//限制上传文件类型
+function beforeUpload(data: {
+    file: UploadFileInfo
+    fileList: UploadFileInfo[]
+}) {
+
+}
+//上传文件函数
+function customRequest({
+    file,
+}: UploadCustomRequestOptions) {
+    uploadImages(file).then(res => {
         Article.value.cover = res.data.url;
         message.success("上传图片成功")
     }).catch(error => {
-        message.error("上传图片失败")
+        message.error("上传图片失败" + error)
     })
 }
-//上传文件
-function handleFileUpload(event) {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0])
-    uploadImages(formData).then(res => {
-        Article.value.videoUrl = res.data.url;
-        message.success("上传文件成功")
-    }).catch(error => {
-        message.error("上传文件失败")
-    })
-}
+// 监听分类变化,实时获取标签列表
 watch(
-    // 监听 Article.sortId 的变化 
     () => Article.value.sortId,
-    (newVal, oldVal) => {
+    (newVal) => {
         Article.value.tagList = [];
-        if (!newVal) {
+        const sortResult = sortOptions.value.filter((item: { value: any }) => item.value === newVal)
+        if (!newVal || !sortResult) {
             return;
         }
-        const Sort = SortList.value.filter(item => item.id === newVal)
-        tagList.value = Sort[0].tagList;
+        tagOptions.value = sortResult[0].tagList.map(item => {
+            return {
+                key: item.id,
+                label: item.tagName
+            }
+        })
+        console.log(tagOptions.value);
+
     },
     {
         deep: false,

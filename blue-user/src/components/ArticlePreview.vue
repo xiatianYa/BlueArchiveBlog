@@ -43,8 +43,7 @@
     </div>
     <div class="preview_navigation">
       <div class="navigation" ref="navigation">
-        <n-anchor affix listen-to=".document-scroll-container" :trigger-top="24" :top="60" style="z-index: 1"
-          :bound="24" :show-background="showBackground">
+        <n-anchor affix :show-rail="showRail" :show-background="showBackground">
           <div class="title">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-shu1"></use>

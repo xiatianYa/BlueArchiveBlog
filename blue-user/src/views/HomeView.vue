@@ -261,7 +261,6 @@ onMounted(() => {
         }
       });
     })
-    console.log(sortList.value);
   })
   //获取推荐文章
   listArticle().then(res => {

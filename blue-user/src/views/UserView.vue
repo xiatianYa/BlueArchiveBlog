@@ -9,15 +9,19 @@
             <img :src="userInfo.avatar">
             <a class="pointer avater_select" @click="selectAvatar(openAvater)">选择头像</a>
           </div>
-          <input type="text" placeholder="用户名" v-model="userInfo.userName">
-          <input type="text" placeholder="用户昵称" v-model="userInfo.nickName">
-          <input type="password" placeholder="密码" v-model="userInfo.passWord">
-          <input type="password" placeholder="确认密码" v-model="userInfo.entryPassword">
-          <div class="Sms_box">
-            <input type="password" placeholder="请填写手机号" v-model="userInfo.phone">
-            <a class="pointer code_select" @click="getPhoneCode()">发送</a>
-          </div>
-          <input type="text" placeholder="请输入验证码" v-model="userInfo.sms">
+          <n-space vertical>
+            <n-input type="text" placeholder="用户名" v-model:value="userInfo.userName" />
+            <n-input type="text" placeholder="用户昵称" v-model:value="userInfo.nickName" />
+            <n-input type="password" show-password-on="mousedown" placeholder="密码" v-model:value="userInfo.passWord" />
+            <n-input type="password" show-password-on="mousedown" placeholder="确认密码"
+              v-model:value="userInfo.entryPassword" />
+            <div class="Sms_box"> 
+              <n-input type="text" placeholder="请填写手机号" autosize style="min-width: 70%"
+                v-model:value="userInfo.phone" />
+              <a class="pointer code_select" @click="getPhoneCode()">发送</a>
+            </div>
+            <n-input type="password" show-password-on="mousedown" placeholder="请输入验证码" v-model:value="userInfo.sms" />
+          </n-space>
           <button @click="userRegister" v-show="!loading">注册</button>
           <button v-show="loading">
             <Loading />
@@ -26,12 +30,12 @@
         <!-- 登录 -->
         <div class="login-box">
           <h1>登录</h1>
-          <input type="text" placeholder="用户名" v-model="userInfo.userName">
-          <input type="password" placeholder="密码" v-model="userInfo.passWord">
-          <div class="verification">
-            <input type="text" placeholder="请输入验证码" v-model="userInfo.code">
-            <img v-lazy="codeImg" @click="getCode">
-          </div>
+          <n-space vertical>
+            <n-input type="text" placeholder="用户名" v-model:value="userInfo.userName" />
+            <n-input type="password" show-password-on="mousedown" placeholder="密码" v-model:value="userInfo.passWord" />
+            <n-input type="text" placeholder="请输入验证码" v-model:value="userInfo.code" />
+            <n-image width="100%" :src="codeImg" @click="getCode" />
+          </n-space>
           <button @click="userLogin" v-show="!loading">登录</button>
           <button v-show="loading">
             <Loading />
@@ -68,7 +72,7 @@ import { useUserStore } from '@/store/user'
 import { setExpiresIn, setToken } from '@/utils/auth'
 import { useRouter } from "vue-router";
 import Loading from '@/components/CssLoadingView02.vue'
-import { useMessage } from 'naive-ui'
+import { useMessage, NInput, NSpace, NImage } from 'naive-ui'
 //提示框
 const message = useMessage()
 //路由
@@ -80,10 +84,11 @@ let openAvater = ref(false)
 //存储头像的地址列表
 let avaterUrls = ref([])
 //验证码
-let codeImg = ref([""])
+let codeImg = ref("")
 //用户信息
 let userInfo = reactive({
   userName: "",
+  nickName: "",
   passWord: "",
   entryPassword: null,
   avatar: "",
@@ -128,6 +133,7 @@ function userLogin() {
   const password = userInfo.passWord
   const code = userInfo.code
   const uuid = userInfo.uuid
+
   login(username, password, code, uuid).then(res => {
     let result = res.data
     //设置Token
