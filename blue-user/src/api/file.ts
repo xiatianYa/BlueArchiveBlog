@@ -1,7 +1,16 @@
 import request from '@/utils/request'
 
-// 查询友情链接列表
-export function uploadImages(file) {
+// 上传图片
+export function uploadImages(file: any) {
+  return request({
+    headers: { 'Content-Type': 'multipart/form-data' },
+    url: '/file/upload',
+    method: 'post',
+    data: file
+  })
+}
+// 上传文件
+export function uploadFiles(file: any) {
   return request({
     headers: { 'Content-Type': 'multipart/form-data' },
     url: '/file/upload',

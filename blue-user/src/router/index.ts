@@ -12,7 +12,6 @@ import MenuView from '../views/MenuView.vue'
 import LoadingVuew from '../components/LoadingView.vue'
 import ArticlePreview from '../components/ArticlePreview.vue'
 import ChatView from '../views/ChatView.vue'
-import FlvView from '../views/FlvView.vue'
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     scrollBehavior(to, from, savedPosition) {
@@ -81,11 +80,6 @@ const router = createRouter({
             path: '/chat',
             name: 'chat',
             component: ChatView
-        },
-        {
-            path: '/flv',
-            name: 'flv',
-            component: FlvView
         }
     ]
 })

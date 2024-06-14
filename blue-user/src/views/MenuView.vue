@@ -77,6 +77,7 @@ function changSelect(index) {
       width: 100%;
       height: 30px;
       margin: 20px 0px 20px 0px;
+      cursor: pointer;
 
       .icon {
         margin-right: 5px;

@@ -706,7 +706,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      * 检测用户操作是否合法
      */
     public void isCheckUser(Long articleId){
-        Long userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getLoginUser().getUserid();
         //管理员操作
         if(SecurityUtils.isAdmin(userId)){
             return;

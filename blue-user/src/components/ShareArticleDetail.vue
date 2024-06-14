@@ -48,14 +48,10 @@
                             placeholder="请输入文章标签" :default-value="Article.tagList" @update:value="handleUpdateValue" />
                     </n-form-item>
                     <n-form-item label="文章封面" path="cover">
-                        <n-upload action="/api/file/upload" list-type="image-card" @finish="handleFinish"
-                            :custom-request="customRequest" @before-upload="beforeUpload" :max="1" :headers="{
-                                'naive-info': 'hello!'
-                            }" :data="{
-                                'naive-data': 'cool! naive!'
-                            }">
-                            点击上传
-                        </n-upload>
+                        <ImgUpload @onSuccess="uploadImageOnSuccess"></ImgUpload>
+                    </n-form-item>
+                    <n-form-item label="文章视频" path="videoUrl">
+                        <FileUpload :fileType="['video/mp4']" @onSuccess="uploadFileOnSuccess"></FileUpload>
                     </n-form-item>
                 </n-form>
                 <template #footer>
@@ -74,6 +70,9 @@
         <n-modal v-model:show="ArticleDeleteShow" transform-origin="center">
             <n-card style="width: 600px" title="删除文章" :bordered="false" size="huge" role="dialog" aria-modal="true">
                 <template #footer>
+                    <n-space style="padding-bottom:20px">
+                        删除数据ID为:{{ deleteArticleList }}的数据
+                    </n-space>
                     <n-space>
                         <n-button secondary round @click="ArticleDeleteShow = false">
                             取消
@@ -93,7 +92,9 @@ import { onMounted, ref, watch, nextTick } from 'vue'
 import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { uploadImages } from "@/api/file";
-import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NTreeSelect, NUpload, type UploadCustomRequestOptions, type UploadFileInfo } from 'naive-ui'
+import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NTreeSelect } from 'naive-ui'
+import ImgUpload from '@/components/ImgUpload/index.vue'
+import FileUpload from '@/components/FileUpload/index.vue'
 function handleUpdateValue(value: Array<number>, option: any) {
     Article.value.tagList = value
 }
@@ -123,30 +124,33 @@ const rules = ref({
         validator(rule: any, value: number[]) {
             return !value.length ? false : true;
         }
+    },
+    cover: {
+        required: true,
+        trigger: ['blur', '文章封面'],
+        message: '请上传文章封面'
     }
 })
 //提示框
 const message = useMessage()
 //文章列表
-const ArticleList = ref({
-    id: "",
-    articleName: ""
-})
+const ArticleList = ref<ArticleType[]>([])
 //添加文章框是否显示
 const ArticleShow = ref(false)
 //被选中的文章
-const ArticleIndex = ref({
-    content: ''
-})
+const ArticleIndex = ref<any>({ content: "" })
 
 // 定义Article的类型  
 interface ArticleType {
     id: string;
+    content?: string;
+    status?: number;
     articleName: string;
     articleDescribe: string;
     sortId: number | undefined;
-    tagList: number[];
+    tagList: any[];
     cover: string;
+    videoUrl: string;
 }
 //添加文章对象
 const Article = ref<ArticleType>({
@@ -155,7 +159,8 @@ const Article = ref<ArticleType>({
     articleDescribe: "",
     sortId: undefined,
     tagList: [],
-    cover: ""
+    cover: "",
+    videoUrl: ""
 })
 //分类配置
 const sortOptions = ref()
@@ -177,7 +182,7 @@ function handleCopyCodeSuccess() {
 function openArticleUpdate(articleId: any) {
     getArticle(articleId).then(res => {
         Article.value = res.data;
-        let ResultTagList = Article.value.tagList;
+        let ResultTagList: any = Article.value.tagList;
         nextTick(() => {
             //清空标签列表
             Article.value.tagList = [];
@@ -191,7 +196,7 @@ function openArticleUpdate(articleId: any) {
 }
 //数据初始化
 function init() {
-    listArticleByUser().then(res => {
+    listArticleByUser().then((res: any) => {
         //获取列表
         ArticleList.value = res.data;
         //防止文章内容为空
@@ -201,8 +206,8 @@ function init() {
         //获取第一条数据ID
         ArticleIndex.value = ArticleList.value[0];
     })
-    listSort().then(res => {
-        sortOptions.value = res.rows.map(item => {
+    listSort().then((res: any) => {
+        sortOptions.value = res.rows.map((item: any) => {
             return {
                 value: item.id,
                 label: item.sortName,
@@ -212,7 +217,7 @@ function init() {
     })
 }
 //切换文章
-function changeArticle(article) {
+function changeArticle(article: any) {
     getArticle(article.id).then(res => {
         //防止文章内容为空
         if (!res.data.content) {
@@ -230,7 +235,9 @@ function openArticleAdd() {
         articleName: "",
         articleDescribe: "",
         sortId: undefined,
-        tagList: []
+        tagList: [],
+        cover: "",
+        videoUrl: ""
     }
     ArticleShow.value = true;
 }
@@ -240,28 +247,27 @@ function openArticleDelete() {
 }
 //新增文章
 function addArticleSubmit() {
-    console.log(Article.value);
-    return;
     //设置标签列表
-    const tagList = [];
-    for (const tagId of Article.value.tagList) {
-        tagList.push({ tagId: tagId })
+    const copyTagList = [];
+    for (const item of Article.value.tagList) {
+        copyTagList.push({ tagId: item })
     }
-    Article.value.tagList = tagList;
-    addArticle(Article.value).then(res => {
-        message.success("新增成功")
+    Article.value.tagList = copyTagList;
+    addArticle(Article.value).then(() => {
+        ArticleShow.value = false;
+        message.success("新增成功");
         init();
-    }).catch(error => {
+    }).catch(() => {
         message.error("新增失败")
     })
 }
 //删除文章
 function deleteArticleSubmit() {
-    delArticle(deleteArticleList.value).then(res => {
+    delArticle(deleteArticleList.value).then(() => {
         message.success("删除成功")
         init();
-    }).catch(error => {
-        message.error("删除失败")
+    }).catch((error) => {
+        message.error(error)
     })
 }
 //保存文章
@@ -288,27 +294,15 @@ function handleUploadImage(insertImage: any, file: any) {
         message.error("上传图片失败")
     })
 }
-//上传图片文件回调函数
-function handleFinish(file: any, event: any) {
-
+//图片上传成功的函数
+function uploadImageOnSuccess(data: any) {
+    //设置文章封面地址
+    Article.value.cover = data.url;
 }
-//限制上传文件类型
-function beforeUpload(data: {
-    file: UploadFileInfo
-    fileList: UploadFileInfo[]
-}) {
-
-}
-//上传文件函数
-function customRequest({
-    file,
-}: UploadCustomRequestOptions) {
-    uploadImages(file).then(res => {
-        Article.value.cover = res.data.url;
-        message.success("上传图片成功")
-    }).catch(error => {
-        message.error("上传图片失败" + error)
-    })
+//文件上传成功的函数
+function uploadFileOnSuccess(data: any) {
+    //设置文章封面地址
+    Article.value.videoUrl = data.url;
 }
 // 监听分类变化,实时获取标签列表
 watch(
@@ -319,14 +313,12 @@ watch(
         if (!newVal || !sortResult) {
             return;
         }
-        tagOptions.value = sortResult[0].tagList.map(item => {
+        tagOptions.value = sortResult[0].tagList.map((item: any) => {
             return {
                 key: item.id,
                 label: item.tagName
             }
         })
-        console.log(tagOptions.value);
-
     },
     {
         deep: false,
