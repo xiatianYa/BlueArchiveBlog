@@ -77,7 +77,7 @@
               <div class="recommend_row" v-for="article in recommendArticleList" @click="goArticlePreview(article.id)">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
-                    <img v-lazy="article.cover" alt="背景" />
+                    <img v-lazy="article.cover" />
                   </div>
                   <div class="recommend_info">
                     <span class="article_name">{{ article.articleName }}</span>
@@ -590,19 +590,20 @@ function goHref(url) {
 
             .recommend_message {
               width: 100%;
-              margin: 7px 0;
+              height: 70%;
+              margin: 5px 0;
               display: flex;
               flex-direction: row;
 
               .recommend_img {
                 width: 50%;
-                margin-left: 10px;
+                height: 100%;
                 border-radius: 10px;
                 overflow: hidden;
 
                 img {
                   width: 100%;
-                  height: 100%;
+                  height: 100px;
                   object-fit: fill;
                   transition: all .3s ease-in 0s;
                 }

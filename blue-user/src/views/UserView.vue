@@ -34,7 +34,7 @@
             <n-input type="text" placeholder="用户名" v-model:value="userInfo.userName" />
             <n-input type="password" show-password-on="mousedown" placeholder="密码" v-model:value="userInfo.passWord" />
             <n-input type="text" placeholder="请输入验证码" v-model:value="userInfo.code" />
-            <n-image width="100%" :src="codeImg" @click="getCode" />
+            <n-image width="100%" :src="codeImg" preview-disabled @click="getCode" />
           </n-space>
           <button @click="userLogin" v-show="!loading">登录</button>
           <button v-show="loading">

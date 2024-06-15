@@ -55,12 +55,14 @@ body::-webkit-scrollbar {
 
 /**盒子阴影*/
 .box_shadow {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
 }
 
 /**盒子阴影*/
 .box_shadow:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease-in-out;
 }
 
 /**图标*/
