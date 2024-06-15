@@ -5,22 +5,25 @@
         我的相册
       </div>
       <div class="photo_menu">
-        <span class="pointer" @click="openPhoto">添加相册</span>
-        <span class="pointer" @click="openPhoneDelete">删除相册</span>
+        <span class="pointer" @click="handelPhotoAdd">添加相册</span>
+        <span class="pointer" @click="handelPhoneDelete">删除相册</span>
       </div>
       <div class="photo_list">
         <div class="item pointer" v-for="photo in photoList">
           <input type="checkbox" v-model="deletePhotoList" name="article" :value="photo.id">
-          <span>{{ photo.photoName }}</span>
+          <span style="flex: 1;">
+            <n-ellipsis :line-clamp="1">
+              {{ photo.photoName }}
+            </n-ellipsis>
+          </span>
           <span>{{ photo.status === 0 ? '审核中' : photo.status === 1 ? '审核通过' : '审核为通过' }}</span>
-          <span class="pointer" @click="openPhotoUpdate(photo.id)">修改相册</span>
+          <span class="pointer" @click="handelPhotoUpdate(photo.id)">修改相册</span>
         </div>
       </div>
     </div>
-    <div class="right">
+    <div class="right animate__animated animate__fadeInRight">
       <div class="photo_list">
-        <div class="photo box_shadow pointer animate__animated animate__zoomIn" v-for="photo in photoList"
-          :key="photo.id">
+        <div class="photo box_shadow" v-for="photo in photoList" :key="photo.id">
           <div class="photo_img">
             <img v-lazy="photo.photoUrl" class="box_shadow">
           </div>
@@ -41,62 +44,92 @@
       </div>
     </div>
     <!-- 添加修改框 -->
-    <div class="photo_dialog" v-if="photoShow">
-      <div class="dialog">
-        <div class="photo_title">
-          <span v-show="!photo.id">添加相册</span>
-          <span v-show="photo.id">修改相册</span>
-          <svg class="icon pointer" aria-hidden="true" @click="closePhoto">
-            <use xlink:href="#icon-guanbi"></use>
-          </svg>
-        </div>
-        <div class="photo_name">
-          <span>相册名称</span>
-          <input type="text" v-model="photo.photoName" placeholder="请输入相册名称">
-        </div>
-        <div class="photo_sort">
-          <span>相册分类</span>
-          <select id="sort" name="sort" v-model="photo.sortId">
-            <option :value="sort.id" v-for="sort in SortList">{{ sort.sortName }}</option>
-          </select>
-        </div>
-        <div class="photo_avatar">
-          <span>上传照片</span>
-          <input type="file" @change="handleImageUpload" accept="image/*">
-        </div>
-        <div class="button_box">
-          <button v-show="!photo.id" @click="addPhotoSubmit">添加</button>
-          <button v-show="photo.id" @click="updatePhotoSubmit">修改</button>
-        </div>
-      </div>
-    </div>
+    <n-modal v-model:show="photoShow" transform-origin="center">
+      <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
+        <n-form ref="formRef" :model="photo" :rules="rules" label-placement="left" label-width="auto"
+          require-mark-placement="right-hanging" size="medium" :style="{
+            maxWidth: '640px'
+          }">
+          <n-form-item label="相册名称" path="photoName">
+            <n-input v-model:value="photo.photoName" placeholder="请输入相册名称" />
+          </n-form-item>
+          <n-form-item label="相册分类" path="sortId">
+            <n-select v-model:value="photo.sortId" :options="photoOptions" placeholder="请选择相册分类" clearable />
+          </n-form-item>
+          <n-form-item label="相册图片" path="photoUrl">
+            <ImgUpload v-model="photo.photoUrl"></ImgUpload>
+          </n-form-item>
+        </n-form>
+        <template #footer>
+          <n-space>
+            <n-button secondary round @click="photoShow = false">
+              取消
+            </n-button>
+            <n-button type="info" secondary round @click="photoSubmit">
+              提交
+            </n-button>
+          </n-space>
+        </template>
+      </n-card>
+    </n-modal>
     <!-- 删除框 -->
-    <div class="photo_delete_dialog" v-show="photoDeleteShow">
-      <div class="dialog">
-        <div class="photo_title">
-          <span>删除相册</span>
-          <svg class="icon pointer" aria-hidden="true" @click="closePhotoDelete">
-            <use xlink:href="#icon-guanbi"></use>
-          </svg>
-        </div>
-        <div class="photo_body">
-          删除文章ID为: {{ deletePhotoList }} 的数据
-        </div>
-        <div class="button_box">
-          <button @click="deletePhotoSubmit">确认删除</button>
-          <button @click="closePhotoDelete">取消删除</button>
-        </div>
-      </div>
-    </div>
+    <n-modal v-model:show="photoDeleteShow" transform-origin="center">
+      <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
+        <template #footer>
+          <n-space style="padding-bottom:20px">
+            是否删除相册名称为:{{ mappedPhotoNamesByIds }}的数据
+          </n-space>
+          <n-space>
+            <n-button secondary round @click="photoDeleteShow = false">
+              取消
+            </n-button>
+            <n-button type="info" secondary round @click="deleteMusicSubmit">
+              提交
+            </n-button>
+          </n-space>
+        </template>
+      </n-card>
+    </n-modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto } from '@/api/photo'
 import { listSort } from '@/api/sort/photoSort'
-import { uploadImages } from "@/api/file";
-import { useMessage } from 'naive-ui'
+import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NEllipsis, type FormInst } from 'naive-ui'
+import ImgUpload from '@/components/ImgUpload/index.vue'
+//表单
+const formRef = ref<FormInst>()
+// 定义Photo的类型  
+interface PhotoType {
+  id?: number | null;
+  sortId: number | null;
+  photoName: string;
+  photoUrl: string;
+}
+const rules = ref({
+  sortId: {
+    required: true,
+    trigger: ['blur', '相册分类'],
+    message: '请选择分类名称',
+    validator(rule: any, value: number) {
+      return !value ? false : true;
+    }
+  },
+  photoName: {
+    required: true,
+    trigger: ['blur', '相册名称'],
+    message: '请输入相册名称'
+  },
+  photoUrl: {
+    required: true,
+    trigger: ['blur', '相册图片'],
+    message: '请上传相册图片'
+  },
+})
+//标题
+const title = ref("")
 //提示框
 const message = useMessage()
 //相册列表
@@ -108,9 +141,20 @@ const photoDeleteShow = ref(false)
 //添加修改框显示
 const photoShow = ref(false)
 //相册信息
-const photo = ref({})
+const photo = ref<PhotoType>({
+  sortId: null,
+  photoName: "",
+  photoUrl: ""
+})
+//删除相册的名称列表
+const mappedPhotoNamesByIds = computed(() => {
+  return deletePhotoList.value.map((id: number) => {
+    const photo: any = photoList.value.find((photo: any) => photo.id === id);
+    return photo.photoName;
+  })
+})
 //相册分类
-const SortList = ref({})
+const photoOptions = ref()
 onMounted(() => {
   init();
 })
@@ -120,97 +164,77 @@ function init() {
     photoList.value = res.data
   })
   listSort().then(res => {
-    SortList.value = res.rows;
+    photoOptions.value = res.rows.map((item: any) => {
+      return {
+        value: item.id,
+        label: item.sortName
+      }
+    });
+    console.log(photoOptions.value);
+
   })
 }
+//打开添加修改相册
+function handelPhotoAdd() {
+  title.value = "新增相册"
+  photo.value = {
+    sortId: null,
+    photoName: "",
+    photoUrl: ""
+  }
+  photoShow.value = true;
+}
 //打开修改相册框
-function openPhotoUpdate(photoId) {
+function handelPhotoUpdate(photoId: any) {
+  title.value = "修改相册"
   getPhoto(photoId).then(res => {
     photo.value = res.data
   })
   photoShow.value = true;
 }
-//修改相册
-function updatePhotoSubmit() {
-  if (!photo.value.photoName) {
-    message.warning("请添加相册名称")
-    return;
+//打开删除相册
+function handelPhoneDelete() {
+  title.value = "删除相册"
+  if (deletePhotoList.value.length) {
+    photoDeleteShow.value = true;
+  } else {
+    message.warning("请勾选需要删除的相册")
   }
-  if (!photo.value.sortId) {
-    message.warning("请添加相册分类")
-    return;
-  }
-  if (!photo.value.photoUrl) {
-    message.warning("请添加相册图片")
-    return;
-  }
-  updatePhoto(photo.value).then(() => {
-    message.success("修改成功")
-    init();
-  }).catch(() => {
-    message.error("修改失败")
-  })
-  closePhoto();
 }
-//添加相册
-function addPhotoSubmit() {
-  if (!photo.value.photoName) {
-    message.warning("请添加相册名称")
-    return;
-  }
-  if (!photo.value.sortId) {
-    message.warning("请添加相册分类")
-    return;
-  }
-  if (!photo.value.photoUrl) {
-    message.warning("请添加相册图片")
-    return;
-  }
-  addPhoto(photo.value).then(() => {
-    message.success("添加成功")
-    init();
-  }).catch(() => {
-    message.error("添加失败")
-  })
-  closePhoto();
-}
-//删除相册显示
-function openPhoneDelete() {
-  photoDeleteShow.value = true;
-}
-//删除相册关闭
-function closePhotoDelete() {
-  deletePhotoList.value = [];
-  photoDeleteShow.value = false;
-}
-//删除确认
-function deletePhotoSubmit() {
+//删除相册
+function deleteMusicSubmit() {
   delPhoto(deletePhotoList.value).then(() => {
+    photoDeleteShow.value = false;
     message.success("删除成功")
     init();
-  }).catch(() => {
-    message.error("删除失败")
+  }).catch((error) => {
+    message.error(error)
   })
-  closePhotoDelete();
 }
-//打开修改添加框
-function openPhoto() {
-  photoShow.value = true;
-}
-//关闭修改添加框
-function closePhoto() {
-  photo.value = {}
-  photoShow.value = false;
-}
-//上传图片
-function handleImageUpload(event) {
-  const formData = new FormData();
-  formData.append("file", event.target.files[0])
-  uploadImages(formData).then(res => {
-    photo.value.photoUrl = res.data.url;
-    message.success("上传图片成功")
-  }).catch(error => {
-    message.success("上传图片失败")
+//提交相册
+function photoSubmit() {
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      if (photo.value.id != null) {
+        updatePhoto(photo.value).then(() => {
+          message.success("修改成功")
+          photoShow.value = false;
+          init();
+        }).catch(() => {
+          message.error("修改失败")
+        })
+      } else {
+        addPhoto(photo.value).then(() => {
+          message.success("添加成功")
+          photoShow.value = false;
+          init();
+        }).catch(() => {
+          message.error("新增失败")
+        })
+      }
+    } else {
+      message.warning('请检查参数')
+    }
   })
 }
 </script>
@@ -253,40 +277,20 @@ function handleImageUpload(event) {
       flex-direction: column;
 
       .item {
+        box-sizing: border-box;
         display: flex;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
         width: 100%;
         height: 30px;
-        padding: 10px 0;
+        padding: 5px;
         font-size: 12px;
         border-top: 1px solid #c8d9eb;
-
-        input {
-          float: left;
-          margin: 0 10px;
-        }
 
         span {
           display: flex;
           align-items: center;
-          justify-content: center;
-          flex-grow: 1;
-        }
-
-        span:first-of-type {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-
-        span:last-child {
-          display: flex;
-          justify-content: end;
-          align-items: right;
-          margin-right: 5px;
+          padding: 5px;
         }
 
         span:hover {
@@ -368,214 +372,6 @@ function handleImageUpload(event) {
           span {
             font-size: 10px;
           }
-        }
-      }
-    }
-  }
-
-  .photo_dialog {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding-top: 10%;
-    background-color: rgba(rgb(0, 0, 0), 0.3);
-    z-index: 999;
-
-    .dialog {
-      position: fixed;
-      width: 420px;
-      height: 350px;
-      border-radius: 10px;
-      background-color: #FFFFFF;
-
-      .photo_title {
-        box-sizing: border-box;
-        position: relative;
-        display: flex;
-        justify-content: left;
-        width: 100%;
-        margin-top: 10px;
-        padding-left: 10px;
-
-        .icon {
-          position: absolute;
-          top: 0;
-          right: 20px;
-          /* 初始状态 */
-          transition: transform 0.5s ease-in-out;
-          /* 定义过渡效果，持续时间为0.5秒，使用ease-in-out缓动函数 */
-          transform: rotate(0deg);
-          /* 初始旋转角度为0度 */
-        }
-
-        .icon:hover {
-          /* 鼠标移入状态 */
-          transform: rotate(240deg);
-          /* 旋转角度为360度，即一圈 */
-        }
-      }
-
-      .photo_sort {
-        padding-left: 10px;
-        margin-top: 20px;
-        display: flex;
-        justify-content: left;
-
-        span {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 12px;
-        }
-
-        select {
-          margin-left: 8px;
-          font-size: 12px;
-        }
-      }
-
-      .photo_name {
-        padding-left: 10px;
-        margin-top: 20px;
-        display: flex;
-        justify-content: left;
-
-        span {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 12px;
-        }
-
-        input {
-          font-size: 12px;
-          margin-left: 8px;
-          padding: 3px 5px;
-          border-radius: 3px;
-          border: 1px solid #c8d9eb;
-          transition: all 0.5s ease;
-          /* 添加过渡效果，使边框颜色变化更平滑 */
-        }
-
-        input:hover {
-          border-color: #a7b4c3;
-        }
-
-        input:focus {
-          border-color: #a1eafb;
-          /* 鼠标悬停或获得焦点时的边框颜色 */
-        }
-      }
-
-      .photo_avatar {
-        padding-left: 10px;
-        margin-top: 20px;
-        display: flex;
-        justify-content: left;
-
-        span {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 12px;
-        }
-
-        input {
-          margin-left: 8px;
-        }
-      }
-
-      .button_box {
-        margin: 10px 10px;
-
-        button {
-          width: 50px;
-          padding: 3px;
-          border-radius: 5px;
-          border: none;
-          font-size: 14px;
-          cursor: pointer;
-          background-color: #74f9ff;
-        }
-
-        button:hover {
-          background-color: #00e0ff;
-        }
-      }
-
-    }
-
-  }
-
-  .photo_delete_dialog {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding-top: 10%;
-    background-color: rgba(rgb(0, 0, 0), 0.3);
-
-    .dialog {
-      position: fixed;
-      width: 420px;
-      border-radius: 10px;
-      background-color: #FFFFFF;
-
-      .photo_title {
-        box-sizing: border-box;
-        position: relative;
-        display: flex;
-        justify-content: left;
-        width: 100%;
-        margin-top: 10px;
-        padding-left: 10px;
-
-        .icon {
-          position: absolute;
-          top: 0;
-          right: 20px;
-          /* 初始状态 */
-          transition: transform 0.5s ease-in-out;
-          /* 定义过渡效果，持续时间为0.5秒，使用ease-in-out缓动函数 */
-          transform: rotate(0deg);
-          /* 初始旋转角度为0度 */
-        }
-
-        .icon:hover {
-          /* 鼠标移入状态 */
-          transform: rotate(240deg);
-          /* 旋转角度为360度，即一圈 */
-        }
-      }
-
-      .photo_body {
-        margin: 10px;
-        font-size: 14px;
-      }
-
-      .button_box {
-        display: flex;
-        margin: 10px;
-
-        button {
-          padding: 3px;
-          margin-right: 10px;
-          border-radius: 5px;
-          border: none;
-          font-size: 14px;
-          cursor: pointer;
-          background-color: #74f9ff;
-        }
-
-        button:hover {
-          background-color: #00e0ff;
         }
       }
     }

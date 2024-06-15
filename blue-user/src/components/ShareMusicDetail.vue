@@ -8,42 +8,52 @@
                 <span class="pointer" @click="openMusic">添加歌曲</span>
             </div>
             <div class="music_list">
-                <div class="item pointer" v-for="musicSort in musicSortList" @click="changSort(musicSort.id)">
-                    <span :class="musicSort.id === musicSortIndex ? 'select' : ''">{{ musicSort.sortName }}</span>
+                <div class="item pointer" v-for="item in sortOptions">
+                    <span @click="changSort(item.value)" style="flex: 1;">
+                        <n-ellipsis :line-clamp="1" :style="item.value == musicSortIndex ? 'color: #00e0ff;' : ''">
+                            {{ item.label }}
+                        </n-ellipsis>
+                    </span>
                 </div>
             </div>
         </div>
-        <div class="right">
+        <div class="right animate__animated animate__fadeInRight">
             <MusicDetail :musicList="musicList" :startMusic="startMusic" />
             <audio id="music">
             </audio>
         </div>
         <!-- 添加修改框 -->
-        <div class="music_dialog" v-if="musicShow">
-            <div class="dialog">
-                <div class="music_title">
-                    <span>添加相册</span>
-                    <svg class="icon pointer" aria-hidden="true" @click="closeMusic">
-                        <use xlink:href="#icon-guanbi"></use>
-                    </svg>
-                </div>
-                <div class="music_name">
-                    <span>音乐名称</span>
-                    <input type="text" v-model="music.musicName" placeholder="请输入音乐名称">
-                </div>
-                <div class="music_avatar">
-                    <span>音乐图片</span>
-                    <input type="file" @change="handleImageUpload" accept="image/*">
-                </div>
-                <div class="music_file">
-                    <span>上传音乐</span>
-                    <input type="file" @change="handleFileUpload" accept="audio/mp3">
-                </div>
-                <div class="button_box">
-                    <button @click="addMusicSubmit">添加</button>
-                </div>
-            </div>
-        </div>
+        <n-modal v-model:show="MusicShow" transform-origin="center">
+            <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
+                <n-form ref="formRef" :model="music" :rules="rules" label-placement="left" label-width="auto"
+                    require-mark-placement="right-hanging" size="medium" :style="{
+                        maxWidth: '640px'
+                    }">
+                    <n-form-item label="音乐名称" path="musicName">
+                        <n-input v-model:value="music.musicName" placeholder="请输入音乐名称" />
+                    </n-form-item>
+                    <n-form-item label="音乐分类" path="sortId">
+                        <n-select v-model:value="music.sortId" :options="sortOptions" placeholder="请选择文章分类" clearable />
+                    </n-form-item>
+                    <n-form-item label="音乐封面" path="imgUrl">
+                        <ImgUpload v-model="music.imgUrl"></ImgUpload>
+                    </n-form-item>
+                    <n-form-item label="音乐文件" path="musicUrl">
+                        <FileUpload v-model="music.musicUrl"></FileUpload>
+                    </n-form-item>
+                </n-form>
+                <template #footer>
+                    <n-space>
+                        <n-button secondary round @click="MusicShow = false">
+                            取消
+                        </n-button>
+                        <n-button type="info" secondary round @click="musicSubmit">
+                            提交
+                        </n-button>
+                    </n-space>
+                </template>
+            </n-card>
+        </n-modal>
     </div>
 </template>
 
@@ -51,41 +61,92 @@
 import { onMounted, ref } from 'vue'
 import { listSort } from '@/api/musicSort'
 import { bySortList, addMusic } from '@/api/music'
-import { uploadImages } from "@/api/file";
+import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NEllipsis, NSelect, type FormInst } from 'naive-ui'
 import MusicDetail from "@/components/MusicDetail.vue";
-import { useMessage } from 'naive-ui'
+import ImgUpload from '@/components/ImgUpload/index.vue'
+import FileUpload from '@/components/FileUpload/index.vue'
+// 定义Music的类型  
+interface MusicType {
+    id: number | null;
+    imgUrl: string;
+    musicName: string;
+    musicUrl: string;
+    sortId: number | null;
+}
+const rules = ref({
+    musicName: {
+        required: true,
+        trigger: ['blur', '音乐名称'],
+        message: '请输入音乐名称'
+    },
+    imgUrl: {
+        required: true,
+        trigger: ['blur', '音乐封面'],
+        message: '请上传音乐封面'
+    },
+    musicUrl: {
+        required: true,
+        trigger: ['blur', '音乐文件'],
+        message: '请上传音乐文件'
+    },
+    sortId: {
+        required: true,
+        trigger: ['blur', '音乐分类'],
+        message: '请选择音乐分类',
+        validator(rule: any, value: number) {
+            return !value ? false : true;
+        }
+    },
+})
+
+//标题
+const title = ref("")
+//表单
+const formRef = ref<FormInst>()
 //提示框
 const message = useMessage()
 //音乐分类列表
-const musicSortList = ref()
+const sortOptions = ref()
 //音乐选中下标
 const musicSortIndex = ref()
 //音乐列表
 const musicList = ref()
 //添加框是否显示
-const musicShow = ref(false)
+const MusicShow = ref(false)
 //添加音乐对象
-const music = ref({})
+const music = ref<MusicType>({
+    id: null,
+    imgUrl: "",
+    musicName: "",
+    musicUrl: "",
+    sortId: null
+})
 //存储上一个img图片
-let BeforeImg = ref({})
+let BeforeImg: any = ref({})
+
 onMounted(() => {
     init();
 })
 //初始化
 function init() {
     listSort().then(res => {
-        musicSortList.value = res.rows;
+        sortOptions.value = res.rows.map((item: any) => {
+            return {
+                value: item.id,
+                label: item.sortName
+            }
+        });
         //设置初始下标
-        musicSortIndex.value = musicSortList.value[0].id;
+        musicSortIndex.value = sortOptions.value[0].value;
         searchMusicList();
     })
 }
 //切换歌单
-function changSort(sortId) {
+function changSort(sortId: any) {
     musicSortIndex.value = sortId;
     //清空正在播放的音乐
     //获取音乐标签
-    let music = document.getElementById("music");
+    let music: any = document.getElementById("music");
     //清除img图片的旋转样式
     BeforeImg.className = ""
     //清除BeforeImg
@@ -105,9 +166,9 @@ function searchMusicList() {
     })
 }
 //播放音乐
-function startMusic(event, musicUrl) {
+function startMusic(event: any, musicUrl: any) {
     //获取音乐标签
-    let music = document.getElementById("music");
+    let music: any = document.getElementById("music");
     //清除img图片的旋转样式
     BeforeImg.className = ""
     //获取点击的img
@@ -134,48 +195,31 @@ function startMusic(event, musicUrl) {
 }
 //打开添加框
 function openMusic() {
-    musicShow.value = true;
+    music.value = {
+        id: null,
+        imgUrl: "",
+        musicName: "",
+        musicUrl: "",
+        sortId: null
+    }
+    MusicShow.value = true;
 }
-//关闭添加框
-function closeMusic() {
-    musicShow.value = false;
-    music.value = {};
-}
-//添加音乐
-function addMusicSubmit() {
-    music.value.sortId = musicSortIndex.value;
-    addMusic(music.value).then(() => {
-        music.value = {};
-        musicShow.value = false;
-        //重新初始化
-        init();
-        message.success("添加成功")
-    }).catch(() => {
-        message.error("添加失败")
+//提交操作
+function musicSubmit() {
+    formRef.value?.validate((errors) => {
+        if (!errors) {
+            addMusic(music.value).then((res) => {
+                message.success("添加成功")
+                MusicShow.value = false;
+            }).catch(() => {
+                message.error("添加失败")
+            })
+        } else {
+            message.warning('请检查参数')
+        }
     })
 }
-//上传图片
-function handleImageUpload(event) {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0])
-    uploadImages(formData).then(res => {
-        music.value.imgUrl = res.data.url;
-        message.success("上传图片成功")
-    }).catch(error => {
-        message.error("上传图片失败")
-    })
-}
-//上传文件
-function handleFileUpload(event) {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0])
-    uploadImages(formData).then(res => {
-        music.value.musicUrl = res.data.url;
-        message.success("上传文件成功")
-    }).catch(error => {
-        message.error("上传文件失败")
-    })
-}
+
 </script>
 
 <style lang="scss" scoped>
@@ -217,33 +261,26 @@ function handleFileUpload(event) {
 
             .item {
                 box-sizing: border-box;
+                display: flex;
+                justify-content: start;
+                align-items: center;
                 width: 100%;
                 height: 30px;
-                padding: 10px;
+                padding: 5px;
                 font-size: 12px;
                 border-top: 1px solid #c8d9eb;
 
-                .select {
-                    color: #00e0ff;
-                }
-
                 span {
-                    /* 设置 span 为块级元素或内联块级元素，以便设置宽度 */
-                    display: inline-block;
-                    /* 设置最大宽度 */
-                    max-width: 100%;
-                    /* 或具体宽度值，如 200px */
-                    /* 设置文本溢出时显示省略号 */
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    /* 防止文本换行 */
-                    white-space: nowrap;
+                    display: flex;
+                    align-items: center;
+                    padding: 5px;
                 }
 
                 span:hover {
                     color: #00e0ff;
                 }
             }
+
         }
     }
 
@@ -251,141 +288,6 @@ function handleFileUpload(event) {
         width: 70%;
         min-height: 100vh;
         margin: 0 20px;
-    }
-
-    .music_dialog {
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        padding-top: 10%;
-        background-color: rgba(rgb(0, 0, 0), 0.3);
-        z-index: 999;
-
-        .dialog {
-            position: fixed;
-            width: 420px;
-            height: 350px;
-            border-radius: 10px;
-            background-color: #FFFFFF;
-
-            .music_title {
-                box-sizing: border-box;
-                position: relative;
-                display: flex;
-                justify-content: left;
-                width: 100%;
-                margin-top: 10px;
-                padding-left: 10px;
-
-                .icon {
-                    position: absolute;
-                    top: 0;
-                    right: 20px;
-                    /* 初始状态 */
-                    transition: transform 0.5s ease-in-out;
-                    /* 定义过渡效果，持续时间为0.5秒，使用ease-in-out缓动函数 */
-                    transform: rotate(0deg);
-                    /* 初始旋转角度为0度 */
-                }
-
-                .icon:hover {
-                    /* 鼠标移入状态 */
-                    transform: rotate(240deg);
-                    /* 旋转角度为360度，即一圈 */
-                }
-            }
-
-            .music_name {
-                padding-left: 10px;
-                margin-top: 20px;
-                display: flex;
-                justify-content: left;
-
-                span {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 12px;
-                }
-
-                input {
-                    font-size: 12px;
-                    margin-left: 8px;
-                    padding: 3px 5px;
-                    border-radius: 3px;
-                    border: 1px solid #c8d9eb;
-                    transition: all 0.5s ease;
-                    /* 添加过渡效果，使边框颜色变化更平滑 */
-                }
-
-                input:hover {
-                    border-color: #a7b4c3;
-                }
-
-                input:focus {
-                    border-color: #a1eafb;
-                    /* 鼠标悬停或获得焦点时的边框颜色 */
-                }
-            }
-
-            .music_avatar {
-                padding-left: 10px;
-                margin-top: 20px;
-                display: flex;
-                justify-content: left;
-
-                span {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 12px;
-                }
-
-                input {
-                    margin-left: 8px;
-                }
-            }
-
-            .music_file {
-                padding-left: 10px;
-                margin-top: 20px;
-                display: flex;
-                justify-content: left;
-
-                span {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 12px;
-                }
-
-                input {
-                    margin-left: 8px;
-                }
-            }
-
-            .button_box {
-                margin: 10px 10px;
-
-                button {
-                    width: 50px;
-                    padding: 3px;
-                    border-radius: 5px;
-                    border: none;
-                    font-size: 14px;
-                    cursor: pointer;
-                    background-color: #74f9ff;
-                }
-
-                button:hover {
-                    background-color: #00e0ff;
-                }
-            }
-        }
     }
 }
 </style>

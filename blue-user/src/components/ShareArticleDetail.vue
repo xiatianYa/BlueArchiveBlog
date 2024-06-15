@@ -9,51 +9,52 @@
                 <span class="pointer" @click="handleArticleDelete">删除文章</span>
             </div>
             <div class="article_list">
-                <div class="item pointer" v-for="article in ArticleList" @click="changeArticle(article)">
-                    <input type="checkbox" v-model="deleteArticleList" name="article" :value="article.id">
-                    <n-ellipsis style="flex: 1;" :line-clamp="1">
-                        {{ article.articleName }}
-                    </n-ellipsis>
+                <div class="item pointer" v-for="item in ArticleList">
+                    <input type="checkbox" v-model="deleteArticleList" name="article" :value="item.id">
+                    <span @click="changeArticle(item)" style="flex: 1;">
+                        <n-ellipsis :line-clamp="1" :style="item.id == ArticleIndex.id ? 'color: #00e0ff;' : ''">
+                            {{ item.articleName }}
+                        </n-ellipsis>
+                    </span>
                     <span>{{
-                        article.status === 0 ? '审核中' : article.status === 1 ? '审核通过' : '审核为通过' }}</span>
-                    <span class="pointer" @click="handleArticleUpdate(article.id)">修改文章</span>
+                        item.status === 0 ? '审核中' : item.status === 1 ? '审核通过' : '审核为通过' }}</span>
+                    <span class="pointer" @click="handleArticleUpdate(item.id)">修改文章</span>
                 </div>
             </div>
         </div>
-        <div class="right">
-            <div class="animate__animated animate__fadeInRight">
-                <v-md-editor v-model="ArticleIndex.content" :include-level="[2, 3, 4]" mode="editable" height="100vh"
-                    style="background: #ECEBEC;" @save="saveArticle" :disabled-menus="[]"
-                    left-toolbar="undo  redo h bold italic strikethrough quote ul ol table hr link image code save todo-list emoji tip"
-                    right-toolbar="preview toc sync-scroll" @upload-image="handleUploadImage"
-                    @copy-code-success="handleCopyCodeSuccess"></v-md-editor>
-            </div>
+        <div class="right animate__animated animate__fadeInRight">
+            <v-md-editor v-model="ArticleIndex.content" :include-level="[2, 3, 4]" mode="editable" height="100vh"
+                style="background: #ECEBEC;" @save="saveArticle" :disabled-menus="[]"
+                left-toolbar="undo  redo h bold italic strikethrough quote ul ol table hr link image code save todo-list emoji tip"
+                right-toolbar="preview toc sync-scroll" @upload-image="handleUploadImage"
+                @copy-code-success="handleCopyCodeSuccess"></v-md-editor>
         </div>
+        <!-- 添加修改框 -->
         <n-modal v-model:show="ArticleShow" transform-origin="center">
             <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
-                <n-form ref="formRef" :model="Article" :rules="rules" label-placement="left" label-width="auto"
+                <n-form ref="formRef" :model="article" :rules="rules" label-placement="left" label-width="auto"
                     require-mark-placement="right-hanging" size="medium" :style="{
                         maxWidth: '640px'
                     }">
                     <n-form-item label="文章名称" path="articleName">
-                        <n-input v-model:value="Article.articleName" placeholder="请输入文章名称" />
+                        <n-input v-model:value="article.articleName" placeholder="请输入文章名称" />
                     </n-form-item>
                     <n-form-item label="文章描述" path="articleDescribe">
-                        <n-input v-model:value="Article.articleDescribe" placeholder="请输入文章描述" />
+                        <n-input v-model:value="article.articleDescribe" placeholder="请输入文章描述" />
                     </n-form-item>
                     <n-form-item label="文章分类" path="sortId">
-                        <n-select v-model:value="Article.sortId" :options="sortOptions" placeholder="请输入文章分类"
+                        <n-select v-model:value="article.sortId" :options="sortOptions" placeholder="请输入文章分类"
                             clearable />
                     </n-form-item>
                     <n-form-item label="文章标签" path="tagList">
                         <n-tree-select multiple cascade checkable check-strategy="parent" :options="tagOptions"
-                            placeholder="请输入文章标签" :default-value="Article.tagList" @update:value="handleUpdateValue" />
+                            placeholder="请输入文章标签" :default-value="article.tagList" @update:value="handleUpdateValue" />
                     </n-form-item>
                     <n-form-item label="文章封面" path="cover">
-                        <ImgUpload v-model="Article.cover"></ImgUpload>
+                        <ImgUpload v-model="article.cover"></ImgUpload>
                     </n-form-item>
                     <n-form-item label="文章视频" path="videoUrl">
-                        <FileUpload :fileType="['video/mp4']" @onSuccess="uploadFileOnSuccess"></FileUpload>
+                        <FileUpload v-model="article.videoUrl"></FileUpload>
                     </n-form-item>
                 </n-form>
                 <template #footer>
@@ -61,7 +62,7 @@
                         <n-button secondary round @click="ArticleShow = false">
                             取消
                         </n-button>
-                        <n-button type="info" secondary round @click="addArticleSubmit">
+                        <n-button type="info" secondary round @click="articleSubmit">
                             提交
                         </n-button>
                     </n-space>
@@ -73,7 +74,7 @@
             <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
                 <template #footer>
                     <n-space style="padding-bottom:20px">
-                        删除数据ID为:{{ deleteArticleList }}的数据
+                        是否删除文章名称为:{{ mappedArticleNamesByIds }}的数据
                     </n-space>
                     <n-space>
                         <n-button secondary round @click="ArticleDeleteShow = false">
@@ -90,21 +91,23 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, nextTick } from 'vue'
+import { onMounted, ref, watch, nextTick, computed } from 'vue'
 import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { uploadImages } from "@/api/file";
-import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NTreeSelect, NEllipsis } from 'naive-ui'
+import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NTreeSelect, NEllipsis, type FormInst } from 'naive-ui'
 import ImgUpload from '@/components/ImgUpload/index.vue'
 import FileUpload from '@/components/FileUpload/index.vue'
+//表单
+const formRef = ref<FormInst>()
 // 定义Article的类型  
 interface ArticleType {
-    id: string;
+    id?: number | null;
     content?: string;
     status?: number;
     articleName: string;
     articleDescribe: string;
-    sortId: number | undefined;
+    sortId: number | null;
     tagList: any[];
     cover: string;
     videoUrl: string;
@@ -123,7 +126,7 @@ const rules = ref({
     sortId: {
         required: true,
         trigger: ['blur', '文章分类'],
-        message: '请输入文章分类',
+        message: '请选择文章分类',
         validator(rule: any, value: number) {
             return !value ? false : true;
         }
@@ -131,7 +134,7 @@ const rules = ref({
     tagList: {
         required: true,
         trigger: ['blur', '文章标签'],
-        message: '请输入文章标签',
+        message: '请选择文章标签',
         validator(rule: any, value: number[]) {
             return !value.length ? false : true;
         }
@@ -157,13 +160,11 @@ const ArticleList = ref<ArticleType[]>([])
 const ArticleShow = ref(false)
 //被选中的文章
 const ArticleIndex = ref<any>({ content: "" })
-
 //添加文章对象
-const Article = ref<ArticleType>({
-    id: "",
+const article = ref<ArticleType>({
     articleName: "",
     articleDescribe: "",
-    sortId: undefined,
+    sortId: null,
     tagList: [],
     cover: "",
     videoUrl: ""
@@ -176,12 +177,19 @@ const tagOptions = ref()
 const deleteArticleList = ref([])
 //删除提示框
 const ArticleDeleteShow = ref(false)
+//删除文章的名称列表
+const mappedArticleNamesByIds = computed(() => {
+    return deleteArticleList.value.map((id: number) => {
+        const article: any = ArticleList.value.find((article) => article.id === id);
+        return article.articleName
+    })
+})
 onMounted(() => {
     //初始化数据
     init();
 })
 function handleUpdateValue(value: Array<number>, option: any) {
-    Article.value.tagList = value
+    article.value.tagList = value
 }
 //复制代码
 function handleCopyCodeSuccess() {
@@ -191,14 +199,14 @@ function handleCopyCodeSuccess() {
 function handleArticleUpdate(articleId: any) {
     title.value = "修改文章"
     getArticle(articleId).then(res => {
-        Article.value = res.data;
-        let ResultTagList: any = Article.value.tagList;
+        article.value = res.data;
+        let ResultTagList: any = article.value.tagList;
         nextTick(() => {
             //清空标签列表
-            Article.value.tagList = [];
+            article.value.tagList = [];
             //给标签列表赋值
             for (const tag of ResultTagList) {
-                Article.value.tagList.push(tag.tagId)
+                article.value.tagList.push(tag.tagId)
             }
             ArticleShow.value = true;
         })
@@ -241,11 +249,11 @@ function changeArticle(article: any) {
 function handleArticleAdd() {
     title.value = "新增文章"
     //清空
-    Article.value = {
-        id: "",
+    article.value = {
+        id: null,
         articleName: "",
         articleDescribe: "",
-        sortId: undefined,
+        sortId: null,
         tagList: [],
         cover: "",
         videoUrl: ""
@@ -254,23 +262,44 @@ function handleArticleAdd() {
 }
 //打开删除文章
 function handleArticleDelete() {
-    ArticleDeleteShow.value = true;
-}
-//新增文章
-function addArticleSubmit() {
-    //设置标签列表
-    const copyTagList = [];
-    for (const item of Article.value.tagList) {
-        copyTagList.push({ tagId: item })
+    if (deleteArticleList.value.length) {
+        ArticleDeleteShow.value = true;
+    } else {
+        message.warning("请勾选需要删除的文章")
     }
-    Article.value.tagList = copyTagList;
-    addArticle(Article.value).then(() => {
-        ArticleShow.value = false;
-        message.success("新增成功");
-        init();
-    }).catch(() => {
-        message.error("新增失败")
+}
+//文章提交
+function articleSubmit() {
+    formRef.value?.validate((errors) => {
+        if (!errors) {
+            //设置标签列表
+            const copyTagList = [];
+            for (const item of article.value.tagList) {
+                copyTagList.push({ tagId: item })
+            }
+            article.value.tagList = copyTagList;
+            if (article.value.id != null) {
+                updateArticle(article.value).then(() => {
+                    message.success("修改成功")
+                    ArticleShow.value = false;
+                    init();
+                }).catch(() => {
+                    message.error("修改失败")
+                })
+            } else {
+                addArticle(article.value).then(() => {
+                    message.success("新增成功");
+                    ArticleShow.value = false;
+                    init();
+                }).catch(() => {
+                    message.error("新增失败")
+                })
+            }
+        } else {
+            message.warning('请检查参数')
+        }
     })
+
 }
 //删除文章
 function deleteArticleSubmit() {
@@ -306,16 +335,11 @@ function handleUploadImage(insertImage: any, file: any) {
         message.error("上传图片失败")
     })
 }
-//文件上传成功的函数
-function uploadFileOnSuccess(data: any) {
-    //设置文章封面地址
-    Article.value.videoUrl = data.url;
-}
 // 监听分类变化,实时获取标签列表
 watch(
-    () => Article.value.sortId,
+    () => article.value.sortId,
     (newVal) => {
-        Article.value.tagList = [];
+        article.value.tagList = [];
         const sortResult = sortOptions.value.filter((item: { value: any }) => item.value === newVal)
         if (!newVal || !sortResult) {
             return;
@@ -382,7 +406,13 @@ watch(
                 border-top: 1px solid #c8d9eb;
 
                 span {
+                    display: flex;
+                    align-items: center;
                     padding: 5px;
+                }
+
+                span:hover {
+                    color: #00e0ff;
                 }
             }
 

@@ -72,6 +72,8 @@ public class BlueMusicServiceImpl implements IBlueMusicService
         if(StringUtils.isNotNull(userId)){
             blueMusic.setCreateBy(userId.toString());
         }
+        //设置音乐审核状态
+        blueMusic.setStatus(AuditingStatus.OK.getCode());
         blueMusic.setCreateTime(DateUtils.getNowDate());
         return blueMusicMapper.insertBlueMusic(blueMusic);
     }

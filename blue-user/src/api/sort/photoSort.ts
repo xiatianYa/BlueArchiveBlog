@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询相册分类信息列表
-export function listSort(query) {
+export function listSort(query?:any) {
   return request({
     url: '/blog/photoSort/list',
     method: 'get',
