@@ -1,6 +1,7 @@
 <template>
     <n-upload action="/api/file/upload" list-type="image-card" :custom-request="customRequest"
-        v-model:file-list="fileList" :show-retry-button="true" @before-upload="beforeUpload" :max="limit" :headers="{
+        v-model:file-list="fileList" :show-retry-button="true" @before-upload="beforeUpload" @remove="handleRemove"
+        :max="limit" :headers="{
             'naive-info': 'hello!'
         }" :data="{
             'naive-data': 'cool! naive!'
@@ -51,25 +52,29 @@ onMounted(() => {
                 fileList.value.push(previewFile)
             }
         } else {
-            const url: string = String(props.modelValue)
-            const previewFile: UploadFileInfo = {
-                id: url,
-                name: '预览图片',
-                status: 'finished',
-                url: url
-            };
-            fileList.value.push(previewFile)
+            const urls: string = String(props.modelValue)
+            let fileListStr = urls.split(",");
+            fileListStr.forEach((item) => {
+                const previewFile: UploadFileInfo = {
+                    id: item,
+                    name: '预览图片',
+                    status: 'finished',
+                    url: item
+                };
+                fileList.value.push(previewFile)
+            })
         }
     } else {
         fileList.value = [];
         return [];
     }
 })
-//上传文件函数
+//自定义上传文件
 function customRequest({
     file,
 }: UploadCustomRequestOptions) {
     uploadImages(file).then(res => {
+        //给文件列表路径标识赋值
         fileList.value.forEach((fileObj) => {
             if (fileObj.batchId === file.batchId) {
                 fileObj.url = res.data.url;
@@ -81,7 +86,7 @@ function customRequest({
         message.error("上传图片失败:" + error)
     })
 }
-//限制上传文件类型和文件大小
+//限制类型大小
 function beforeUpload(data: {
     file: UploadFileInfo
     fileList: UploadFileInfo[]
@@ -98,9 +103,17 @@ function beforeUpload(data: {
     }
     return true
 }
-//上传成功后的回调函数
+//上传成功处理函数
 function uploadedSuccessfully() {
     emit("update:modelValue", listToString(fileList.value));
+}
+//文件删除函数
+function handleRemove(data: { file: UploadFileInfo; fileList: UploadFileInfo[] }) {
+    // 使用 filter 方法移除 batchId 相同的元素
+    fileList.value = fileList.value.filter((item) => item.batchId !== data.file.batchId);
+    //数据同步
+    uploadedSuccessfully()
+    message.success("删除成功")
 }
 //工具函数
 function listToString(list: Array<any>, separator?: string) {
@@ -108,9 +121,13 @@ function listToString(list: Array<any>, separator?: string) {
     separator = separator || ",";
     for (let index = 0; index < list.length; index++) {
         let item = list[index]
-        strs = !index ? item.url : item.url + separator
+        if (!index) {
+            strs += item.url
+        } else {
+            strs += separator + item.url
+        }
     }
     return strs;
 }
 </script>
-<style lang="scss" scope></style>(: { url: undefined; }): string | undefined
+<style lang="scss" scope></style>

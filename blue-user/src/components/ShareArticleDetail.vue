@@ -31,29 +31,29 @@
         </div>
         <n-modal v-model:show="ArticleShow" transform-origin="center">
             <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
-                <n-form ref="formRef" :model="Article" :rules="rules" label-placement="left" label-width="auto"
+                <n-form ref="formRef" :model="article" :rules="rules" label-placement="left" label-width="auto"
                     require-mark-placement="right-hanging" size="medium" :style="{
                         maxWidth: '640px'
                     }">
                     <n-form-item label="文章名称" path="articleName">
-                        <n-input v-model:value="Article.articleName" placeholder="请输入文章名称" />
+                        <n-input v-model:value="article.articleName" placeholder="请输入文章名称" />
                     </n-form-item>
                     <n-form-item label="文章描述" path="articleDescribe">
-                        <n-input v-model:value="Article.articleDescribe" placeholder="请输入文章描述" />
+                        <n-input v-model:value="article.articleDescribe" placeholder="请输入文章描述" />
                     </n-form-item>
                     <n-form-item label="文章分类" path="sortId">
-                        <n-select v-model:value="Article.sortId" :options="sortOptions" placeholder="请输入文章分类"
+                        <n-select v-model:value="article.sortId" :options="sortOptions" placeholder="请输入文章分类"
                             clearable />
                     </n-form-item>
                     <n-form-item label="文章标签" path="tagList">
                         <n-tree-select multiple cascade checkable check-strategy="parent" :options="tagOptions"
-                            placeholder="请输入文章标签" :default-value="Article.tagList" @update:value="handleUpdateValue" />
+                            placeholder="请输入文章标签" :default-value="article.tagList" @update:value="handleUpdateValue" />
                     </n-form-item>
                     <n-form-item label="文章封面" path="cover">
-                        <ImgUpload v-model="Article.cover"></ImgUpload>
+                        <ImgUpload v-model="article.cover"></ImgUpload>
                     </n-form-item>
                     <n-form-item label="文章视频" path="videoUrl">
-                        <FileUpload :fileType="['video/mp4']" @onSuccess="uploadFileOnSuccess"></FileUpload>
+                        <FileUpload v-model="article.videoUrl" :fileType="['video/mp4']"></FileUpload>
                     </n-form-item>
                 </n-form>
                 <template #footer>
@@ -159,7 +159,7 @@ const ArticleShow = ref(false)
 const ArticleIndex = ref<any>({ content: "" })
 
 //添加文章对象
-const Article = ref<ArticleType>({
+const article = ref<ArticleType>({
     id: "",
     articleName: "",
     articleDescribe: "",
@@ -181,7 +181,7 @@ onMounted(() => {
     init();
 })
 function handleUpdateValue(value: Array<number>, option: any) {
-    Article.value.tagList = value
+    article.value.tagList = value
 }
 //复制代码
 function handleCopyCodeSuccess() {
@@ -191,14 +191,14 @@ function handleCopyCodeSuccess() {
 function handleArticleUpdate(articleId: any) {
     title.value = "修改文章"
     getArticle(articleId).then(res => {
-        Article.value = res.data;
-        let ResultTagList: any = Article.value.tagList;
+        article.value = res.data;
+        let ResultTagList: any = article.value.tagList;
         nextTick(() => {
             //清空标签列表
-            Article.value.tagList = [];
+            article.value.tagList = [];
             //给标签列表赋值
             for (const tag of ResultTagList) {
-                Article.value.tagList.push(tag.tagId)
+                article.value.tagList.push(tag.tagId)
             }
             ArticleShow.value = true;
         })
@@ -241,7 +241,7 @@ function changeArticle(article: any) {
 function handleArticleAdd() {
     title.value = "新增文章"
     //清空
-    Article.value = {
+    article.value = {
         id: "",
         articleName: "",
         articleDescribe: "",
@@ -260,11 +260,11 @@ function handleArticleDelete() {
 function addArticleSubmit() {
     //设置标签列表
     const copyTagList = [];
-    for (const item of Article.value.tagList) {
+    for (const item of article.value.tagList) {
         copyTagList.push({ tagId: item })
     }
-    Article.value.tagList = copyTagList;
-    addArticle(Article.value).then(() => {
+    article.value.tagList = copyTagList;
+    addArticle(article.value).then(() => {
         ArticleShow.value = false;
         message.success("新增成功");
         init();
@@ -306,16 +306,11 @@ function handleUploadImage(insertImage: any, file: any) {
         message.error("上传图片失败")
     })
 }
-//文件上传成功的函数
-function uploadFileOnSuccess(data: any) {
-    //设置文章封面地址
-    Article.value.videoUrl = data.url;
-}
 // 监听分类变化,实时获取标签列表
 watch(
-    () => Article.value.sortId,
+    () => article.value.sortId,
     (newVal) => {
-        Article.value.tagList = [];
+        article.value.tagList = [];
         const sortResult = sortOptions.value.filter((item: { value: any }) => item.value === newVal)
         if (!newVal || !sortResult) {
             return;

@@ -43,9 +43,6 @@
           <n-form-item label="二创简介" path="ecSynopsis">
             <n-input v-model:value="erchuang.ecSynopsis" placeholder="请输入二创简介" />
           </n-form-item>
-          <n-form-item label="二创封面" path="ecAvater">
-            <ImgUpload @onSuccess="uploadImageOnSuccess"></ImgUpload>
-          </n-form-item>
         </n-form>
         <template #footer>
           <n-space>
@@ -173,10 +170,6 @@ function deleteErchuangSubmit() {
   }).catch(() => {
     message.error("删除失败")
   })
-}
-//图片上传成功
-function uploadImageOnSuccess(data: any) {
-
 }
 </script>
 
