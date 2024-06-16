@@ -6,7 +6,7 @@
         <div class="register-box hidden">
           <h1>注册</h1>
           <div class="avater_box">
-            <img :src="userInfo.avatar">
+            <n-avatar :size="48" round :src="userInfo.avatar"></n-avatar>
             <a class="pointer avater_select" @click="selectAvatar(openAvater)">选择头像</a>
           </div>
           <n-space vertical>
@@ -15,7 +15,7 @@
             <n-input type="password" show-password-on="mousedown" placeholder="密码" v-model:value="userInfo.passWord" />
             <n-input type="password" show-password-on="mousedown" placeholder="确认密码"
               v-model:value="userInfo.entryPassword" />
-            <div class="Sms_box"> 
+            <div class="Sms_box">
               <n-input type="text" placeholder="请填写手机号" autosize style="min-width: 70%"
                 v-model:value="userInfo.phone" />
               <a class="pointer code_select" @click="getPhoneCode()">发送</a>
@@ -57,82 +57,94 @@
         <button id="register" @click="goRegister">去注册</button>
       </div>
       <div class="selectAvater animate__animated animate__fadeInLeft" v-show="openAvater">
-        <img v-for="(imgUrl, index) in avaterUrls" :key="index" v-lazy="imgUrl.avaterUrl"
-          @click="exchangeAvater(imgUrl.avaterUrl)">
+        <n-avatar class="n-avatar" v-for="(imgUrl, index) in avaterUrls" :key="index" :size="48" :src="imgUrl.avaterUrl"
+          round @click="exchangeAvater(imgUrl.avaterUrl)" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { getCodeImg, getSms, login, register } from '@/api/login'
 import { listAvater } from '@/api/avater'
-import { useUserStore } from '@/store/user'
 import { setExpiresIn, setToken } from '@/utils/auth'
 import { useRouter } from "vue-router";
+import { useMessage, NInput, NSpace, NImage, NAvatar } from 'naive-ui'
+let { userStore } = useStore()
+import useStore from "@/store"
 import Loading from '@/components/CssLoadingView02.vue'
-import { useMessage, NInput, NSpace, NImage } from 'naive-ui'
+
+// 定义UserInfo的类型  
+interface UserInfoType {
+  userName: string;
+  nickName: string;
+  passWord: string;
+  entryPassword: string;
+  avatar: string;
+  phone: string;
+  sms: string;
+  code: string,
+  uuid: string,
+}
 //提示框
 const message = useMessage()
 //路由
 const router = useRouter()
-//Pinia
-const UserStore = useUserStore()
 //是否打开头像选择
 let openAvater = ref(false)
 //存储头像的地址列表
-let avaterUrls = ref([])
+let avaterUrls: any = ref([])
 //验证码
 let codeImg = ref("")
 //用户信息
-let userInfo = reactive({
+let userInfo = ref<UserInfoType>({
   userName: "",
   nickName: "",
   passWord: "",
-  entryPassword: null,
+  entryPassword: "",
   avatar: "",
   phone: "",
-  sms: null,
-  code: null,
-  uuid: null,
+  sms: "",
+  code: "",
+  uuid: "",
 })
 //是否加载Loading
 const loading = ref(false)
 onMounted(() => {
   //获取用户头像
-  listAvater({ pageSize: 999 }).then(res => {
+  listAvater({ pageSize: 999 }).then((res: any) => {
     avaterUrls.value = res.rows
   })
   getCode()
 })
 //获取注册短信验证码
 function getPhoneCode() {
-  getSms(userInfo.phone).then(res => {
+  getSms(userInfo.value.phone).then(res => {
     message.success(res.data)
   }).catch(error => {
     message.error(error)
   })
 }
 //用户选择头像
-function selectAvatar(isOpen) {
+function selectAvatar(isOpen: any) {
   openAvater.value = !isOpen
 }
 
 //获取验证码
 function getCode() {
-  getCodeImg().then(res => {
+  getCodeImg().then((res: any) => {
     codeImg.value = 'data:image/gif;base64,' + res.img
-    userInfo.uuid = res.uuid
+    userInfo.value.uuid = res.uuid
   })
 }
 //用户登录
 function userLogin() {
   loading.value = true;
-  const username = userInfo.userName.trim()
-  const password = userInfo.passWord
-  const code = userInfo.code
-  const uuid = userInfo.uuid
+  const username = userInfo.value.userName.trim()
+  const password = userInfo.value.passWord
+  const code = userInfo.value.code
+  const uuid = userInfo.value.uuid
 
   login(username, password, code, uuid).then(res => {
     let result = res.data
@@ -141,10 +153,10 @@ function userLogin() {
     //设置Token过期时间
     setExpiresIn(result.expires_in)
     //设置Token
-    UserStore.SET_TOKEN(result.access_token)
+    userStore.setToken(result.access_token)
     //提示用户信息
     message.success("登录成功")
-    router.push({ path: "/home" })
+    router.push({ path: "/menu" })
     loading.value = false;
   }).catch(error => {
     //提示用户信息
@@ -168,24 +180,25 @@ function userRegister() {
 }
 //清空表单
 function clearUserInfo() {
-  userInfo.userName = ""
-  userInfo.nickName = ""
-  userInfo.passWord = ""
-  userInfo.entryPassword = ""
-  userInfo.code = ""
-  userInfo.uuid = ""
-  userInfo.phone = ""
-  userInfo.avatar = ""
-  userInfo.code = ""
-  userInfo.sms = ""
+  userInfo.value = {
+    userName: "",
+    nickName: "",
+    passWord: "",
+    entryPassword: "",
+    avatar: "",
+    phone: "",
+    sms: "",
+    code: "",
+    uuid: "",
+  }
 }
 //前往登录
 function goLogin() {
   clearUserInfo()
-  var formBox = document.querySelector('.form-box');
-  var registerBox = document.querySelector('.register-box');
-  var loginBox = document.querySelector('.login-box');
-  var logBotton = loginBox.querySelector("button");
+  const formBox: any = document.querySelector('.form-box');
+  const registerBox: any = document.querySelector('.register-box');
+  const loginBox: any = document.querySelector('.login-box');
+  const logBotton: any = loginBox.querySelector("button");
   logBotton.style.color = "#FFC7C5"
   formBox.style.backgroundColor = "#FFC7C5";
   formBox.style.transform = 'translateX(0%)';
@@ -194,18 +207,18 @@ function goLogin() {
 }
 
 //切换用户头像
-function exchangeAvater(imgUrl) {
-  userInfo.avatar = imgUrl
+function exchangeAvater(imgUrl: any) {
+  userInfo.value.avatar = imgUrl
   openAvater.value = false
 }
 
 //前往注册
 function goRegister() {
   clearUserInfo()
-  var formBox = document.querySelector('.form-box');
-  var registerBox = document.querySelector('.register-box');
-  var loginBox = document.querySelector('.login-box');
-  var regBotton = registerBox.querySelector("button");
+  const formBox: any = document.querySelector('.form-box');
+  const registerBox: any = document.querySelector('.register-box');
+  const loginBox: any = document.querySelector('.login-box');
+  const regBotton: any = registerBox.querySelector("button");
 
   regBotton.style.color = "#C6D3FE";
   formBox.style.backgroundColor = "#C6D3FE";
@@ -267,21 +280,17 @@ function goRegister() {
       position: absolute;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: space-between;
       align-items: center;
       width: 50%;
       height: 100%;
-      z-index: 10;
+      z-index: 9;
       background-color: #fff;
       border-radius: 5px;
       overflow-y: auto;
 
-      img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        padding: 5px 5px 5px 0;
-        object-fit: cover;
+      .n-avatar {
+        margin: 10px;
       }
     }
   }
@@ -317,11 +326,6 @@ function goRegister() {
     justify-content: center;
     width: 100%;
     height: 60px;
-
-    img {
-      margin-right: 30px;
-      border-radius: 50%;
-    }
 
     .avater_select {
       display: flex;

@@ -1,7 +1,7 @@
 <template>
   <n-message-provider>
     <NavView v-if="navShow"></NavView>
-    <RouterView :class="!isShow ? '' : gloBalStore.switch ? 'bg_white' : 'bg_black'" />
+    <RouterView :class="!isShow ? '' : globalStore.switch ? 'bg_white' : 'bg_black'" />
     <FooterView v-if="navShow"></FooterView>
     <setUpView></setUpView>
   </n-message-provider>
@@ -9,14 +9,14 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { useGloBalStore } from '@/store/global'
+import { NMessageProvider } from 'naive-ui'
+let { globalStore } = useStore()
 import NavView from '@/components/NavView.vue'
 import FooterView from '@/components/FooterView.vue'
 import setUpView from '@/components/SetUpView.vue'
-import { NMessageProvider } from 'naive-ui'
+import useStore from "@/store"
 
 //全局仓库
-const gloBalStore = useGloBalStore()
 let isShow = ref(true)
 let navShow = ref(true)
 let router = useRouter()

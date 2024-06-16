@@ -1,5 +1,5 @@
 <template>
-  <div class="loading" v-show="gloBalStore.loading">
+  <div class="loading" v-show="globalStore.loading">
     <div class="alona">
       <img :src="AlonaUrl">
       <div class="wrapper">
@@ -10,11 +10,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useGloBalStore } from '@/store/global'
 import { onMounted, ref } from 'vue'
 import { useRouter } from "vue-router"
-import { useBgStore } from '@/store/bg'
-import { listBg } from '@/api/bg'
+import useStore from "@/store"
+let { globalStore } = useStore()
 //路由
 const router = useRouter()
 //加载阿罗那图片
@@ -24,24 +23,13 @@ const AlonaUrl = ref("https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/c
 //加载进度
 const Percentages = ref(0)
 //最大加载进度
-const Maxpercentages = ref(0)
+const Maxpercentages = ref(100)
 //定时器列表
-const timer = ref([])
-//全局仓库
-const gloBalStore = useGloBalStore()
-//背景仓库
-const BgStore = useBgStore()
+const timer: any = ref([])
 onMounted(() => {
-  //如果没有背景则去查询背景
-  if (BgStore.bgList.length <= 1) {
-    listBg().then((res) => {
-      BgStore.SET_BGLIST(res)
-    })
-    Maxpercentages.value = 100;
-  } else {
-    Maxpercentages.value = 20;
-  }
-  //定时切换阿罗那图片 1s
+  //获取背景信息
+  globalStore.setBgList()
+  //定时切换阿罗那图片
   timer.value.push(setInterval(() => {
     var rand = Math.random() * AlonaList.value.length | 0
     var newAlonaUrl = AlonaList.value[rand]
@@ -58,7 +46,7 @@ onMounted(() => {
       Percentages.value += 1;
     }
     if (Percentages.value >= 100) {
-      gloBalStore.changLoading(false)
+      globalStore.changLoading(false)
       for (const timerElement of timer.value) {
         clearInterval(timerElement)
       }

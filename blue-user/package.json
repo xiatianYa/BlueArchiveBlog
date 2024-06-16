@@ -21,8 +21,7 @@
     "vite-plugin-prismjs": "^0.0.11",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5",
-    "vue3-emoji": "^2.1.8",
-    "vue3-lazyload": "^0.3.8"
+    "vue3-emoji": "^2.1.8"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.2",

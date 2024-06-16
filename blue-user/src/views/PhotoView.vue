@@ -34,7 +34,7 @@
     <div class="photos">
       <div class="photo box_shadow pointer animate__animated animate__zoomIn" v-for="item in PhotoList" :key="item.id">
         <div class="photo_img">
-          <img v-lazy="item.photoUrl" class="box_shadow">
+          <img :src="item.photoUrl" class="box_shadow">
         </div>
         <div class="photo_msg">
           <span>
@@ -62,13 +62,14 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue"
-import { useBgStore } from '@/store/bg'
 import { listPhoto } from '@/api/photo'
 import { listSort } from '@/api/sort/photoSort'
+import useStore from "@/store"
+let { globalStore } = useStore()
 import Loading from '@/components/CssLoadingView01.vue'
 
 //视频背景
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("3") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (1)_20240426121632A003.mp4")
+const bgUrl = ref(globalStore.getBgByType("3"))
 //相册列表
 const PhotoList = ref([])
 //相册分类

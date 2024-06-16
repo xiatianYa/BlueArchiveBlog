@@ -18,12 +18,12 @@
         <div class="content_left animate__animated animate__slideInLeft">
           <div class="content_info box_shadow box_radius">
             <div class="info_backrougnd">
-              <img v-lazy="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/info.jpg'">
+              <img :src="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/info.jpg'">
             </div>
             <div class="info_avater" v-if="userStore.avatar">
               <a>
                 <span>
-                  <img v-lazy="userStore.avatar">
+                  <img :src="userStore.avatar">
                 </span>
               </a>
               <div class="info_name" v-if="userStore.nickName">
@@ -77,7 +77,7 @@
               <div class="recommend_row" v-for="article in recommendArticleList" @click="goArticlePreview(article.id)">
                 <div class="recommend_message pointer">
                   <div class="recommend_img">
-                    <img v-lazy="article.cover" />
+                    <img :src="article.cover" />
                   </div>
                   <div class="recommend_info">
                     <span class="article_name">{{ article.articleName }}</span>
@@ -204,16 +204,14 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useBgStore } from '@/store/bg'
 import { listNotice } from '@/api/notice'
 import { listArticle, searchArticleList, listByHome } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/store/user'
+let { globalStore, userStore } = useStore()
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import Loading from '@/components/CssLoadingView01.vue'
-
-const userStore = useUserStore()
+import useStore from "@/store"
 //路由
 const router = useRouter()
 //公告
@@ -223,7 +221,7 @@ const sortList = ref({})
 //推荐文章
 const recommendArticleList = ref({})
 //背景路径
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("0"))
+const bgUrl = ref(globalStore.getBgByType("0"))
 //搜索加载中
 const searchLoading = ref(false);
 //搜索显示

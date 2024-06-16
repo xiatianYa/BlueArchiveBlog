@@ -56,7 +56,7 @@
           </div>
           <div class="friend box_shadow pointer" v-for="friend in FriednList">
             <div class="friend_img">
-              <img v-lazy="friend.friendUrl">
+              <img :src="friend.friendUrl">
             </div>
             <div class="friend_name">{{ friend.friendName }}</div>
             <div class="friend_detail">{{ friend.friendIntroduce }}</div>
@@ -75,12 +75,13 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import { useBgStore } from '@/store/bg'
 import { listFriend } from '@/api/friend'
 import { listInfo } from '@/api/info'
 import { listWebsite } from '@/api/website'
+import useStore from "@/store"
+let { globalStore } = useStore()
 
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("4") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (2)_20240426121911A004.mp4")
+const bgUrl = ref(globalStore.getBgByType("4"))
 //友链列表
 const FriednList = ref([])
 //网站信息

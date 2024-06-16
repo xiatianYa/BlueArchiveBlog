@@ -1,5 +1,5 @@
 <template>
-    <div class="pixiv" :class="gloBalStore.switch ? 'bg_white' : 'bg_black'">
+    <div class="pixiv" :class="globalStore.switch ? 'bg_white' : 'bg_black'">
         <div class="pixiv_left">
             <n-message-provider>
                 <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex"
@@ -26,14 +26,14 @@
                 </div>
                 <div class="found_right">
                     <div class="category_img">
-                        <img v-lazy="pixiv.pixivAvater">
+                        <img :src="pixiv.pixivAvater">
                     </div>
                 </div>
             </div>
             <CommentDetail :comment-type="1" :common-id="pixivId" />
         </div>
         <div class="pixiv_right">
-            <div class="pixiv_msg" :class="gloBalStore.switch ? 'color_white' : 'color_black'">
+            <div class="pixiv_msg" :class="globalStore.switch ? 'color_white' : 'color_black'">
                 <div class="title">
                     <span>
                         弹幕列表
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <div style="border-radius: 10px;padding: 10px;" :class="gloBalStore.switch ? 'color_white' : 'color_black'">
+            <div style="border-radius: 10px;padding: 10px;" :class="globalStore.switch ? 'color_white' : 'color_black'">
                 <div class="pixiv_title">
                     <span>正片 ({{ chaptersIndex + '/' + episodeList.length }})</span>
                     <svg class="icon pointer" aria-hidden="true" @click="changSort" v-show="sort">
@@ -101,13 +101,12 @@ import { onMounted, ref } from "vue"
 import { useRouter } from 'vue-router'
 import { getTv } from '@/api/tv'
 import { listEpisode } from '@/api/episode'
-import { useGloBalStore } from '@/store/global'
 import { listMessage } from '@/api/pixivMessage'
 import Artplayer from "@/components/Artplayer.vue";
 import { NMessageProvider } from 'naive-ui'
 import CommentDetail from '@/components/CommentDetail.vue';
-
-const gloBalStore = useGloBalStore()
+import useStore from "@/store"
+let { globalStore } = useStore()
 const router = useRouter()
 //番剧ID
 const pixivId = ref()

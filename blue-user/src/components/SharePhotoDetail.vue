@@ -25,7 +25,7 @@
       <div class="photo_list">
         <div class="photo box_shadow" v-for="photo in photoList" :key="photo.id">
           <div class="photo_img">
-            <img v-lazy="photo.photoUrl" class="box_shadow">
+            <img :src="photo.photoUrl" class="box_shadow">
           </div>
           <div class="photo_msg">
             <span>

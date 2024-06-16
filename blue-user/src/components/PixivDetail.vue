@@ -20,7 +20,7 @@
     </div>
     <div class="pixiv_right">
       <div class="category_img">
-        <img v-lazy="pixiv.pixivAvater">
+        <img :src="pixiv.pixivAvater">
       </div>
     </div>
   </div>

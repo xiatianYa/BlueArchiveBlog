@@ -42,8 +42,8 @@
       </div>
     </div>
     <div class="preview_navigation">
-      <div class="navigation" ref="navigation">
-        <n-anchor affix :show-rail="showRail" :show-background="showBackground">
+      <div class="navigation">
+        <n-anchor affix :show-rail="showRail" :show-background="showBackground" style="width: 100%;">
           <div class="title">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-shu1"></use>
@@ -84,7 +84,6 @@ const article = ref({
   content: ""
 })
 //导航栏对象
-const navigation = ref()
 const showRail = ref(true)
 const showBackground = ref(true)
 
@@ -234,14 +233,16 @@ watch(article, async (newVal, oldVal) => {
   }
 
   .preview_navigation {
-    width: 15%;
+    width: 20%;
     box-sizing: border-box;
 
     .navigation {
       width: 100%;
       height: 100%;
+      padding: 40px;
       display: flex;
       justify-content: center;
+
       .title {
         display: flex;
         justify-content: center;
@@ -252,7 +253,7 @@ watch(article, async (newVal, oldVal) => {
 
   .preview_box {
     box-sizing: border-box;
-    width: 85%;
+    width: 80%;
 
     .video {
       width: 100%;

@@ -7,69 +7,69 @@
         </div>
         <div class="header_menu">
           <ul class="menus">
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/home">
+            <router-link :class="globalStore.switch ? 'color_white' : 'color_black'" class="li" to="/home">
               <svg aria-hidden="true" class="icon pointer">
                 <use xlink:href="#icon-shouye"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/home' ? 'select' : ''">首页</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/found">
+            <router-link :class="globalStore.switch ? 'color_white' : 'color_black'" class="li" to="/found">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-faxian"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/found' ? 'select' : ''">发现</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/sort">
+            <router-link :class="globalStore.switch ? 'color_white' : 'color_black'" class="li" to="/sort">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-fenlei"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/sort' ? 'select' : ''">分类</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/photo">
+            <router-link :class="globalStore.switch ? 'color_white' : 'color_black'" class="li" to="/photo">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiangce"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/photo' ? 'select' : ''">相册</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/friend">
+            <router-link :class="globalStore.switch ? 'color_white' : 'color_black'" class="li" to="/friend">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-jiqiren"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/friend' ? 'select' : ''">友链</span>
             </router-link>
-            <router-link v-show="UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li"
+            <router-link v-show="userStore.token" :class="globalStore.switch ? 'color_white' : 'color_black'" class="li"
               to="/chat">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-xiaoxi"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/chat' ? 'select' : ''">聊天室</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/leave">
+            <router-link :class="globalStore.switch ? 'color_white' : 'color_black'" class="li" to="/leave">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-tongzhi"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/leave' ? 'select' : ''">留言</span>
             </router-link>
-            <router-link :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="li" to="/music">
+            <router-link :class="globalStore.switch ? 'color_white' : 'color_black'" class="li" to="/music">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-erji"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/music' ? 'select' : ''">听歌</span>
             </router-link>
-            <router-link v-show="!UserStore.token" :class="gloBalStore.switch ? 'color_white' : 'color_black'"
+            <router-link v-show="!userStore.token" :class="globalStore.switch ? 'color_white' : 'color_black'"
               class="li" to="/user">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-wode"></use>
               </svg>
               <span class="pointer" :class="routerPath == '/user' ? 'select' : ''">登录</span>
             </router-link>
-            <div v-show="UserStore.token" class="nav-item">
-              <a :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
-                <img :src="UserStore.avatar">
-                <span>{{ UserStore.nickName }}</span>
+            <div v-show="userStore.token" class="nav-item">
+              <a :class="globalStore.switch ? 'color_white' : 'color_black'" class="alink" href="#">
+                <img :src="userStore.avatar">
+                <span>{{ userStore.nickName }}</span>
               </a>
               <div class="nav-drop-down-wrapper">
-                <div :class="gloBalStore.switch ? 'color_white' : 'color_black'" class="nav-drop-down">
+                <div :class="globalStore.switch ? 'color_white' : 'color_black'" class="nav-drop-down">
                   <div class="down-item" @click="go('/menu')">
                     <div class="down-item-wrapper">
                       <span>进入菜单</span>
@@ -91,16 +91,14 @@
 </template>
 <script setup lang="ts">
 import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
-import { useGloBalStore } from '@/store/global'
-import { useUserStore } from '@/store/user'
 import { useMessage } from 'naive-ui'
 import { useRouter } from "vue-router";
+import useStore from "@/store"
+let { globalStore,userStore } = useStore()
 //提示框
 const message = useMessage()
 //路由
 const router = useRouter()
-const UserStore = useUserStore()
-const gloBalStore = useGloBalStore()
 const scrollPosition = reactive({ x: 0, y: 0 })
 const NavShow = ref(true)
 const routerPath = ref("")
@@ -122,7 +120,7 @@ function updateScrollPosition() {
 }
 //用户退出登录
 function logOut() {
-  UserStore.LogOut()
+  userStore.logOut()
   message.success("退出成功")
 }
 //跳转路由

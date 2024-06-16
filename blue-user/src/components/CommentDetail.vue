@@ -20,7 +20,7 @@
           <div class="comment" v-for="comment in commentList" :key="comment.id">
             <div class="comment_left">
               <div class="user_avater">
-                <img v-lazy="comment.userAvatar">
+                <img :src="comment.userAvatar">
               </div>
             </div>
             <div class="comment_right">
@@ -35,7 +35,7 @@
               <div class="comment_reply" v-for="reply in comment.replyList" :key="reply.id">
                 <div class="reply_left">
                   <div class="reply_avatar">
-                    <img v-lazy="reply.userAvatar">
+                    <img :src="reply.userAvatar">
                   </div>
                 </div>
                 <div class="reply_right">

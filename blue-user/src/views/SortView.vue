@@ -50,18 +50,19 @@
 <script setup lang="ts">
 import SortDetail from '@/components/SortDetail.vue'
 import { onMounted, onUnmounted, ref } from "vue"
-import { useBgStore } from '@/store/bg'
 import { listSort } from '@/api/sort/sort'
 import { listTag } from '@/api/sort/tagSort'
 import { listByTagId } from '@/api/article'
 import { useRouter } from 'vue-router'
-import Loading from '@/components/CssLoadingView01.vue'
 import { useMessage } from 'naive-ui'
+import Loading from '@/components/CssLoadingView01.vue'
+import useStore from "@/store"
+let { globalStore } = useStore()
 //提示框
 const message = useMessage()
 
 const router = useRouter()
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("2") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (3)_20240426122240A005.mp4")
+const bgUrl = ref(globalStore.getBgByType("2"))
 //分类下标
 const sortIndex = ref(0)
 //标签下标

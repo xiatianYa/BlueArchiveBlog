@@ -10,7 +10,7 @@
                 v-for="toolDetail in tool.blueProgramToolList" @click="goHref(toolDetail.toolUrl)">
                 <div class="tool_left">
                     <div class="tool_img">
-                        <img v-lazy="toolDetail.toolAvater" />
+                        <img :src="toolDetail.toolAvater" />
                     </div>
                 </div>
                 <div class="tool_right">

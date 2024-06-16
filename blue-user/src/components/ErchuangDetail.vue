@@ -1,7 +1,7 @@
 <template>
     <div class="erchuang pointer box_shadow animate__animated animate__zoomIn" @click="goHref(erchuang.ecUrl)">
         <div class="erchuang_img">
-            <img v-lazy="erchuang.ecAvater">
+            <img :src="erchuang.ecAvater">
         </div>
         <div class="erchuang_title">
             <span>{{ erchuang.ecName }}</span>

@@ -60,13 +60,14 @@ import { listTv } from '@/api/tv'
 import { listErchuang } from '@/api/erchuang'
 import { listToolBySort } from '@/api/tool'
 import { useRouter } from 'vue-router'
-import { useBgStore } from '@/store/bg'
+import useStore from "@/store"
 import Loading from '@/components/CssLoadingView01.vue'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 import ToolDetail from '@/components/ToolDetail.vue'
+let { globalStore } = useStore()
 //背景视频
-const bgUrl = ref(useBgStore().GET_BGLIST_BYTYPE("1") || "http://47.113.197.48:9500/statics/2024/04/26/Untitled video - Made with Clipchamp (4)_20240426122822A006.mp4")
+const bgUrl = ref(globalStore.getBgByType("1"))
 //路由
 const router = useRouter()
 //番剧列表

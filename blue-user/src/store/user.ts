@@ -1,40 +1,61 @@
-import {defineStore} from 'pinia'
-import {getToken, removeToken} from '@/utils/auth'
-import {getInfo, refreshToken} from '@/api/login'
+import { defineStore } from 'pinia'
+import { getToken, removeToken } from '@/utils/auth'
+import { getInfo, refreshToken } from '@/api/login'
 
-export const useUserStore = defineStore('user', {
+export interface User {
+    //用户Token
+    token: string;
+    //用户id
+    id: number | null;
+    //用户昵称
+    nickName: string;
+    //用户头像
+    avatar: string;
+    //用户邮箱
+    email: string;
+    //用户手机号
+    phone: string;
+    //用户创建实际
+    createTime: string,
+    //用户权限
+    roles: [],
+    //用户身份
+    permissions: []
+}
+export const useUserStore =defineStore('user', {
+    // 真正存储数据的地方
+    state: (): User => {
+        return {
+            token: getToken() || "",
+            id: null,
+            nickName: '',
+            avatar: '',
+            email: '',
+            phone: '',
+            createTime: '',
+            roles: [],
+            permissions: []
+        }
+    },
     actions: {
-        SET_TOKEN(value: string) {
+        //设置Token
+        setToken(value: string) {
             this.token = value;
         },
-        SET_ID(value: string) {
-            this.id = value;
-        },
-        SET_NAME(value: string) {
-            this.nickName = value;
-        },
-        SET_AVATAR(value: string) {
-            this.avatar = value;
-        },
-        SET_ROLES(value: []) {
-            this.roles = value;
-        },
-        SET_PERMISSIONS(value: []) {
-            this.permissions = value;
-        },
-        CLEAR_USERINFO() {
-            this.id = ""
-            this.nickName = ""
-            this.avatar = ""
-            this.email = ""
-            this.phone = ""
-            this.createTime = ""
-            this.roles = []
-            this.permissions = []
-            this.token = ""
+        //清空用户信息
+        clearUserInfo() {
+            this.token = "",
+                this.id = null,
+                this.nickName = '',
+                this.avatar = '',
+                this.email = '',
+                this.phone = '',
+                this.createTime = '',
+                this.roles = [],
+                this.permissions = []
             removeToken()
         },
-        SET_USERINFO() {
+        setUserInfo() {
             //获取用户信息
             getInfo().then((res: any) => {
                 let user = res.user
@@ -50,9 +71,9 @@ export const useUserStore = defineStore('user', {
             //获取后刷新令牌过期时间
             refreshToken()
         },
-        LogOut() {
+        logOut() {
             //清除TOKEN 清除用户消息
-            this.id = ""
+            this.id = null
             this.nickName = ""
             this.avatar = ""
             this.phone = ""
@@ -64,18 +85,4 @@ export const useUserStore = defineStore('user', {
             removeToken()
         }
     },
-    // 真正存储数据的地方
-    state() {
-        return {
-            token: getToken() || "",
-            id: '',
-            nickName: '',
-            avatar: '',
-            email: '',
-            phone: '',
-            createTime: '',
-            roles: [],
-            permissions: []
-        }
-    }
 })

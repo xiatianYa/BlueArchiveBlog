@@ -19,69 +19,46 @@ import './permission'
 //adnimate.css 动画库
 import 'animate.css';
 
-// v-md-editor 编辑器的相关资源
-import Codemirror from 'codemirror';
-// mode
-import 'codemirror/mode/markdown/markdown';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/css/css';
-import 'codemirror/mode/htmlmixed/htmlmixed';
-import 'codemirror/mode/vue/vue';
-// edit
-import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/edit/closetag';
-import 'codemirror/addon/edit/matchbrackets';
-// placeholder
-import 'codemirror/addon/display/placeholder';
-// active-line
-import 'codemirror/addon/selection/active-line';
-// scrollbar
-import 'codemirror/addon/scroll/simplescrollbars';
-import 'codemirror/addon/scroll/simplescrollbars.css';
-// style
-import 'codemirror/lib/codemirror.css';
+//Pinia
+import { createPinia } from 'pinia'
+//路由
+import router from './router'
+
+
+//MarkDown编辑器的相关资源
+import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
-import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
-//快捷复制代码
-import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
-import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
-//任务列表
+//主题
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+//代码行号
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+//todo-list
 import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
 import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
-//表情
+//表情包
 import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
 import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
-//提示信息
-import createTipPlugin from '@kangc/v-md-editor/lib/plugins/tip/index';
-import '@kangc/v-md-editor/lib/plugins/tip/tip.css';
-// 代码行号
-import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
-import { createPinia } from 'pinia'
-import router from './router'
-import VueMarkdownEditor from '@kangc/v-md-editor';
-import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
-import Prism from 'prismjs';
+//代码高亮
+import createHighlightLinesPlugin from '@kangc/v-md-editor/lib/plugins/highlight-lines/index';
 
 
-VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
+// 引入所有语言包
+import hljs from 'highlight.js';
+
+VMdEditor.use(githubTheme, {
+  Hljs: hljs,
 });
-VueMarkdownEditor.Codemirror = Codemirror;
-VueMarkdownEditor.use(createLineNumbertPlugin());
-VueMarkdownEditor.use(createCopyCodePlugin())
-VueMarkdownEditor.use(createTodoListPlugin())
-VueMarkdownEditor.use(createEmojiPlugin())
-VueMarkdownEditor.use(createTipPlugin())
+VMdEditor.use(createLineNumbertPlugin());
+VMdEditor.use(createTodoListPlugin());
+VMdEditor.use(createEmojiPlugin());
+VMdEditor.use(createHighlightLinesPlugin());
 //创建App实际
 const app = createApp(App)
 
-//注册插件
-app.use(Lazyload, {
-  loading: "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/55e714c791f85970e3e942464ee56e8f353403349.gif",//可以指定加载中的图像
-});
 
 app.use(VueCalendarHeatmap)
 app.use(createPinia())
 app.use(router)
-app.use(VueMarkdownEditor);
+app.use(VMdEditor);
 app.mount('#app')

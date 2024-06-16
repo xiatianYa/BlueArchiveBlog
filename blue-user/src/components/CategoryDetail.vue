@@ -1,7 +1,7 @@
 <template>
   <div class="category_detail box_shadow pointer" @click="goArticlePreview(article.id)">
     <div class="category_img">
-      <img v-lazy="article.cover">
+      <img :src="article.cover">
     </div>
     <div class="category_time">
       <svg class="icon pointer" aria-hidden="true">

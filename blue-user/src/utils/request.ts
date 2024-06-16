@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getToken } from '@/utils/auth'
-import { useUserStore } from '@/store/user'
+import useStore from "@/store"
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
@@ -26,14 +26,14 @@ service.interceptors.request.use(config => {
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-    const UserStore = useUserStore()
+    let { userStore } = useStore()
     // 未设置状态码则默认成功状态
     const code: number = res.data.code || 200;
     // 获取错误信息
     const msg = res.data.msg
     if (code === 401) {
         //验证码失效 清空用户数据 和Token 前往登录页面
-        UserStore.CLEAR_USERINFO()
+        userStore.clearUserInfo()
         return Promise.reject(msg)
     } else if (code === 500) {
         return Promise.reject(msg)

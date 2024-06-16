@@ -21,11 +21,12 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-import { useUserStore } from '@/store/user'
 import { addMessage, listMessage } from '@/api/message'
 import CommentDetail from '@/components/CommentDetail.vue';
 import 'vue3-emoji/dist/style.css'
 import { useMessage } from 'naive-ui'
+import useStore from "@/store"
+let { userStore } = useStore()
 //提示框
 const message = useMessage()
 //定时器
@@ -36,7 +37,6 @@ const BarrageInfo = ref({
   content: "",
   barrageHeight: 0,
 })
-const UserStore = useUserStore()
 //自定义加载弹幕
 onMounted(() => {
   startTimer();
@@ -78,7 +78,7 @@ function addBarrage() {
   //创建一个img元素
   var BarrageImg = new Image();
   //设置img图片地址
-  BarrageImg.src = UserStore.avatar ||
+  BarrageImg.src = userStore.avatar ||
     "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/avater35.png";
   //设置Barrage的ClassName
   Barrage.className = "Barrage";
@@ -98,8 +98,8 @@ function addBarrage() {
   Barrage.style.top = BarrageHeight + "px";
 
   //添加到弹幕表中
-  BarrageInfo.value.userId = UserStore.id || 0;
-  BarrageInfo.value.userAvater = UserStore.avatar ||
+  BarrageInfo.value.userId = userStore.id || 0;
+  BarrageInfo.value.userAvater = userStore.avatar ||
     "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/avater35.png";
   BarrageInfo.value.barrageHeight = BarrageHeight;
   addMessage(BarrageInfo.value).then(res => {

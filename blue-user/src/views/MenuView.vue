@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="menu_right">
-      <UserView :user="UserStore" v-if="selectIndex === 0" />
+      <UserView :user="userStore" v-if="selectIndex === 0" />
       <ArticleView v-if="selectIndex === 1" />
       <FoundView v-if="selectIndex === 2" />
       <PhotoView v-if="selectIndex === 3" />
@@ -49,9 +49,9 @@ import ArticleView from '@/components/ShareArticleDetail.vue';
 import FoundView from '@/components/ShareFoundDetail.vue';
 import PhotoView from '@/components/SharePhotoDetail.vue';
 import MusicView from '@/components/ShareMusicDetail.vue'
-import { useUserStore } from '@/store/user'
+import useStore from "@/store"
+let { userStore } = useStore()
 
-const UserStore = useUserStore()
 const selectIndex = ref(0)
 function changSelect(index) {
   selectIndex.value = index;

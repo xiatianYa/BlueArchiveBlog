@@ -12,7 +12,7 @@
                     <div class="container">
                         <div class="item" v-for="user in onlineUserList">
                             <div class="item_avatar">
-                                <img v-lazy="user.userAvatar">
+                                <img :src="user.userAvatar">
                             </div>
                             <div class="item_info">
                                 <span>{{ user.userNickName }}</span>
@@ -24,7 +24,7 @@
             <div class="right">
                 <div class="title">
                     <div class="avatar">
-                        <img v-lazy="UserStore.avatar">
+                        <img :src="UserStore.avatar">
                     </div>
                     <div class="info">
                         <span>{{ UserStore.nickName }}</span>
@@ -36,7 +36,7 @@
                             <div class="item" v-for="message in messageList"
                                 :style="UserStore.id == message.fromUserId ? 'justify-content: end;flex-direction:row-reverse;' : ''">
                                 <div class="avatar">
-                                    <img v-lazy="message.fromUserAvatar">
+                                    <img :src="message.fromUserAvatar">
                                 </div>
                                 <div class="info"
                                     :style="UserStore.id == message.fromUserId ? 'padding-right: 10px;' : ''">
@@ -79,15 +79,11 @@
 import V3Emoji from "vue3-emoji";
 import { onMounted, ref,nextTick } from "vue"
 import { getUserList } from '@/api/chat'
-import { useUserStore } from '@/store/user'
-import { useSocketStore } from '@/store/socket'
 import { useMessage } from 'naive-ui'
+import useStore from "@/store"
+let { globalStore } = useStore()
 //提示框
 const message = useMessage()
-//用户仓库
-const UserStore = useUserStore()
-//socket仓库
-const socketStore = useSocketStore()
 //输入框消息
 const inputMsg = ref("")
 //socket连接对象
@@ -101,11 +97,11 @@ onMounted(() => {
 })
 //初始化
 function init() {
-    socket.value = socketStore.socket
+    socket.value = globalStore.socket
     //获得消息事件
     if (socket.value) {
         socket.value.onmessage = (env) => {
-            handleMessage(env)
+            // handleMessage(env)
         }
     } else {
         message.error("聊天室连接失败!")
@@ -117,27 +113,27 @@ function appendCommentChile(emajor) {
     inputMsg.value += emajor.emoji;
 }
 //处理服务端发送消息
-function handleMessage(env) {
-    //查看是什么类型的消息
-    const data = JSON.parse(env.data)
-    //群发聊天消息
-    if (data.type === 201) {
-        messageList.value.push(data)
-        //滑动到底部
-        nextTick(()=>{
-            var scrollableDiv = document.getElementById('scrollableDiv');
-            scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
-        })
-    } else if (data.type === 202) {
-        //离线消息
-        //获取用户列表
-        getOnLineUserList();
-    } else if (data.type === 203) {
-        //上线消息
-        //获取用户列表
-        getOnLineUserList();
-    }
-}
+// function handleMessage(env) {
+//     //查看是什么类型的消息
+//     const data = JSON.parse(env.data)
+//     //群发聊天消息
+//     if (data.type === 201) {
+//         messageList.value.push(data)
+//         //滑动到底部
+//         nextTick(()=>{
+//             var scrollableDiv = document.getElementById('scrollableDiv');
+//             scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+//         })
+//     } else if (data.type === 202) {
+//         //离线消息
+//         //获取用户列表
+//         getOnLineUserList();
+//     } else if (data.type === 203) {
+//         //上线消息
+//         //获取用户列表
+//         getOnLineUserList();
+//     }
+// }
 //获取在线用户列表
 function getOnLineUserList() {
     //获取用户列表
@@ -148,8 +144,8 @@ function getOnLineUserList() {
 //发送消息
 function sendMsg() {
     const data = {
-        fromUserAvatar: UserStore.avatar,
-        fromUserNickName: UserStore.nickName,
+        fromUserAvatar: userStore.avatar,
+        fromUserNickName: userStore.nickName,
         message: inputMsg.value
     }
     if (inputMsg.value.length <= 50 && inputMsg.value.length) {

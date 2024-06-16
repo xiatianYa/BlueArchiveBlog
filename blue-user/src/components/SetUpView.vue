@@ -8,12 +8,12 @@
         <svg class="icon pointer" aria-hidden="true" @click="goTop">
           <use xlink:href="#icon-huojian"></use>
         </svg>
-        <svg class="icon pointer" aria-hidden="true" v-show="gloBalStore.switch"
-          @click="changSwitch(!gloBalStore.switch)">
+        <svg class="icon pointer" aria-hidden="true" v-show="globalStore.switch"
+          @click="changSwitch(!globalStore.switch)">
           <use xlink:href="#icon-deng"></use>
         </svg>
-        <svg class="icon pointer" aria-hidden="true" v-show="!gloBalStore.switch"
-          @click="changSwitch(!gloBalStore.switch)">
+        <svg class="icon pointer" aria-hidden="true" v-show="!globalStore.switch"
+          @click="changSwitch(!globalStore.switch)">
           <use xlink:href="#icon-dengpao"></use>
         </svg>
       </div>
@@ -21,12 +21,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import {useGloBalStore} from '@/store/global'
-
-const gloBalStore = useGloBalStore()
+import useStore from "@/store"
+let { globalStore } = useStore()
 
 function changSwitch(value: boolean) {
-  gloBalStore.changSwitch(value)
+  globalStore.changSwitch(value)
 }
 
 function goTop() {
