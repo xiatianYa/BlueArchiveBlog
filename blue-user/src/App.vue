@@ -21,6 +21,7 @@ let isShow = ref(true)
 let navShow = ref(true)
 let router = useRouter()
 onMounted(() => {
+  //阻止浏览器默认行为
   window.addEventListener('keydown', handleKeyDown);
 })
 // 监听当前路由
@@ -40,7 +41,7 @@ watch(
   },
   { immediate: true }
 )
-function handleKeyDown(event) {
+function handleKeyDown(event: any) {
   if (event.key === 'F12') {
     // 阻止默认行为（但请注意，这可能不会总是有效）  
     event.preventDefault();

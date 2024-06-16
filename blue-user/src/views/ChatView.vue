@@ -24,24 +24,24 @@
             <div class="right">
                 <div class="title">
                     <div class="avatar">
-                        <img :src="UserStore.avatar">
+                        <img :src="userStore.avatar">
                     </div>
                     <div class="info">
-                        <span>{{ UserStore.nickName }}</span>
+                        <span>{{ userStore.nickName }}</span>
                     </div>
                 </div>
                 <div class="body">
                     <div class="container">
                         <div class="msg_list" id="scrollableDiv">
                             <div class="item" v-for="message in messageList"
-                                :style="UserStore.id == message.fromUserId ? 'justify-content: end;flex-direction:row-reverse;' : ''">
+                                :style="userStore.id == message.fromUserId ? 'justify-content: end;flex-direction:row-reverse;' : ''">
                                 <div class="avatar">
                                     <img :src="message.fromUserAvatar">
                                 </div>
                                 <div class="info"
-                                    :style="UserStore.id == message.fromUserId ? 'padding-right: 10px;' : ''">
+                                    :style="userStore.id == message.fromUserId ? 'padding-right: 10px;' : ''">
                                     <div class="user_name"
-                                        :style="UserStore.id == message.fromUserId ? 'justify-content: end;' : ''">
+                                        :style="userStore.id == message.fromUserId ? 'justify-content: end;' : ''">
                                         <span style="text-align: end;">
                                             {{ message.fromUserNickName }}
                                         </span>
@@ -77,11 +77,11 @@
 
 <script setup lang="ts">
 import V3Emoji from "vue3-emoji";
-import { onMounted, ref,nextTick } from "vue"
+import { onMounted, ref, nextTick } from "vue"
 import { getUserList } from '@/api/chat'
 import { useMessage } from 'naive-ui'
 import useStore from "@/store"
-let { globalStore } = useStore()
+let { globalStore, userStore } = useStore()
 //提示框
 const message = useMessage()
 //输入框消息

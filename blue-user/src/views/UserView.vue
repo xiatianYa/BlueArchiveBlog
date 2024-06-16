@@ -73,7 +73,9 @@ import { useRouter } from "vue-router";
 import { useMessage, NInput, NSpace, NImage, NAvatar } from 'naive-ui'
 let { userStore } = useStore()
 import useStore from "@/store"
+let { globalStore } = useStore()
 import Loading from '@/components/CssLoadingView02.vue'
+
 
 // 定义UserInfo的类型  
 interface UserInfoType {
@@ -156,8 +158,10 @@ function userLogin() {
     userStore.setToken(result.access_token)
     //提示用户信息
     message.success("登录成功")
-    router.push({ path: "/menu" })
     loading.value = false;
+    //初始化socket连接
+    globalStore.initSocket();
+    router.push({ path: "/menu" })
   }).catch(error => {
     //提示用户信息
     message.error(error)

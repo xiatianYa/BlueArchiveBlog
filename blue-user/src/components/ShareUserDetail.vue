@@ -117,14 +117,23 @@ const props = defineProps({
         required: true,
     }
 })
-import {onMounted, ref} from 'vue'
-import {updateUserProfile, updateUserPwd} from '@/api/user'
-import {selectUserHeatMapData} from '@/api/charts'
+interface userPwdType {
+    oldPwd: string;
+    newPwd: string;
+    entryPwd: string;
+}
+import { onMounted, ref } from 'vue'
+import { updateUserProfile, updateUserPwd } from '@/api/user'
+import { selectUserHeatMapData } from '@/api/charts'
 import { useMessage } from 'naive-ui'
 //提示框
 const message = useMessage()
 
-const userPwd = ref({})
+const userPwd = ref<userPwdType>({
+    oldPwd: "",
+    newPwd: "",
+    entryPwd: ""
+})
 const userHeatMapData = ref([])
 onMounted(() => {
     selectUserHeatMapData().then(res => {
@@ -166,7 +175,11 @@ function submitPwd() {
     }
     updateUserPwd(userPwd.value.oldPwd, userPwd.value.newPwd).then(() => {
         message.success("修改密码成功")
-        userPwd.value = {}
+        userPwd.value = {
+            oldPwd: "",
+            newPwd: "",
+            entryPwd: ""
+        }
     }).catch((error) => {
         message.error(error)
     })

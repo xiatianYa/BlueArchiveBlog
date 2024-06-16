@@ -129,7 +129,7 @@ onMounted(() => {
 })
 //初始化
 function init() {
-    listSort().then(res => {
+    listSort().then((res:any) => {
         sortOptions.value = res.rows.map((item: any) => {
             return {
                 value: item.id,

@@ -163,15 +163,13 @@ function init() {
   listPhotoByUser().then(res => {
     photoList.value = res.data
   })
-  listSort().then(res => {
+  listSort().then((res:any) => {
     photoOptions.value = res.rows.map((item: any) => {
       return {
         value: item.id,
         label: item.sortName
       }
     });
-    console.log(photoOptions.value);
-
   })
 }
 //打开添加修改相册
