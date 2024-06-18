@@ -98,7 +98,7 @@ import { onMounted, ref, computed } from 'vue'
 import { addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto } from '@/api/photo'
 import { listSort } from '@/api/sort/photoSort'
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NEllipsis, type FormInst } from 'naive-ui'
-import ImgUpload from '@/components/ImgUpload/index.vue'
+import ImgUpload from '@/components/imgUpload/index.vue'
 //表单
 const formRef = ref<FormInst>()
 // 定义Photo的类型  

@@ -27,7 +27,6 @@ public class ChatServiceImpl implements ChatService {
         if (StringUtils.isNull(userid)){
             throw new ServiceException("用户信息失效,请重新登录!");
         }
-        userIdList.remove(userid);
         //返回对象列表
         List<UserVo> userVoList=new ArrayList<>();
         //获取用户信息

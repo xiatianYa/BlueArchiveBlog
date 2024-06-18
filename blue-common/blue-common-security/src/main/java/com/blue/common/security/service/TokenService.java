@@ -97,8 +97,8 @@ public class TokenService {
         LoginUser user = null;
         try {
             if (StringUtils.isNotEmpty(token)) {
-                String userkey = JwtUtils.getUserKey(token);
-                user = redisService.getCacheObject(getTokenKey(userkey));
+                String userKey = JwtUtils.getUserKey(token);
+                user = redisService.getCacheObject(getTokenKey(userKey));
                 return user;
             }
         } catch (Exception e) {

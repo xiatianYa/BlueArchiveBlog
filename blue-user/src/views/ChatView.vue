@@ -10,7 +10,8 @@
                         在线列表
                     </span>
                     <div class="container">
-                        <div class="item" v-for="user in onlineUserList">
+                        <div class="item" v-for="user in globalStore.onlineUserList"
+                            v-show="user.userId !== userStore.id">
                             <div class="item_avatar">
                                 <img :src="user.userAvatar">
                             </div>
@@ -33,7 +34,7 @@
                 <div class="body">
                     <div class="container">
                         <div class="msg_list" id="scrollableDiv">
-                            <div class="item" v-for="message in messageList"
+                            <div class="item" v-for="message in globalStore.chatHistory"
                                 :style="userStore.id == message.fromUserId ? 'justify-content: end;flex-direction:row-reverse;' : ''">
                                 <div class="avatar">
                                     <img :src="message.fromUserAvatar">
@@ -56,8 +57,7 @@
                         </div>
                         <div class="chat_input">
                             <div class="emoji">
-                                <V3Emoji :disable-group="disableGroup" @click-emoji="appendCommentChile"
-                                    :options-name="optionsName" :fulldata="true" :recent="true" />
+                                <V3Emoji @click-emoji="appendCommentChile" :fulldata="true" :recent="true" />
                             </div>
                             <div class="chat_box">
                                 <input class="chat_txt" type="text" @keydown.enter="sendMsg()" v-model="inputMsg">
@@ -77,8 +77,7 @@
 
 <script setup lang="ts">
 import V3Emoji from "vue3-emoji";
-import { onMounted, ref, nextTick } from "vue"
-import { getUserList } from '@/api/chat'
+import { onMounted, ref } from "vue"
 import { useMessage } from 'naive-ui'
 import useStore from "@/store"
 let { globalStore, userStore } = useStore()
@@ -86,70 +85,23 @@ let { globalStore, userStore } = useStore()
 const message = useMessage()
 //输入框消息
 const inputMsg = ref("")
-//socket连接对象
-const socket = ref()
-//在线用户列表
-const onlineUserList = ref([])
-//接受的消息列表
-const messageList = ref([])
 onMounted(() => {
-    init();
 })
-//初始化
-function init() {
-    socket.value = globalStore.socket
-    //获得消息事件
-    if (socket.value) {
-        socket.value.onmessage = (env) => {
-            // handleMessage(env)
-        }
-    } else {
-        message.error("聊天室连接失败!")
-    }
-    getOnLineUserList();
-}
 //处理表情
-function appendCommentChile(emajor) {
+function appendCommentChile(emajor: any) {
     inputMsg.value += emajor.emoji;
-}
-//处理服务端发送消息
-// function handleMessage(env) {
-//     //查看是什么类型的消息
-//     const data = JSON.parse(env.data)
-//     //群发聊天消息
-//     if (data.type === 201) {
-//         messageList.value.push(data)
-//         //滑动到底部
-//         nextTick(()=>{
-//             var scrollableDiv = document.getElementById('scrollableDiv');
-//             scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
-//         })
-//     } else if (data.type === 202) {
-//         //离线消息
-//         //获取用户列表
-//         getOnLineUserList();
-//     } else if (data.type === 203) {
-//         //上线消息
-//         //获取用户列表
-//         getOnLineUserList();
-//     }
-// }
-//获取在线用户列表
-function getOnLineUserList() {
-    //获取用户列表
-    getUserList().then(res => {
-        onlineUserList.value = res.data;
-    })
 }
 //发送消息
 function sendMsg() {
+    //消息数据
     const data = {
         fromUserAvatar: userStore.avatar,
         fromUserNickName: userStore.nickName,
         message: inputMsg.value
     }
+    //校验数据
     if (inputMsg.value.length <= 50 && inputMsg.value.length) {
-        socket.value.send(JSON.stringify(data))
+
     } else {
         message.warning("消息长度不合规")
     }

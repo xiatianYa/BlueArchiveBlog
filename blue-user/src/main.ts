@@ -3,8 +3,6 @@ import App from './App.vue'
 //引入vue
 import { createApp } from 'vue'
 
-//引入图片懒加载插件
-import Lazyload from "vue3-lazyload";
 //Github热力图
 import VueCalendarHeatmap from 'vue3-calendar-heatmap'
 

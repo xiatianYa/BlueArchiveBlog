@@ -7,14 +7,14 @@
   </n-message-provider>
 </template>
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
-import { RouterView, useRouter } from 'vue-router'
-import { NMessageProvider } from 'naive-ui'
-let { globalStore } = useStore()
 import NavView from '@/components/NavView.vue'
 import FooterView from '@/components/FooterView.vue'
 import setUpView from '@/components/SetUpView.vue'
 import useStore from "@/store"
+let { globalStore, userStore } = useStore()
+import { ref, watch, onMounted } from 'vue'
+import { RouterView, useRouter } from 'vue-router'
+import { NMessageProvider } from 'naive-ui'
 
 //全局仓库
 let isShow = ref(true)
@@ -23,6 +23,10 @@ let router = useRouter()
 onMounted(() => {
   //阻止浏览器默认行为
   window.addEventListener('keydown', handleKeyDown);
+  //如果用户已登录 并且socket为连接 则重新连接
+  if (!globalStore.socket && userStore.token) {
+    globalStore.initSocket(userStore.token)
+  }
 })
 // 监听当前路由
 watch(

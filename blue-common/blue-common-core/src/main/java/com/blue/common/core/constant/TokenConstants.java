@@ -21,4 +21,9 @@ public class TokenConstants {
      */
     public final static String SECRET = "abcdefghijklmnopqrstuvwxyz";
 
+    /**
+     * Redis存储用户信息Key前缀
+     */
+    public static final String REDIS_USER_KEY_PREFIX = "login_tokens";
+
 }

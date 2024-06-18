@@ -18,4 +18,8 @@ public class ChatConstants {
      * 上线消息
      */
     public static final Integer OnLineType = 203;
+    /**
+     * 登录成功消息
+     */
+    public static final Integer LoginSuccessType = 204;
 }

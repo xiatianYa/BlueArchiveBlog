@@ -87,7 +87,7 @@ import { onMounted, ref, computed } from 'vue'
 import { addErchuang, delErchuang, getErchuang, listErchuangByUser, updateErchuang } from '@/api/erchuang'
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NEllipsis, type FormInst } from 'naive-ui'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
-import ImgUpload from '@/components/ImgUpload/index.vue'
+import ImgUpload from '@/components/imgUpload/index.vue'
 // 定义Erchuang的类型  
 interface ErchuangType {
   id: number | null;

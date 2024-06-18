@@ -63,8 +63,8 @@ import { listSort } from '@/api/musicSort'
 import { bySortList, addMusic } from '@/api/music'
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NEllipsis, NSelect, type FormInst } from 'naive-ui'
 import MusicDetail from "@/components/MusicDetail.vue";
-import ImgUpload from '@/components/ImgUpload/index.vue'
-import FileUpload from '@/components/FileUpload/index.vue'
+import ImgUpload from '@/components/imgUpload/index.vue'
+import FileUpload from '@/components/fileUpload/index.vue'
 // 定义Music的类型  
 interface MusicType {
     id: number | null;

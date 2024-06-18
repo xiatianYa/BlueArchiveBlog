@@ -120,7 +120,10 @@ function updateScrollPosition() {
 }
 //用户退出登录
 function logOut() {
+  //清除本地缓存
   userStore.logOut()
+  //清除Socket连接
+  globalStore.closeSocket()
   message.success("退出成功")
 }
 //跳转路由

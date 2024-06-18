@@ -154,19 +154,21 @@ function userLogin() {
     setToken(result.access_token)
     //设置Token过期时间
     setExpiresIn(result.expires_in)
-    //设置Token
+    //设置本地仓库Token
     userStore.setToken(result.access_token)
     //提示用户信息
     message.success("登录成功")
-    loading.value = false;
     //初始化socket连接
     globalStore.initSocket();
+    //关闭加载
+    loading.value = false;
     router.push({ path: "/menu" })
   }).catch(error => {
     //提示用户信息
     message.error(error)
-    getCode()
+    //关闭加载
     loading.value = false;
+    getCode()
   })
 }
 //用户注册
