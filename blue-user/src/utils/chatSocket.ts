@@ -1,5 +1,6 @@
 let wsUrl = "ws://127.0.0.1:8080/websocket/server/"
 import useStore from "@/store"
+import chatEnum from "@/utils/chatEnum"
 import { createDiscreteApi } from "naive-ui";
 import { getUserList } from '@/api/chat'
 const Websocket: any = {
@@ -53,18 +54,18 @@ const Websocket: any = {
             //处理消息
             switch (data.type) {
                 //全局群聊消息
-                case 201:
+                case chatEnum.ChatGroupType:
                     globalStore.chatHistory.push(data);
                     break;
                 //离线消息
-                case 202:
-                case 203:
+                case chatEnum.OffLineType:
+                case chatEnum.OnLineType:
                     //重新获取用户列表
                     getUserList().then(res => {
                         globalStore.onlineUserList = res.data;
                     })
                     break;
-                case 204:
+                case chatEnum.LoginSuccessType:
                     //清理定时器任务
                     clearInterval(Websocket.reconnect_timer)
                     //初始化参数
@@ -109,13 +110,16 @@ const Websocket: any = {
             }
         }
         //连接发生错误
-        Websocket.websocket.onerror = function () { }
+        Websocket.websocket.onerror = function () {
+
+        }
         //连接成功
         Websocket.websocket.onopen = function () {
         }
     },
     // 发送数据
-    send: () => {
+    send: (data: any) => {
+        Websocket.websocket.send(data)
     },
     // 断开连接
     close: (isReonnect: boolean) => {

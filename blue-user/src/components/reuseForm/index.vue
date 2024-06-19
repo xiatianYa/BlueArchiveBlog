@@ -3,7 +3,6 @@
         <n-form :ref="formRef" :model="formData" :rules="rules" :label-placement="labelPlacement"
             :label-width="labelWidth" require-mark-placement="right-hanging" :size="formSize">
             <template v-for="item of formOption" :key="item.props">
-
                 <!-- 插槽 -->
                 <n-form-item v-if="item.type === 'slot'" :label="item.label" :path="item.props">
                     <slot :name="item.slotName"></slot>
@@ -38,7 +37,6 @@
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
-
             </template>
         </n-form>
     </n-card>

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SendMessageVo {
+public class sendMessageVo {
     //发送者
     private Long fromUserId;
     //发送者头像
@@ -19,7 +19,7 @@ public class SendMessageVo {
     //发送者昵称
     private String fromUserNickName;
     //消息体
-    private String message;
+    private String data;
     //消息类型
     private Integer type;
 }

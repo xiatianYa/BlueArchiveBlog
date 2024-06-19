@@ -77,9 +77,10 @@
 
 <script setup lang="ts">
 import V3Emoji from "vue3-emoji";
+import useStore from "@/store"
+import chatEnum from "@/utils/chatEnum"
 import { onMounted, ref } from "vue"
 import { useMessage } from 'naive-ui'
-import useStore from "@/store"
 let { globalStore, userStore } = useStore()
 //提示框
 const message = useMessage()
@@ -95,13 +96,15 @@ function appendCommentChile(emajor: any) {
 function sendMsg() {
     //消息数据
     const data = {
+        fromUserId: userStore.id,
         fromUserAvatar: userStore.avatar,
         fromUserNickName: userStore.nickName,
-        message: inputMsg.value
+        data: inputMsg.value,
+        type: chatEnum.ChatGroupType
     }
     //校验数据
     if (inputMsg.value.length <= 50 && inputMsg.value.length) {
-
+        globalStore.sendMessage(JSON.stringify(data));
     } else {
         message.warning("消息长度不合规")
     }

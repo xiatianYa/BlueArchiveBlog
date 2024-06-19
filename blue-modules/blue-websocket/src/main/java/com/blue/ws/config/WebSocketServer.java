@@ -3,24 +3,19 @@ package com.blue.ws.config;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.blue.common.core.constant.ChatConstants;
-import com.blue.common.core.constant.Constants;
 import com.blue.common.core.constant.TokenConstants;
 import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.JwtUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.redis.service.RedisService;
-import com.blue.common.security.service.TokenService;
 import com.blue.system.api.model.LoginUser;
-import com.blue.ws.entry.SendMessageVo;
+import com.blue.ws.entry.receiveMessageVo;
+import com.blue.ws.entry.sendMessageVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
-import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -28,8 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.alibaba.nacos.api.common.Constants.ACCESS_TOKEN;
 
 
 /**
@@ -70,13 +63,13 @@ public class WebSocketServer {
         //向全体用户发送上线消息
         sendOnLineMessage(loginUser);
         //给自己发登录成功的消息
-        SendMessageVo sendMessageVo = SendMessageVo.builder().
+        sendMessageVo sendMessageVo = com.blue.ws.entry.sendMessageVo.builder().
                 fromUserId(loginUser.getUserid()).
                 toUserId(loginUser.getUserid()).
                 fromUserAvatar(loginUser.getSysUser().
                         getAvatar()).
                 fromUserNickName(loginUser.getUsername()).
-                message("登录成功").type(ChatConstants.LoginSuccessType)
+                data("登录成功").type(ChatConstants.LoginSuccessType)
                 .build();
         sendMessageByUser(sendMessageVo);
     }
@@ -103,17 +96,17 @@ public class WebSocketServer {
     @OnMessage
     public void onMessage(String message, Session session) {
         //Json实例化对象
-        SendMessageVo sendMessageVo = JSONObject.parseObject(message, SendMessageVo.class);
-        if(StringUtils.isNull(sendMessageVo)){
+        receiveMessageVo receiveMessageVo = JSONObject.parseObject(message, com.blue.ws.entry.receiveMessageVo.class);
+        if(StringUtils.isNull(receiveMessageVo)){
             throw new ServiceException("消息不能为空");
         }
-        //设置消息类型
-        sendMessageVo.setType(ChatConstants.ChatGroupType);
-        //设置用户ID
-        //向所有在线用户发送消息
-        for (WebSocketServer item : webSocketMap.values()) {
-            item.sendMessageAll(JSONObject.toJSONString(sendMessageVo));
-        }
+        //判断消息类型
+        switch (receiveMessageVo.getType()){
+            case 201:
+                //群聊
+                sendMessageAll(receiveMessageVo);
+                break;
+            }
     }
 
     /**
@@ -131,7 +124,7 @@ public class WebSocketServer {
     /**
      * 实现服务器主动推送消息(指定用户)
      */
-    public void sendMessageByUser(SendMessageVo sendMessageVo){
+    public void sendMessageByUser(sendMessageVo sendMessageVo){
         try {
             //Json实例化对象
             String jsonString = JSONObject.toJSONString(sendMessageVo);
@@ -145,6 +138,12 @@ public class WebSocketServer {
         } catch (IOException e) {
             throw new ServiceException("消息发送失败"+e);
         }
+    }
+    /**
+     * 消息发送失败(推送给发送者)
+     */
+    public void onError(Object error) {
+
     }
     /**
      * 获取所有用户Id
@@ -161,9 +160,9 @@ public class WebSocketServer {
      * 给所有在线用户发送有人离线消息
      */
     public static synchronized void sendOffLineMessage(Long UserId){
-        SendMessageVo sendMessageVo = new SendMessageVo();
+        sendMessageVo sendMessageVo = new sendMessageVo();
         sendMessageVo.setType(ChatConstants.OffLineType);
-        sendMessageVo.setMessage(String.valueOf(UserId));
+        sendMessageVo.setData(String.valueOf(UserId));
         webSocketMap.forEach((k,v)->{
             try {
                 v.session.getBasicRemote().sendText(JSONObject.toJSONString(sendMessageVo));
@@ -176,12 +175,12 @@ public class WebSocketServer {
      * 给所有在线用户发送有人上线消息
      */
     public static synchronized void sendOnLineMessage(LoginUser loginUser){
-        SendMessageVo sendMessageVo = new SendMessageVo();
+        sendMessageVo sendMessageVo = new sendMessageVo();
         sendMessageVo.setType(ChatConstants.OnLineType);
         sendMessageVo.setFromUserId(loginUser.getUserid());
         sendMessageVo.setFromUserAvatar(loginUser.getSysUser().getAvatar());
         sendMessageVo.setFromUserNickName(loginUser.getSysUser().getNickName());
-        sendMessageVo.setMessage(loginUser.getUsername()+"上线了");
+        sendMessageVo.setData(loginUser.getUsername()+"上线了");
         webSocketMap.forEach((k,v)->{
             try {
                 v.session.getBasicRemote().sendText(JSONObject.toJSONString(sendMessageVo));
