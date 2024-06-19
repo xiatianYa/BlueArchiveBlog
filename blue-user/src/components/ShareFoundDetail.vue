@@ -24,6 +24,7 @@
     <div class="right animate__animated animate__fadeInRight">
       <div class="found_list">
         <ErchuangDetail :erchuang="erchuang" v-for="erchuang in ErchuangList"></ErchuangDetail>
+        <reuse-Pagination></reuse-Pagination>
       </div>
     </div>
     <!-- 添加修改框 -->
@@ -88,6 +89,7 @@ import { addErchuang, delErchuang, getErchuang, listErchuangByUser, updateErchua
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NEllipsis, type FormInst } from 'naive-ui'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import ImgUpload from '@/components/imgUpload/index.vue'
+import reusePagination from '@/components/reusePagination/index.vue'
 // 定义Erchuang的类型  
 interface ErchuangType {
   id: number | null;

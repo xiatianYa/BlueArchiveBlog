@@ -1,6 +1,6 @@
 <template>
-    <n-card style="width: 600px" :bordered="false" role="dialog" aria-modal="true">
-        <n-form :ref="formRef" :model="formData" :rules="rules" :label-placement="labelPlacement"
+    <n-card style="width: 500px" :bordered="false" role="dialog" aria-modal="true">
+        <n-form ref="formRef" :model="formData" :rules="rules" :label-placement="labelPlacement"
             :label-width="labelWidth" require-mark-placement="right-hanging" :size="formSize">
             <template v-for="item of formOption" :key="item.props">
                 <!-- 插槽 -->
@@ -9,17 +9,17 @@
                 </n-form-item>
                 <!-- 输入框 -->
                 <n-form-item v-if="item.type === 'input'" :label="item.label" :path="item.props">
-                    <n-input v-model="formData[item.props]" :placeholder="item.placeholder"
+                    <n-input v-model:value="formData[item.props]" :placeholder="item.placeholder"
                         :disabled="typeof item.isDisabled === 'function' ? item.isDisabled(formData) : item.isDisabled"
                         :clearable="item.clearable" :type="item.inputType" :maxlength="item.maxlength"
-                        :minlength="item.minlength" @input="(val: any) => onInput(val, item.props)" />
+                        :minlength="item.minlength" />
                 </n-form-item>
                 <!-- 下拉框 -->
                 <n-form-item v-if="item.type === 'select'" :label="item.label" :path="item.props">
                     <n-select v-model:value="formData[item.props]" :placeholder="item.placeholder"
-                        :filterable="item.filterable" :options="item.options"
+                        :filterable="item.filterable" :options="formItemOption[item.selectProps]"
                         :disabled="typeof item.isDisabled === 'function' ? item.isDisabled(formData) : item.isDisabled"
-                        clearable @change="(val: any) => onSelectChange(item.props, val)" />
+                        clearable />
                 </n-form-item>
                 <!-- 日期选择器 -->
                 <n-form-item v-if="item.type === 'date'" :label="item.label" :path="item.props">
@@ -29,7 +29,7 @@
                 </n-form-item>
                 <!-- 单选框 -->
                 <n-form-item v-if="item.type === 'redio'" :label="item.label" :path="item.props">
-                    <n-radio-group v-model:value="formData[item.props]" @change="onRadioChange">
+                    <n-radio-group v-model:value="formData[item.props]">
                         <n-space>
                             <n-radio v-for="option in item.options" :key="option.value" :value="option.value">
                                 {{ option.label }}
@@ -37,18 +37,21 @@
                         </n-space>
                     </n-radio-group>
                 </n-form-item>
+                <!-- 多选框 -->
+                <n-form-item v-if="item.type === 'mredio'" :label="item.label" :path="item.props">
+                    <n-tree-select multiple cascade checkable check-strategy="parent"
+                        :options="formItemOption[item.selectProps]" placeholder="请输入文章标签"
+                        :default-value="formData[item.props]" @update:value="item.handleUpdate" />
+                </n-form-item>
             </template>
         </n-form>
     </n-card>
 </template>
 <script lang="ts" setup>
-import { NCard, NInput, NForm, NFormItem, NSelect, NDatePicker, NRadioGroup, NSpace, NRadio } from 'naive-ui'
-import { getCurrentInstance } from 'vue';
+import { NCard, NInput, NForm, NFormItem, NSelect, NDatePicker, NRadioGroup, NSpace, NRadio, NTreeSelect } from 'naive-ui'
+import { ref, defineExpose, getCurrentInstance } from 'vue';
 import { type CustomType } from '@/types';
 
-type formSizeType = 'small' | 'medium' | 'large';
-type labelPlacementType = "left" | "top";
-type labelWidthType = number | string | 'auto';
 interface Props {
     // 表单ref
     formRef?: string;
@@ -70,7 +73,13 @@ interface Props {
     labelPlacement?: labelPlacementType;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+type formSizeType = 'small' | 'medium' | 'large';
+type labelPlacementType = "left" | "top";
+type labelWidthType = number | string | 'auto';
+// 表单对象
+let formRef = ref<any | null>(null)
+// props参数
+let props = withDefaults(defineProps<Props>(), {
     formRef: "formRef",
     formData: () => { return {} },
     rules: () => { return {} },
@@ -80,34 +89,12 @@ const props = withDefaults(defineProps<Props>(), {
     formSize: "medium",
     labelPosition: "top",
 })
-let emits = defineEmits<{
-    (e: 'onSelectChange', data: { propsStr: string, val: any }): void,
-    (e: 'onRadioChange', value: any): void,
-    (e: 'onInput', data: { value: string, props: string }): void
-}>()
-
-// 输入框输入
-const onInput = (value: string, props: string) => {
-    emits("onInput", { value, props })
-}
-
-
-// 下拉切换
-const onSelectChange = (propsStr: string, val: any) => {
-    emits("onSelectChange", { propsStr, val })
-}
-// 单选框切换
-const onRadioChange = (value: any) => {
-    emits("onRadioChange", value)
-}
 
 // 获取vue实例
 const { proxy }: any = getCurrentInstance()
 // 表单实例
 const ruleFormRef = () => proxy.$refs[props.formRef];
-
-defineExpose({
-    ruleFormRef
-})
+// 暴露表单对象
+defineExpose({ ruleFormRef })
 </script>
 <style lang="scss" scoped></style>

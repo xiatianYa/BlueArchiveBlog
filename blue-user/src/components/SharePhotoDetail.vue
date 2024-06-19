@@ -42,6 +42,7 @@
           </div>
         </div>
       </div>
+      <reusePagination></reusePagination>
     </div>
     <!-- 添加修改框 -->
     <n-modal v-model:show="photoShow" transform-origin="center">
@@ -99,6 +100,7 @@ import { addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto } from '@/ap
 import { listSort } from '@/api/sort/photoSort'
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NEllipsis, type FormInst } from 'naive-ui'
 import ImgUpload from '@/components/imgUpload/index.vue'
+import reusePagination from '@/components/reusePagination/index.vue'
 //表单
 const formRef = ref<FormInst>()
 // 定义Photo的类型  
@@ -308,7 +310,7 @@ function photoSubmit() {
       flex-wrap: wrap;
       justify-content: space-between;
       width: 100%;
-      height: 100%;
+      height: 90%;
       min-height: 400px;
       margin-top: 20px;
 

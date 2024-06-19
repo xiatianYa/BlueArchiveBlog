@@ -31,33 +31,15 @@
         </div>
         <!-- 添加修改框 -->
         <n-modal v-model:show="ArticleShow" transform-origin="center">
-            <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
-                <n-form ref="formRef" :model="article" :rules="rules" label-placement="left" label-width="auto"
-                    require-mark-placement="right-hanging" size="medium" :style="{
-                        maxWidth: '640px'
-                    }">
-                    <n-form-item label="文章名称" path="articleName">
-                        <n-input v-model:value="article.articleName" placeholder="请输入文章名称" />
-                    </n-form-item>
-                    <n-form-item label="文章描述" path="articleDescribe">
-                        <n-input v-model:value="article.articleDescribe" placeholder="请输入文章描述" />
-                    </n-form-item>
-                    <n-form-item label="文章分类" path="sortId">
-                        <n-select v-model:value="article.sortId" :options="sortOptions" placeholder="请输入文章分类"
-                            clearable />
-                    </n-form-item>
-                    <n-form-item label="文章标签" path="tagList">
-                        <n-tree-select multiple cascade checkable check-strategy="parent" :options="tagOptions"
-                            placeholder="请输入文章标签" :default-value="article.tagList" @update:value="handleUpdateValue" />
-                    </n-form-item>
-                    <n-form-item label="文章封面" path="cover">
-                        <ImgUpload v-model="article.cover"></ImgUpload>
-                    </n-form-item>
-                    <n-form-item label="文章视频" path="videoUrl">
-                        <FileUpload v-model="article.videoUrl"></FileUpload>
-                    </n-form-item>
-                </n-form>
-                <template #footer>
+            <resuse-form ref="formRef" class="formClass" :formData="article" :formOption="formOption"
+                :formItemOption="selectOption" :rules="rules" labelPosition="right" labelWidth="140">
+                <template #ImgUpload>
+                    <ImgUpload v-model="article.cover"></ImgUpload>
+                </template>
+                <template #FileUpload>
+                    <FileUpload v-model="article.videoUrl"></FileUpload>
+                </template>
+                <template #Footer>
                     <n-space>
                         <n-button secondary round @click="ArticleShow = false">
                             取消
@@ -67,7 +49,7 @@
                         </n-button>
                     </n-space>
                 </template>
-            </n-card>
+            </resuse-form>
         </n-modal>
         <!-- 删除框 -->
         <n-modal v-model:show="ArticleDeleteShow" transform-origin="center">
@@ -91,15 +73,49 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, nextTick, computed } from 'vue'
+import { onMounted, ref, watch, nextTick, reactive, computed } from 'vue'
 import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { uploadImages } from "@/api/file";
-import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NTreeSelect, NEllipsis, type FormInst } from 'naive-ui'
+import { useMessage, NModal, NCard, NButton, NSpace, NEllipsis, type FormInst } from 'naive-ui'
+import resuseForm from '@/components/reuseForm/index.vue'
 import ImgUpload from '@/components/imgUpload/index.vue'
 import FileUpload from '@/components/fileUpload/index.vue'
+
+function handleUpdateValue(val: any) {
+    article.value.tagList = val;
+}
+//下拉框配置项
+const selectOption: any = reactive({
+    sortTypeList: [], //分类列表
+    tagTypeList: [], //标签列表
+})
+//表单配置项
+const formOption = reactive([
+    {
+        type: "input", props: "articleName", label: "文章名称", placeholder: "请输入文章名称"
+    },
+    {
+        type: "input", props: "articleDescribe", label: "文章描述", placeholder: "请输入文章描述"
+    },
+    {
+        type: "select", selectProps: "sortTypeList", props: "sortId", label: "文章分类", placeholder: "请选择文章分类"
+    },
+    {
+        type: "mredio", selectProps: "tagTypeList", props: "tagList", handleUpdate: handleUpdateValue, label: "文章标签", placeholder: "请选择文章标签"
+    },
+    {
+        type: "slot", slotName: "ImgUpload", props: "cover", label: "文章图片"
+    },
+    {
+        type: "slot", slotName: "FileUpload", props: "cover", label: "文章视频"
+    },
+    {
+        type: "slot", slotName: "Footer"
+    }
+]);
 //表单
-const formRef = ref<FormInst>()
+const formRef = ref<any | null>(null)
 // 定义Article的类型  
 interface ArticleType {
     id?: number | null;
@@ -169,10 +185,6 @@ const article = ref<ArticleType>({
     cover: "",
     videoUrl: ""
 })
-//分类配置
-const sortOptions = ref()
-//标签配置
-const tagOptions = ref()
 //删除列表
 const deleteArticleList = ref([])
 //删除提示框
@@ -188,14 +200,11 @@ onMounted(() => {
     //初始化数据
     init();
 })
-function handleUpdateValue(value: Array<number>, option: any) {
-    article.value.tagList = value
-}
 //复制代码
 function handleCopyCodeSuccess() {
     message.success("复制成功")
 }
-//修改文章
+//打开修改文章
 function handleArticleUpdate(articleId: any) {
     title.value = "修改文章"
     getArticle(articleId).then(res => {
@@ -207,13 +216,14 @@ function handleArticleUpdate(articleId: any) {
             //给标签列表赋值
             for (const tag of ResultTagList) {
                 article.value.tagList.push(tag.tagId)
-            }
+            }  
             ArticleShow.value = true;
         })
     })
 }
 //数据初始化
 function init() {
+    //设置子组件ref
     listArticleByUser().then((res: any) => {
         //获取列表
         ArticleList.value = res.data;
@@ -225,7 +235,7 @@ function init() {
         ArticleIndex.value = ArticleList.value[0];
     })
     listSort().then((res: any) => {
-        sortOptions.value = res.rows.map((item: any) => {
+        selectOption.sortTypeList = res.rows.map((item: any) => {
             return {
                 value: item.id,
                 label: item.sortName,
@@ -270,7 +280,8 @@ function handleArticleDelete() {
 }
 //文章提交
 function articleSubmit() {
-    formRef.value?.validate((errors) => {
+    console.log(article.value);
+    formRef.value?.ruleFormRef().validate((errors: any) => {
         if (!errors) {
             //设置标签列表
             const copyTagList = [];
@@ -340,11 +351,11 @@ watch(
     () => article.value.sortId,
     (newVal) => {
         article.value.tagList = [];
-        const sortResult = sortOptions.value.filter((item: { value: any }) => item.value === newVal)
+        const sortResult = selectOption.sortTypeList.filter((item: { value: any }) => item.value === newVal)
         if (!newVal || !sortResult) {
             return;
         }
-        tagOptions.value = sortResult[0].tagList.map((item: any) => {
+        selectOption.tagTypeList = sortResult[0].tagList.map((item: any) => {
             return {
                 key: item.id,
                 label: item.tagName
