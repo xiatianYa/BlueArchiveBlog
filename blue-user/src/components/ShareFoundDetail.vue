@@ -24,7 +24,9 @@
     <div class="right animate__animated animate__fadeInRight">
       <div class="found_list">
         <ErchuangDetail :erchuang="erchuang" v-for="erchuang in ErchuangList"></ErchuangDetail>
-        <reuse-Pagination></reuse-Pagination>
+        <reuse-Pagination :page="queryParam.pageNum" :count="queryParam.count" :pageSize="queryParam.pageSize"
+          :pageSizes="queryParam.pageSizes" @size-change="onSizeChange"
+          @current-change="onCurrentChange"></reuse-Pagination>
       </div>
     </div>
     <!-- 添加修改框 -->
@@ -100,6 +102,7 @@ interface ErchuangType {
   ecSynopsis: string;
   ecAvater: string;
 }
+//表单校验对象
 const rules = ref({
   ecName: {
     required: true,
@@ -150,9 +153,26 @@ const erchuang = ref<ErchuangType>({
   ecSynopsis: "",
   ecAvater: "",
 })
+//分页对象
+const queryParam = ref({
+  pageNum: 1,
+  pageSize: 6,
+  count: 10,
+  pageSizes: [6, 12, 24, 36]
+})
 onMounted(() => {
   init();
 })
+// 切换个数
+const onSizeChange = (size: number) => {
+  queryParam.value.pageSize = size;
+  init();
+};
+// 切换页数
+const onCurrentChange = (page: number) => {
+  queryParam.value.pageNum = page;
+  init();
+}
 //删除二创的名称列表
 const mappedErchuangNamesByIds = computed(() => {
   return deleteErchuangList.value.map((id: number) => {
@@ -162,8 +182,13 @@ const mappedErchuangNamesByIds = computed(() => {
 })
 //初始化数据
 function init() {
-  listErchuangByUser().then((res: any) => {
+  //配置分页数据
+  let { pageNum, pageSize } = queryParam.value
+  const query = { pageNum, pageSize }
+  listErchuangByUser(query).then((res: any) => {
     ErchuangList.value = res.rows;
+    //计算总页数
+    queryParam.value.count = Math.ceil(res.total / pageSize)
   })
 }
 //添加二创

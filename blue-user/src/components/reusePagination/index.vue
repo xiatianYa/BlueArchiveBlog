@@ -1,33 +1,41 @@
 <template>
-    <n-pagination class="pagination" v-model:page="props.page" :page-sizes="props.pageSizes" :page-count="100" size="medium"
-        show-quick-jumper show-size-picker @on-update:page="props.pageUpdate"
-        @on-update:page-size="props.pageSizeUpdate" />
+    <n-pagination class="pagination" :page="pageNum + 1" :page-size="pageSize" :page-sizes="pageSizes"
+        :page-count="count" size="medium" show-quick-jumper show-size-picker :on-update:page="handleCurrentChange"
+        :on-update:page-size="handleSizeChange" />
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { NPagination } from 'naive-ui'
 interface Props {
     // 当前页
-    page: number;
+    pageNum: number;
     // 总页数
     count?: number;
-    // 每页展示多少条
+    //展示数量
+    pageSize?: number;
+    // 展示数量列表
     pageSizes?: Array<number>;
-    // 当前页发生改变时的回调函数
-    pageUpdate: any;
-    // 当前分页大小发生改变时的回调函数
-    pageSizeUpdate: any;
 }
 const props = withDefaults(defineProps<Props>(), {
-    page: 1,
-    count: 100,
-    pageSizes: () => [10, 20, 30, 40],
-    pageUpdate: () => { },
-    pageSizeUpdate: () => { }
+    pageNum: 0,
+    count: 0,
+    pageSize: 10,
+    pageSizes: () => [10, 20, 30],
 })
+const emits = defineEmits<{
+    (e: 'sizeChange', size: number): void
+    (e: 'currentChange', pageSize: number): void
+}>()
+//当前页改变的回调函数
+const handleSizeChange = (val: number) => {
+    emits("sizeChange", val)
+}
+const handleCurrentChange = (val: number) => {
+    emits("currentChange", val)
+}
 </script>
 <style lang="scss" scoped>
-.pagination{
+.pagination {
     width: 100%;
     padding-top: 20px;
     display: flex;

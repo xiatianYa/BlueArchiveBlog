@@ -1,14 +1,15 @@
 import request from '@/utils/request'
 
 // 查询二创信息列表
-export function listErchuangByUser() {
+export function listErchuangByUser(query:any) {
   return request({
     url: '/blog/erchuang/listByUser',
     method: 'get',
+    params:query
   })
 }
 // 查询二创信息列表
-export function listErchuang(query) {
+export function listErchuang(query:any) {
   return request({
     url: '/blog/erchuang/list',
     method: 'get',
@@ -17,7 +18,7 @@ export function listErchuang(query) {
 }
 
 // 查询二创信息详细
-export function getErchuang(id) {
+export function getErchuang(id:any) {
   return request({
     url: '/blog/erchuang/' + id,
     method: 'get'
@@ -25,7 +26,7 @@ export function getErchuang(id) {
 }
 
 // 新增二创信息
-export function addErchuang(data) {
+export function addErchuang(data:any) {
   return request({
     url: '/blog/erchuang',
     method: 'post',
@@ -34,7 +35,7 @@ export function addErchuang(data) {
 }
 
 // 修改二创信息
-export function updateErchuang(data) {
+export function updateErchuang(data:any) {
   return request({
     url: '/blog/erchuang',
     method: 'put',
@@ -43,7 +44,7 @@ export function updateErchuang(data) {
 }
 
 // 删除二创信息
-export function delErchuang(id) {
+export function delErchuang(id:any) {
   return request({
     url: '/blog/erchuang/' + id,
     method: 'delete'
