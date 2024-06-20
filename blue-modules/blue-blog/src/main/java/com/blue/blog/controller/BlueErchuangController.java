@@ -33,10 +33,11 @@ public class BlueErchuangController extends BaseController
      */
     @RequiresPermissions("blog:erchuang:query")
     @GetMapping("/listByUser")
-    public AjaxResult listByUser()
+    public TableDataInfo listByUser(BlueErchuang blueErchuang)
     {
-        List<BlueErchuang> list = blueErchuangService.selectBlueErchuangListByUser();
-        return AjaxResult.success(list);
+        startPage();
+        List<BlueErchuang> list = blueErchuangService.selectBlueErchuangListByUser(blueErchuang);
+        return getDataTable(list);
     }
 
     /**

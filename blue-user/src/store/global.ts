@@ -58,7 +58,7 @@ export const useGloBalStore = defineStore('global', {
         },
         //发送webSocket消息
         sendMessage(data:any){
-            chatSocket.send(data)
+            chatSocket.sendMsgAll(data)
         },
         //关闭socket
         closeSocket(){

@@ -90,6 +90,7 @@ import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, N
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import ImgUpload from '@/components/imgUpload/index.vue'
 import reusePagination from '@/components/reusePagination/index.vue'
+
 // 定义Erchuang的类型  
 interface ErchuangType {
   id: number | null;
@@ -149,6 +150,9 @@ const erchuang = ref<ErchuangType>({
   ecSynopsis: "",
   ecAvater: "",
 })
+onMounted(() => {
+  init();
+})
 //删除二创的名称列表
 const mappedErchuangNamesByIds = computed(() => {
   return deleteErchuangList.value.map((id: number) => {
@@ -156,13 +160,10 @@ const mappedErchuangNamesByIds = computed(() => {
     return erchuang.ecName;
   })
 })
-onMounted(() => {
-  init();
-})
 //初始化数据
 function init() {
-  listErchuangByUser().then(res => {
-    ErchuangList.value = res.data;
+  listErchuangByUser().then((res: any) => {
+    ErchuangList.value = res.rows;
   })
 }
 //添加二创

@@ -22,4 +22,8 @@ public class ChatConstants {
      * 登录成功消息
      */
     public static final Integer LoginSuccessType = 204;
+    /**
+     * 消息失败消息
+     */
+    public static final Integer MessageFailType = 205;
 }

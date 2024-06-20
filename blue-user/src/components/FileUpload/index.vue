@@ -91,7 +91,6 @@ function beforeUpload(data: {
 }) {
     const size: any = data.file.file?.size;
     const isLt = size / 1024 / 1024 < props.fileSize;
-    console.log(data.file.file?.type);
     if (!isLt) {
         message.error(`上传文件大小不能超过 ${props.fileSize} MB!`);
         return false;

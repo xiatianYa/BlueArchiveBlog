@@ -117,8 +117,8 @@ const Websocket: any = {
         Websocket.websocket.onopen = function () {
         }
     },
-    // 发送数据
-    send: (data: any) => {
+    // 发送数据 全体消息
+    sendMsgAll: (data: any) => {
         Websocket.websocket.send(data)
     },
     // 断开连接

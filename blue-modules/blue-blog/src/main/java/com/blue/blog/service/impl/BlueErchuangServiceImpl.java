@@ -128,11 +128,11 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
      * 查询用户下的二创列表
      */
     @Override
-    public List<BlueErchuang> selectBlueErchuangListByUser() {
+    public List<BlueErchuang> selectBlueErchuangListByUser(BlueErchuang blueErchuang) {
         //添加查询体条件
-        LambdaQueryWrapper<BlueErchuang> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(BlueErchuang::getCreateBy,SecurityUtils.getUserId());
-        return blueErchuangMapper.selectList(wrapper);
+        Long userid = SecurityUtils.getLoginUser().getUserid();
+        blueErchuang.setCreateBy(userid.toString());
+        return blueErchuangMapper.selectBlueErchuangList(blueErchuang);
     }
     /**
      * 检测用户操作是否合法

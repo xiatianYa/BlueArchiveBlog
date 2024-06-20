@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="send_msg">
                                         <span>
-                                            {{ message.message }}
+                                            {{ message.data }}
                                         </span>
                                     </div>
                                 </div>
@@ -60,9 +60,9 @@
                                 <V3Emoji @click-emoji="appendCommentChile" :fulldata="true" :recent="true" />
                             </div>
                             <div class="chat_box">
-                                <input class="chat_txt" type="text" @keydown.enter="sendMsg()" v-model="inputMsg">
+                                <input class="chat_txt" type="text" @keydown.enter="sendMsgAll()" v-model="inputMsg">
                             </div>
-                            <div class="send" @click="sendMsg()">
+                            <div class="send" @click="sendMsgAll()">
                                 <svg class="icon pointer" aria-hidden="true">
                                     <use xlink:href="#icon-fasong"></use>
                                 </svg>
@@ -79,7 +79,7 @@
 import V3Emoji from "vue3-emoji";
 import useStore from "@/store"
 import chatEnum from "@/utils/chatEnum"
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watch, nextTick } from "vue"
 import { useMessage } from 'naive-ui'
 let { globalStore, userStore } = useStore()
 //提示框
@@ -92,13 +92,11 @@ onMounted(() => {
 function appendCommentChile(emajor: any) {
     inputMsg.value += emajor.emoji;
 }
-//发送消息
-function sendMsg() {
+//发送消息 
+function sendMsgAll() {
     //消息数据
     const data = {
         fromUserId: userStore.id,
-        fromUserAvatar: userStore.avatar,
-        fromUserNickName: userStore.nickName,
         data: inputMsg.value,
         type: chatEnum.ChatGroupType
     }
@@ -111,6 +109,14 @@ function sendMsg() {
     //清空输入框
     inputMsg.value = "";
 }
+//监听聊天数据变化 自动调整下拉框
+watch(globalStore.chatHistory, (newValue) => {
+    //滑动到底部
+    nextTick(() => {
+        var scrollableDiv: any = document.getElementById('scrollableDiv');
+        scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+    })
+})
 </script>
 
 <style lang="scss" scoped>

@@ -9,8 +9,10 @@ import com.blue.common.core.utils.JwtUtils;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.redis.service.RedisService;
 import com.blue.system.api.model.LoginUser;
+import com.blue.ws.entry.errorMessageVo;
 import com.blue.ws.entry.receiveMessageVo;
 import com.blue.ws.entry.sendMessageVo;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,8 +100,17 @@ public class WebSocketServer {
         //Json实例化对象
         receiveMessageVo receiveMessageVo = JSONObject.parseObject(message, com.blue.ws.entry.receiveMessageVo.class);
         if(StringUtils.isNull(receiveMessageVo)){
-            throw new ServiceException("消息不能为空");
+            errorMessageVo error = errorMessageVo.builder()
+                    .data("消息不能为空")
+                    .type(ChatConstants.MessageFailType)
+                    .build();
+            onError(JSONObject.toJSONString(error),session);
+            return;
         }
+        //获取发送者用户信息
+        LoginUser formUser = webSocketMap.get(receiveMessageVo.getFromUserId()).loginUser;
+        receiveMessageVo.setFromUserAvatar(formUser.getSysUser().getAvatar());
+        receiveMessageVo.setFromUserNickName(formUser.getSysUser().getNickName());
         //判断消息类型
         switch (receiveMessageVo.getType()){
             case 201:
@@ -113,13 +124,19 @@ public class WebSocketServer {
      * 实现服务器主动推送消息(所有人)
      */
     public void sendMessageAll(Object object){
-        try {
-            //Json实例化对象
-            String jsonString = JSONObject.toJSONString(object);
-            this.session.getBasicRemote().sendText(jsonString);
-        } catch (IOException e) {
-            throw new ServiceException("消息发送失败"+e);
-        }
+        //Json实例化对象
+        String jsonString = JSONObject.toJSONString(object);
+        webSocketMap.forEach((k,v)->{
+            try {
+                v.session.getBasicRemote().sendText(jsonString);
+            } catch (IOException e) {
+                errorMessageVo error = errorMessageVo.builder()
+                        .data("消息发送失败")
+                        .type(ChatConstants.MessageFailType)
+                        .build();
+                onError(JSONObject.toJSONString(error), v.session);
+            }
+        });
     }
     /**
      * 实现服务器主动推送消息(指定用户)
@@ -131,19 +148,28 @@ public class WebSocketServer {
             //获取该用户连接实例
             WebSocketServer webSocketServer = webSocketMap.get(sendMessageVo.getToUserId());
             if(StringUtils.isNull(webSocketServer)){
-                throw new ServiceException("用户未登录");
+                errorMessageVo error = errorMessageVo.builder()
+                        .data("此用户未登录")
+                        .type(ChatConstants.MessageFailType)
+                        .build();
+                onError(JSONObject.toJSONString(error),this.session);
             }
             //发送信息
             webSocketServer.session.getBasicRemote().sendText(jsonString);
         } catch (IOException e) {
-            throw new ServiceException("消息发送失败"+e);
+            errorMessageVo error = errorMessageVo.builder()
+                    .data("消息发送失败")
+                    .type(ChatConstants.MessageFailType)
+                    .build();
+            onError(JSONObject.toJSONString(error),this.session);
         }
     }
     /**
      * 消息发送失败(推送给发送者)
      */
-    public void onError(Object error) {
-
+    @SneakyThrows
+    public static void onError(String jsonObject, Session session) {
+        session.getBasicRemote().sendText(JSONObject.toJSONString(jsonObject));
     }
     /**
      * 获取所有用户Id
@@ -167,7 +193,11 @@ public class WebSocketServer {
             try {
                 v.session.getBasicRemote().sendText(JSONObject.toJSONString(sendMessageVo));
             } catch (IOException e) {
-                throw new ServiceException("消息发送失败");
+                errorMessageVo error = errorMessageVo.builder()
+                        .data("消息发送失败")
+                        .type(ChatConstants.MessageFailType)
+                        .build();
+                onError(JSONObject.toJSONString(error),v.session);
             }
         });
     }
@@ -185,7 +215,11 @@ public class WebSocketServer {
             try {
                 v.session.getBasicRemote().sendText(JSONObject.toJSONString(sendMessageVo));
             } catch (IOException e) {
-                throw new ServiceException("消息发送失败");
+                errorMessageVo error = errorMessageVo.builder()
+                        .data("消息发送失败")
+                        .type(ChatConstants.MessageFailType)
+                        .build();
+                onError(JSONObject.toJSONString(error),v.session);
             }
         });
     }
