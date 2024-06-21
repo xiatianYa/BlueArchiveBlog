@@ -94,7 +94,7 @@ import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
 import { useMessage } from 'naive-ui'
 import { useRouter } from "vue-router";
 import useStore from "@/store"
-let { globalStore,userStore } = useStore()
+let { globalStore, userStore } = useStore()
 //提示框
 const message = useMessage()
 //路由

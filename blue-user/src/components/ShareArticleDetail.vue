@@ -77,7 +77,7 @@ import { onMounted, ref, watch, nextTick, reactive, computed } from 'vue'
 import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { uploadImages } from "@/api/file";
-import { useMessage, NModal, NCard, NButton, NSpace, NEllipsis, type FormInst } from 'naive-ui'
+import { useMessage, NModal, NCard, NButton, NSpace, NEllipsis } from 'naive-ui'
 import resuseForm from '@/components/reuseForm/index.vue'
 import ImgUpload from '@/components/imgUpload/index.vue'
 import FileUpload from '@/components/fileUpload/index.vue'
@@ -280,7 +280,6 @@ function handleArticleDelete() {
 }
 //文章提交
 function articleSubmit() {
-    console.log(article.value);
     formRef.value?.ruleFormRef().validate((errors: any) => {
         if (!errors) {
             //设置标签列表

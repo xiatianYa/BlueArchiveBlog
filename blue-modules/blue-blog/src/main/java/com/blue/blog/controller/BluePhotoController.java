@@ -34,10 +34,11 @@ public class BluePhotoController extends BaseController
      */
     @RequiresPermissions("blog:photo:query")
     @GetMapping("/listByUser")
-    public AjaxResult listByUser()
+    public TableDataInfo listByUser(BluePhoto bluePhoto)
     {
-        List<BluePhoto> list = bluePhotoService.selectBluePhotoListByUser();
-        return AjaxResult.success(list);
+        startPage();
+        List<BluePhoto> list = bluePhotoService.selectBluePhotoListByUser(bluePhoto);
+        return getDataTable(list);
     }
     /**
      * 查询相册列表

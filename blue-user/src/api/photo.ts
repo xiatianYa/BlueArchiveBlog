@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 
 // 查询相册列表
-export function listPhotoByUser() {
+export function listPhotoByUser(query) {
   return request({
     url: '/blog/photo/listByUser',
     method: 'get',
+    params:query
   })
 }
 

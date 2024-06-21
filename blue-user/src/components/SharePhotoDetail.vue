@@ -42,7 +42,9 @@
           </div>
         </div>
       </div>
-      <reusePagination></reusePagination>
+      <reuse-Pagination :page="queryParam.pageNum" :count="queryParam.count" :pageSize="queryParam.pageSize"
+        :pageSizes="queryParam.pageSizes" @size-change="onSizeChange"
+        @current-change="onCurrentChange"></reuse-Pagination>
     </div>
     <!-- 添加修改框 -->
     <n-modal v-model:show="photoShow" transform-origin="center">
@@ -148,6 +150,13 @@ const photo = ref<PhotoType>({
   photoName: "",
   photoUrl: ""
 })
+//分页对象
+const queryParam = ref({
+  pageNum: 1,
+  pageSize: 6,
+  count: 0,
+  pageSizes: [6, 12, 24, 36]
+})
 //删除相册的名称列表
 const mappedPhotoNamesByIds = computed(() => {
   return deletePhotoList.value.map((id: number) => {
@@ -162,10 +171,14 @@ onMounted(() => {
 })
 //初始化数据
 function init() {
-  listPhotoByUser().then(res => {
-    photoList.value = res.data
+  let { pageNum, pageSize } = queryParam.value
+  const query = { pageNum, pageSize }
+  listPhotoByUser(query).then((res: any) => {
+    photoList.value = res.rows
+    //计算总页数
+    queryParam.value.count = Math.ceil(res.total / pageSize)
   })
-  listSort().then((res:any) => {
+  listSort().then((res: any) => {
     photoOptions.value = res.rows.map((item: any) => {
       return {
         value: item.id,
@@ -173,6 +186,16 @@ function init() {
       }
     });
   })
+}
+// 切换个数
+const onSizeChange = (size: number) => {
+  queryParam.value.pageSize = size;
+  init();
+};
+// 切换页数
+const onCurrentChange = (page: number) => {
+  queryParam.value.pageNum = page;
+  init();
 }
 //打开添加修改相册
 function handelPhotoAdd() {

@@ -1,5 +1,5 @@
 <template>
-    <n-card style="width: 500px" :bordered="false" role="dialog" aria-modal="true">
+    <n-card style="width: 100%" :bordered="false" role="dialog" aria-modal="true">
         <n-form ref="formRef" :model="formData" :rules="rules" :label-placement="labelPlacement"
             :label-width="labelWidth" require-mark-placement="right-hanging" :size="formSize">
             <template v-for="item of formOption" :key="item.props">

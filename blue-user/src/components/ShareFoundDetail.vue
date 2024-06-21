@@ -157,7 +157,7 @@ const erchuang = ref<ErchuangType>({
 const queryParam = ref({
   pageNum: 1,
   pageSize: 6,
-  count: 10,
+  count: 0,
   pageSizes: [6, 12, 24, 36]
 })
 onMounted(() => {

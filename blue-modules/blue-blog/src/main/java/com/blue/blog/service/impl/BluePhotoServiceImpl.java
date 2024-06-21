@@ -140,12 +140,12 @@ public class BluePhotoServiceImpl implements IBluePhotoService
      * 查询用户下的相册列表
      */
     @Override
-    public List<BluePhoto> selectBluePhotoListByUser() {
-        LambdaQueryWrapper<BluePhoto> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(BluePhoto::getUserId, SecurityUtils.getLoginUser().getUserid());
-        //查询用户设置用户名称
-        List<BluePhoto> bluePhotos = bluePhotoMapper.selectList(wrapper);
+    public List<BluePhoto> selectBluePhotoListByUser(BluePhoto bluePhoto) {
         LoginUser loginUser = SecurityUtils.getLoginUser();
+        bluePhoto.setCreateBy(loginUser.getUserid().toString());
+        //查询用户相册列表
+        List<BluePhoto> bluePhotos = bluePhotoMapper.selectBluePhotoList(bluePhoto);
+        //设置用户名称
         for (BluePhoto photo : bluePhotos) {
             photo.setUserName(loginUser.getUsername());
         }
