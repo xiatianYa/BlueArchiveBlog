@@ -8,10 +8,10 @@
         </div>
         <div class="musics" v-for="music in item.musicList" :key="music.id">
             <div class="music">
-                <div class="music_img" @click="startMusic($event, music.musicUrl)">
+                <div class="music-img" @click="startMusic($event, music.musicUrl)">
                     <img :src="music.imgUrl">
                 </div>
-                <div class="music_name">
+                <div class="music-name">
                     <span>{{ music.musicName }}</span>
                 </div>
             </div>
@@ -75,7 +75,7 @@ const props = defineProps(['musicList', 'startMusic'])
             padding-right: 30px;
             padding-top: 30px;
 
-            .music_img {
+            .music-img {
                 width: 100px;
                 height: 100px;
                 overflow: hidden;
@@ -96,7 +96,7 @@ const props = defineProps(['musicList', 'startMusic'])
                 }
             }
 
-            .music_name {
+            .music-name {
                 display: flex;
                 align-items: center;
                 justify-content: center;

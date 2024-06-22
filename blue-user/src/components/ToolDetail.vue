@@ -1,23 +1,23 @@
 <template>
     <div class="tool">
-        <div class="tool_sort animate__animated animate__slideInLeft">
+        <div class="tool-sort animate__animated animate__slideInLeft">
             <h2>
                 {{ tool.sortName }}
             </h2>
         </div>
         <div class="tools">
-            <div class="tool_detail pointer box_shadow animate__animated animate__slideInRight"
+            <div class="tool-detail pointer box-shadow animate__animated animate__slideInRight"
                 v-for="toolDetail in tool.blueProgramToolList" @click="goHref(toolDetail.toolUrl)">
-                <div class="tool_left">
-                    <div class="tool_img">
+                <div class="tool-left">
+                    <div class="tool-img">
                         <img :src="toolDetail.toolAvater" />
                     </div>
                 </div>
-                <div class="tool_right">
-                    <div class="tool_title">
+                <div class="tool-right">
+                    <div class="tool-title">
                         <h4>{{ toolDetail.toolName }}</h4>
                     </div>
-                    <div class="tool_body">
+                    <div class="tool-body">
                         <span>
                             {{ toolDetail.toolDescribe }}
                         </span>
@@ -31,7 +31,7 @@
 <script setup lang="ts">
 const props = defineProps(['tool'])
 function goHref(toolUrl: string) {
-    window.open(toolUrl, "_blank")
+    window.open(toolUrl, "-blank")
 }
 </script>
 
@@ -40,7 +40,7 @@ function goHref(toolUrl: string) {
     width: 100%;
     padding-top: 20px;
 
-    .tool_sort {
+    .tool-sort {
         display: flex;
 
         h2 {
@@ -53,14 +53,14 @@ function goHref(toolUrl: string) {
         justify-content: space-between;
         flex-wrap: wrap;
 
-        .tool_detail {
+        .tool-detail {
             width: 200px;
             height: 100px;
             display: flex;
             border-radius: 10px 10px 10px 10px;
             margin-top: 20px;
 
-            .tool_left {
+            .tool-left {
                 display: flex;
                 align-items: center;
                 height: 100%;
@@ -75,7 +75,7 @@ function goHref(toolUrl: string) {
                 }
             }
 
-            .tool_right {
+            .tool-right {
                 display: flex;
                 box-sizing: border-box;
                 align-items: center;
@@ -85,11 +85,11 @@ function goHref(toolUrl: string) {
                 overflow: hidden;
                 height: 100%;
 
-                .tool_title {
+                .tool-title {
                     width: 100%;
                 }
 
-                .tool_body {
+                .tool-body {
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
@@ -104,8 +104,8 @@ function goHref(toolUrl: string) {
             }
         }
 
-        .tool_detail:hover {
-            .tool_left {
+        .tool-detail:hover {
+            .tool-left {
                 display: block;
 
                 img {

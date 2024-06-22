@@ -1,8 +1,8 @@
 <template>
   <div class="sort">
-    <div class="banner no_select">
+    <div class="banner">
       <div class="animate__animated animate__slideInDown bg">
-        <div class="bg_img">
+        <div class="bg-img">
           <img :src="bgUrl">
         </div>
         <div class="sorts">
@@ -11,10 +11,10 @@
           </svg>
           <div :id="sort.id == sortIndex ? 'select' : ''" class="sort pointer" v-for="sort in sortList"
             @click="selectSort(sort)">
-            <span class="sort_name">
+            <span class="sort-name">
               {{ sort.sortName }}
             </span>
-            <span class="sort_num">
+            <span class="sort-num">
               {{ sort.sortNumber }}
             </span>
           </div>
@@ -25,10 +25,10 @@
           </svg>
           <div :id="tag.id == tagIndex ? 'select' : ''" class="tag pointer" v-for="tag in tagList"
             @click="selectArticleListByTagId(tag.id)">
-            <span class="tag_name">
+            <span class="tag-name">
               {{ tag.tagName }}
             </span>
-            <span class="tag_num">
+            <span class="tag-num">
               {{ tag.articleTagNumber }}
             </span>
           </div>
@@ -37,7 +37,7 @@
     </div>
     <div class="container">
       <div class="content">
-        <div class="content_body">
+        <div class="content-body">
           <SortDetail :article="article" v-for="article in articleList" @click="goArticlePreview(article.id)">
           </SortDetail>
         </div>
@@ -122,7 +122,7 @@ function init() {
         sortIndex.value = router.currentRoute.value.query.sortId
       } else {
         //设置第一个分类下标
-        if (sortIndex.value === 0) {
+        if (!sortIndex.value) {
           sortIndex.value = sortList.value[0].id
         }
       }
@@ -280,7 +280,7 @@ const loadData = () => {
       overflow: hidden;
       position: relative;
 
-      .bg_img {
+      .bg-img {
         width: 100%;
         height: 100%;
 
@@ -323,13 +323,13 @@ const loadData = () => {
           padding: 3px;
           border-radius: 10px;
 
-          .sort_name {
+          .sort-name {
             display: flex;
             align-items: center;
             color: #ff9a00;
           }
 
-          .sort_num {
+          .sort-num {
             display: flex;
             align-items: center;
             padding-bottom: 5px;
@@ -374,13 +374,13 @@ const loadData = () => {
           border-radius: 10px;
           padding: 3px;
 
-          .tag_name {
+          .tag-name {
             display: flex;
             align-items: center;
             color: #ff9a00;
           }
 
-          .tag_num {
+          .tag-num {
             display: flex;
             align-items: center;
             padding-bottom: 5px;
@@ -393,7 +393,7 @@ const loadData = () => {
         }
       }
 
-      .sorts_tags::-webkit-scrollbar {
+      .sorts-tags::-webkit-scrollbar {
         display: none;
       }
 
@@ -416,7 +416,7 @@ const loadData = () => {
       width: 80%;
       height: 100%;
 
-      .content_body {
+      .content-body {
         display: flex;
         justify-content: space-between;
         flex-direction: row;

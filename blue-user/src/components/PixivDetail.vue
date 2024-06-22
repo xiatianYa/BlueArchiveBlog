@@ -1,25 +1,33 @@
 <template>
-  <div class="pixiv box_shadow animate__animated animate__zoomIn">
-    <div class="pixiv_left">
-      <div class="left_title">{{ pixiv.pixivName }}</div>
-      <div class="left_info">
+  <div class="pixiv box-shadow animate__animated animate__zoomIn">
+    <div class="pixiv-left">
+      <div class="left-title">{{ pixiv.pixivName }}</div>
+      <div class="left-info">
         <span>{{ pixiv.pixivPlay }} 播放</span> · <span>{{ pixiv.pixivDanmaku }} 弹幕</span>
       </div>
-      <div class="left_type">
+      <div class="left-type">
         <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.pixivPublish.substring(0, 4) }}</span>
       </div>
-      <div class="left_shengyou">
-        <span>声优 : {{ pixiv.pixivVoiceActor }}</span>
+      <div class="left-shengyou">
+        <span>
+          <n-ellipsis :line-clamp="1">
+            声优 : {{ pixiv.pixivVoiceActor }}
+          </n-ellipsis>
+        </span>
       </div>
-      <div class="left_score">
+      <div class="left-score">
         <span>{{ pixiv.pixivScore }}</span><span>分</span>
       </div>
-      <div class="left_synopsis">
-        <span>简介 : {{ pixiv.pixivSynopsis }}</span>
+      <div class="left-synopsis">
+
+        <span><n-ellipsis :line-clamp="3">
+            简介 : {{ pixiv.pixivSynopsis }}
+          </n-ellipsis>
+        </span>
       </div>
     </div>
-    <div class="pixiv_right">
-      <div class="category_img">
+    <div class="pixiv-right">
+      <div class="category-img">
         <img :src="pixiv.pixivAvater">
       </div>
     </div>
@@ -28,6 +36,7 @@
 
 <script setup lang="ts">
 const props = defineProps(['pixiv'])
+import { NEllipsis } from 'naive-ui'
 </script>
 
 <style lang="scss" scoped>
@@ -40,53 +49,46 @@ const props = defineProps(['pixiv'])
   max-height: 270px;
   overflow: hidden;
 
-  .pixiv_left {
+  .pixiv-left {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
 
-    .left_title {
+    .left-title {
       width: 100%;
       font-size: 18px;
     }
 
-    .left_info {
+    .left-info {
       font-weight: 100;
       font-size: 14px;
     }
 
-    .left_type {
+    .left-type {
       font-weight: 100;
       font-size: 14px;
     }
 
-    .left_shengyou {
+    .left-shengyou {
       font-weight: 100;
       font-size: 14px;
     }
 
-    .left_score {
+    .left-score {
       font-weight: 100;
       font-size: 14px;
     }
 
-    .left_synopsis {
+    .left-synopsis {
       font-weight: 100;
       font-size: 14px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
   }
 
-  .pixiv_right {
-
-
-    .category_img {
+  .pixiv-right {
+    .category-img {
       display: flex;
       justify-content: end;
       width: 100%;

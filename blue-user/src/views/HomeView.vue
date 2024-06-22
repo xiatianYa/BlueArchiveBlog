@@ -1,10 +1,10 @@
 <template>
-  <div class="home_box no_select">
-    <div class="animate__animated animate__slideInDown bg">
-      <div class="bg_img">
+  <div class="home-box no-select">
+    <div class="animate__animated animate__slideInDown banner">
+      <div class="banner-img">
         <img :src="bgUrl">
       </div>
-      <div class="typewriter animation_writer">
+      <div class="typewriter animation-writer">
         <span>眼 前 所 见 , 皆 为 奇 迹 .</span>
       </div>
       <div class="down pointer">
@@ -13,28 +13,29 @@
         </svg>
       </div>
     </div>
-    <div class="home_center_box">
-      <div class="home_content">
-        <div class="content_left animate__animated animate__slideInLeft">
-          <div class="content_info box_shadow box_radius">
-            <div class="info_backrougnd">
+    <div class="home-center-box">
+      <div class="home-container">
+        <div class="content-left animate__animated animate__slideInLeft">
+          <!-- 用户信息 -->
+          <div class="content-info box-shadow box-radius">
+            <div class="info-backrougnd">
               <img :src="'https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/info.jpg'">
             </div>
-            <div class="info_avater" v-if="userStore.avatar">
+            <div class="info-avater" v-if="userStore.avatar">
               <a>
                 <span>
                   <img :src="userStore.avatar">
                 </span>
               </a>
-              <div class="info_name" v-if="userStore.nickName">
+              <div class="info-name" v-if="userStore.nickName">
                 {{ userStore.nickName }}
               </div>
             </div>
-            <div class="info_link">
+            <div class="info-link">
               <ul>
-                <li @click="goHref('https://space.bilibili.com/180200497?spm_id_from=333.1007.0.0')">
+                <li @click="goHref('https://space.bilibili.com/180200497?spm-id-from=333.1007.0.0')">
                   <svg class="icon pointer" aria-hidden="true">
-                    <use xlink:href="#icon-icon_bilibili"></use>
+                    <use xlink:href="#icon-icon-bilibili"></use>
                   </svg>
                 </li>
                 <li @click="goHref('https://github.com/xiatianYa')">
@@ -50,13 +51,14 @@
               </ul>
             </div>
           </div>
-          <div class="content_search box_shadow box_radius">
+          <!-- 搜索 -->
+          <div class="content-search box-shadow box-radius">
             <div class="search">
-              <div class="search_title">
+              <div class="search-title">
                 搜索
               </div>
-              <div class="search_box">
-                <input type="text" placeholder="搜索文章" class="search_txt" @keydown.enter="search"
+              <div class="search-box">
+                <input type="text" placeholder="搜索文章" class="search-txt" @keydown.enter="search"
                   v-model="queryParams.searchValue">
                 <svg class="icon pointer" aria-hidden="true" @click="search">
                   <use xlink:href="#icon-daohang"></use>
@@ -64,28 +66,60 @@
               </div>
             </div>
           </div>
-          <div class="content_recommend box_shadow box_radius">
+          <!-- 在线用户 -->
+          <div class="content-online box-shadow box-radius">
+            <div class="online-title">在线用户列表</div>
+            <n-scrollbar style="max-height: 150px">
+              <div class="onlines">
+                <div class="online" v-for="onlineUser in globalStore.onlineUserList">
+                  <n-popover placement="top-start">
+                    <template #trigger>
+                      <img class="avatar" :src="onlineUser.userAvatar">
+                    </template>
+                    <span>
+                      {{ onlineUser.userNickName }}
+                    </span>
+                  </n-popover>
+                </div>
+              </div>
+            </n-scrollbar>
+          </div>
+          <!-- 推荐文章 -->
+          <div class="content-recommend box-shadow box-radius">
             <div class="recommend">
-              <div class="recommend_row recommend_title">
+              <div class="recommend-row recommend-title">
                 <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-remaituijian"></use>
+                  <use xlink:href="#icon-huangguan"></use>
                 </svg>
                 <p>
                   推荐文章
                 </p>
               </div>
-              <div class="recommend_row" v-for="article in recommendArticleList" @click="goArticlePreview(article.id)">
-                <div class="recommend_message pointer">
-                  <div class="recommend_img">
+              <div class="recommend-row" v-for="article in recommendArticleList" @click="goArticlePreview(article.id)">
+                <div class="recommend-message pointer">
+                  <div class="recommend-img">
                     <img :src="article.cover" />
                   </div>
-                  <div class="recommend_info">
-                    <span class="article_name">{{ article.articleName }}</span>
-                    <span class="article_author">作者 : {{ article.userName }}</span>
-                    <span class="article_time">{{ article.createTime }}</span>
+                  <div class="recommend-info">
+                    <span class="article-name">
+                      <n-ellipsis :line-clamp="1">
+                        {{ article.articleName }}
+                      </n-ellipsis>
+                    </span>
+                    <span class="article-author">
+                      <n-ellipsis :line-clamp="1">
+                        作者 : {{ article.userName }}
+                      </n-ellipsis>
+
+                    </span>
+                    <span class="article-time">
+                      <n-ellipsis :line-clamp="1">
+                        {{ article.createTime }}
+                      </n-ellipsis>
+                    </span>
                   </div>
                 </div>
-                <div class="recommend_time">
+                <div class="recommend-time">
                   <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-rili"></use>
                   </svg>
@@ -94,8 +128,10 @@
               </div>
             </div>
           </div>
-          <div class="content_browse" v-for="sort in sortList" @click="goArticleBySortId(sort.id)">
-            <div class="browse box_radius pointer  box_shadow ">
+          <!-- 文章分类 -->
+          <div class="content-browse">
+            <div class="browse box-radius pointer  box-shadow " v-for="sort in sortList"
+              @click="goArticleBySortId(sort.id)">
               <span>
                 分类
               </span>
@@ -107,11 +143,10 @@
               </span>
             </div>
           </div>
-          <div class="content_consultation box_shadow">
-          </div>
         </div>
-        <div class="content_right ">
-          <div class="tongzhi animate__animated animate__slideInRight">
+        <div class="content-right animate__animated animate__slideInRight">
+          <!-- 通知 -->
+          <div class="tongzhi">
             <svg class="icon pointer scaleDraw" aria-hidden="true">
               <use xlink:href="#icon-tongzhi1"></use>
             </svg>
@@ -120,9 +155,10 @@
               <span class="body">{{ noticeInfo.noticeContent }}</span>
             </div>
           </div>
+          <!-- 文章主题内容 -->
           <div class="container">
-            <div class="category animate__animated animate__zoomIn" v-for="sort in sortList">
-              <div class="category_header">
+            <div class="category" v-for="sort in sortList">
+              <div class="category-header">
                 <svg class="icon pointer" aria-hidden="true">
                   <use xlink:href="#icon-icon-gengduo"></use>
                 </svg>
@@ -136,8 +172,8 @@
                   <span>More</span>
                 </div>
               </div>
-              <div class="category_body">
-                <div class="category_list">
+              <div class="category-body">
+                <div class="category-list">
                   <CategoryDetail class="test" :article="article" v-for="article in sort.articleList" />
                 </div>
               </div>
@@ -166,7 +202,7 @@
                     <use xlink:href="#icon-remen"></use>
                   </svg>
                   <span>
-                    0 热度
+                    {{ article.hot }} 热度
                   </span>
                 </div>
                 <div class="info">
@@ -174,14 +210,14 @@
                     <use xlink:href="#icon-pinglun"></use>
                   </svg>
                   <span>
-                    0 评论
+                    {{ article.comment }} 评论
                   </span>
                 </div>
                 <div class="info">
                   <svg class="icon pointer" aria-hidden="true">
                     <use xlink:href="#icon-dianzan1"></use>
                   </svg>
-                  0 点赞
+                  {{ article.like }} 点赞
                 </div>
               </div>
               <div class="info_right">
@@ -208,10 +244,12 @@ import { listNotice } from '@/api/notice'
 import { listArticle, searchArticleList, listByHome } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { useRouter } from 'vue-router'
+import { NEllipsis, NScrollbar, NPopover } from 'naive-ui'
 let { globalStore, userStore } = useStore()
 import CategoryDetail from '@/components/CategoryDetail.vue'
 import Loading from '@/components/CssLoadingView01.vue'
 import useStore from "@/store"
+
 //路由
 const router = useRouter()
 //公告
@@ -326,21 +364,21 @@ function goDown() {
 }
 //跳转链接
 function goHref(url: string) {
-  window.open(url, "_blank")
+  window.open(url, "-blank")
 }
 </script>
 <style lang="scss" scoped>
-.home_box {
+.home-box {
   width: 100%;
   height: auto;
   overflow: hidden;
   padding-bottom: 40px;
 
-  .bg {
+  .banner {
     width: 100%;
     height: 100vh;
 
-    .bg_img {
+    .banner-img {
       width: 100%;
       height: 100%;
 
@@ -368,7 +406,7 @@ function goHref(url: string) {
       }
     }
 
-    .animation_writer {
+    .animation-writer {
       animation: grow 7s steps(44) 1s normal infinite,
         blink 0.5s steps(44) normal infinite;
       white-space: nowrap;
@@ -394,36 +432,65 @@ function goHref(url: string) {
     }
   }
 
-  .home_center_box {
+  .home-center-box {
     display: flex;
     width: 100%;
     position: relative;
 
-    .home_content {
+    .home-container {
       display: flex;
       margin: 10px auto 0 auto;
       width: 80%;
 
-      .content_left {
+      .content-left {
         display: flex;
         flex-direction: column;
         width: 25%;
         z-index: 1;
 
-        .content_search,
-        .content_recommend,
-        .content_browse,
-        .content_consultation {
+        .content-search,
+        .content-recommend,
+        .content-browse,
+        .content-online {
           display: flex;
           margin-top: 30px;
           width: 100%;
         }
 
-        .content_info {
+        .content-online {
+          box-sizing: border-box;
+          padding: 10px;
+          display: flex;
+          flex-wrap: wrap;
+
+          .online-title {
+            width: 100%;
+          }
+
+          .onlines {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+
+            .online {
+              width: 10%;
+              display: flex;
+              padding: 5px;
+              align-items: center;
+
+              .avatar {
+                width: 100%;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+
+        .content-info {
           transition-duration: 0.5s;
           background: linear-gradient(to right, #9fe1fa, #f4edc9);
 
-          .info_link {
+          .info-link {
             display: flex;
             justify-content: center;
             padding: 20px 0 20px 0;
@@ -450,7 +517,7 @@ function goHref(url: string) {
                 color: #f38181;
               }
 
-              .info_backrougnd {
+              .info-backrougnd {
                 display: flex;
                 width: 100%;
                 height: 35%;
@@ -465,12 +532,12 @@ function goHref(url: string) {
             object-fit: cover;
           }
 
-          .info_avater {
+          .info-avater {
             display: flex;
             width: 100%;
             height: 10%;
 
-            .info_name {
+            .info-name {
               padding-left: 45px;
               display: flex;
               flex: 3;
@@ -504,7 +571,7 @@ function goHref(url: string) {
           }
         }
 
-        .content_search {
+        .content-search {
           transition-duration: 0.5s;
 
           .search {
@@ -514,14 +581,14 @@ function goHref(url: string) {
             flex-wrap: wrap;
             padding: 7px;
 
-            .search_title {
+            .search-title {
               width: 100%;
               height: 50%;
               margin: 5px 0 0 5px;
               font-size: 22px;
             }
 
-            .search_box {
+            .search-box {
               display: flex;
               justify-content: center;
               align-items: center;
@@ -540,7 +607,7 @@ function goHref(url: string) {
                 font-size: 22px;
               }
 
-              .search_txt {
+              .search-txt {
                 flex: 8;
                 width: 80%;
                 margin-left: 10px;
@@ -554,7 +621,7 @@ function goHref(url: string) {
           }
         }
 
-        .content_recommend {
+        .content-recommend {
           .recommend {
             display: flex;
             flex-direction: column;
@@ -563,10 +630,9 @@ function goHref(url: string) {
             flex: 1;
           }
 
-          .recommend_title {
+          .recommend-title {
             display: flex;
             align-items: center;
-            font-size: 22px;
             padding-bottom: 10px;
 
             .icon {
@@ -575,7 +641,7 @@ function goHref(url: string) {
               vertical-align: -0.15em;
               fill: currentColor;
               overflow: hidden;
-              font-size: 30px;
+              font-size: 28px;
             }
 
             p {
@@ -584,17 +650,17 @@ function goHref(url: string) {
             }
           }
 
-          .recommend_row {
+          .recommend-row {
             padding: 5px 0 5px 0;
 
-            .recommend_message {
+            .recommend-message {
               width: 100%;
               height: 70%;
               margin: 5px 0;
               display: flex;
               flex-direction: row;
 
-              .recommend_img {
+              .recommend-img {
                 width: 50%;
                 height: 100%;
                 border-radius: 10px;
@@ -616,36 +682,31 @@ function goHref(url: string) {
 
               }
 
-              .recommend_info {
+              .recommend-info {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 width: 50%;
                 padding: 0px 7px;
 
-                .article_name {
-                  width: 100%;
-                  font-size: 12px;
-                  display: -webkit-box;
-                  -webkit-line-clamp: 2;
-                  -webkit-box-orient: vertical;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
-                }
-
-                .article_author {
+                .article-name {
                   width: 100%;
                   font-size: 12px;
                 }
 
-                .article_time {
+                .article-author {
+                  width: 100%;
+                  font-size: 12px;
+                }
+
+                .article-time {
                   width: 100%;
                   font-size: 10px;
                 }
               }
             }
 
-            .recommend_time {
+            .recommend-time {
               display: flex;
               align-items: center;
               height: 20%;
@@ -661,7 +722,7 @@ function goHref(url: string) {
                 font-size: 12px;
               }
 
-              .content_browse {
+              .content-browse {
                 display: flex;
                 flex-direction: column;
               }
@@ -669,10 +730,9 @@ function goHref(url: string) {
           }
         }
 
-        .content_browse {
+        .content-browse {
           .browse {
             display: flex;
-            flex: 1;
             margin-top: 10px;
             padding: 10px;
             flex-direction: column;
@@ -716,7 +776,7 @@ function goHref(url: string) {
         }
       }
 
-      .content_right {
+      .content-right {
         display: flex;
         flex-direction: column;
         width: 80%;
@@ -776,7 +836,7 @@ function goHref(url: string) {
             width: 100%;
             padding: 0 0 40px 0;
 
-            .category_header {
+            .category-header {
               display: flex;
               align-items: center;
               justify-content: space-between;
@@ -826,24 +886,24 @@ function goHref(url: string) {
               }
             }
 
-            .category_body {
+            .category-body {
               width: 100%;
               height: 80%;
               padding-top: 20px;
 
-              .category_list {
+              .category-list {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: space-between;
 
-                .category_detail {
+                .category-detail {
                   width: 30%;
                   display: flex;
                   flex-direction: column;
                   border-radius: 10px 10px 10px 10px;
 
-                  .category_img {
+                  .category-img {
                     overflow: hidden;
 
                     img {
@@ -882,7 +942,7 @@ function goHref(url: string) {
                     flex: 1;
                   }
 
-                  .category_title {
+                  .category-title {
                     display: flex;
                     align-items: center;
                     font-size: 16px;
@@ -890,7 +950,7 @@ function goHref(url: string) {
                     flex-grow: 1;
                   }
 
-                  .category_info {
+                  .category-info {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
@@ -914,7 +974,7 @@ function goHref(url: string) {
                     }
                   }
 
-                  .category_msg {
+                  .category-msg {
                     font-size: 12px;
 
                     span {
@@ -927,7 +987,7 @@ function goHref(url: string) {
                     }
                   }
 
-                  .category_target {
+                  .category-target {
                     display: flex;
                     padding-bottom: 5px;
 
@@ -962,7 +1022,7 @@ function goHref(url: string) {
                   }
                 }
 
-                .category_detail:nth-child(n + 4) {
+                .category-detail:nth-child(n + 4) {
                   margin-top: 20px;
                 }
               }

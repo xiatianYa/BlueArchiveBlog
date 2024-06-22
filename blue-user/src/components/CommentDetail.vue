@@ -1,49 +1,49 @@
 <template>
   <div class="comment">
-    <div class="leaver_body">
-      <div class="leaver_container">
-        <div class="leaver_title">
+    <div class="leaver-body">
+      <div class="leaver-container">
+        <div class="leaver-title">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-liuyanguanli"></use>
           </svg>
           <span>留言</span>
         </div>
-        <div class="leaver_input">
+        <div class="leaver-input">
           <textarea type="text" placeholder="写些留言一起交流吧..." v-model="commentContent"></textarea>
         </div>
-        <div class="leaver_emoji">
+        <div class="leaver-emoji">
           <V3Emoji @click-emoji="appendComment" :fulldata="true" :recent="true" />
           <button class="pointer" @click="addLeaverComment">提交</button>
         </div>
-        <div class="leaver_comments">
+        <div class="leaver-comments">
           <div class="comment" v-for="comment in commentList" :key="comment.id">
-            <div class="comment_left">
-              <div class="user_avater">
+            <div class="comment-left">
+              <div class="user-avater">
                 <img :src="comment.userAvatar">
               </div>
             </div>
-            <div class="comment_right">
-              <div class="publish_info">
-                <span class="user_name">{{ comment.userName }}</span>
-                <span class="publish_time">{{ comment.createTime.substring(0, 16) }}</span>
+            <div class="comment-right">
+              <div class="publish-info">
+                <span class="user-name">{{ comment.userName }}</span>
+                <span class="publish-time">{{ comment.createTime.substring(0, 16) }}</span>
                 <span class="reply pointer" @click="openLeaverDialogParent(comment.id)">回复</span>
               </div>
-              <div class="comment_content">
+              <div class="comment-content">
                 <span class="content">{{ comment.commentContent }}</span>
               </div>
-              <div class="comment_reply" v-for="reply in comment.replyList" :key="reply.id">
-                <div class="reply_left">
-                  <div class="reply_avatar">
+              <div class="comment-reply" v-for="reply in comment.replyList" :key="reply.id">
+                <div class="reply-left">
+                  <div class="reply-avatar">
                     <img :src="reply.userAvatar">
                   </div>
                 </div>
-                <div class="reply_right">
-                  <div class="reply_info">
-                    <span class="user_name">{{ reply.userName }}</span>
-                    <span class="reply_time">{{ reply.createTime.substring(0, 16) }}</span>
+                <div class="reply-right">
+                  <div class="reply-info">
+                    <span class="user-name">{{ reply.userName }}</span>
+                    <span class="reply-time">{{ reply.createTime.substring(0, 16) }}</span>
                     <span class="reply pointer" @click="openLeaverDialog(reply, comment.id)">回复</span>
                   </div>
-                  <div class="reply_content">
+                  <div class="reply-content">
                     <span class="replyAt" v-show="reply.atUserName">@{{ reply.atUserName }}&nbsp;:&nbsp;</span>
                     <span class="content">{{ reply.commentContent }}</span>
                   </div>
@@ -54,18 +54,18 @@
         </div>
       </div>
     </div>
-    <div class="leaver_dialog" v-show="addLeaver">
+    <div class="leaver-dialog" v-show="addLeaver">
       <div class="dialog">
-        <div class="leaver_title">
+        <div class="leaver-title">
           <span>留言</span>
           <svg class="icon pointer" aria-hidden="true" @click="closeLeaverDialog()">
             <use xlink:href="#icon-guanbi"></use>
           </svg>
         </div>
-        <div class="leaver_input">
+        <div class="leaver-input">
           <textarea type="text" placeholder="写些留言一起交流吧..." v-model="commentLeaver.commentContent"></textarea>
         </div>
-        <div class="leaver_emoji">
+        <div class="leaver-emoji">
           <V3Emoji class="emoji" @click-emoji="appendCommentChile" :fulldata="true" :recent="true" />
           <button class="pointer" @click="addLeaverCommentChile">提交</button>
         </div>
@@ -210,18 +210,18 @@ function closeLeaverDialog() {
   display: flex;
   justify-content: center;
 
-  .leaver_body {
+  .leaver-body {
     display: flex;
     justify-content: center;
     width: 100%;
     padding-top: 10px;
     padding-bottom: 40px;
 
-    .leaver_container {
+    .leaver-container {
       width: 100%;
       box-sizing: border-box;
 
-      .leaver_title {
+      .leaver-title {
         display: flex;
         align-items: center;
 
@@ -235,7 +235,7 @@ function closeLeaverDialog() {
         }
       }
 
-      .leaver_input {
+      .leaver-input {
         textarea {
           resize: none;
           box-sizing: border-box;
@@ -259,7 +259,7 @@ function closeLeaverDialog() {
         }
       }
 
-      .leaver_emoji {
+      .leaver-emoji {
         display: flex;
         padding-top: 3px;
 
@@ -276,7 +276,7 @@ function closeLeaverDialog() {
         }
       }
 
-      .leaver_comments {
+      .leaver-comments {
         width: 100%;
         margin-top: 20px;
 
@@ -288,10 +288,10 @@ function closeLeaverDialog() {
           height: 100%;
           border-top: 2px solid #D5D5D5;
 
-          .comment_left {
+          .comment-left {
             display: flex;
 
-            .user_avater {
+            .user-avater {
               padding-right: 10px;
 
               img {
@@ -303,21 +303,21 @@ function closeLeaverDialog() {
             }
           }
 
-          .comment_right {
+          .comment-right {
             width: 90%;
             height: 100%;
 
-            .publish_info {
+            .publish-info {
               display: flex;
 
-              .user_name {
+              .user-name {
                 display: flex;
                 align-items: center;
                 font-size: 14px;
                 padding-right: 5px;
               }
 
-              .publish_time {
+              .publish-time {
                 display: flex;
                 flex-grow: 1;
                 align-items: end;
@@ -335,7 +335,7 @@ function closeLeaverDialog() {
               }
             }
 
-            .comment_content {
+            .comment-content {
               box-sizing: border-box;
               display: flex;
               align-items: center;
@@ -351,15 +351,15 @@ function closeLeaverDialog() {
               }
             }
 
-            .comment_reply {
+            .comment-reply {
               display: flex;
               width: 100%;
               padding-top: 20px;
 
-              .reply_left {
+              .reply-left {
                 display: flex;
 
-                .reply_avatar {
+                .reply-avatar {
                   padding-right: 10px;
 
                   img {
@@ -371,22 +371,22 @@ function closeLeaverDialog() {
                 }
               }
 
-              .reply_right {
+              .reply-right {
                 flex-grow: 1;
                 width: 90%;
                 height: 100%;
 
-                .reply_info {
+                .reply-info {
                   display: flex;
 
-                  .user_name {
+                  .user-name {
                     display: flex;
                     align-items: center;
                     font-size: 14px;
                     padding-right: 5px;
                   }
 
-                  .reply_time {
+                  .reply-time {
                     display: flex;
                     align-items: end;
                     flex-grow: 1;
@@ -404,7 +404,7 @@ function closeLeaverDialog() {
                   }
                 }
 
-                .reply_content {
+                .reply-content {
                   box-sizing: border-box;
                   display: flex;
                   align-items: center;
@@ -432,7 +432,7 @@ function closeLeaverDialog() {
     }
   }
 
-  .leaver_dialog {
+  .leaver-dialog {
     position: fixed;
     display: flex;
     justify-content: center;
@@ -449,7 +449,7 @@ function closeLeaverDialog() {
       border-radius: 10px;
       background-color: #FFFFFF;
 
-      .leaver_title {
+      .leaver-title {
         box-sizing: border-box;
         position: relative;
         width: 100%;
@@ -475,7 +475,7 @@ function closeLeaverDialog() {
         }
       }
 
-      .leaver_input {
+      .leaver-input {
         display: flex;
         justify-content: center;
         height: 65%;
@@ -503,7 +503,7 @@ function closeLeaverDialog() {
         }
       }
 
-      .leaver_emoji {
+      .leaver-emoji {
         display: flex;
         justify-content: center;
         width: 100%;

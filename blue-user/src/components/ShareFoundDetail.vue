@@ -1,14 +1,14 @@
 <template>
   <div class="found">
     <div class="left animate__animated animate__fadeInUp">
-      <div class="found_title">
+      <div class="found-title">
         我的二创
       </div>
-      <div class="found_menu">
+      <div class="found-menu">
         <span class="pointer" @click="handleErchuangAdd">添加二创</span>
         <span class="pointer" @click="handleErchuangDelete">删除二创</span>
       </div>
-      <div class="found_list">
+      <div class="found-list">
         <div class="item pointer" v-for="erchuang in ErchuangList">
           <input type="checkbox" v-model="deleteErchuangList" name="article" :value="erchuang.id">
           <span style="flex: 1;">
@@ -22,8 +22,8 @@
       </div>
     </div>
     <div class="right animate__animated animate__fadeInRight">
-      <div class="found_list">
-        <ErchuangDetail :erchuang="erchuang" v-for="erchuang in ErchuangList"></ErchuangDetail>
+      <div class="found-list">
+        <ErchuangDetail :erchuang="erchuang" v-for="erchuang in ErchuangList" :key="erchuang.id"></ErchuangDetail>
         <reuse-Pagination :page="queryParam.pageNum" :count="queryParam.count" :pageSize="queryParam.pageSize"
           :pageSizes="queryParam.pageSizes" @size-change="onSizeChange"
           @current-change="onCurrentChange"></reuse-Pagination>
@@ -273,14 +273,14 @@ function deleteErchuangSubmit() {
     margin: 20px;
     border: 1px solid #c8d9eb;
 
-    .found_title {
+    .found-title {
       display: flex;
       justify-content: center;
       font-size: 14px;
       margin: 10px;
     }
 
-    .found_menu {
+    .found-menu {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
@@ -292,7 +292,7 @@ function deleteErchuangSubmit() {
       }
     }
 
-    .found_list {
+    .found-list {
       display: flex;
       flex-direction: column;
 
@@ -326,7 +326,7 @@ function deleteErchuangSubmit() {
     min-height: 100vh;
     margin: 0 20px;
 
-    .found_list {
+    .found-list {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;

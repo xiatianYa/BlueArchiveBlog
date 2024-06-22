@@ -1,7 +1,7 @@
 <template>
   <div class="song">
     <div class="banner">
-      <div class="animate__animated animate__slideInDown banner_video">
+      <div class="animate__animated animate__slideInDown banner-video">
         <video id="myVideo" autoplay loop muted>
           <source :src="bgUrl" type="video/mp4">
         </video>
@@ -32,7 +32,7 @@ import { onMounted, ref } from "vue"
 import { bySortList } from '@/api/music'
 import MusicDetail from "@/components/MusicDetail.vue";
 
-const bgUrl = "http://47.113.197.48:9500/statics/2024/04/26/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd_20240426121202A002.mp4"
+const bgUrl = "http://47.113.197.48:9500/statics/2024/04/26/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd-20240426121202A002.mp4"
 //音乐列表
 const musicList = ref([])
 //存储上一个img图片
@@ -64,7 +64,7 @@ function startMusic(event: any, musicUrl: string) {
   //设置新的音乐地址
   music.src = musicUrl
   //设置img图片旋转
-  img.className = "music_img rotateAll";
+  img.className = "music-img rotateAll";
   //设置ImgNBefore
   BeforeImg = img
   //开始播放音乐
@@ -84,7 +84,7 @@ function startMusic(event: any, musicUrl: string) {
     height: 400px;
     padding-top: 60px;
 
-    .banner_video {
+    .banner-video {
       width: 90%;
       height: 100%;
       border-radius: 25px;
@@ -196,7 +196,7 @@ function startMusic(event: any, musicUrl: string) {
         padding-right: 30px;
         padding-top: 30px;
 
-        .music_img {
+        .music-img {
           width: 100px;
           height: 100px;
           overflow: hidden;
@@ -216,7 +216,7 @@ function startMusic(event: any, musicUrl: string) {
           }
         }
 
-        .music_name {
+        .music-name {
           display: flex;
           align-items: center;
           justify-content: center;

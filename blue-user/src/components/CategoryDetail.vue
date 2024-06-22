@@ -1,28 +1,36 @@
 <template>
-  <div class="category_detail box_shadow pointer" @click="goArticlePreview(article.id)">
-    <div class="category_img">
+  <div class="category-detail box-shadow pointer" @click="goArticlePreview(article.id)">
+    <div class="category-img">
       <img :src="article.cover">
     </div>
-    <div class="category_time">
+    <div class="category-title">
+      <n-ellipsis :line-clamp="1">
+        {{ article.articleName }}
+      </n-ellipsis>
+    </div>
+    <div class="category-msg">
+      <span>
+        <n-ellipsis :line-clamp="1">
+          {{ article.articleDescribe }}
+        </n-ellipsis>
+      </span>
+      <span>
+        <n-ellipsis :line-clamp="1">
+          作者 : {{ article.userName }}
+        </n-ellipsis>
+      </span>
+    </div>
+    <div class="category-time">
       <svg class="icon pointer" aria-hidden="true">
         <use xlink:href="#icon-rili2"></use>
       </svg>
       <span>
-        {{ article.createTime }}
+        <n-ellipsis :line-clamp="1">
+          {{ article.createTime }}
+        </n-ellipsis>
       </span>
     </div>
-    <div class="category_title">
-      {{ article.articleName }}
-    </div>
-    <div class="category_msg">
-      <span>
-        {{ article.articleDescribe }}
-      </span>
-      <span>
-        作者 : {{ article.userName }}
-      </span>
-    </div>
-    <div class="category_info">
+    <div class="category-info">
       <div class="info">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-remen"></use>
@@ -46,7 +54,7 @@
         {{ article.like }} 点赞
       </div>
     </div>
-    <div class="category_target">
+    <div class="category-target">
       <div class="target" v-for="tag in article.tagList" @click.stop="goSort(article.sortId, tag.tagId)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-wenjianjia"></use>
@@ -59,7 +67,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-
+import { NEllipsis } from 'naive-ui'
 const props = defineProps(['article'])
 //路由
 const router = useRouter()
@@ -74,13 +82,13 @@ function goArticlePreview(articleId: any) {
 </script>
 
 <style lang="scss" scoped>
-.category_detail {
+.category-detail {
   width: 30%;
   display: flex;
   flex-direction: column;
   border-radius: 10px 10px 10px 10px;
 
-  .category_img {
+  .category-img {
     border-radius: 10px 10px 0 0;
     overflow: hidden;
 
@@ -98,7 +106,7 @@ function goArticlePreview(articleId: any) {
     }
   }
 
-  .category_time {
+  .category-time {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -123,7 +131,7 @@ function goArticlePreview(articleId: any) {
     flex: 1;
   }
 
-  .category_title {
+  .category-title {
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -131,7 +139,7 @@ function goArticlePreview(articleId: any) {
     flex-grow: 1;
   }
 
-  .category_info {
+  .category-info {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -155,7 +163,7 @@ function goArticlePreview(articleId: any) {
     }
   }
 
-  .category_msg {
+  .category-msg {
     display: flex;
     font-size: 12px;
 
@@ -169,7 +177,7 @@ function goArticlePreview(articleId: any) {
     }
   }
 
-  .category_target {
+  .category-target {
     display: flex;
     padding-bottom: 5px;
 
@@ -204,7 +212,7 @@ function goArticlePreview(articleId: any) {
   }
 }
 
-.category_detail:nth-child(n + 4) {
+.category-detail:nth-child(n + 4) {
   margin-top: 20px;
 }
 </style>

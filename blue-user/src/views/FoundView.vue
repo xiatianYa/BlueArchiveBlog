@@ -2,7 +2,7 @@
   <div class="found">
     <div class="banner">
       <div class="animate__animated animate__slideInDown bg">
-        <div class="bg_img">
+        <div class="bg-img">
           <img :src="bgUrl">
         </div>
         <div class="menus">
@@ -26,7 +26,7 @@
     </div>
     <div class="founds">
       <div class="found animate__animated animate__zoomIn">
-        <div class="found_header">
+        <div class="found-header">
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
@@ -43,7 +43,7 @@
             <use xlink:href="#icon-icon-gengduo"></use>
           </svg>
         </div>
-        <div class="found_body">
+        <div class="found-body">
           <PixivDetail v-show="type === 0" :pixiv="pixiv" v-for="pixiv in pixivList" @click="goPixiv(pixiv.id)" />
           <ErchuangDetail v-show="type === 1" :erchuang="erchuang" v-for="erchuang in erchuangList" />
           <ToolDetail v-show="type === 2" :tool="tool" v-for="tool in toolList" />
@@ -169,7 +169,7 @@ function loadData() {
 //滚动事件
 const handleScroll = () => {
   // 监听滚动事件
-  const foundBody = document.querySelector('.found_body') // 获取滚动容器
+  const foundBody = document.querySelector('.found-body') // 获取滚动容器
   const banner = document.querySelector('.banner') // 获取前面高度容器
   if (isScrolledToBottom(foundBody, banner)) {
     console.log("加载数据");
@@ -215,7 +215,7 @@ function isLastPage(total: number) {
       overflow: hidden;
       position: relative;
 
-      .bg_img {
+      .bg-img {
         width: 100%;
         height: 100%;
 
@@ -270,13 +270,14 @@ function isLastPage(total: number) {
     justify-content: center;
     align-items: center;
     width: 100%;
+    min-height: 400px;
     margin-top: 30px;
 
     .found {
       width: 65%;
       height: 100%;
 
-      .found_header {
+      .found-header {
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -296,13 +297,13 @@ function isLastPage(total: number) {
         }
       }
 
-      .found_body {
+      .found-body {
         display: flex;
         flex-wrap: wrap;
         flex-grow: 1;
         justify-content: space-between;
 
-        .found_Detail:nth-child(even) {
+        .found-Detail:nth-child(even) {
           flex-direction: row-reverse;
         }
       }

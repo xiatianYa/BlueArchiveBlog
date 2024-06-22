@@ -24,7 +24,7 @@ input {
 }
 
 //文字不可以被选择
-.no_select {
+.no-select {
   //设置文字不被点击选中
   -webkit-user-select: none;
   /* Safari */
@@ -54,13 +54,13 @@ body::-webkit-scrollbar {
 }
 
 /**盒子阴影*/
-.box_shadow {
+.box-shadow {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease-in-out;
 }
 
 /**盒子阴影*/
-.box_shadow:hover {
+.box-shadow:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   transition: all 0.2s ease-in-out;
 }
@@ -80,12 +80,12 @@ body::-webkit-scrollbar {
 }
 
 /**盒子圆角*/
-.box_radius {
+.box-radius {
   border-radius: 5px 5px 8px 8px;
 }
 
 /**黑夜模式*/
-.bg_black {
+.bg-black {
   position: relative;
   background-color: rgb(16, 16, 20) !important;
   color: rgba(255, 255, 255, 0.82) !important;
@@ -94,16 +94,16 @@ body::-webkit-scrollbar {
 }
 
 /**白昼模式*/
-.bg_white {
+.bg-white {
   position: relative;
   color: rgb(51, 54, 57) !important;
   transition: color 1s ease;
   transition: background-color 0.8s ease;
 }
 
-.bg_black::before {
+.bg-black::before {
   content: '';
-  background: url("/static/images/loading_bg.png") no-repeat;
+  background: url("@/assets/images/loadingBg.png") no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
   width: 100%;
@@ -116,9 +116,9 @@ body::-webkit-scrollbar {
   opacity: 1;
 }
 
-.bg_white::before {
+.bg-white::before {
   content: '';
-  background: url("/static/images/loading_bg.png") no-repeat;
+  background: url("@/assets/images/loadingBg.png") no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
   width: 100%;

@@ -1,14 +1,14 @@
 <template>
     <div class="user">
-        <div class="user_left animate__animated animate__fadeInDown">
-            <div class="user_title">
+        <div class="user-left animate__animated animate__fadeInDown">
+            <div class="user-title">
                 <span>个人信息</span>
             </div>
-            <div class="user_avatar">
+            <div class="user-avatar">
                 <img :src="user.avatar">
             </div>
-            <div class="user_info">
-                <div class="user_name">
+            <div class="user-info">
+                <div class="user-name">
                     <div class="left">
                         <svg class="icon pointer" aria-hidden="true">
                             <use xlink:href="#icon-user"></use>
@@ -21,7 +21,7 @@
                         <span>{{ user.nickName }}</span>
                     </div>
                 </div>
-                <div class="user_phone">
+                <div class="user-phone">
                     <div class="left">
                         <svg class="icon pointer" aria-hidden="true">
                             <use xlink:href="#icon-mobile"></use>
@@ -34,7 +34,7 @@
                         <span>{{ user.phone }}</span>
                     </div>
                 </div>
-                <div class="user_email">
+                <div class="user-email">
                     <div class="left">
                         <svg class="icon pointer" aria-hidden="true">
                             <use xlink:href="#icon-mail"></use>
@@ -47,7 +47,7 @@
                         <span>{{ user.email }}</span>
                     </div>
                 </div>
-                <div class="user_create">
+                <div class="user-create">
                     <div class="left">
                         <svg class="icon pointer" aria-hidden="true">
                             <use xlink:href="#icon-calendar-check"></use>
@@ -62,44 +62,44 @@
                 </div>
             </div>
         </div>
-        <div class="user_right animate__animated animate__fadeInRight">
-            <div class="user_title">基本信息</div>
+        <div class="user-right animate__animated animate__fadeInRight">
+            <div class="user-title">基本信息</div>
             <div class="userInfo">
-                <div class="user_name">
+                <div class="user-name">
                     <span>姓名</span>
                     <input type="text" v-model="user.nickName">
                 </div>
-                <div class="user_phone">
+                <div class="user-phone">
                     <span>手机</span>
                     <input type="text" v-model="user.phone">
                 </div>
-                <div class="user_email">
+                <div class="user-email">
                     <span>邮箱</span>
                     <input type="text" v-model="user.email">
                 </div>
-                <div class="button_box">
+                <div class="button-box">
                     <button @click="saveUserInfo()">保存</button>
                 </div>
             </div>
             <div class="userPwd">
-                <div class="user_pwd">
+                <div class="user-pwd">
                     <span>旧密码</span>
                     <input type="password" v-model="userPwd.oldPwd">
                 </div>
-                <div class="user_pwd">
+                <div class="user-pwd">
                     <span>新密码</span>
                     <input type="password" v-model="userPwd.newPwd">
                 </div>
-                <div class="user_pwd">
+                <div class="user-pwd">
                     <span>确认密码</span>
                     <input type="password" v-model="userPwd.entryPwd">
                 </div>
-                <div class="button_box">
+                <div class="button-box">
                     <button @click="submitPwd()">确认修改</button>
                 </div>
             </div>
         </div>
-        <div class="active_graph animate__animated animate__fadeInUp">
+        <div class="active-graph animate__animated animate__fadeInUp">
             <calendar-heatmap :round="3" :max="11" tooltip-unit="commit" :end-date="Date()" :values="userHeatMapData"
                 :range-color="['#ebedf0',
                     'rgba(255,202,43,0.4)',
@@ -194,13 +194,13 @@ function submitPwd() {
     height: 100%;
     min-height: 100vh;
 
-    .user_left {
+    .user-left {
         box-sizing: border-box;
         width: 20%;
         margin: 20px;
         border: 1px solid #c8d9eb;
 
-        .user_title {
+        .user-title {
             box-sizing: border-box;
             width: 100%;
             height: 10%;
@@ -212,7 +212,7 @@ function submitPwd() {
             border-bottom: 1px solid #c8d9eb;
         }
 
-        .user_avatar {
+        .user-avatar {
             box-sizing: border-box;
             width: 100%;
             height: 30%;
@@ -229,7 +229,7 @@ function submitPwd() {
             }
         }
 
-        .user_info {
+        .user-info {
             width: 100%;
             padding-top: 10px;
             padding-bottom: 30px;
@@ -237,7 +237,7 @@ function submitPwd() {
             flex-wrap: wrap;
             justify-content: center;
 
-            .user_name {
+            .user-name {
                 box-sizing: border-box;
                 width: 80%;
                 display: flex;
@@ -250,26 +250,7 @@ function submitPwd() {
                 }
             }
 
-            .user_phone {
-                box-sizing: border-box;
-                width: 80%;
-                display: flex;
-                padding: 10px;
-                justify-content: space-between;
-                border-top: 1px solid #c8d9eb;
-
-                span {
-                    font-size: 12px;
-                }
-
-                .right {
-                    span {
-                        font-size: 12px;
-                    }
-                }
-            }
-
-            .user_email {
+            .user-phone {
                 box-sizing: border-box;
                 width: 80%;
                 display: flex;
@@ -288,7 +269,26 @@ function submitPwd() {
                 }
             }
 
-            .user_create {
+            .user-email {
+                box-sizing: border-box;
+                width: 80%;
+                display: flex;
+                padding: 10px;
+                justify-content: space-between;
+                border-top: 1px solid #c8d9eb;
+
+                span {
+                    font-size: 12px;
+                }
+
+                .right {
+                    span {
+                        font-size: 12px;
+                    }
+                }
+            }
+
+            .user-create {
                 box-sizing: border-box;
                 width: 80%;
                 display: flex;
@@ -310,7 +310,7 @@ function submitPwd() {
         }
     }
 
-    .user_right {
+    .user-right {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -319,7 +319,7 @@ function submitPwd() {
         margin: 20px;
         border: 1px solid #c8d9eb;
 
-        .user_title {
+        .user-title {
             box-sizing: border-box;
             width: 100%;
             height: 10%;
@@ -340,7 +340,7 @@ function submitPwd() {
             padding: 20px;
             border-right: 1px solid #c8d9eb;
 
-            .button_box {
+            .button-box {
                 margin: 0;
 
                 button {
@@ -358,7 +358,7 @@ function submitPwd() {
                 }
             }
 
-            .user_name {
+            .user-name {
                 margin: 10px 0;
                 font-size: 14px;
 
@@ -383,7 +383,7 @@ function submitPwd() {
                 }
             }
 
-            .user_phone {
+            .user-phone {
                 margin: 10px 0;
                 font-size: 14px;
 
@@ -408,7 +408,7 @@ function submitPwd() {
                 }
             }
 
-            .user_email {
+            .user-email {
                 margin: 10px 0;
                 font-size: 14px;
 
@@ -443,7 +443,7 @@ function submitPwd() {
             padding: 20px;
             border-right: 1px solid #c8d9eb;
 
-            .user_pwd {
+            .user-pwd {
                 margin: 10px 0;
                 font-size: 14px;
 
@@ -485,7 +485,7 @@ function submitPwd() {
         }
     }
 
-    .active_graph {
+    .active-graph {
         width: 100%;
         height: 50%;
         font-size: 8px;

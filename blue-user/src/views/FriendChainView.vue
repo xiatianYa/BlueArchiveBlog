@@ -2,7 +2,7 @@
   <div class="friend">
     <div class="banner">
       <div class="animate__animated animate__slideInDown bg">
-        <div class="bg_img">
+        <div class="bg-img">
           <img :src="bgUrl">
         </div>
       </div>
@@ -10,7 +10,7 @@
     <div class="container animate__animated animate__fadeInLeft">
       <div class="content">
         <div class="info">
-          <div class="info_msg">
+          <div class="info-msg">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-faxian"></use>
             </svg>
@@ -18,14 +18,14 @@
               本站信息
             </span>
             <div class="msg">
-              <div class="msg_name">网站名称: {{ websiteInfo.websiteName }}</div>
-              <div class="msg_link">网址: {{ websiteInfo.websiteUrl }}</div>
-              <div class="msg_img select">图标: {{ websiteInfo.websiteCover }}</div>
-              <div class="msg_detail">描述: {{ websiteInfo.websiteDetail }}</div>
-              <div class="msg_detail">备注: {{ websiteInfo.websiteRemark }}</div>
+              <div class="msg-name">网站名称: {{ websiteInfo.websiteName }}</div>
+              <div class="msg-link">网址: {{ websiteInfo.websiteUrl }}</div>
+              <div class="msg-img select">图标: {{ websiteInfo.websiteCover }}</div>
+              <div class="msg-detail">描述: {{ websiteInfo.websiteDetail }}</div>
+              <div class="msg-detail">备注: {{ websiteInfo.websiteRemark }}</div>
             </div>
           </div>
-          <div class="apply_msg">
+          <div class="apply-msg">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-faxian"></use>
             </svg>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="friends">
-          <div class="friend_segmentation">
+          <div class="friend-segmentation">
             <div class="segmentation">
 
             </div>
@@ -54,13 +54,13 @@
               <use xlink:href="#icon-xiangsu-xuehua"></use>
             </svg>
           </div>
-          <div class="friend box_shadow pointer" v-for="friend in FriednList">
-            <div class="friend_img">
+          <div class="friend box-shadow pointer" v-for="friend in FriednList">
+            <div class="friend-img">
               <img :src="friend.friendUrl">
             </div>
-            <div class="friend_name">{{ friend.friendName }}</div>
-            <div class="friend_detail">{{ friend.friendIntroduce }}</div>
-            <div class="friend_time">
+            <div class="friend-name">{{ friend.friendName }}</div>
+            <div class="friend-detail">{{ friend.friendIntroduce }}</div>
+            <div class="friend-time">
               <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-shalou"></use>
               </svg>
@@ -137,7 +137,7 @@ onMounted(() => {
       overflow: hidden;
       position: relative;
 
-      .bg_img {
+      .bg-img {
         width: 100%;
         height: 100%;
 
@@ -165,7 +165,7 @@ onMounted(() => {
         display: flex;
         flex-wrap: wrap;
 
-        .info_msg {
+        .info-msg {
           display: flex;
           align-items: center;
           flex-wrap: wrap;
@@ -202,7 +202,7 @@ onMounted(() => {
           }
         }
 
-        .apply_msg {
+        .apply-msg {
           display: flex;
           align-items: center;
           flex-wrap: wrap;
@@ -247,7 +247,7 @@ onMounted(() => {
         flex-wrap: wrap;
         padding-top: 30px;
 
-        .friend_segmentation {
+        .friend-segmentation {
           width: 100%;
           position: relative;
           display: flex;
@@ -282,7 +282,7 @@ onMounted(() => {
           padding-bottom: 0px;
           overflow: hidden;
 
-          .friend_img {
+          .friend-img {
             width: 100%;
             height: 70%;
             overflow: hidden;
@@ -301,7 +301,7 @@ onMounted(() => {
             }
           }
 
-          .friend_name {
+          .friend-name {
             width: 100%;
             height: 100%;
             display: flex;
@@ -310,7 +310,7 @@ onMounted(() => {
             padding: 10px 0px 10px 15px;
           }
 
-          .friend_detail {
+          .friend-detail {
             width: 100%;
             height: 100%;
             display: flex;
@@ -319,7 +319,7 @@ onMounted(() => {
             padding: 10px 0px 10px 15px;
           }
 
-          .friend_time {
+          .friend-time {
             width: 100%;
             height: 100%;
             display: flex;

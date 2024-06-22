@@ -1,14 +1,14 @@
 <template>
   <div class="photo">
     <div class="left animate__animated animate__fadeInUp">
-      <div class="photo_title">
+      <div class="photo-title">
         我的相册
       </div>
-      <div class="photo_menu">
+      <div class="photo-menu">
         <span class="pointer" @click="handelPhotoAdd">添加相册</span>
         <span class="pointer" @click="handelPhoneDelete">删除相册</span>
       </div>
-      <div class="photo_list">
+      <div class="photo-list">
         <div class="item pointer" v-for="photo in photoList">
           <input type="checkbox" v-model="deletePhotoList" name="article" :value="photo.id">
           <span style="flex: 1;">
@@ -22,25 +22,8 @@
       </div>
     </div>
     <div class="right animate__animated animate__fadeInRight">
-      <div class="photo_list">
-        <div class="photo box_shadow" v-for="photo in photoList" :key="photo.id">
-          <div class="photo_img">
-            <img :src="photo.photoUrl" class="box_shadow">
-          </div>
-          <div class="photo_msg">
-            <span>
-              {{ photo.photoName }}
-            </span>
-          </div>
-          <div class="photo_time">
-            <svg class="icon pointer" aria-hidden="true">
-              <use xlink:href="#icon-shalou"></use>
-            </svg>
-            <span>
-              {{ photo.createTime }}
-            </span>
-          </div>
-        </div>
+      <div class="photo-list">
+        <PhotoDetail :photo="photo" v-for="photo in photoList" :key="photo.id"></PhotoDetail>
       </div>
       <reuse-Pagination :page="queryParam.pageNum" :count="queryParam.count" :pageSize="queryParam.pageSize"
         :pageSizes="queryParam.pageSizes" @size-change="onSizeChange"
@@ -103,6 +86,7 @@ import { listSort } from '@/api/sort/photoSort'
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NEllipsis, type FormInst } from 'naive-ui'
 import ImgUpload from '@/components/imgUpload/index.vue'
 import reusePagination from '@/components/reusePagination/index.vue'
+import PhotoDetail from '@/components/PhotoDetail.vue'
 //表单
 const formRef = ref<FormInst>()
 // 定义Photo的类型  
@@ -276,14 +260,14 @@ function photoSubmit() {
     margin: 20px;
     border: 1px solid #c8d9eb;
 
-    .photo_title {
+    .photo-title {
       display: flex;
       justify-content: center;
       font-size: 14px;
       margin: 10px;
     }
 
-    .photo_menu {
+    .photo-menu {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
@@ -295,8 +279,9 @@ function photoSubmit() {
       }
     }
 
-    .photo_list {
+    .photo-list {
       display: flex;
+      flex-wrap: wrap;
       flex-direction: column;
 
       .item {
@@ -328,75 +313,14 @@ function photoSubmit() {
     min-height: 100vh;
     margin: 0 20px;
 
-    .photo_list {
+    .photo-list {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
+      flex-wrap: wrap;
       width: 100%;
       height: 90%;
       min-height: 400px;
       margin-top: 20px;
-
-      .photo {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-        width: 20%;
-        margin: 0 2%;
-        max-height: 300px;
-        border-radius: 10px;
-        padding-bottom: 0;
-
-        .photo_img {
-          display: flex;
-          justify-content: center;
-          width: 80%;
-          min-height: 60%;
-          max-height: 60%;
-          overflow: hidden;
-          border-radius: 10px;
-          margin: 10px;
-
-          img {
-            width: 100%;
-            object-fit: cover;
-            transition: all .3s ease-in 0s;
-            border-radius: 10px;
-          }
-
-          img:hover {
-            object-fit: cover;
-            transform: scale(1.1);
-            transition: all 0.3s ease-in;
-          }
-        }
-
-        .photo_msg {
-          display: flex;
-          width: 80%;
-          margin: 5px 0;
-
-          span {
-            font-size: 12px;
-          }
-        }
-
-
-
-        .photo_time {
-          width: 80%;
-
-          .icon {
-            font-size: 14px;
-          }
-
-          span {
-            font-size: 10px;
-          }
-        }
-      }
     }
   }
 }

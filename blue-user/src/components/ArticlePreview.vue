@@ -1,6 +1,6 @@
 <template>
   <div class="preview select">
-    <div class="preview_info">
+    <div class="preview-info">
       <div class="title">
         {{ article.articleName }}
       </div>
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="preview_navigation">
+    <div class="preview-navigation">
       <div class="navigation">
         <n-anchor affix :show-rail="showRail" :show-background="showBackground" style="width: 100%;">
           <div class="title">
@@ -54,7 +54,7 @@
         </n-anchor>
       </div>
     </div>
-    <div class="preview_box">
+    <div class="preview-box">
       <video class="video" controls v-if="article.videoUrl">
         <source :src="article.videoUrl" type="video/mp4">
       </video>
@@ -166,7 +166,7 @@ watch(article, async (newVal, oldVal) => {
   min-height: 100vh;
   flex-wrap: wrap;
 
-  .preview_info {
+  .preview-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -232,7 +232,7 @@ watch(article, async (newVal, oldVal) => {
     }
   }
 
-  .preview_navigation {
+  .preview-navigation {
     width: 20%;
     box-sizing: border-box;
 
@@ -251,7 +251,7 @@ watch(article, async (newVal, oldVal) => {
     }
   }
 
-  .preview_box {
+  .preview-box {
     box-sizing: border-box;
     width: 80%;
 

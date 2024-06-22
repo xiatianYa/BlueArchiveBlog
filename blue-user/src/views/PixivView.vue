@@ -1,39 +1,39 @@
 <template>
-    <div class="pixiv" :class="globalStore.switch ? 'bg_white' : 'bg_black'">
-        <div class="pixiv_left">
+    <div class="pixiv" :class="globalStore.switch ? 'bg-white' : 'bg-black'">
+        <div class="pixiv-left">
             <n-message-provider>
                 <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :style="style"
                     style="overflow: hidden" />
             </n-message-provider>
-            <div class="pixiv_detail" v-if="pixiv">
-                <div class="found_left">
-                    <div class="left_title">{{ pixiv.pixivName }}</div>
-                    <div class="left_info">
+            <div class="pixiv-detail" v-if="pixiv">
+                <div class="found-left">
+                    <div class="left-title">{{ pixiv.pixivName }}</div>
+                    <div class="left-info">
                         <span>{{ pixiv.pixivPlay }} 播放</span> · <span>{{ pixiv.pixivDanmaku }} 弹幕</span>
                     </div>
-                    <div class="left_type">
+                    <div class="left-type">
                         <span>{{ pixiv.typeName }}</span> · <span>{{ pixiv.pixivPublish.substring(0, 10) }}</span>
                     </div>
-                    <div class="left_shengyou">
+                    <div class="left-shengyou">
                         <span>声优 : {{ pixiv.pixivVoiceActor }}</span>
                     </div>
-                    <div class="left_score">
+                    <div class="left-score">
                         <span>{{ pixiv.pixivScore }}</span><span>分</span>
                     </div>
-                    <div class="left_synopsis">
+                    <div class="left-synopsis">
                         <span>简介 : {{ pixiv.pixivSynopsis }}</span>
                     </div>
                 </div>
-                <div class="found_right">
-                    <div class="category_img">
+                <div class="found-right">
+                    <div class="category-img">
                         <img :src="pixiv.pixivAvater">
                     </div>
                 </div>
             </div>
             <CommentDetail :comment-type="1" :common-id="pixivId" />
         </div>
-        <div class="pixiv_right">
-            <div class="pixiv_msg" :class="globalStore.switch ? 'color_white' : 'color_black'">
+        <div class="pixiv-right">
+            <div class="pixiv-msg" :class="globalStore.switch ? 'color-white' : 'color-black'">
                 <div class="title">
                     <span>
                         弹幕列表
@@ -57,7 +57,7 @@
                             发送时间
                         </span>
                     </div>
-                    <div class="msg_list">
+                    <div class="msg-list">
                         <div class="item" v-for="msg in leaveMessageList">
                             <span class="time">
                                 {{ msg.time }}
@@ -72,8 +72,8 @@
                     </div>
                 </div>
             </div>
-            <div style="border-radius: 10px;padding: 10px;" :class="globalStore.switch ? 'color_white' : 'color_black'">
-                <div class="pixiv_title">
+            <div style="border-radius: 10px;padding: 10px;" :class="globalStore.switch ? 'color-white' : 'color-black'">
+                <div class="pixiv-title">
                     <span>正片 ({{ chaptersIndex + '/' + episodeList.length }})</span>
                     <svg class="icon pointer" aria-hidden="true" @click="changSort" v-show="sort">
                         <use xlink:href="#icon-paixu-jiangxu"></use>
@@ -82,7 +82,7 @@
                         <use xlink:href="#icon-paixu-shengxu"></use>
                     </svg>
                 </div>
-                <div class="pixiv_episodes">
+                <div class="pixiv-episodes">
                     <div class="episode" :class="chaptersIndex === episode.pixivChapters ? 'selectEpisode' : ''"
                         v-for="episode in episodeList" @click="selectChapters(episode)">
                         <span>{{ episode.pixivChapters }}</span>
@@ -205,12 +205,12 @@ function getLeaveMessageList() {
 </script>
 
 <style lang="scss" scoped>
-.color_white {
+.color-white {
     background-color: #e6e8ea;
     color: #000000;
 }
 
-.color_black {
+.color-black {
     background-color: rgb(27, 27, 27, 0.9);
     color: #FFFFFF;
 }
@@ -221,61 +221,61 @@ function getLeaveMessageList() {
     width: 100%;
     padding: 60px 0 40px 0;
 
-    .pixiv_left {
+    .pixiv-left {
         width: 50%;
         height: 100%;
 
-        .pixiv_detail {
+        .pixiv-detail {
             width: 100%;
             display: flex;
             flex-direction: row;
             border-radius: 10px 10px 10px 10px;
 
-            .found_left {
+            .found-left {
                 width: 70%;
                 margin: 30px 15px 30px 15px;
 
-                .left_title {
+                .left-title {
                     width: 100%;
                     font-size: 18px;
                 }
 
-                .left_info {
+                .left-info {
                     font-weight: 100;
                     font-size: 14px;
                     padding-top: 15px;
                 }
 
-                .left_type {
+                .left-type {
                     font-weight: 100;
                     font-size: 14px;
                     padding-top: 15px;
                 }
 
-                .left_shengyou {
+                .left-shengyou {
                     font-weight: 100;
                     font-size: 14px;
                     padding-top: 15px;
                 }
 
-                .left_score {
+                .left-score {
                     font-weight: 100;
                     font-size: 14px;
                     padding-top: 15px;
                 }
 
-                .left_synopsis {
+                .left-synopsis {
                     font-weight: 100;
                     font-size: 14px;
                     padding-top: 15px;
                 }
             }
 
-            .found_right {
+            .found-right {
                 width: 30%;
                 margin: 30px 15px 30px 15px;
 
-                .category_img {
+                .category-img {
                     width: 100%;
                     height: 100%;
                     border-radius: 10px;
@@ -298,13 +298,13 @@ function getLeaveMessageList() {
         }
     }
 
-    .pixiv_right {
+    .pixiv-right {
         width: 30%;
         height: 100%;
         margin: 0 0 0 15px;
         min-height: 500px;
 
-        .pixiv_msg {
+        .pixiv-msg {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -343,7 +343,7 @@ function getLeaveMessageList() {
                     }
                 }
 
-                .msg_list {
+                .msg-list {
                     width: 100%;
 
                     .item {
@@ -360,7 +360,7 @@ function getLeaveMessageList() {
             }
         }
 
-        .pixiv_title {
+        .pixiv-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -376,7 +376,7 @@ function getLeaveMessageList() {
             }
         }
 
-        .pixiv_episodes {
+        .pixiv-episodes {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
@@ -405,20 +405,20 @@ function getLeaveMessageList() {
         }
 
         /* 可选：滑块样式 */
-        .pixiv_episodes::-webkit-scrollbar {
+        .pixiv-episodes::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
 
-        .pixiv_episodes::-webkit-scrollbar-track {
+        .pixiv-episodes::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
 
-        .pixiv_episodes::-webkit-scrollbar-thumb {
+        .pixiv-episodes::-webkit-scrollbar-thumb {
             background: #C8CBCF;
         }
 
-        .pixiv_episodes::-webkit-scrollbar-thumb:hover {
+        .pixiv-episodes::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
     }

@@ -1,6 +1,7 @@
 package com.blue.blog.entry.dto;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,17 @@ public class BlueArticleDTO implements Serializable
 
     /** 用户名称 */
     private String userName;
+
+    /** 文章热度数 */
+    @TableField(exist = false)
+    private Integer hot;
+
+    /** 文章评论数 */
+    @TableField(exist = false)
+    private Integer comment;
+    /** 文章点赞数 */
+    @TableField(exist = false)
+    private Integer like;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

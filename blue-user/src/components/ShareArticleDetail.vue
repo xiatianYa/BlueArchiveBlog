@@ -1,14 +1,14 @@
 <template>
     <div class="article">
         <div class="left animate__animated animate__fadeInUp">
-            <div class="article_title">
+            <div class="article-title">
                 我的文章
             </div>
-            <div class="article_menu">
+            <div class="article-menu">
                 <span class="pointer" @click="handleArticleAdd">添加文章</span>
                 <span class="pointer" @click="handleArticleDelete">删除文章</span>
             </div>
-            <div class="article_list">
+            <div class="article-list">
                 <div class="item pointer" v-for="item in ArticleList">
                     <input type="checkbox" v-model="deleteArticleList" name="article" :value="item.id">
                     <span @click="changeArticle(item)" style="flex: 1;">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="right animate__animated animate__fadeInRight">
+        <div class="right animate__animated animate--fadeInRight">
             <v-md-editor v-model="ArticleIndex.content" :include-level="[2, 3, 4]" mode="editable" height="100vh"
                 style="background: #ECEBEC;" @save="saveArticle" :disabled-menus="[]"
                 left-toolbar="undo  redo h bold italic strikethrough quote ul ol table hr link image code save todo-list emoji tip"
@@ -381,14 +381,14 @@ watch(
         margin: 20px;
         border: 1px solid #c8d9eb;
 
-        .article_title {
+        .article-title {
             display: flex;
             justify-content: center;
             font-size: 14px;
             margin: 10px;
         }
 
-        .article_menu {
+        .article-menu {
             display: flex;
             justify-content: space-between;
             font-size: 12px;
@@ -400,7 +400,7 @@ watch(
             }
         }
 
-        .article_list {
+        .article-list {
             display: flex;
             flex-direction: column;
 

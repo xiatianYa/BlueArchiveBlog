@@ -5,9 +5,9 @@
         <!-- 注册 -->
         <div class="register-box hidden">
           <h1>注册</h1>
-          <div class="avater_box">
+          <div class="avater-box">
             <n-avatar :size="48" round :src="userInfo.avatar"></n-avatar>
-            <a class="pointer avater_select" @click="selectAvatar(openAvater)">选择头像</a>
+            <a class="pointer avater-select" @click="selectAvatar(openAvater)">选择头像</a>
           </div>
           <n-space vertical>
             <n-input type="text" placeholder="用户名" v-model:value="userInfo.userName" />
@@ -15,10 +15,10 @@
             <n-input type="password" show-password-on="mousedown" placeholder="密码" v-model:value="userInfo.passWord" />
             <n-input type="password" show-password-on="mousedown" placeholder="确认密码"
               v-model:value="userInfo.entryPassword" />
-            <div class="Sms_box">
+            <div class="Sms-box">
               <n-input type="text" placeholder="请填写手机号" autosize style="min-width: 70%"
                 v-model:value="userInfo.phone" />
-              <a class="pointer code_select" @click="getPhoneCode()">发送</a>
+              <a class="pointer code-select" @click="getPhoneCode()">发送</a>
             </div>
             <n-input type="password" show-password-on="mousedown" placeholder="请输入验证码" v-model:value="userInfo.sms" />
           </n-space>
@@ -242,7 +242,7 @@ function goRegister() {
   align-items: center;
   justify-content: center;
   padding-bottom: 40px;
-  background: url("/static/images/loading_bg.png") no-repeat;
+  background: url("/static/images/loading-bg.png") no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
 
@@ -316,24 +316,24 @@ function goRegister() {
     justify-content: center;
   }
 
-  .Sms_box {
+  .Sms-box {
     display: flex;
     align-items: center;
 
-    .code_select {
+    .code-select {
       text-align: center;
       flex-grow: 1;
       color: #fff;
     }
   }
 
-  .avater_box {
+  .avater-box {
     display: flex;
     justify-content: center;
     width: 100%;
     height: 60px;
 
-    .avater_select {
+    .avater-select {
       display: flex;
       align-items: center;
       margin-left: 30px;

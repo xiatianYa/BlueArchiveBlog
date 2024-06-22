@@ -1,13 +1,13 @@
 <template>
     <div class="music">
         <div class="left animate__animated animate__fadeInUp">
-            <div class="music_title">
+            <div class="music-title">
                 歌单列表
             </div>
-            <div class="music_menu">
+            <div class="music-menu">
                 <span class="pointer" @click="openMusic">添加歌曲</span>
             </div>
-            <div class="music_list">
+            <div class="music-list">
                 <div class="item pointer" v-for="item in sortOptions">
                     <span @click="changSort(item.value)" style="flex: 1;">
                         <n-ellipsis :line-clamp="1" :style="item.value == musicSortIndex ? 'color: #00e0ff;' : ''">
@@ -187,7 +187,7 @@ function startMusic(event: any, musicUrl: any) {
     //设置新的音乐地址
     music.src = musicUrl
     //设置img图片旋转
-    img.className = "music_img rotateAll";
+    img.className = "music-img rotateAll";
     //设置ImgNBefore
     BeforeImg = img
     //开始播放音乐
@@ -236,14 +236,14 @@ function musicSubmit() {
         margin: 20px;
         border: 1px solid #c8d9eb;
 
-        .music_title {
+        .music-title {
             display: flex;
             justify-content: center;
             font-size: 14px;
             margin: 10px;
         }
 
-        .music_menu {
+        .music-menu {
             display: flex;
             justify-content: center;
             font-size: 12px;
@@ -255,7 +255,7 @@ function musicSubmit() {
             }
         }
 
-        .music_list {
+        .music-list {
             display: flex;
             flex-direction: column;
 

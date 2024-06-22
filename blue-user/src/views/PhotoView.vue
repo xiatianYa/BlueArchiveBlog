@@ -2,18 +2,18 @@
   <div class="photo">
     <div class="banner">
       <div class="animate__animated animate__slideInDown bg">
-        <div class="bg_img">
+        <div class="bg-img">
           <img :src="bgUrl">
         </div>
-        <div class="banner_nav">
+        <div class="banner-nav">
           <div class="top">
-            <span class="top_link">
+            <span class="top-link">
               www.bluearchive.top
             </span>
-            <span class="top_title">
+            <span class="top-title">
               记忆照片
             </span>
-            <span class="top_msg">
+            <span class="top-msg">
               时光定格美好,记忆永存快乐
             </span>
           </div>
@@ -32,21 +32,21 @@
       </div>
     </div>
     <div class="photos">
-      <div class="photo box_shadow pointer animate__animated animate__zoomIn" v-for="item in PhotoList" :key="item.id">
-        <div class="photo_img">
-          <img :src="item.photoUrl" class="box_shadow">
+      <div class="photo box-shadow pointer animate__animated animate__zoomIn" v-for="item in PhotoList" :key="item.id">
+        <div class="photo-img">
+          <n-image width="100" :src="item.photoUrl" />
         </div>
-        <div class="photo_msg">
+        <div class="photo-msg">
           <span>
             {{ item.photoName }}
           </span>
         </div>
-        <div class="photo_name">
+        <div class="photo-name">
           <span>
             发布者: {{ item.userName }}
           </span>
         </div>
-        <div class="photo_time">
+        <div class="photo-time">
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-shalou"></use>
           </svg>
@@ -64,8 +64,9 @@
 import { onMounted, onUnmounted, ref } from "vue"
 import { listPhoto } from '@/api/photo'
 import { listSort } from '@/api/sort/photoSort'
-import useStore from "@/store"
+import { NImage } from 'naive-ui'
 let { globalStore } = useStore()
+import useStore from "@/store"
 import Loading from '@/components/CssLoadingView01.vue'
 
 //视频背景
@@ -87,20 +88,28 @@ const loading = ref(false)
 //当前选中的分类ID
 const sortIndex = ref()
 onMounted(() => {
-  listPhoto(queryParam.value).then((res: any) => {
-    if (isLastPage(res.total)) {
-      loadingEnd.value = true;
-    }
-    PhotoList.value = res.rows;
-  })
-  listSort().then((res: any) => {
-    PhotoSort.value = res.rows;
-  })
-  window.addEventListener('scroll', handleScroll)
+  init()
 })
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+//初始化
+function init() {
+  loading.value = true;
+  listSort().then((res: any) => {
+    PhotoSort.value = res.rows;
+    queryParam.value.sortId = PhotoSort.value[0].id;
+    sortIndex.value = PhotoSort.value[0].id;
+    listPhoto(queryParam.value).then((res: any) => {
+      if (isLastPage(res.total)) {
+        loadingEnd.value = true;
+      }
+      PhotoList.value = res.rows;
+      loading.value = false;
+    })
+  })
+  window.addEventListener('scroll', handleScroll)
+}
 //切换分类
 function searchSort(sortId: number) {
   loading.value = false;
@@ -182,7 +191,7 @@ function isLastPage(total: number) {
       overflow: hidden;
       position: relative;
 
-      .bg_img {
+      .bg-img {
         width: 100%;
         height: 100%;
 
@@ -195,7 +204,7 @@ function isLastPage(total: number) {
 
     }
 
-    .banner_nav {
+    .banner-nav {
       position: absolute;
       display: flex;
       flex-direction: row;
@@ -211,15 +220,15 @@ function isLastPage(total: number) {
         flex-wrap: wrap;
         align-items: center;
 
-        .top_link {
+        .top-link {
           font-size: 14px;
         }
 
-        .top_title {
+        .top-title {
           font-size: 26px;
         }
 
-        .top_msg {
+        .top-msg {
           font-size: 14px;
         }
 
@@ -284,7 +293,7 @@ function isLastPage(total: number) {
       margin: 20px;
       max-height: 300px;
 
-      .photo_img {
+      .photo-img {
         flex-grow: 1;
         display: flex;
         justify-content: center;
@@ -309,7 +318,7 @@ function isLastPage(total: number) {
         }
       }
 
-      .photo_msg {
+      .photo-msg {
         display: flex;
         align-items: center;
         width: 80%;
@@ -320,7 +329,7 @@ function isLastPage(total: number) {
         }
       }
 
-      .photo_time {
+      .photo-time {
         .icon {
           font-size: 14px;
         }
@@ -332,7 +341,7 @@ function isLastPage(total: number) {
         font-size: 12px;
       }
 
-      .photo_name {
+      .photo-name {
         display: flex;
         align-items: center;
         width: 80%;

@@ -432,6 +432,16 @@ public class BlueArticleServiceImpl implements IBlueArticleService
                 if (StringUtils.isNotNull(highlight.get("userName"))){
                     source.setUserName(highlight.get("userName").get(0));
                 }
+                //设置文章 点赞数 评论数 浏览量
+                Long hotCount = blueArticleInformationMapper.selectCount(new LambdaQueryWrapper<BlueArticleInformation>()
+                        .eq(BlueArticleInformation::getArticleId, source.getId()));
+                Long commentCount = blueCommentMapper.selectCount(new LambdaQueryWrapper<BlueComment>()
+                        .eq(BlueComment::getCommentType,"2").eq(BlueComment::getCommonId, source.getId()));
+                Long likeCount = blueArticleInformationMapper.selectCount(new LambdaQueryWrapper<BlueArticleInformation>()
+                        .eq(BlueArticleInformation::getArticleId, source.getId()).eq(BlueArticleInformation::getIsLike,"1"));
+                source.setHot(hotCount.intValue());
+                source.setComment(commentCount.intValue());
+                source.setLike(likeCount.intValue());
                 blueArticleSearchDTO.getBlueArticleList().add(source);
             }
             return blueArticleSearchDTO;

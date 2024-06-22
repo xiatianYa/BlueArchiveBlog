@@ -1,7 +1,7 @@
 <template>
   <n-message-provider>
     <NavView v-if="navShow"></NavView>
-    <RouterView :class="!isShow ? '' : globalStore.switch ? 'bg_white' : 'bg_black'" />
+    <RouterView :class="!isShow ? '' : globalStore.switch ? 'bg-white' : 'bg-black'" />
     <FooterView v-if="navShow"></FooterView>
     <setUpView></setUpView>
   </n-message-provider>

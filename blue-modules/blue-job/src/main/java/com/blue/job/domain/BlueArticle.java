@@ -71,7 +71,6 @@ public class BlueArticle extends BaseEntity
     @TableField("cover")
     private String cover;
 
-
     /** 逻辑删除 */
     @TableField("del_flag")
     private Integer delFlag;

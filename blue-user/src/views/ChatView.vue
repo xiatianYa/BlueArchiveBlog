@@ -1,21 +1,21 @@
 <template>
-    <div class="game no_select">
+    <div class="game no-select">
         <div class="drawing animate__animated animate__fadeIn">
             <div class="left">
                 <div class="title">
                     聊天室
                 </div>
-                <div class="chart_list">
+                <div class="chart-list">
                     <span>
                         在线列表
                     </span>
                     <div class="container">
                         <div class="item" v-for="user in globalStore.onlineUserList"
                             v-show="user.userId !== userStore.id">
-                            <div class="item_avatar">
+                            <div class="item-avatar">
                                 <img :src="user.userAvatar">
                             </div>
-                            <div class="item_info">
+                            <div class="item-info">
                                 <span>{{ user.userNickName }}</span>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="body">
                     <div class="container">
-                        <div class="msg_list" id="scrollableDiv">
+                        <div class="msg-list" id="scrollableDiv">
                             <div class="item" v-for="message in globalStore.chatHistory"
                                 :style="userStore.id == message.fromUserId ? 'justify-content: end;flex-direction:row-reverse;' : ''">
                                 <div class="avatar">
@@ -41,13 +41,13 @@
                                 </div>
                                 <div class="info"
                                     :style="userStore.id == message.fromUserId ? 'padding-right: 10px;' : ''">
-                                    <div class="user_name"
+                                    <div class="user-name"
                                         :style="userStore.id == message.fromUserId ? 'justify-content: end;' : ''">
                                         <span style="text-align: end;">
                                             {{ message.fromUserNickName }}
                                         </span>
                                     </div>
-                                    <div class="send_msg">
+                                    <div class="send-msg">
                                         <span>
                                             {{ message.data }}
                                         </span>
@@ -55,12 +55,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="chat_input">
+                        <div class="chat-input">
                             <div class="emoji">
                                 <V3Emoji @click-emoji="appendCommentChile" :fulldata="true" :recent="true" />
                             </div>
-                            <div class="chat_box">
-                                <input class="chat_txt" type="text" @keydown.enter="sendMsgAll()" v-model="inputMsg">
+                            <div class="chat-box">
+                                <input class="chat-txt" type="text" @keydown.enter="sendMsgAll()" v-model="inputMsg">
                             </div>
                             <div class="send" @click="sendMsgAll()">
                                 <svg class="icon pointer" aria-hidden="true">
@@ -157,7 +157,7 @@ watch(globalStore.chatHistory, (newValue) => {
                 color: #fff;
             }
 
-            .chart_list {
+            .chart-list {
                 box-sizing: border-box;
                 width: 100%;
                 height: 90%;
@@ -183,7 +183,7 @@ watch(globalStore.chatHistory, (newValue) => {
                         background-color: #323647;
                         border-radius: 10px;
 
-                        .item_avatar {
+                        .item-avatar {
                             padding-left: 10px;
                             overflow: hidden;
 
@@ -197,7 +197,7 @@ watch(globalStore.chatHistory, (newValue) => {
                             }
                         }
 
-                        .item_info {
+                        .item-info {
                             padding-left: 10px;
                             display: flex;
                             align-items: center;
@@ -265,7 +265,7 @@ watch(globalStore.chatHistory, (newValue) => {
                     background-color: #323647;
                     position: relative;
 
-                    .msg_list {
+                    .msg-list {
                         box-sizing: border-box;
                         width: 100%;
                         height: 90%;
@@ -297,7 +297,7 @@ watch(globalStore.chatHistory, (newValue) => {
                                 height: 100%;
                                 padding-left: 10px;
 
-                                .user_name {
+                                .user-name {
                                     display: flex;
                                     font-size: 12px;
                                     padding-bottom: 5px;
@@ -308,7 +308,7 @@ watch(globalStore.chatHistory, (newValue) => {
                                     }
                                 }
 
-                                .send_msg {
+                                .send-msg {
                                     font-size: 14px;
                                     padding: 10px;
                                     border-radius: 5px;
@@ -319,7 +319,7 @@ watch(globalStore.chatHistory, (newValue) => {
                         }
                     }
 
-                    .chat_input {
+                    .chat-input {
                         width: 80%;
                         height: 40px;
                         position: absolute;
@@ -347,7 +347,7 @@ watch(globalStore.chatHistory, (newValue) => {
                             background-color: #128BFB;
                         }
 
-                        .chat_box {
+                        .chat-box {
                             box-sizing: border-box;
                             width: 80%;
                             height: 100%;
@@ -358,7 +358,7 @@ watch(globalStore.chatHistory, (newValue) => {
                             border: #e3fdfd 1px solid;
                             border-radius: 7px;
 
-                            .chat_txt {
+                            .chat-txt {
                                 width: 100%;
                                 margin-left: 10px;
                                 float: right;

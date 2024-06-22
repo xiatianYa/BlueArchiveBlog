@@ -1,5 +1,5 @@
 <template>
-    <n-card style="width: 100%" :bordered="false" role="dialog" aria-modal="true">
+    <n-card :style="'width:' + cardSize + 'px'" :bordered="false" role="dialog" aria-modal="true">
         <n-form ref="formRef" :model="formData" :rules="rules" :label-placement="labelPlacement"
             :label-width="labelWidth" require-mark-placement="right-hanging" :size="formSize">
             <template v-for="item of formOption" :key="item.props">
@@ -71,6 +71,8 @@ interface Props {
     formSize?: formSizeType;
     // 标签显示的位置
     labelPlacement?: labelPlacementType;
+    // 元素宽度
+    cardSize?: CustomType;
 }
 
 type formSizeType = 'small' | 'medium' | 'large';
@@ -88,6 +90,7 @@ let props = withDefaults(defineProps<Props>(), {
     labelWidth: "120px",
     formSize: "medium",
     labelPosition: "top",
+    cardSize: 500,
 })
 
 // 获取vue实例

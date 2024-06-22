@@ -1,22 +1,26 @@
 <template>
-    <div class="erchuang pointer box_shadow animate__animated animate__zoomIn" @click="goHref(erchuang.ecUrl)">
-        <div class="erchuang_img">
+    <div class="erchuang pointer box-shadow animate__animated animate__zoomIn" @click="goHref(erchuang.ecUrl)">
+        <div class="erchuang-img">
             <img :src="erchuang.ecAvater">
         </div>
-        <div class="erchuang_title">
-            <span>{{ erchuang.ecName }}</span>
+        <div class="erchuang-title">
+            <span><n-ellipsis :line-clamp="1">
+                    {{ erchuang.ecName }}
+                </n-ellipsis>
+            </span>
         </div>
-        <div class="erchuang_info">
-            <span class="erchuang_author">{{ erchuang.ecAuthor }}</span>&nbsp;·&nbsp;<span class="erchuang_time">{{
+        <div class="erchuang-info">
+            <span class="erchuang-author">{{ erchuang.ecAuthor }}</span>&nbsp;·&nbsp;<span class="erchuang-time">{{
                 erchuang.ecPublish }}</span>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { NEllipsis } from 'naive-ui'
 const props = defineProps(['erchuang'])
 function goHref(url: string) {
-    window.open(url, "_blank")
+    window.open(url, "-blank")
 }
 </script>
 
@@ -30,7 +34,7 @@ function goHref(url: string) {
     border-radius: 10px 10px 10px 10px;
     margin-top: 30px;
 
-    .erchuang_img {
+    .erchuang-img {
         border-radius: 10px 10px 0 0;
         overflow: hidden;
         width: 100%;
@@ -48,28 +52,17 @@ function goHref(url: string) {
         }
     }
 
-    .erchuang_title {
+    .erchuang-title {
         width: 100%;
         padding: 10px 7px 0px 7px;
         font-size: 13px;
-
-        span {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            /* 设置最大行数 */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            /* 隐藏超出部分 */
-            text-overflow: ellipsis;
-            /* 在文本溢出时显示省略号 */
-        }
     }
 
-    .erchuang_title:hover {
+    .erchuang-title:hover {
         color: #3498DB;
     }
 
-    .erchuang_info {
+    .erchuang-info {
         width: 100%;
         display: flex;
         align-items: flex-end;
@@ -81,7 +74,7 @@ function goHref(url: string) {
         }
     }
 
-    .erchuang_info:hover {
+    .erchuang-info:hover {
         color: #3498DB;
     }
 }

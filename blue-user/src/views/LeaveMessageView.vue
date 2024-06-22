@@ -1,19 +1,19 @@
 <template>
   <div class="leave animate__animated animate__fadeIn" id="container">
-    <div class="leave_header">
-      <div class="leave_title">
+    <div class="leave-header">
+      <div class="leave-title">
         留下一条友善的评论吧
       </div>
-      <div class="leave_input">
-        <div class="search_box">
-          <input v-model="BarrageInfo.content" class="search_txt" placeholder="留下点什么吧~" type="text">
+      <div class="leave-input">
+        <div class="search-box">
+          <input v-model="BarrageInfo.content" class="search-txt" placeholder="留下点什么吧~" type="text">
           <svg class="icon pointer" aria-hidden="true" @click="addBarrage">
             <use xlink:href="#icon-daohang"></use>
           </svg>
         </div>
       </div>
     </div>
-    <div class="leaver_comments">
+    <div class="leaver-comments">
       <CommentDetail :comment-type="0" />
     </div>
   </div>
@@ -77,7 +77,7 @@ onUnmounted(() => {
 
 //添加弹幕函数
 function addBarrage() {
-  var container = document.getElementsByClassName("leave_header")[0]
+  var container = document.getElementsByClassName("leave-header")[0]
   //创建一个div元素
   var Barrage = document.createElement("div");
   //创建一个span元素
@@ -134,7 +134,7 @@ function addBarrage() {
 
 //展示弹幕
 function showBarrage(barrage: any) {
-  var container = document.getElementsByClassName("leave_header")[0]
+  var container = document.getElementsByClassName("leave-header")[0]
   //创建一个div元素
   var Barrage = document.createElement("div");
   //创建一个span元素
@@ -204,7 +204,7 @@ function getRandomItem(array: any) {
   flex-wrap: wrap;
   overflow: hidden;
 
-  .leave_header {
+  .leave-header {
     width: 100%;
     height: 100vh;
     background: url("https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/liuyan.png") no-repeat;
@@ -213,7 +213,7 @@ function getRandomItem(array: any) {
     background-position: center;
     position: relative;
 
-    .leave_title {
+    .leave-title {
       position: absolute;
       top: 40%;
       left: 50%;
@@ -222,7 +222,7 @@ function getRandomItem(array: any) {
       font-size: 20px;
     }
 
-    .leave_input {
+    .leave-input {
       position: absolute;
       top: 45%;
       left: 50%;
@@ -231,7 +231,7 @@ function getRandomItem(array: any) {
       justify-content: center;
       align-items: center;
 
-      .search_box {
+      .search-box {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -251,7 +251,7 @@ function getRandomItem(array: any) {
           font-size: 22px;
         }
 
-        .search_txt {
+        .search-txt {
           flex: 8;
           width: 80%;
           margin-left: 10px;
@@ -266,7 +266,7 @@ function getRandomItem(array: any) {
     }
   }
 
-  .leaver_comments {
+  .leaver-comments {
     width: 60%;
     margin: auto;
   }

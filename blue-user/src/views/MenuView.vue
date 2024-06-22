@@ -1,38 +1,38 @@
 <template>
   <div class="menu">
-    <div class="menu_left">
+    <div class="menu-left">
       <div class="nav pointer" @click="changSelect(0)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-wode"></use>
         </svg>
-        <span :class="selectIndex === 0 ? 'nav_select' : ''">个人信息</span>
+        <span :class="selectIndex === 0 ? 'nav-select' : ''">个人信息</span>
       </div>
       <div class="nav pointer" @click="changSelect(1)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-shu1"></use>
         </svg>
-        <span :class="selectIndex === 1 ? 'nav_select' : ''">我的文章</span>
+        <span :class="selectIndex === 1 ? 'nav-select' : ''">我的文章</span>
       </div>
       <div class="nav pointer" @click="changSelect(2)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-faxian"></use>
         </svg>
-        <span :class="selectIndex === 2 ? 'nav_select' : ''">分享二创</span>
+        <span :class="selectIndex === 2 ? 'nav-select' : ''">分享二创</span>
       </div>
       <div class="nav pointer" @click="changSelect(3)">
         <svg class="icon pointer" aria-hidden="true">
           <use xlink:href="#icon-xiangji"></use>
         </svg>
-        <span :class="selectIndex === 3 ? 'nav_select' : ''">我的相册</span>
+        <span :class="selectIndex === 3 ? 'nav-select' : ''">我的相册</span>
       </div>
       <div class="nav pointer" @click="changSelect(4)">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-jita"></use>
         </svg>
-        <span :class="selectIndex === 4 ? 'nav_select' : ''">分享歌单</span>
+        <span :class="selectIndex === 4 ? 'nav-select' : ''">分享歌单</span>
       </div>
     </div>
-    <div class="menu_right">
+    <div class="menu-right">
       <UserView :user="userStore" v-if="selectIndex === 0" />
       <ArticleView v-else-if="selectIndex === 1" />
       <FoundView v-else-if="selectIndex === 2" />
@@ -66,7 +66,7 @@ function changSelect(index) {
   height: 100%;
   padding-top: 53px;
 
-  .menu_left {
+  .menu-left {
     width: 10%;
     height: 100%;
 
@@ -87,7 +87,7 @@ function changSelect(index) {
       }
     }
 
-    .nav_select {
+    .nav-select {
       color: #00e0ff;
     }
 
@@ -96,7 +96,7 @@ function changSelect(index) {
     }
   }
 
-  .menu_right {
+  .menu-right {
     width: 90%;
     height: 100%;
     border-left: 1px solid #c8d9eb;

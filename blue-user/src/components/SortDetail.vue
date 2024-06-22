@@ -1,11 +1,11 @@
 <template>
-  <div class="sort_detail">
-    <div class="sort_cards">
-      <div class="card box_shadow  animate__animated animate__slideInUp">
-        <div class="card_img">
+  <div class="sort-detail">
+    <div class="sort-cards">
+      <div class="card box-shadow  animate__animated animate__slideInUp">
+        <div class="card-img">
           <img :src="article.cover">
         </div>
-        <div class="card_time">
+        <div class="card-time">
           <svg class="icon pointer" aria-hidden="true">
             <use xlink:href="#icon-rili1"></use>
           </svg>
@@ -13,10 +13,10 @@
             {{ article.createTime }}
           </span>
         </div>
-        <div class="sort_title">
+        <div class="sort-title">
           {{ article.articleName }}
         </div>
-        <div class="sort_info">
+        <div class="sort-info">
           <div class="info">
             <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-remen"></use>
@@ -50,13 +50,13 @@ const props = defineProps(['article'])
 </script>
 
 <style lang="scss" scoped>
-.sort_detail {
+.sort-detail {
   width: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .sort_cards {
+  .sort-cards {
     width: 80%;
 
     .card {
@@ -67,7 +67,7 @@ const props = defineProps(['article'])
       margin-bottom: 30px;
       border-radius: 10px;
 
-      .card_img {
+      .card-img {
         width: 100%;
         height: 50%;
         overflow: hidden;
@@ -87,7 +87,7 @@ const props = defineProps(['article'])
         }
       }
 
-      .card_time {
+      .card-time {
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -105,7 +105,7 @@ const props = defineProps(['article'])
         }
       }
 
-      .sort_title {
+      .sort-title {
         width: 100%;
         display: flex;
         align-items: center;
@@ -114,7 +114,7 @@ const props = defineProps(['article'])
         flex-grow: 1;
       }
 
-      .sort_info {
+      .sort-info {
         width: 100%;
         display: flex;
         flex-direction: row;
