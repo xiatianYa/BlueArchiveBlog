@@ -130,17 +130,14 @@
           </div>
           <!-- 文章分类 -->
           <div class="content-browse">
-            <div class="browse box-radius pointer  box-shadow " v-for="sort in sortList"
-              @click="goArticleBySortId(sort.id)">
-              <span>
-                分类
-              </span>
-              <span>
-                <p>{{ sort.sortName.substring(0, 1) }}</p>{{ sort.sortName.substring(1, 4) }}
-              </span>
-              <span>
-                {{ sort.sortDescribe }}
-              </span>
+            <div class="shell box-radius pointer box-shadow">
+              <div class="box" v-for="sort, index in sortList" :key="sort.id" @click="goArticleBySortId(sort.id)">
+                <img src="@/assets/images/xingye.png" v-if="index === 0" />
+                <img src="@/assets/images/alis.png" v-else-if="index === 1" />
+                <img src="@/assets/images/quenai.png" v-else-if="index === 2" />
+                <img src="@/assets/images/wangxiaotao.png" v-else />
+                <span>{{ sort.sortName }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -368,6 +365,45 @@ function goHref(url: string) {
 }
 </script>
 <style lang="scss" scoped>
+.shell {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .box {
+    flex: 1;
+    overflow: hidden;
+    transition: .5s;
+    margin: 0 2px;
+    border-radius: 15px;
+  }
+
+  .box>img {
+    width: 125%;
+    height: 85%;
+    object-fit: cover;
+    transition: .5s;
+  }
+
+  .box>span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+  }
+
+  .box:hover {
+    flex-basis: 40%;
+  }
+
+  .box:hover>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 .home-box {
   width: 100%;
   height: auto;
@@ -731,48 +767,7 @@ function goHref(url: string) {
         }
 
         .content-browse {
-          .browse {
-            display: flex;
-            margin-top: 10px;
-            padding: 10px;
-            flex-direction: column;
-
-            span {
-              padding-top: 10px;
-              font-size: 16px;
-            }
-
-            span:nth-child(2) {
-              display: flex;
-              align-items: center;
-              font-size: 18px;
-            }
-
-            span:nth-child(2) p {
-              font-size: 24px;
-              border-bottom: 2px solid #fff;
-            }
-
-            span:last-child {
-              font-size: 14px;
-            }
-          }
-
-          .browse:nth-child(1) {
-            background-image: linear-gradient(to top, #fad0c4 0%, #fad0c4 1%, #ffd1ff 100%);
-          }
-
-          .browse:nth-child(2) {
-            background-image: linear-gradient(-225deg, #FFE29F 0%, #FFA99F 48%, #FF719A 100%);
-          }
-
-          .browse:nth-child(3) {
-            background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
-          }
-
-          .browse:nth-child(4) {
-            background-image: linear-gradient(to right, #fddb92 0%, #d1fdff 100%);
-          }
+          width: 100%;
         }
       }
 

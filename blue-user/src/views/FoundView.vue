@@ -60,12 +60,16 @@ import { listTv } from '@/api/tv'
 import { listErchuang } from '@/api/erchuang'
 import { listToolBySort } from '@/api/tool'
 import { useRouter } from 'vue-router'
+import { useMessage } from 'naive-ui'
+let { globalStore } = useStore()
 import useStore from "@/store"
 import Loading from '@/components/CssLoadingView01.vue'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import PixivDetail from '@/components/PixivDetail.vue'
 import ToolDetail from '@/components/ToolDetail.vue'
-let { globalStore } = useStore()
+
+//消息对象
+const message = useMessage()
 //背景视频
 const bgUrl = ref(globalStore.getBgByType("1"))
 //路由
@@ -152,6 +156,9 @@ function loadData() {
         pixivList.value.push(item)
       }
       loading.value = false;
+    }).catch(() => {
+      message.error("数据加载失败")
+      loading.value = false;
     })
   } else if (type.value === 1) {
     //开始加载
@@ -163,6 +170,9 @@ function loadData() {
         erchuangList.value.push(item)
       }
       loading.value = false;
+    }).catch(() => {
+      message.error("数据加载失败")
+      loading.value = false;
     })
   }
 }
@@ -172,7 +182,6 @@ const handleScroll = () => {
   const foundBody = document.querySelector('.found-body') // 获取滚动容器
   const banner = document.querySelector('.banner') // 获取前面高度容器
   if (isScrolledToBottom(foundBody, banner)) {
-    console.log("加载数据");
     loadData()
   }
 }

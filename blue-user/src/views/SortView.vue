@@ -138,6 +138,10 @@ function init() {
           //查询分类下标签列表
           const sort = sortList.value.find((item: any) => item.id == sortIndex.value)
           tagList.value = sort.tagList;
+          //设置第一个标签下标
+          if (tagList.value) {
+            tagIndex.value = tagList.value[0].id
+          }
         } else {
           //设置标签列表
           tagList.value = sortList.value[0].tagList
