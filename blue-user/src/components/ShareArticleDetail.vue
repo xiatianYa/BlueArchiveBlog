@@ -12,12 +12,14 @@
                 <div class="item pointer" v-for="item in ArticleList">
                     <input type="checkbox" v-model="deleteArticleList" name="article" :value="item.id">
                     <span @click="changeArticle(item)" style="flex: 1;">
-                        <n-ellipsis :line-clamp="1" :style="item.id == ArticleIndex.id ? 'color: #00e0ff;' : ''">
+                        <n-ellipsis :line-clamp="1" style="max-width: 30px;"
+                            :style="item.id == ArticleIndex.id ? 'color: #00e0ff;' : ''">
                             {{ item.articleName }}
                         </n-ellipsis>
                     </span>
                     <span>{{
-                        item.status === 0 ? '审核中' : item.status === 1 ? '审核通过' : '审核为通过' }}</span>
+                        item.status === 0 ? '审核中' : item.status === 1 ? '审核通过' : '审核未通过' }}
+                    </span>
                     <span class="pointer" @click="handleArticleUpdate(item.id)">修改文章</span>
                 </div>
             </div>
@@ -216,7 +218,7 @@ function handleArticleUpdate(articleId: any) {
             //给标签列表赋值
             for (const tag of ResultTagList) {
                 article.value.tagList.push(tag.tagId)
-            }  
+            }
             ArticleShow.value = true;
         })
     })
@@ -402,6 +404,7 @@ watch(
 
         .article-list {
             display: flex;
+            flex-wrap: wrap;
             flex-direction: column;
 
             .item {
@@ -425,7 +428,6 @@ watch(
                     color: #00e0ff;
                 }
             }
-
         }
     }
 
