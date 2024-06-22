@@ -32,7 +32,7 @@ const props = defineProps({
   }
 });
 const artRef = ref(null);
-var art;
+var art: any;
 onMounted(() => {
   nextTick(() => {
     art = new Artplayer({
@@ -68,7 +68,7 @@ onMounted(() => {
                 pixivId: props.pixivId,
                 episodeId: props.chaptersIndex,
               }
-              listMessage(query).then(res => {
+              listMessage(query).then((res: any) => {
                 for (const item of res.rows) {
                   if (item.border === 0) {
                     item.border = true
@@ -115,7 +115,7 @@ onMounted(() => {
         crossOrigin: 'anonymous',
       },
     });
-    art.on('artplayerPluginDanmuku:emit', (danmu) => {
+    art.on('artplayerPluginDanmuku:emit', (danmu: any) => {
       var border = 0;
       if (!danmu.border) {
         border = 1
@@ -148,7 +148,7 @@ watch(() => props.chaptersIndex, async (newVal, oldVal) => {
       pixivId: props.pixivId,
       episodeId: newVal,
     }
-    let result = await listMessage(query);
+    let result: any = await listMessage(query);
     for (const item of result.rows) {
       if (item.border === 0) {
         item.border = true

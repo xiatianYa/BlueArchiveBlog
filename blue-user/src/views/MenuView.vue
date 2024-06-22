@@ -34,10 +34,10 @@
     </div>
     <div class="menu_right">
       <UserView :user="userStore" v-if="selectIndex === 0" />
-      <ArticleView v-if="selectIndex === 1" />
-      <FoundView v-if="selectIndex === 2" />
-      <PhotoView v-if="selectIndex === 3" />
-      <MusicView v-if="selectIndex === 4" />
+      <ArticleView v-else-if="selectIndex === 1" />
+      <FoundView v-else-if="selectIndex === 2" />
+      <PhotoView v-else-if="selectIndex === 3" />
+      <MusicView v-else-if="selectIndex === 4" />
     </div>
   </div>
 </template>

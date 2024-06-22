@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询友链申请信息列表
-export function listInfo(query) {
+export function listInfo(query?:any) {
   return request({
     url: '/blog/friendInfo/list',
     method: 'get',
@@ -10,7 +10,7 @@ export function listInfo(query) {
 }
 
 // 查询友链申请信息详细
-export function getInfo(id) {
+export function getInfo(id:any) {
   return request({
     url: '/blog/friendInfo/' + id,
     method: 'get'
@@ -18,7 +18,7 @@ export function getInfo(id) {
 }
 
 // 新增友链申请信息
-export function addInfo(data) {
+export function addInfo(data:any) {
   return request({
     url: '/blog/friendInfo',
     method: 'post',
@@ -27,7 +27,7 @@ export function addInfo(data) {
 }
 
 // 修改友链申请信息
-export function updateInfo(data) {
+export function updateInfo(data:any) {
   return request({
     url: '/blog/friendInfo',
     method: 'put',
@@ -36,7 +36,7 @@ export function updateInfo(data) {
 }
 
 // 删除友链申请信息
-export function delInfo(id) {
+export function delInfo(id:any) {
   return request({
     url: '/blog/friendInfo/' + id,
     method: 'delete'

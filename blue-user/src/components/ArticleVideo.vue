@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import Artplayer from 'artplayer';
-import {nextTick, onBeforeUnmount, onMounted, ref} from 'vue';
+import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 
 const emit = defineEmits(['get-instance']);
 
@@ -15,7 +15,7 @@ const props = defineProps({
     }
 });
 const artRef = ref(null);
-var art;
+var art: any;
 onMounted(() => {
     nextTick(() => {
         art = new Artplayer({

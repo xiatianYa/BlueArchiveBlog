@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 登录方法
-export function login(username, password, code, uuid) {
+export function login(username:any, password:any, code:any, uuid:any) {
     return request({
         url: '/auth/login',
         headers: {
@@ -14,7 +14,7 @@ export function login(username, password, code, uuid) {
 }
 
 // 注册方法
-export function register(data) {
+export function register(data:any) {
     return request({
         url: '/auth/userRegister',
         headers: {

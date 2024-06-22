@@ -11,7 +11,7 @@
       <div class="content">
         <div class="info">
           <div class="info_msg">
-            <svg class="icon pointer" aria-hidden="true" @click="goDown">
+            <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-faxian"></use>
             </svg>
             <span>
@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="apply_msg">
-            <svg class="icon pointer" aria-hidden="true" @click="goDown">
+            <svg class="icon pointer" aria-hidden="true">
               <use xlink:href="#icon-faxian"></use>
             </svg>
             <span>
@@ -83,22 +83,32 @@ let { globalStore } = useStore()
 
 const bgUrl = ref(globalStore.getBgByType("4"))
 //友链列表
-const FriednList = ref([])
+const FriednList = ref(<any>[])
 //网站信息
-const websiteInfo = ref({})
+const websiteInfo = ref({
+  websiteName: "",
+  websiteUrl: "",
+  websiteCover: "",
+  websiteDetail: "",
+  websiteRemark: ""
+})
 //友链信息
-const FirendInfo = ref({})
+const FirendInfo = ref({
+  friendUrl: "",
+  friendContent: "",
+  friendDetail: ""
+})
 onMounted(() => {
   //获取友链列表
-  listFriend().then(res => {
+  listFriend().then((res: any) => {
     FriednList.value = res.rows
   })
   //获取网站信息
-  listWebsite().then(res => {
+  listWebsite().then((res: any) => {
     websiteInfo.value = res.rows[0]
   })
   //获取友链信息
-  listInfo().then(res => {
+  listInfo().then((res: any) => {
     FirendInfo.value = res.rows[0]
   })
 })

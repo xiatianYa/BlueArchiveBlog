@@ -25,7 +25,7 @@ const props = defineProps({
     },
     fileType: {
         type: Array,
-        default: () => ["video/mp4","audio/mpeg"],
+        default: () => ["video/mp4", "audio/mpeg"],
     },
 })
 onMounted(() => {

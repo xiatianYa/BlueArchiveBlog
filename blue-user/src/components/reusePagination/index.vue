@@ -4,7 +4,6 @@
         :on-update:page-size="handleSizeChange" />
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
 import { NPagination } from 'naive-ui'
 interface Props {
     // 当前页

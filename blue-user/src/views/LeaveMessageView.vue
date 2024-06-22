@@ -27,13 +27,20 @@ import 'vue3-emoji/dist/style.css'
 import { useMessage } from 'naive-ui'
 import useStore from "@/store"
 let { userStore } = useStore()
+interface barrageType {
+  userId: number | null,
+  userAvater: string,
+  content: string,
+  barrageHeight: number
+}
 //提示框
 const message = useMessage()
 //定时器
-const timer = ref([])
+const timer = ref(<any>[])
 // 定义弹幕数据
-const BarrageInfo = ref({
-  userId: "",
+const BarrageInfo = ref<barrageType>({
+  userId: null,
+  userAvater: "",
   content: "",
   barrageHeight: 0,
 })
@@ -45,7 +52,7 @@ onMounted(() => {
 // 设置定时器
 const startTimer = () => {
   let result: any = []
-  listMessage().then(res => {
+  listMessage().then((res: any) => {
     result = res.rows;
   })
   //每0.2秒添加一条随机弹幕
@@ -102,7 +109,7 @@ function addBarrage() {
   BarrageInfo.value.userAvater = userStore.avatar ||
     "https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/avater35.png";
   BarrageInfo.value.barrageHeight = BarrageHeight;
-  addMessage(BarrageInfo.value).then(res => {
+  addMessage(BarrageInfo.value).then((res: any) => {
     message.success(res.msg)
     BarrageInfo.value.content = ""
     // 设置其随机的颜色
@@ -126,7 +133,7 @@ function addBarrage() {
 }
 
 //展示弹幕
-function showBarrage(barrage) {
+function showBarrage(barrage: any) {
   var container = document.getElementsByClassName("leave_header")[0]
   //创建一个div元素
   var Barrage = document.createElement("div");
@@ -180,7 +187,7 @@ function showBarrage(barrage) {
 }
 
 //从数组中随机抽取一条弹幕
-function getRandomItem(array) {
+function getRandomItem(array: any) {
   if (array.length === 0) {
     return null; // 或者可以抛出错误，如果数组为空且不应该抽取任何内容
   }
@@ -264,4 +271,4 @@ function getRandomItem(array) {
     margin: auto;
   }
 }
-</style>
+</style>: { userAvater: string; content: string; barrageHeight: string | number; }: string | any[]

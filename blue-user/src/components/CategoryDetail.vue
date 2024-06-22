@@ -64,11 +64,11 @@ const props = defineProps(['article'])
 //路由
 const router = useRouter()
 //前往分类浏览页
-function goSort(sortId, tagId) {
+function goSort(sortId: any, tagId: any) {
   router.push({ path: '/sort', query: { sortId: sortId, tagId: tagId } })
 }
 //前往文章浏览页
-function goArticlePreview(articleId) {
+function goArticlePreview(articleId: any) {
   router.push({ path: '/editPreView', query: { articleId: articleId } })
 }
 </script>

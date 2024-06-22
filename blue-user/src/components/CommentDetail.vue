@@ -12,8 +12,7 @@
           <textarea type="text" placeholder="写些留言一起交流吧..." v-model="commentContent"></textarea>
         </div>
         <div class="leaver_emoji">
-          <V3Emoji :disable-group="disableGroup" @click-emoji="appendComment" :options-name="optionsName"
-            :fulldata="true" :recent="true" />
+          <V3Emoji @click-emoji="appendComment" :fulldata="true" :recent="true" />
           <button class="pointer" @click="addLeaverComment">提交</button>
         </div>
         <div class="leaver_comments">
@@ -67,8 +66,7 @@
           <textarea type="text" placeholder="写些留言一起交流吧..." v-model="commentLeaver.commentContent"></textarea>
         </div>
         <div class="leaver_emoji">
-          <V3Emoji class="emoji" :disable-group="disableGroup" @click-emoji="appendCommentChile"
-            :options-name="optionsName" :fulldata="true" :recent="true" />
+          <V3Emoji class="emoji" @click-emoji="appendCommentChile" :fulldata="true" :recent="true" />
           <button class="pointer" @click="addLeaverCommentChile">提交</button>
         </div>
       </div>
@@ -80,9 +78,16 @@ import { nextTick, onMounted, ref } from "vue";
 import V3Emoji from "vue3-emoji";
 import { addComment, listComment } from '@/api/comment'
 import { useMessage } from 'naive-ui'
+interface commentType {
+  commentContent: string,
+  //是否是回复子留言
+  reply: any,
+  commonId: number | null,
+  parentId: number | null,
+  commentType: number | null,
+}
 //提示框
 const message = useMessage()
-
 const props = defineProps(['commentType', 'commonId'])
 //通用ID
 const commonId = ref()
@@ -94,18 +99,21 @@ const commentType = ref()
 const addLeaver = ref(false)
 //查询参数
 const queryParams = ref({
+  commonId: 0,
   pageNum: 1,
   pageSize: 10,
   commentType: props.commentType
 })
 //留言列表
-const commentList = ref([])
+const commentList = ref(<any>[])
 //留言框对象
-const commentLeaver = ref({
+const commentLeaver = ref<commentType>({
   commentContent: "",
   //是否是回复子留言
-  reply: null,
+  reply: "",
   commonId: null,
+  parentId: null,
+  commentType: null,
 })
 onMounted(() => {
   nextTick(() => {
@@ -118,7 +126,7 @@ onMounted(() => {
 function init() {
   //获取留言,分页获取
   queryParams.value.commonId = commonId.value;
-  listComment(queryParams.value).then(res => {
+  listComment(queryParams.value).then((res: any) => {
     commentList.value = res.rows;
   })
 }
@@ -130,7 +138,7 @@ function addLeaverComment() {
   commentLeaver.value.commentType = commentType.value;
   commentLeaver.value.commentContent = commentContent.value;
   commentLeaver.value.commonId = commonId.value;
-  addComment(commentLeaver.value).then(res => {
+  addComment(commentLeaver.value).then((res: any) => {
     message.success(res.msg)
     //重新获取数据
     init();
@@ -146,7 +154,7 @@ function addLeaverCommentChile() {
     commentLeaver.value.commentContent = "@" + commentLeaver.value.reply.userName + ":" + commentLeaver.value.commentContent;
   }
   //添加评论
-  addComment(commentLeaver.value).then(res => {
+  addComment(commentLeaver.value).then((res: any) => {
     message.success(res.msg)
     //重新获取数据
     init();
@@ -157,14 +165,14 @@ function addLeaverCommentChile() {
 }
 
 //打开留言框 回复子留言
-function openLeaverDialogParent(commentId) {
+function openLeaverDialogParent(commentId: any) {
   addLeaver.value = true;
   commentLeaver.value.parentId = commentId;
   commentLeaver.value.commentType = commentType.value;
   commentLeaver.value.commonId = commonId.value;
 }
 //打开留言框 回复孙留言
-function openLeaverDialog(reply, commentId) {
+function openLeaverDialog(reply: any, commentId: any) {
   addLeaver.value = true;
   commentLeaver.value.parentId = commentId;
   commentLeaver.value.reply = reply;
@@ -173,11 +181,11 @@ function openLeaverDialog(reply, commentId) {
 }
 
 //添加表情
-function appendComment(emajor) {
+function appendComment(emajor: any) {
   commentContent.value += emajor.emoji
 }
 //添加子表情
-function appendCommentChile(emajor) {
+function appendCommentChile(emajor: any) {
   commentLeaver.value.commentContent += emajor.emoji
 }
 
@@ -188,7 +196,12 @@ function closeLeaverDialog() {
   commentContent.value = "";
   //清空子留言对象
   commentLeaver.value = {
-    commentContent: ""
+    commentContent: "",
+    //是否是回复子留言
+    reply: "",
+    commonId: null,
+    parentId: null,
+    commentType: null,
   };
 }
 </script>

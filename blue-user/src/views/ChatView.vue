@@ -87,6 +87,11 @@ const message = useMessage()
 //输入框消息
 const inputMsg = ref("")
 onMounted(() => {
+    //第一次进入聊天框下拉到底部
+    nextTick(() => {
+        var scrollableDiv: any = document.getElementById('scrollableDiv');
+        scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+    })
 })
 //处理表情
 function appendCommentChile(emajor: any) {

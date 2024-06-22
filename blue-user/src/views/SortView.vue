@@ -64,15 +64,15 @@ const message = useMessage()
 const router = useRouter()
 const bgUrl = ref(globalStore.getBgByType("2"))
 //分类下标
-const sortIndex = ref(0)
+const sortIndex: any = ref()
 //标签下标
-const tagIndex = ref(0)
+const tagIndex: any = ref()
 //分类列表
-const sortList = ref([])
+const sortList = ref(<any>[])
 //标签列表
-const tagList = ref({})
+const tagList: any = ref({})
 //文章列表
-const articleList = ref([])
+const articleList = ref(<any>[])
 //查询参数
 const queryParam = ref({
   pageNum: 1,
@@ -94,10 +94,10 @@ function init() {
   //添加滚动事件
   window.addEventListener('scroll', handleScroll)
   //获取分类列表
-  listSort().then(res => {
+  listSort().then((res: any) => {
     sortList.value = res.rows
     //获取标签列表
-    listTag().then(res => {
+    listTag().then((res: any) => {
       //遍历标签列表 放入分类列表中
       for (let index = 0; index < sortList.value.length; index++) {
         const sort = sortList.value[index];
@@ -130,13 +130,13 @@ function init() {
       if (router.currentRoute.value.query.tagId) {
         tagIndex.value = router.currentRoute.value.query.tagId
         //设置分类ID下的标签列表
-        const sort = sortList.value.find(item => item.id == sortIndex.value)
+        const sort = sortList.value.find((item: any) => item.id == sortIndex.value)
         tagList.value = sort.tagList;
       } else {
         //如果是从点击分类过来的 则匹配分类下的标签列表
         if (router.currentRoute.value.query.sortId) {
           //查询分类下标签列表
-          const sort = sortList.value.find(item => item.id == sortIndex.value)
+          const sort = sortList.value.find((item: any) => item.id == sortIndex.value)
           tagList.value = sort.tagList;
         } else {
           //设置标签列表
@@ -148,7 +148,7 @@ function init() {
         }
       }
       //查询文章列表
-      listByTagId(tagIndex.value, queryParam.value).then(res => {
+      listByTagId(tagIndex.value, queryParam.value).then((res: any) => {
         if (isLastPage(res.total)) {
           loadingEnd.value = true;
         }
@@ -158,11 +158,11 @@ function init() {
   })
 }
 //跳转到文章浏览页
-function goArticlePreview(articleId) {
+function goArticlePreview(articleId: any) {
   router.push({ path: '/editPreView', query: { articleId: articleId } })
 }
 //设置标签下标 和标签列表
-function selectSort(sort) {
+function selectSort(sort: any) {
   //清除查询列表
   queryParam.value = {
     pageNum: 1,
@@ -182,7 +182,7 @@ function selectSort(sort) {
     tagList.value = sort.tagList
     tagIndex.value = tagList.value[0].id
     //查询文章列表
-    listByTagId(tagIndex.value, queryParam.value).then(res => {
+    listByTagId(tagIndex.value, queryParam.value).then((res: any) => {
       if (isLastPage(res.total)) {
         loadingEnd.value = true;
       }
@@ -191,7 +191,7 @@ function selectSort(sort) {
   }
 }
 //查询标签下的文章列表
-function selectArticleListByTagId(tagId) {
+function selectArticleListByTagId(tagId: number) {
   //清除查询列表
   queryParam.value = {
     pageNum: 1,
@@ -206,7 +206,7 @@ function selectArticleListByTagId(tagId) {
     return
   }
   tagIndex.value = tagId;
-  listByTagId(tagId, queryParam.value).then(res => {
+  listByTagId(tagId, queryParam.value).then((res: any) => {
     if (isLastPage(res.total)) {
       loadingEnd.value = true;
     }
@@ -225,14 +225,14 @@ const handleScroll = () => {
   }
 }
 //判断是否滚动到底部
-function isScrolledToBottom(photos, banner) {
+function isScrolledToBottom(photos: any, banner: any) {
   const clientHeight = photos.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
   return windowY >= clientHeight - banner.clientHeight && !loading.value && !loadingEnd.value;
 }
 //判断是不是到最后一页了
-function isLastPage(total) {
+function isLastPage(total: number) {
   if (total < queryParam.value.pageSize) {
     return true;
   }
@@ -245,7 +245,7 @@ function isLastPage(total) {
 const loadData = () => {
   loading.value = true
   queryParam.value.pageNum += 1;
-  listByTagId(tagIndex.value, queryParam.value).then(res => {
+  listByTagId(tagIndex.value, queryParam.value).then((res: any) => {
     for (const item of res.rows) {
       if (isLastPage(res.total)) {
         loadingEnd.value = true;

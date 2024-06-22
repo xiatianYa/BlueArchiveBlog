@@ -97,14 +97,14 @@ onUnmounted(() => {
 //初始化数据
 function init() {
   if (type.value === 0) {
-    listTv(queryParam.value).then(res => {
+    listTv(queryParam.value).then((res: any) => {
       isLastPage(res.total)
       pixivList.value = res.rows
     })
   }
 }
 //选择导航
-function selectSort(index) {
+function selectSort(index: number) {
   //点击后回到顶部
   window.scrollTo({ behavior: 'smooth', top: 0 });
   type.value = index;
@@ -119,25 +119,25 @@ function selectSort(index) {
   }
   //番剧
   if (type.value === 0) {
-    listTv(queryParam.value).then(res => {
+    listTv(queryParam.value).then((res: any) => {
       isLastPage(res.total)
       pixivList.value = res.rows
     })
     //二创
   } else if (type.value === 1) {
-    listErchuang(queryParam.value).then(res => {
+    listErchuang(queryParam.value).then((res: any) => {
       isLastPage(res.total)
       erchuangList.value = res.rows
     })
     //编程工具
   } else if (type.value === 2) {
-    listToolBySort().then(res => {
+    listToolBySort().then((res: any) => {
       toolList.value = res.rows
     })
   }
 }
 //跳转路由到番剧页面
-function goPixiv(pixivId) {
+function goPixiv(pixivId: number) {
   router.push({ path: '/pixivView', query: { pixivId: pixivId } })
 }
 //加载数据
@@ -146,7 +146,7 @@ function loadData() {
     //开始加载
     loading.value = true
     queryParam.value.pageNum += 1;
-    listTv(queryParam.value).then(res => {
+    listTv(queryParam.value).then((res: any) => {
       isLastPage(res.total)
       for (const item of res.rows) {
         pixivList.value.push(item)
@@ -157,7 +157,7 @@ function loadData() {
     //开始加载
     loading.value = true
     queryParam.value.pageNum += 1;
-    listErchuang(queryParam.value).then(res => {
+    listErchuang(queryParam.value).then((res: any) => {
       isLastPage(res.total)
       for (const item of res.rows) {
         erchuangList.value.push(item)
@@ -177,14 +177,14 @@ const handleScroll = () => {
   }
 }
 //判断是否滚动到底部
-function isScrolledToBottom(foundBody, banner) {
+function isScrolledToBottom(foundBody: any, banner: any) {
   const clientHeight = foundBody.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
   return windowY >= clientHeight - banner.clientHeight && !loading.value && !loadingEnd.value;
 }
 //判断是不是到最后一页了
-function isLastPage(total) {
+function isLastPage(total: number) {
   // 计算总页数  
   var totalPages = Math.ceil(total / queryParam.value.pageSize);
   // 如果当前页码等于总页数，那么就是最后一页  

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询网站背景资源信息列表
-export function listBg(query?) {
+export function listBg(query?:any) {
   return request({
     url: '/blog/bg/list',
     method: 'get',
@@ -10,7 +10,7 @@ export function listBg(query?) {
 }
 
 // 查询网站背景资源信息详细
-export function getBg(id) {
+export function getBg(id:any) {
   return request({
     url: '/blog/bg/' + id,
     method: 'get'
@@ -18,7 +18,7 @@ export function getBg(id) {
 }
 
 // 新增网站背景资源信息
-export function addBg(data) {
+export function addBg(data:any) {
   return request({
     url: '/blog/bg',
     method: 'post',
@@ -27,7 +27,7 @@ export function addBg(data) {
 }
 
 // 修改网站背景资源信息
-export function updateBg(data) {
+export function updateBg(data:any) {
   return request({
     url: '/blog/bg',
     method: 'put',
@@ -36,7 +36,7 @@ export function updateBg(data) {
 }
 
 // 删除网站背景资源信息
-export function delBg(id) {
+export function delBg(id:any) {
   return request({
     url: '/blog/bg/' + id,
     method: 'delete'

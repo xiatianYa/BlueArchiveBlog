@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 
 // 搜索文章列表
-export function searchArticleList(query?) {
+export function searchArticleList(query?:any) {
   return request({
     url: '/blog/article/search',
     method: 'get',
@@ -10,7 +10,7 @@ export function searchArticleList(query?) {
   })
 }
 // 查询文章列表
-export function listArticle(query?) {
+export function listArticle(query?:any) {
   return request({
     url: '/blog/article/list',
     method: 'get',
@@ -25,7 +25,7 @@ export function listArticleByUser() {
   })
 }
 // 根据标签ID查询文章
-export function listByTagId(tagId:any, query?) {
+export function listByTagId(tagId:any, query?:any) {
   return request({
     url: '/blog/article/listByTagId/' + tagId,
     method: 'get',

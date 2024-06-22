@@ -36,16 +36,16 @@ const bgUrl = "http://47.113.197.48:9500/statics/2024/04/26/6f28756c150b49d8ba7e
 //音乐列表
 const musicList = ref([])
 //存储上一个img图片
-let BeforeImg = ref({})
+let BeforeImg: any = ref()
 onMounted(() => {
-  bySortList().then(res => {
+  bySortList().then((res: any) => {
     musicList.value = res;
   })
 })
 //播放音乐
-function startMusic(event, musicUrl) {
+function startMusic(event: any, musicUrl: string) {
   //获取音乐标签
-  let music = document.getElementById("music");
+  let music: any = document.getElementById("music");
   //清除img图片的旋转样式
   BeforeImg.className = ""
   //获取点击的img

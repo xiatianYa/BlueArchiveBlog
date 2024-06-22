@@ -2,8 +2,8 @@
     <div class="pixiv" :class="globalStore.switch ? 'bg_white' : 'bg_black'">
         <div class="pixiv_left">
             <n-message-provider>
-                <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex"
-                    :option="option" :style="style" style="overflow: hidden" />
+                <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :style="style"
+                    style="overflow: hidden" />
             </n-message-provider>
             <div class="pixiv_detail" v-if="pixiv">
                 <div class="found_left">
@@ -113,7 +113,7 @@ const pixivId = ref()
 //番剧信息
 const pixiv = ref()
 //番剧集列表
-const episodeList = ref([])
+const episodeList = ref(<any>[])
 //当前番剧集ID
 const chaptersIndex = ref()
 //当前集弹幕列表
@@ -149,7 +149,7 @@ function init() {
             pageNum: 1,
             pageSize: 999,
         }
-        listEpisode(query).then(res => {
+        listEpisode(query).then((res: any) => {
             episodeList.value = res.rows
             chaptersIndex.value = episodeList.value[0].pixivChapters
             //设置播放组件传递视频地址 封面
@@ -160,7 +160,7 @@ function init() {
     })
 }
 //选择第几集
-function selectChapters(episode) {
+function selectChapters(episode: any) {
     //重新设置下标
     chaptersIndex.value = episode.pixivChapters
     //向组件传递当前的集数
@@ -175,10 +175,10 @@ function changSort() {
     sort.value = !sort.value
     //切换成升序
     if (sort.value) {
-        episodeList.value = episodeList.value.sort((x, y) => x.pixivChapters - y.pixivChapters);
+        episodeList.value = episodeList.value.sort((x: any, y: any) => x.pixivChapters - y.pixivChapters);
     } else {
         //切换成降序
-        episodeList.value = episodeList.value.sort((x, y) => y.pixivChapters - x.pixivChapters);
+        episodeList.value = episodeList.value.sort((x: any, y: any) => y.pixivChapters - x.pixivChapters);
     }
 }
 //切换弹幕列表是否显示
@@ -186,7 +186,7 @@ function changMsgShow() {
     msgIsShow.value = !msgIsShow.value
 }
 //获取视频播放实例
-function getInstance(art) {
+function getInstance(art?: any) {
     artInstance.value = art
 }
 //获取弹幕列表
@@ -198,7 +198,7 @@ function getLeaveMessageList() {
         episodeId: chaptersIndex.value,
     }
     //获取弹幕列表
-    listMessage(query).then(res => {
+    listMessage(query).then((res: any) => {
         leaveMessageList.value = res.rows;
     })
 }

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询弹幕列表
-export function listMessage(query?) {
+export function listMessage(query?:any) {
   return request({
     url: '/blog/message/list',
     method: 'get',
@@ -10,7 +10,7 @@ export function listMessage(query?) {
 }
 
 // 查询弹幕详细
-export function getMessage(id) {
+export function getMessage(id:any) {
   return request({
     url: '/blog/message/' + id,
     method: 'get'
@@ -18,7 +18,7 @@ export function getMessage(id) {
 }
 
 // 新增弹幕
-export function addMessage(data) {
+export function addMessage(data:any) {
   return request({
     url: '/blog/message',
     method: 'post',
@@ -27,7 +27,7 @@ export function addMessage(data) {
 }
 
 // 修改弹幕
-export function updateMessage(data) {
+export function updateMessage(data:any) {
   return request({
     url: '/blog/message',
     method: 'put',
@@ -36,7 +36,7 @@ export function updateMessage(data) {
 }
 
 // 删除弹幕
-export function delMessage(id) {
+export function delMessage(id:any) {
   return request({
     url: '/blog/message/' + id,
     method: 'delete'

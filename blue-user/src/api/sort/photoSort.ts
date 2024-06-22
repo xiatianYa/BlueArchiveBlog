@@ -10,7 +10,7 @@ export function listSort(query?:any) {
 }
 
 // 查询相册分类信息详细
-export function getSort(id) {
+export function getSort(id:any) {
   return request({
     url: '/blog/photoSort/' + id,
     method: 'get'
@@ -18,7 +18,7 @@ export function getSort(id) {
 }
 
 // 新增相册分类信息
-export function addSort(data) {
+export function addSort(data:any) {
   return request({
     url: '/blog/photoSort',
     method: 'post',
@@ -27,7 +27,7 @@ export function addSort(data) {
 }
 
 // 修改相册分类信息
-export function updateSort(data) {
+export function updateSort(data:any) {
   return request({
     url: '/blog/photoSort',
     method: 'put',
@@ -36,7 +36,7 @@ export function updateSort(data) {
 }
 
 // 删除相册分类信息
-export function delSort(id) {
+export function delSort(id:any) {
   return request({
     url: '/blog/photoSort/' + id,
     method: 'delete'

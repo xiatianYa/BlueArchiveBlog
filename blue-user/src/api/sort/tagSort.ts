@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询标签列表
-export function listTag(query) {
+export function listTag(query?:any) {
   return request({
     url: '/blog/tagSort/list',
     method: 'get',
@@ -10,7 +10,7 @@ export function listTag(query) {
 }
 
 // 查询标签详细
-export function getTag(id) {
+export function getTag(id:any) {
   return request({
     url: '/blog/tagSort/' + id,
     method: 'get'
@@ -18,7 +18,7 @@ export function getTag(id) {
 }
 
 // 新增标签
-export function addTag(data) {
+export function addTag(data:any) {
   return request({
     url: '/blog/tagSort',
     method: 'post',
@@ -27,7 +27,7 @@ export function addTag(data) {
 }
 
 // 修改标签
-export function updateTag(data) {
+export function updateTag(data:any) {
   return request({
     url: '/system/tagSort',
     method: 'put',
@@ -36,7 +36,7 @@ export function updateTag(data) {
 }
 
 // 删除标签
-export function delTag(id) {
+export function delTag(id:any) {
   return request({
     url: '/system/tagSort/' + id,
     method: 'delete'

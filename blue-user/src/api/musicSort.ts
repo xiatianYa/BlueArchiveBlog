@@ -10,7 +10,7 @@ export function listSort(query?:any) {
 }
 
 // 查询音乐分类详细
-export function getSort(id) {
+export function getSort(id:any) {
   return request({
     url: '/blog/musicSort/' + id,
     method: 'get'
@@ -18,7 +18,7 @@ export function getSort(id) {
 }
 
 // 新增音乐分类
-export function addSort(data) {
+export function addSort(data:any) {
   return request({
     url: '/blog/musicSort',
     method: 'post',
@@ -27,7 +27,7 @@ export function addSort(data) {
 }
 
 // 修改音乐分类
-export function updateSort(data) {
+export function updateSort(data:any) {
   return request({
     url: '/blog/musicSort',
     method: 'put',
@@ -36,7 +36,7 @@ export function updateSort(data) {
 }
 
 // 删除音乐分类
-export function delSort(id) {
+export function delSort(id:any) {
   return request({
     url: '/blog/musicSort/' + id,
     method: 'delete'

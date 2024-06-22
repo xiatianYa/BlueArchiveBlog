@@ -9,7 +9,7 @@ export function getUserProfile() {
 }
 
 // 修改用户个人信息
-export function updateUserProfile(data) {
+export function updateUserProfile(data:any) {
   return request({
     url: '/system/user/profile',
     method: 'put',
@@ -18,7 +18,7 @@ export function updateUserProfile(data) {
 }
 
 // 用户密码重置
-export function updateUserPwd(oldPassword, newPassword) {
+export function updateUserPwd(oldPassword:any, newPassword:any) {
   const data = {
     oldPassword,
     newPassword
@@ -31,7 +31,7 @@ export function updateUserPwd(oldPassword, newPassword) {
 }
 
 // 用户头像上传
-export function uploadAvatar(data) {
+export function uploadAvatar(data:any) {
   return request({
     url: '/system/user/profile/avatar',
     method: 'post',

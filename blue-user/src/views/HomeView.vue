@@ -191,7 +191,7 @@
               </div>
             </div>
           </div>
-          <div v-show="!searchLoading && searchArticle.blueArticleList == 0">
+          <div v-show="!searchLoading && searchArticle.blueArticleList.length == 0">
             <span>
               {{ searchArticle.msg }}
             </span>
@@ -215,45 +215,45 @@ import useStore from "@/store"
 //路由
 const router = useRouter()
 //公告
-const noticeInfo = ref({})
+const noticeInfo = ref({
+  noticeTitle: "",
+  noticeContent: ""
+})
 //分类列表
-const sortList = ref({})
+const sortList: any = ref()
 //推荐文章
-const recommendArticleList = ref({})
+const recommendArticleList: any = ref()
 //背景路径
 const bgUrl = ref(globalStore.getBgByType("0"))
 //搜索加载中
 const searchLoading = ref(false);
 //搜索显示
 const searchShow = ref(false)
+//搜索文章列表
+const searchArticle = ref({
+  total: "",
+  blueArticleList: <any>[],
+  msg: "",
+})
 //搜索条件
 const queryParams = ref({
   pageNum: 0,
   pageSize: 10,
   searchValue: ""
 })
-//搜索文章列表
-const searchArticle = ref({
-  //总条目
-  total: "",
-  //文章列表
-  blueArticleList: [],
-  //信息
-  msg: "",
-})
 onMounted(() => {
   //获取公告
-  listNotice().then(res => {
+  listNotice().then((res: any) => {
     noticeInfo.value = res.rows[0]
   })
   //获取分类
-  listSort().then(res => {
+  listSort().then((res: any) => {
     sortList.value = res.rows
   })
   //获取首页文章
   listByHome().then(res => {
-    res.data.forEach(articleVo => {
-      sortList.value.forEach(sort => {
+    res.data.forEach((articleVo: any) => {
+      sortList.value.forEach((sort: any) => {
         if (sort.id === articleVo.sortId) {
           sort.articleList = articleVo.blueArticleList;
         }
@@ -261,12 +261,12 @@ onMounted(() => {
     })
   })
   //获取推荐文章
-  listArticle().then(res => {
+  listArticle().then((res: any) => {
     recommendArticleList.value = res.rows.slice(0, 3)
   })
 })
 //前往文章浏览页
-function goArticlePreview(articleId) {
+function goArticlePreview(articleId: number) {
   router.push({ path: '/editPreView', query: { articleId: articleId } })
 }
 //搜索
@@ -308,7 +308,8 @@ function closeSearchDialog() {
   //清空列表
   searchArticle.value = {
     total: "",
-    blueArticleList: []
+    blueArticleList: [],
+    msg: ""
   }
   //关闭加载
   searchLoading.value = false;
@@ -316,7 +317,7 @@ function closeSearchDialog() {
   searchShow.value = false;
 }
 //前往分类,携带分类ID
-function goArticleBySortId(sortId) {
+function goArticleBySortId(sortId: number) {
   router.push({ path: '/sort', query: { sortId: sortId } })
 }
 //前往页面底部
@@ -324,7 +325,7 @@ function goDown() {
   window.scrollTo({ behavior: 'smooth', top: window.innerHeight });
 }
 //跳转链接
-function goHref(url) {
+function goHref(url: string) {
   window.open(url, "_blank")
 }
 </script>

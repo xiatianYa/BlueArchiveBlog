@@ -20,7 +20,7 @@
           <div class="botton">
             <div class="target pointer scaleDraw" :id="item.id == sortIndex ? 'select' : ''" v-for="item in PhotoSort"
               :key="item.id" @click="searchSort(item.id)">
-              <svg class="icon pointer" aria-hidden="true" @click="goDown">
+              <svg class="icon pointer" aria-hidden="true">
                 <use xlink:href="#icon-sekuaibiaoqian"></use>
               </svg>
               <span>
@@ -71,12 +71,12 @@ import Loading from '@/components/CssLoadingView01.vue'
 //视频背景
 const bgUrl = ref(globalStore.getBgByType("3"))
 //相册列表
-const PhotoList = ref([])
+const PhotoList = ref(<any>[])
 //相册分类
-const PhotoSort = ref([])
+const PhotoSort = ref(<any>[])
 //查询参数
 const queryParam = ref({
-  sortId: null,
+  sortId: 0,
   pageNum: 1,
   pageSize: 20,
 })
@@ -87,13 +87,13 @@ const loading = ref(false)
 //当前选中的分类ID
 const sortIndex = ref()
 onMounted(() => {
-  listPhoto(queryParam.value).then(res => {
+  listPhoto(queryParam.value).then((res: any) => {
     if (isLastPage(res.total)) {
       loadingEnd.value = true;
     }
     PhotoList.value = res.rows;
   })
-  listSort().then(res => {
+  listSort().then((res: any) => {
     PhotoSort.value = res.rows;
   })
   window.addEventListener('scroll', handleScroll)
@@ -102,16 +102,16 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 //切换分类
-function searchSort(sortId) {
+function searchSort(sortId: number) {
   loading.value = false;
   loadingEnd.value = false;
   queryParam.value = {
+    sortId: sortId,
     pageNum: 1,
     pageSize: 8,
   }
-  queryParam.value.sortId = sortId;
   sortIndex.value = sortId;
-  listPhoto(queryParam.value).then(res => {
+  listPhoto(queryParam.value).then((res: any) => {
     if (isLastPage(res.total)) {
       loadingEnd.value = true;
     }
@@ -122,7 +122,7 @@ function searchSort(sortId) {
 const loadData = () => {
   loading.value = true
   queryParam.value.pageNum += 1;
-  listPhoto(queryParam.value).then(res => {
+  listPhoto(queryParam.value).then((res: any) => {
     for (const item of res.rows) {
       if (isLastPage(res.total)) {
         loadingEnd.value = true;
@@ -142,14 +142,14 @@ const handleScroll = () => {
   }
 }
 //判断是否滚动到底部
-function isScrolledToBottom(photos, banner) {
+function isScrolledToBottom(photos: any, banner: any) {
   const clientHeight = photos.clientHeight; // 容器的视口高度  
   const windowY = window.scrollY; // 浏览器窗口高度
   //当前窗口高度 高于滚动窗口高度 并且 loading不是加载中
   return windowY >= clientHeight - banner.clientHeight && !loading.value && !loadingEnd.value;
 }
 //判断是不是到最后一页了
-function isLastPage(total) {
+function isLastPage(total: number) {
   if (total < queryParam.value.pageSize) {
     return true;
   }
