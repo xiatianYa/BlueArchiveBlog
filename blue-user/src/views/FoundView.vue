@@ -156,9 +156,6 @@ function loadData() {
         pixivList.value.push(item)
       }
       loading.value = false;
-    }).catch(() => {
-      message.error("数据加载失败")
-      loading.value = false;
     })
   } else if (type.value === 1) {
     //开始加载
@@ -169,9 +166,6 @@ function loadData() {
       for (const item of res.rows) {
         erchuangList.value.push(item)
       }
-      loading.value = false;
-    }).catch(() => {
-      message.error("数据加载失败")
       loading.value = false;
     })
   }

@@ -79,10 +79,6 @@ export default {
         //封面
         cover: this.article.cover,
       }
-      //对文章内容进行Base64编码
-      const buffer = Buffer.from(articleTemp.content, 'utf-8');
-      //添加base64:头部 方便后端解析
-      articleTemp.content = "base64:" + buffer.toString('base64');
       updateArticle(articleTemp).then(res => {
         this.$message({
           message: '修改文章信息成功',

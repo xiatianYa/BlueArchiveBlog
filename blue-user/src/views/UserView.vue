@@ -174,7 +174,7 @@ function userLogin() {
 //用户注册
 function userRegister() {
   loading.value = true;
-  register(userInfo).then(res => {
+  register(userInfo.value).then(res => {
     clearUserInfo();
     goLogin();
     message.success("注册成功")
