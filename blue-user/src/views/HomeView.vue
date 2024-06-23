@@ -365,45 +365,6 @@ function goHref(url: string) {
 }
 </script>
 <style lang="scss" scoped>
-.shell {
-  width: 100%;
-  height: 250px;
-  display: flex;
-  flex-wrap: wrap;
-
-  .box {
-    flex: 1;
-    overflow: hidden;
-    transition: .5s;
-    margin: 0 2px;
-    border-radius: 15px;
-  }
-
-  .box>img {
-    width: 125%;
-    height: 85%;
-    object-fit: cover;
-    transition: .5s;
-  }
-
-  .box>span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 15%;
-  }
-
-  .box:hover {
-    flex-basis: 40%;
-  }
-
-  .box:hover>img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
 .home-box {
   width: 100%;
   height: auto;
@@ -768,13 +729,52 @@ function goHref(url: string) {
 
         .content-browse {
           width: 100%;
+
+          .shell {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            flex-wrap: wrap;
+
+            .box {
+              flex: 1;
+              overflow: hidden;
+              transition: .5s;
+              margin: 0 2px;
+              border-radius: 15px;
+            }
+
+            .box>img {
+              width: 125%;
+              height: 85%;
+              object-fit: cover;
+              transition: .5s;
+            }
+
+            .box>span {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 15%;
+            }
+
+            .box:hover {
+              flex-basis: 40%;
+            }
+
+            .box:hover>img {
+              width: 120%;
+              height: 120%;
+              object-fit: cover;
+            }
+          }
         }
       }
 
       .content-right {
         display: flex;
         flex-direction: column;
-        width: 80%;
+        width: 75%;
         margin: 0 0 0 40px;
         z-index: 1;
 
