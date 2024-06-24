@@ -5,10 +5,9 @@
 [bluearchive.top](http://www.bluearchive.top/)
 
 ## 技术栈
-前端技术: Vue3(博客前端),Naive UI,Artplayer(播放器),v-md-editor(文本编辑器)
+前端技术: Vue3(博客前端),NaiveUI,Artplayer(播放器),v-md-editor(文本编辑器),Element-UI,vue3-emjor(聊天表情),Pinia等。
 
-后端技术：Java,SpringBoot,SpringCloud,MySQL,Mybatis-Plus,Redis,Nginx,Docker,Docker-Compose,Nacos,GateWay,Sentinel,RabbitMQ,
-Elasticsearch,Kibana等
+后端技术：Java,SpringBoot,SpringCloud,MySQL,Mybatis-Plus,Redis,Nginx,Nacos,GateWay,Sentinel,RabbitMQ,Elasticsearch,Kibana等。
 
 ## 项目地址
 - 博客地址(Gitee)：https://gitee.com/xiatianYa1003/BlueArchiveBlog.git
@@ -24,7 +23,7 @@ Vue3：
 2. npm run dev
 
 ## 项目介绍
-希望这个多人博客项目能够帮助到更多的人,也希望能帮助到各位技术水平提升能有帮助,喜欢的话也可以star一下=w=。
+希望这个多人博客项目能够帮助到更多的人,也希望能帮助到各位技术水平提升能有帮助,有能力的小伙伴也可以和我一起进行开发,对你有帮助的话可以点点star,非常感谢。
 ## 网站简介
 这个项目是基于SpringCloud+Vue2+Vue3构建,是作者基于2024年毕业设计的产物,也满足了自己写知识笔记,做知识分享的目的。
 网站有两个模块:
@@ -58,12 +57,19 @@ Vue3：
 ## 更新进度
 
 ### 2024-6-24
-- 完成博客搭建基本功能
+- (新增)完成聊天室模块,包括设置菜单抽屉聊天室
+- (新增)添加首页在线用户列表展示
+- (优化)修改分类为手风琴样式人物卡片
+- 
+## 更新计划
 
+#### 
+- 添加一对一好友聊天,聊天室新增发送语言,视频
+- 添加文章审核,音乐审核,番剧审核
+- 优化博客样式,添加番剧上传,编程工具上传
+- 新增登录方式(QQ,邮箱,GitHub)
 =========================================================
 
-## 使用功能
-大部分用户需要用户去进行注册使用,目前暂时仅支持手机号,后续会支持更多登录方式。
 
 
 
