@@ -25,5 +25,5 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   servlet:
     multipart:
-      max-file-size: 30MB
-      max-request-size: 60MB
+      max-file-size: 2048MB
+      max-request-size: 2048MB

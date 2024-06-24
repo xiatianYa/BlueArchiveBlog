@@ -55,7 +55,7 @@ export default {
     // 大小限制(MB)
     fileSize: {
       type: Number,
-      default: 30,
+      default: 2048,
     },
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {

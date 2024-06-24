@@ -51,12 +51,12 @@ export default {
     // 图片数量限制
     limit: {
       type: Number,
-      default: 50,
+      default: 6,
     },
     // 大小限制(MB)
     fileSize: {
       type: Number,
-      default: 200,
+      default: 30,
     },
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
