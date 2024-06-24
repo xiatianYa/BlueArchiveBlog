@@ -12,20 +12,34 @@ import FooterView from '@/components/FooterView.vue'
 import setUpView from '@/components/SetUpView.vue'
 import useStore from "@/store"
 let { globalStore, userStore } = useStore()
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { NMessageProvider } from 'naive-ui'
+import { getUserList } from '@/api/chat'
 
 //全局仓库
 let isShow = ref(true)
 let navShow = ref(true)
 let router = useRouter()
+let timer = null;
 onMounted(() => {
   //阻止浏览器默认行为
   window.addEventListener('keydown', handleKeyDown);
-  //如果用户已登录 并且socket为连接 则重新连接
-  if (!globalStore.socket && userStore.token) {
-    globalStore.initSocket(userStore.token)
+  //如果用户已登录 并且socket未连接 则重新连接 没有则开始定时器刷新在线用户
+  if (userStore.token) {
+    globalStore.initSocket()
+  } else {
+    //创建定时任务 每15s刷新一次在线用户
+    setInterval(() => {
+      getUserList().then(res => {
+        globalStore.onlineUserList = res.data;
+      })
+    }, 5000)
+  }
+})
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer)
   }
 })
 // 监听当前路由

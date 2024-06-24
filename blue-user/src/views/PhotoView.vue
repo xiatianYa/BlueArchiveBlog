@@ -34,7 +34,7 @@
     <div class="photos">
       <div class="photo box-shadow pointer animate__animated animate__zoomIn" v-for="item in PhotoList" :key="item.id">
         <div class="photo-img">
-          <n-image width="100" :src="item.photoUrl" />
+          <n-image width="100%" :src="item.photoUrl" />
         </div>
         <div class="photo-msg">
           <span>

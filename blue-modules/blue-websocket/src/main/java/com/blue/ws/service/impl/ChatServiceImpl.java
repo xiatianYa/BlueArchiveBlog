@@ -23,10 +23,6 @@ public class ChatServiceImpl implements ChatService {
     public List<UserVo> getUserList() {
         //在线用户ID列表
         List<Long> userIdList = WebSocketServer.getUserIdList();
-        Long userid = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNull(userid)){
-            throw new ServiceException("用户信息失效,请重新登录!");
-        }
         //返回对象列表
         List<UserVo> userVoList=new ArrayList<>();
         //获取用户信息

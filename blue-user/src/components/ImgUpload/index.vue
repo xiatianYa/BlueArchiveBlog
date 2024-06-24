@@ -26,7 +26,7 @@ const props = defineProps({
     },
     fileType: {
         type: Array,
-        default: () => ["image/png", "image/jpg", "image/gif"],
+        default: () => ["image/png", "image/jpg", "image/gif", "image/jpeg"],
     },
 })
 //文件列表
@@ -89,6 +89,7 @@ function beforeUpload(data: {
 }) {
     const size: any = data.file.file?.size;
     const isLt = size / 1024 / 1024 < props.fileSize;
+    console.log(data.file.file?.type);
     if (!isLt) {
         message.error(`上传图片大小不能超过 ${props.fileSize} MB!`);
         return false;

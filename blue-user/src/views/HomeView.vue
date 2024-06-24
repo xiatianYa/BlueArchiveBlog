@@ -763,8 +763,8 @@ function goHref(url: string) {
             }
 
             .box:hover>img {
-              width: 120%;
-              height: 120%;
+              width: 100%;
+              height: 100%;
               object-fit: cover;
             }
           }

@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <MusicDetail :musicList="musicList" :startMusic="startMusic" />
+    <MusicDetail :musicList="musicList" :startMusic="startMusic" class="animate__animated animate__fadeInTop"/>
     <audio id="music">
     </audio>
   </div>
@@ -32,7 +32,7 @@ import { onMounted, ref } from "vue"
 import { bySortList } from '@/api/music'
 import MusicDetail from "@/components/MusicDetail.vue";
 
-const bgUrl = "http://47.113.197.48:9500/statics/2024/04/26/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd-20240426121202A002.mp4"
+const bgUrl = "http://bluearchive.top:9500/statics/2024/04/26/6f28756c150b49d8ba7e98d2ef052e50-f84f3d0b1e7e9da25069b3324272e29e-fd_20240426121202A002.mp4"
 //音乐列表
 const musicList = ref([])
 //存储上一个img图片

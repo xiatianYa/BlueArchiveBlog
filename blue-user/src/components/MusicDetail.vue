@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-for="item in musicList">
+    <div class="container animate__animated animate__zoomIn" v-for="item in musicList">
         <div class="title">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-xiaofengche"></use>
@@ -83,8 +83,8 @@ const props = defineProps(['musicList', 'startMusic'])
 
                 img {
                     border-radius: 50%;
-                    max-width: 100%;
-                    height: auto;
+                    width: 100%;
+                    height: 100px;
                     object-fit: cover;
                     transition: all 1s ease-in;
                 }

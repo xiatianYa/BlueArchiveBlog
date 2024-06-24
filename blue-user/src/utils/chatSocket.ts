@@ -74,7 +74,7 @@ const Websocket: any = {
                     Websocket.notification["success"]({
                         content: '连接成功',
                         meta: '聊天室连接成功',
-                        duration: 2000,
+                        duration: 1500,
                         keepAliveOnHover: true,
                     })
                     break;

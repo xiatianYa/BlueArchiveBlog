@@ -31,7 +31,7 @@
             </div>
             <div class="online-user" v-for="user in globalStore.onlineUserList" v-show="user.userId !== userStore.id">
               <div class="online-avatar">
-                <img :src="'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg'">
+                <img :src="user.userAvatar">
               </div>
               <div class="online-info">
                 <span>{{ user.userNickName }}</span>
@@ -41,7 +41,7 @@
           <div class="chat-right">
             <div class="online-user">
               <div class="online-avatar">
-                <img :src="'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg'">
+                <img :src="userStore.avatar">
               </div>
               <div class="online-info">
                 <span>{{ userStore.nickName }}</span>

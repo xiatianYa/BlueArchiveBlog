@@ -1,5 +1,5 @@
 <template>
-    <div class="photo box-shadow">
+    <div class="photo box-shadow animate__animated animate__zoomIn">
         <div class="photo-img">
             <n-image width="100%" :src="photo.photoUrl" />
         </div>
