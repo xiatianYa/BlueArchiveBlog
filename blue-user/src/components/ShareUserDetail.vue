@@ -195,13 +195,11 @@ function submitPwd() {
     min-height: 100vh;
 
     .user-left {
-        box-sizing: border-box;
         width: 20%;
         margin: 20px;
         border: 1px solid #c8d9eb;
 
         .user-title {
-            box-sizing: border-box;
             width: 100%;
             height: 10%;
             padding: 6px;
@@ -213,7 +211,6 @@ function submitPwd() {
         }
 
         .user-avatar {
-            box-sizing: border-box;
             width: 100%;
             height: 30%;
             margin: 10px;
@@ -238,7 +235,6 @@ function submitPwd() {
             justify-content: center;
 
             .user-name {
-                box-sizing: border-box;
                 width: 80%;
                 display: flex;
                 padding: 10px;
@@ -251,7 +247,6 @@ function submitPwd() {
             }
 
             .user-phone {
-                box-sizing: border-box;
                 width: 80%;
                 display: flex;
                 padding: 10px;
@@ -270,7 +265,6 @@ function submitPwd() {
             }
 
             .user-email {
-                box-sizing: border-box;
                 width: 80%;
                 display: flex;
                 padding: 10px;
@@ -289,7 +283,6 @@ function submitPwd() {
             }
 
             .user-create {
-                box-sizing: border-box;
                 width: 80%;
                 display: flex;
                 padding: 10px;
@@ -314,13 +307,11 @@ function submitPwd() {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        box-sizing: border-box;
         flex-grow: 1;
         margin: 20px;
         border: 1px solid #c8d9eb;
 
         .user-title {
-            box-sizing: border-box;
             width: 100%;
             height: 10%;
             padding: 6px;
@@ -332,7 +323,6 @@ function submitPwd() {
         }
 
         .userInfo {
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             width: 25%;
@@ -435,7 +425,6 @@ function submitPwd() {
         }
 
         .userPwd {
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             width: 25%;
@@ -491,7 +480,6 @@ function submitPwd() {
         font-size: 8px;
         padding: 30px 100px 30px 100px;
         margin: 20px;
-        box-sizing: border-box;
         border: 1px solid #c8d9eb;
         overflow: hidden;
     }

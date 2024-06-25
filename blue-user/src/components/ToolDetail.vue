@@ -77,7 +77,6 @@ function goHref(toolUrl: string) {
 
             .tool-right {
                 display: flex;
-                box-sizing: border-box;
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;

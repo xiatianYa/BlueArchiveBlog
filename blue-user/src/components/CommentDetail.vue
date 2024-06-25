@@ -9,7 +9,7 @@
           <span>留言</span>
         </div>
         <div class="leaver-input">
-          <textarea type="text" placeholder="写些留言一起交流吧..." v-model="commentContent"></textarea>
+          <n-input v-model:value="commentContent" type="textarea" placeholder="写些留言一起交流吧..." />
         </div>
         <div class="leaver-emoji">
           <V3Emoji @click-emoji="appendComment" :fulldata="true" :recent="true" />
@@ -74,8 +74,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue";
 import V3Emoji from "vue3-emoji";
+import { nextTick, onMounted, ref } from "vue";
+import { NInput } from 'naive-ui'
 import { addComment, listComment } from '@/api/comment'
 import { useMessage } from 'naive-ui'
 interface commentType {
@@ -219,7 +220,6 @@ function closeLeaverDialog() {
 
     .leaver-container {
       width: 100%;
-      box-sizing: border-box;
 
       .leaver-title {
         display: flex;
@@ -238,24 +238,11 @@ function closeLeaverDialog() {
       .leaver-input {
         textarea {
           resize: none;
-          box-sizing: border-box;
           width: 100%;
           height: 250px;
           padding: 5px;
           color: #A1B6C3;
           border-radius: 5px;
-        }
-
-        textarea:focus {
-          border: 1px solid #A1B6C3;
-          /* 获得焦点时的边框颜色 */
-          outline: none;
-          /* 移除浏览器默认的聚焦轮廓 */
-        }
-
-        /* 标准语法 */
-        textarea::placeholder {
-          color: #767676;
         }
       }
 
@@ -326,7 +313,6 @@ function closeLeaverDialog() {
               }
 
               .reply {
-                box-sizing: border-box;
                 color: #FFFDFF;
                 padding: 2px;
                 font-size: 12px;
@@ -336,7 +322,6 @@ function closeLeaverDialog() {
             }
 
             .comment-content {
-              box-sizing: border-box;
               display: flex;
               align-items: center;
               flex-wrap: wrap;
@@ -395,7 +380,6 @@ function closeLeaverDialog() {
                   }
 
                   .reply {
-                    box-sizing: border-box;
                     color: #FFFDFF;
                     padding: 2px;
                     font-size: 12px;
@@ -405,7 +389,6 @@ function closeLeaverDialog() {
                 }
 
                 .reply-content {
-                  box-sizing: border-box;
                   display: flex;
                   align-items: center;
                   flex-wrap: wrap;
@@ -450,7 +433,6 @@ function closeLeaverDialog() {
       background-color: #FFFFFF;
 
       .leaver-title {
-        box-sizing: border-box;
         position: relative;
         width: 100%;
         height: 15%;
@@ -482,7 +464,6 @@ function closeLeaverDialog() {
 
         textarea {
           resize: none;
-          box-sizing: border-box;
           padding: 10px;
           border-radius: 3px;
           width: 80%;

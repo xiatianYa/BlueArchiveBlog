@@ -306,7 +306,6 @@ const loadData = () => {
         padding: 0 20px;
         left: 5%;
         top: 60%;
-        box-sizing: border-box;
         border-radius: 10px;
         border: 2px dashed black;
         overflow-x: auto;
@@ -356,7 +355,6 @@ const loadData = () => {
         padding: 0 20px;
         left: 5%;
         top: 80%;
-        box-sizing: border-box;
         border-radius: 10px;
         border: 2px dashed black;
         overflow-x: auto;

@@ -28,7 +28,6 @@ const props = defineProps(['photo'])
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
     width: 20% !important;
     margin: 0 2%;
     max-height: 300px;

@@ -164,7 +164,6 @@ watch(globalStore.chatHistory, (newValue) => {
   background-color: #282A39;
 
   .chat-left {
-    box-sizing: border-box;
     width: 25%;
     height: 100%;
     padding: 10px;
@@ -211,7 +210,6 @@ watch(globalStore.chatHistory, (newValue) => {
   }
 
   .chat-right {
-    box-sizing: border-box;
     width: 75%;
     height: 100%;
     display: flex;
@@ -252,7 +250,6 @@ watch(globalStore.chatHistory, (newValue) => {
       border-radius: 15px;
 
       .chat-list {
-        box-sizing: border-box;
         width: 100%;
         height: 90%;
         padding: 10px;
@@ -315,7 +312,6 @@ watch(globalStore.chatHistory, (newValue) => {
 
 
         .emoji {
-          box-sizing: border-box;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -333,7 +329,6 @@ watch(globalStore.chatHistory, (newValue) => {
         }
 
         .chat-box {
-          box-sizing: border-box;
           width: 80%;
           height: 100%;
           display: flex;
@@ -356,7 +351,6 @@ watch(globalStore.chatHistory, (newValue) => {
         }
 
         .send {
-          box-sizing: border-box;
           display: flex;
           justify-content: center;
           align-items: center;

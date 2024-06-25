@@ -244,7 +244,6 @@ function isLastPage(total: number) {
         justify-content: space-between;
 
         .target {
-          box-sizing: border-box;
           display: flex;
           justify-content: center;
           width: 40%;
@@ -284,7 +283,6 @@ function isLastPage(total: number) {
     margin-top: 30px;
 
     .photo {
-      box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       width: 20%;

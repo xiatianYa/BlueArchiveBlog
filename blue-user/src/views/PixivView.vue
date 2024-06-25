@@ -1,5 +1,5 @@
 <template>
-    <div class="pixiv" :class="globalStore.switch ? 'bg-white' : 'bg-black'">
+    <div class="pixiv">
         <div class="pixiv-left">
             <n-message-provider>
                 <Artplayer @get-instance="getInstance" :pixivId="pixivId" :chaptersIndex="chaptersIndex" :style="style"
@@ -33,7 +33,7 @@
             <CommentDetail :comment-type="1" :common-id="pixivId" />
         </div>
         <div class="pixiv-right">
-            <div class="pixiv-msg" :class="globalStore.switch ? 'color-white' : 'color-black'">
+            <div class="pixiv-msg">
                 <div class="title">
                     <span>
                         弹幕列表
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <div style="border-radius: 10px;padding: 10px;" :class="globalStore.switch ? 'color-white' : 'color-black'">
+            <div style="border-radius: 10px;padding: 10px;">
                 <div class="pixiv-title">
                     <span>正片 ({{ chaptersIndex + '/' + episodeList.length }})</span>
                     <svg class="icon pointer" aria-hidden="true" @click="changSort" v-show="sort">
@@ -383,7 +383,6 @@ function getLeaveMessageList() {
             overflow: auto;
 
             .episode {
-                box-sizing: border-box;
                 justify-content: center;
                 align-items: center;
                 display: flex;

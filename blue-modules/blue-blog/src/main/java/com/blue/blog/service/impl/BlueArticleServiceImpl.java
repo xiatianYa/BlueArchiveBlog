@@ -197,6 +197,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateBlueArticle(BlueArticle blueArticle)
     {
         //判断用户操作权限
@@ -374,6 +375,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      * @return 结果
      */
     @Override
+    @Transactional
     public int auditing(BlueArticle blueArticle) {
         Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
@@ -544,6 +546,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
      * 给文章点赞
      */
     @Override
+    @Transactional
     public String addLike(Long id) {
         Long userid = SecurityUtils.getLoginUser().getUserid();
         //设置匹配条件

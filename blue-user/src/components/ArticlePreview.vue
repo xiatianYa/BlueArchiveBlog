@@ -234,7 +234,6 @@ watch(article, async (newVal, oldVal) => {
 
   .preview-navigation {
     width: 20%;
-    box-sizing: border-box;
 
     .navigation {
       width: 100%;
@@ -252,7 +251,6 @@ watch(article, async (newVal, oldVal) => {
   }
 
   .preview-box {
-    box-sizing: border-box;
     width: 80%;
 
     .video {

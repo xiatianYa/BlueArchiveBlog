@@ -10,7 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 import { useRouter } from "vue-router"
 import useStore from "@/store"
 let { globalStore } = useStore()
@@ -53,7 +53,11 @@ onMounted(() => {
       timer.value = []
       router.push({ path: "/home" })
     }
-  }, 10))
+  }, 15))
+})
+onBeforeUnmount(() => {
+  //清除所有的定时器任务
+  clearInterval(timer)
 })
 </script>
 <style lang="scss" scoped>

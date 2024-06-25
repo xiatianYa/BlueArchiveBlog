@@ -1,10 +1,11 @@
 <template>
-  <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
+  <n-config-provider :locale="zhCN" :date-locale="dateZhCN" :theme="globalStore.switch ? lightTheme : darkTheme">
     <n-message-provider>
       <NavView v-if="navShow"></NavView>
-      <RouterView :class="!isShow ? '' : globalStore.switch ? 'bg-white' : 'bg-black'" />
+      <RouterView />
       <FooterView v-if="navShow"></FooterView>
       <setUpView></setUpView>
+      <n-global-style />
     </n-message-provider>
   </n-config-provider>
 </template>
@@ -16,7 +17,7 @@ import useStore from "@/store"
 let { globalStore, userStore } = useStore()
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { NMessageProvider, NConfigProvider, zhCN, dateZhCN } from 'naive-ui'
+import { NMessageProvider, NConfigProvider, zhCN, dateZhCN, darkTheme, lightTheme, NGlobalStyle } from 'naive-ui'
 import { getUserList } from '@/api/chat'
 
 //全局仓库
@@ -38,6 +39,8 @@ onMounted(() => {
       })
     }, 5000)
   }
+  //默认刷新后跳转到加载页
+  router.push('/');
 })
 onUnmounted(() => {
   if (timer) {

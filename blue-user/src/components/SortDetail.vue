@@ -63,7 +63,6 @@ const props = defineProps(['article'])
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      box-sizing: border-box;
       margin-bottom: 30px;
       border-radius: 10px;
 
