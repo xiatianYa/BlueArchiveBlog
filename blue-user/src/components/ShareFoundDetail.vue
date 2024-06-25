@@ -266,7 +266,6 @@ function deleteErchuangSubmit() {
   margin-bottom: 40px;
 
   .left {
-    box-sizing: border-box;
     border-radius: 10px;
     width: 15%;
     height: 100%;
@@ -298,7 +297,6 @@ function deleteErchuangSubmit() {
       flex-direction: column;
 
       .item {
-        box-sizing: border-box;
         display: flex;
         justify-content: start;
         align-items: center;

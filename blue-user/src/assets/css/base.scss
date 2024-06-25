@@ -6,6 +6,16 @@
   font-family: "Regular", "Microsoft Yahei" !important;
 }
 
+div {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  /* 继承父元素的字体颜色 */
+  text-decoration: none;
+  /* 移除下划线 */
+}
 
 /**默认字体*/
 @font-face {
@@ -34,35 +44,16 @@ input {
   /* Standard syntax */
 }
 
-/**背景颜色*/
-body::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  background-color: #F5F5F5;
-  opacity: 0.3;
-}
-
-/**背景渐变色*/
-*::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-image: linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%);
-}
-
-/**圆角*/
-*::-webkit-scrollbar-track {
-  border-radius: 20px;
-}
-
 /**盒子阴影*/
 .box-shadow {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 10px rgba(145, 145, 145, 0.3);
+  transition: all 0.5s ease-in-out;
 }
 
 /**盒子阴影*/
 .box-shadow:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 10px rgba(145, 145, 145, 0.9);
+  transition: all 0.5s ease-in-out;
 }
 
 /**图标*/
@@ -82,53 +73,6 @@ body::-webkit-scrollbar {
 /**盒子圆角*/
 .box-radius {
   border-radius: 5px 5px 8px 8px;
-}
-
-/**黑夜模式*/
-.bg-black {
-  position: relative;
-  background-color: rgb(16, 16, 20) !important;
-  color: rgba(255, 255, 255, 0.82) !important;
-  transition: color 1s ease;
-  transition: background-color 0.8s ease;
-}
-
-/**白昼模式*/
-.bg-white {
-  position: relative;
-  color: rgb(51, 54, 57) !important;
-  transition: color 1s ease;
-  transition: background-color 0.8s ease;
-}
-
-.bg-black::before {
-  content: '';
-  background: url("@/assets/images/loadingBg.png") no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -10;
-  transition: opacity 0.5s ease-in-out;
-  opacity: 1;
-}
-
-.bg-white::before {
-  content: '';
-  background: url("@/assets/images/loadingBg.png") no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -10;
-  transition: opacity 0.5s ease-in-out;
-  opacity: 1;
 }
 
 /**弹幕样式*/

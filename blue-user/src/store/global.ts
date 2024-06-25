@@ -2,22 +2,22 @@ import { defineStore } from 'pinia'
 import { listBg } from '@/api/bg'
 import chatSocket from "@/utils/chatSocket";
 //用户对象
-interface userVoType{
-    userId:number,
-    userAvatar:string,
-    userNickName:string
+interface userVoType {
+    userId: number,
+    userAvatar: string,
+    userNickName: string
 }
 export interface Global {
     //控制加载动画
     loading: boolean,
-    //控制灯开关
+    //背景模式(黑夜/白天)
     switch: boolean,
     //背景列表
     bgList: Array<any>;
     //接收到的消息列表
-    chatHistory:Array<any>;
+    chatHistory: Array<any>;
     //在线用户列表
-    onlineUserList:Array<userVoType>;
+    onlineUserList: Array<userVoType>;
 }
 export const useGloBalStore = defineStore('global', {
     // 真正存储数据的地方
@@ -26,8 +26,8 @@ export const useGloBalStore = defineStore('global', {
             loading: true,
             switch: true,
             bgList: [],
-            chatHistory:[],
-            onlineUserList:[]
+            chatHistory: [],
+            onlineUserList: []
         }
     },
     actions: {
@@ -57,11 +57,11 @@ export const useGloBalStore = defineStore('global', {
             chatSocket.init()
         },
         //发送webSocket消息
-        sendMessage(data:any){
+        sendMessage(data: any) {
             chatSocket.sendMsgAll(data)
         },
         //关闭socket
-        closeSocket(){
+        closeSocket() {
             chatSocket.close(false)
         }
     },

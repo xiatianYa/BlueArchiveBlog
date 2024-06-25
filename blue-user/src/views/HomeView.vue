@@ -31,39 +31,18 @@
                 {{ userStore.nickName }}
               </div>
             </div>
-            <div class="info-link">
-              <ul>
-                <li @click="goHref('https://space.bilibili.com/180200497?spm-id-from=333.1007.0.0')">
-                  <svg class="icon pointer" aria-hidden="true">
-                    <use xlink:href="#icon-icon-bilibili"></use>
-                  </svg>
-                </li>
-                <li @click="goHref('https://github.com/xiatianYa')">
-                  <svg class="icon pointer" aria-hidden="true">
-                    <use xlink:href="#icon-icon-github"></use>
-                  </svg>
-                </li>
-                <li @click="goHref('https://gitee.com/xiatianYa1003')">
-                  <svg class="icon pointer" aria-hidden="true">
-                    <use xlink:href="#icon-gitee-fill-round"></use>
-                  </svg>
-                </li>
-              </ul>
-            </div>
           </div>
           <!-- 搜索 -->
           <div class="content-search box-shadow box-radius">
-            <div class="search">
-              <div class="search-title">
-                搜索
-              </div>
-              <div class="search-box">
-                <input type="text" placeholder="搜索文章" class="search-txt" @keydown.enter="search"
-                  v-model="queryParams.searchValue">
-                <svg class="icon pointer" aria-hidden="true" @click="search">
-                  <use xlink:href="#icon-daohang"></use>
-                </svg>
-              </div>
+            <div class="search-title">
+              搜索
+            </div>
+            <div class="search-box">
+              <input type="text" placeholder="搜索文章" class="search-txt" @keydown.enter="search"
+                v-model="queryParams.searchValue">
+              <svg class="icon pointer" aria-hidden="true" @click="search">
+                <use xlink:href="#icon-daohang"></use>
+              </svg>
             </div>
           </div>
           <!-- 在线用户 -->
@@ -569,51 +548,42 @@ function goHref(url: string) {
         }
 
         .content-search {
+          display: flex;
+          flex-wrap: wrap;
           transition-duration: 0.5s;
+          padding: 10px;
 
-          .search {
+          .search-title {
             width: 100%;
             height: 50%;
-            display: flex;
-            flex-wrap: wrap;
-            padding: 7px;
+            margin: 5px 0 0 5px;
+            font-size: 22px;
+            margin-bottom: 5px;
+          }
 
-            .search-title {
-              width: 100%;
-              height: 50%;
-              margin: 5px 0 0 5px;
+          .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 25px;
+            border: #676767 2px solid;
+            border-radius: 15px;
+
+            .icon {
+              margin-right: 7px;
               font-size: 22px;
             }
 
-            .search-box {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              flex-wrap: nowrap;
-              width: 100%;
-              height: 50%;
-              margin-top: 20px;
-              border: #676767 2px solid;
-              border-radius: 15px;
+            .search-txt {
+              flex: 8;
+              width: 80%;
+              margin-left: 10px;
+              float: right;
+            }
 
-              .icon {
-                flex: 2;
-                vertical-align: -0.15em;
-                fill: currentColor;
-                overflow: hidden;
-                font-size: 22px;
-              }
-
-              .search-txt {
-                flex: 8;
-                width: 80%;
-                margin-left: 10px;
-                float: right;
-              }
-
-              input[type=text]::placeholder {
-                color: #676767;
-              }
+            input[type=text]::placeholder {
+              color: #676767;
             }
           }
         }

@@ -271,4 +271,4 @@ function getRandomItem(array: any) {
     margin: auto;
   }
 }
-</style>: { userAvater: string; content: string; barrageHeight: string | number; }: string | any[]
+</style>

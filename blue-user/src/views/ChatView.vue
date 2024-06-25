@@ -144,7 +144,6 @@ watch(globalStore.chatHistory, (newValue) => {
         .left {
             display: flex;
             flex-direction: column;
-            box-sizing: border-box;
             width: 25%;
 
             .title {
@@ -158,7 +157,6 @@ watch(globalStore.chatHistory, (newValue) => {
             }
 
             .chart-list {
-                box-sizing: border-box;
                 width: 100%;
                 height: 90%;
                 margin-top: 20px;
@@ -170,7 +168,6 @@ watch(globalStore.chatHistory, (newValue) => {
                 }
 
                 .container {
-                    box-sizing: border-box;
                     width: 100%;
                     padding: 5px 10px 20px 10px;
 
@@ -251,7 +248,6 @@ watch(globalStore.chatHistory, (newValue) => {
             }
 
             .body {
-                box-sizing: border-box;
                 width: 100%;
                 height: 90%;
                 margin-left: 10px;
@@ -266,7 +262,6 @@ watch(globalStore.chatHistory, (newValue) => {
                     position: relative;
 
                     .msg-list {
-                        box-sizing: border-box;
                         width: 100%;
                         height: 90%;
                         padding: 10px;
@@ -331,7 +326,6 @@ watch(globalStore.chatHistory, (newValue) => {
                         align-items: center;
 
                         .emoji {
-                            box-sizing: border-box;
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -348,7 +342,6 @@ watch(globalStore.chatHistory, (newValue) => {
                         }
 
                         .chat-box {
-                            box-sizing: border-box;
                             width: 80%;
                             height: 100%;
                             display: flex;
@@ -371,7 +364,6 @@ watch(globalStore.chatHistory, (newValue) => {
                         }
 
                         .send {
-                            box-sizing: border-box;
                             display: flex;
                             justify-content: center;
                             align-items: center;
