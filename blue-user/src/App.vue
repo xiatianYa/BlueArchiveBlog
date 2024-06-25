@@ -1,10 +1,12 @@
 <template>
-  <n-message-provider>
-    <NavView v-if="navShow"></NavView>
-    <RouterView :class="!isShow ? '' : globalStore.switch ? 'bg-white' : 'bg-black'" />
-    <FooterView v-if="navShow"></FooterView>
-    <setUpView></setUpView>
-  </n-message-provider>
+  <n-config-provider :locale="zhCN" :date-locale="dateZhCN">
+    <n-message-provider>
+      <NavView v-if="navShow"></NavView>
+      <RouterView :class="!isShow ? '' : globalStore.switch ? 'bg-white' : 'bg-black'" />
+      <FooterView v-if="navShow"></FooterView>
+      <setUpView></setUpView>
+    </n-message-provider>
+  </n-config-provider>
 </template>
 <script setup lang="ts">
 import NavView from '@/components/NavView.vue'
@@ -14,7 +16,7 @@ import useStore from "@/store"
 let { globalStore, userStore } = useStore()
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { NMessageProvider } from 'naive-ui'
+import { NMessageProvider, NConfigProvider, zhCN, dateZhCN } from 'naive-ui'
 import { getUserList } from '@/api/chat'
 
 //全局仓库

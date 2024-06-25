@@ -3,6 +3,7 @@
     <div class="title">眼前所见 , 皆为奇迹</div>
     <div class="filings">
       <span>Copyright © 2024 XiaTianYa</span>
+      <img src="@/assets/images/badge.png">
       <span>湘ICP备2024066741号</span>
     </div>
   </div>
@@ -13,9 +14,7 @@
 <style lang="scss" scoped>
 .footer {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
   width: 100%;
   height: 45px;
@@ -23,20 +22,21 @@
   animation: LinearGradient 15s infinite;
 
   .title {
-    font-size: 14px;
-    padding-bottom: 3px;
+    width: 100%;
+    text-align: center;
   }
 
   .filings {
-    font-size: 12px;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 
-  .filings span:first-child {
-    padding-right: 5px;
-  }
-
-  .filings span:last-child {
-    padding-left: 5px;
+    img {
+      padding: 0 5px 0 10px;
+      width: 15px;
+      height: 15px;
+    }
   }
 }
 </style>
