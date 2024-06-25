@@ -40,7 +40,7 @@
                 <!-- 多选框 -->
                 <n-form-item v-if="item.type === 'mredio'" :label="item.label" :path="item.props">
                     <n-tree-select multiple cascade checkable check-strategy="parent"
-                        :options="formItemOption[item.selectProps]" placeholder="请输入文章标签"
+                        :options="formItemOption[item.selectProps]" :placeholder="item.placeholder"
                         :default-value="formData[item.props]" @update:value="item.handleUpdate" />
                 </n-form-item>
             </template>

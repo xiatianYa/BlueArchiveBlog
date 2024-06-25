@@ -71,6 +71,7 @@ function customRequest({
     file,
 }: UploadCustomRequestOptions) {
     uploadFiles(file).then(res => {
+        console.log(res);
         // 使用 find 方法找到具有相同 batchId 的文件对象  
         const foundFileObj = fileList.value.find(fileObj => fileObj.batchId === file.batchId);
         // 如果找到了对应的文件对象，则更新其 URL  

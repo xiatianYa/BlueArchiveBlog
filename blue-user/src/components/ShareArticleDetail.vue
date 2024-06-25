@@ -110,7 +110,7 @@ const formOption = reactive([
         type: "slot", slotName: "ImgUpload", props: "cover", label: "文章图片"
     },
     {
-        type: "slot", slotName: "FileUpload", props: "cover", label: "文章视频"
+        type: "slot", slotName: "FileUpload", props: "videoUrl", label: "文章视频"
     },
     {
         type: "slot", slotName: "Footer"
