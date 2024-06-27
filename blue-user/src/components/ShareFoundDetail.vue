@@ -12,7 +12,7 @@
         <div class="item pointer" v-for="erchuang in ErchuangList">
           <input type="checkbox" v-model="deleteErchuangList" name="article" :value="erchuang.id">
           <span style="flex: 1;">
-            <n-ellipsis  :line-clamp="1" style="max-width: 30px;">
+            <n-ellipsis :line-clamp="1" style="max-width: 30px;">
               {{ erchuang.ecName }}
             </n-ellipsis>
           </span>
@@ -31,28 +31,12 @@
     </div>
     <!-- 添加修改框 -->
     <n-modal v-model:show="erchuangShow" transform-origin="center">
-      <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
-        <n-form ref="formRef" :model="erchuang" :rules="rules" label-placement="left" label-width="auto"
-          require-mark-placement="right-hanging" size="medium" :style="{
-            maxWidth: '640px'
-          }">
-          <n-form-item label="二创标题" path="ecName">
-            <n-input v-model:value="erchuang.ecName" placeholder="请输入二创标题" />
-          </n-form-item>
-          <n-form-item label="二创作者" path="ecAuthor">
-            <n-input v-model:value="erchuang.ecAuthor" placeholder="请输入二创作者" />
-          </n-form-item>
-          <n-form-item label="二创路径" path="ecUrl">
-            <n-input v-model:value="erchuang.ecUrl" placeholder="请输入二创路径" />
-          </n-form-item>
-          <n-form-item label="二创简介" path="ecSynopsis">
-            <n-input v-model:value="erchuang.ecSynopsis" type="textarea" placeholder="请输入二创简介" />
-          </n-form-item>
-          <n-form-item label="二创封面" path="ecAvater">
-            <ImgUpload v-model="erchuang.ecAvater"></ImgUpload>
-          </n-form-item>
-        </n-form>
-        <template #footer>
+      <resuse-form ref="formRef" class="formClass" :formData="erchuang" :formOption="formOption"
+        :formItemOption="selectOption" :rules="rules" labelPosition="right" labelWidth="140">
+        <template #ImgUpload>
+          <ImgUpload v-model="erchuang.ecAvater"></ImgUpload>
+        </template>
+        <template #Footer>
           <n-space>
             <n-button secondary round @click="erchuangShow = false">
               取消
@@ -62,7 +46,7 @@
             </n-button>
           </n-space>
         </template>
-      </n-card>
+      </resuse-form>
     </n-modal>
     <!-- 删除框 -->
     <n-modal v-model:show="erchuangDeleteShow" transform-origin="center">
@@ -86,9 +70,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, reactive } from 'vue'
 import { addErchuang, delErchuang, getErchuang, listErchuangByUser, updateErchuang } from '@/api/erchuang'
-import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NEllipsis, type FormInst } from 'naive-ui'
+import { useMessage, NModal, NCard, NButton, NSpace, NEllipsis, type FormInst } from 'naive-ui'
+import resuseForm from '@/components/reuseForm/index.vue'
 import ErchuangDetail from "@/components/ErchuangDetail.vue"
 import ImgUpload from '@/components/imgUpload/index.vue'
 import reusePagination from '@/components/reusePagination/index.vue'
@@ -102,6 +87,27 @@ interface ErchuangType {
   ecSynopsis: string;
   ecAvater: string;
 }
+//表单配置项
+const formOption = reactive([
+  {
+    type: "input", props: "ecName", label: "二创标题", placeholder: "请输入二创标题"
+  },
+  {
+    type: "input", props: "ecAuthor", label: "二创作者", placeholder: "请输入二创作者"
+  },
+  {
+    type: "input", props: "ecUrl", label: "二创路径", placeholder: "请输入二创路径"
+  },
+  {
+    type: "input", props: "ecSynopsis", label: "二创简介", placeholder: "请输入二创简介"
+  },
+  {
+    type: "slot", slotName: "ImgUpload", props: "ecAvater", label: "二创封面"
+  },
+  {
+    type: "slot", slotName: "Footer"
+  }
+]);
 //表单校验对象
 const rules = ref({
   ecName: {
@@ -128,12 +134,15 @@ const rules = ref({
     required: true,
     trigger: ['blur', '二创简介'],
     message: '请输入二创简介'
-  }
+  },
 })
 //标题
 const title = ref("")
 //表单
-const formRef = ref<FormInst>()
+const formRef = ref<any | null>(null)
+//下拉框配置项
+const selectOption: any = reactive({
+})
 //提示框
 const message = useMessage()
 //二创列表
@@ -193,7 +202,7 @@ function init() {
 }
 //添加二创
 function erchuangSubmit() {
-  formRef.value?.validate((errors) => {
+  formRef.value?.ruleFormRef().validate((errors: any) => {
     if (!errors) {
       if (erchuang.value.id != null) {
         updateErchuang(erchuang.value).then(() => {

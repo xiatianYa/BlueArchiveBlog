@@ -17,11 +17,12 @@ import useStore from "@/store"
 let { globalStore, userStore } = useStore()
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { NMessageProvider, NConfigProvider, zhCN, dateZhCN, darkTheme, lightTheme, NGlobalStyle } from 'naive-ui'
+import { NMessageProvider, NConfigProvider, zhCN, dateZhCN, darkTheme, lightTheme, NGlobalStyle, NThemeEditor } from 'naive-ui'
 import { getUserList } from '@/api/chat'
 
 //全局仓库
 let isShow = ref(true)
+//是否显示头部导航
 let navShow = ref(true)
 let router = useRouter()
 let timer = null;
@@ -66,7 +67,7 @@ watch(
 )
 function handleKeyDown(event: any) {
   if (event.key === 'F12') {
-    // 阻止默认行为（但请注意，这可能不会总是有效）  
+    // 阻止默认行为  
     event.preventDefault();
     // 阻止事件冒泡（可选）  
     event.stopPropagation();

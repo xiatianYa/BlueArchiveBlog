@@ -31,22 +31,12 @@
     </div>
     <!-- 添加修改框 -->
     <n-modal v-model:show="photoShow" transform-origin="center">
-      <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
-        <n-form ref="formRef" :model="photo" :rules="rules" label-placement="left" label-width="auto"
-          require-mark-placement="right-hanging" size="medium" :style="{
-            maxWidth: '640px'
-          }">
-          <n-form-item label="相册名称" path="photoName">
-            <n-input v-model:value="photo.photoName" placeholder="请输入相册名称" />
-          </n-form-item>
-          <n-form-item label="相册分类" path="sortId">
-            <n-select v-model:value="photo.sortId" :options="photoOptions" placeholder="请选择相册分类" clearable />
-          </n-form-item>
-          <n-form-item label="相册图片" path="photoUrl">
-            <ImgUpload v-model="photo.photoUrl"></ImgUpload>
-          </n-form-item>
-        </n-form>
-        <template #footer>
+      <resuse-form ref="formRef" class="formClass" :formData="photo" :formOption="formOption"
+        :formItemOption="selectOption" :rules="rules" labelPosition="right" labelWidth="140">
+        <template #ImgUpload>
+          <ImgUpload v-model="photo.photoUrl"></ImgUpload>
+        </template>
+        <template #Footer>
           <n-space>
             <n-button secondary round @click="photoShow = false">
               取消
@@ -56,7 +46,7 @@
             </n-button>
           </n-space>
         </template>
-      </n-card>
+      </resuse-form>
     </n-modal>
     <!-- 删除框 -->
     <n-modal v-model:show="photoDeleteShow" transform-origin="center">
@@ -80,15 +70,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, reactive } from 'vue'
 import { addPhoto, delPhoto, getPhoto, listPhotoByUser, updatePhoto } from '@/api/photo'
 import { listSort } from '@/api/sort/photoSort'
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NEllipsis, type FormInst } from 'naive-ui'
 import ImgUpload from '@/components/imgUpload/index.vue'
 import reusePagination from '@/components/reusePagination/index.vue'
 import PhotoDetail from '@/components/PhotoDetail.vue'
+import resuseForm from '@/components/reuseForm/index.vue'
 //表单
-const formRef = ref<FormInst>()
+const formRef = ref<any | null>(null)
 // 定义Photo的类型  
 interface PhotoType {
   id?: number | null;
@@ -96,6 +87,25 @@ interface PhotoType {
   photoName: string;
   photoUrl: string;
 }
+//下拉框配置项
+const selectOption: any = reactive({
+  sortOptions: [] //相册分类列表
+})
+//表单配置项
+const formOption = reactive([
+  {
+    type: "input", props: "photoName", label: "相片名称", placeholder: "请输入相片名称"
+  },
+  {
+    type: "select", selectProps: "sortOptions", props: "sortId", label: "相册分类", placeholder: "请选择分类名称"
+  },
+  {
+    type: "slot", slotName: "ImgUpload", props: "photoUrl", label: "相册图片"
+  },
+  {
+    type: "slot", slotName: "Footer"
+  }
+]);
 const rules = ref({
   sortId: {
     required: true,
@@ -137,9 +147,9 @@ const photo = ref<PhotoType>({
 //分页对象
 const queryParam = ref({
   pageNum: 1,
-  pageSize: 6,
+  pageSize: 8,
   count: 0,
-  pageSizes: [6, 12, 24, 36]
+  pageSizes: [8, 16, 24, 32]
 })
 //删除相册的名称列表
 const mappedPhotoNamesByIds = computed(() => {
@@ -148,8 +158,6 @@ const mappedPhotoNamesByIds = computed(() => {
     return photo.photoName;
   })
 })
-//相册分类
-const photoOptions = ref()
 onMounted(() => {
   init();
 })
@@ -163,7 +171,7 @@ function init() {
     queryParam.value.count = Math.ceil(res.total / pageSize)
   })
   listSort().then((res: any) => {
-    photoOptions.value = res.rows.map((item: any) => {
+    selectOption.sortOptions = res.rows.map((item: any) => {
       return {
         value: item.id,
         label: item.sortName
@@ -220,7 +228,7 @@ function deleteMusicSubmit() {
 }
 //提交相册
 function photoSubmit() {
-  formRef.value?.validate((errors) => {
+  formRef.value?.ruleFormRef().validate((errors: any) => {
     if (!errors) {
       if (photo.value.id != null) {
         updatePhoto(photo.value).then(() => {

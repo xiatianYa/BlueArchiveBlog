@@ -8,7 +8,7 @@
                 <span class="pointer" @click="openMusic">添加歌曲</span>
             </div>
             <div class="music-list">
-                <div class="item pointer" v-for="item in sortOptions">
+                <div class="item pointer" v-for="item in selectOption.sortOptions">
                     <span @click="changSort(item.value)" style="flex: 1;">
                         <n-ellipsis :line-clamp="1" :style="item.value == musicSortIndex ? 'color: #00e0ff;' : ''">
                             {{ item.label }}
@@ -23,28 +23,18 @@
             </audio>
         </div>
         <!-- 添加修改框 -->
-        <n-modal v-model:show="MusicShow" transform-origin="center">
-            <n-card style="width: 600px" :title="title" :bordered="false" size="huge" role="dialog" aria-modal="true">
-                <n-form ref="formRef" :model="music" :rules="rules" label-placement="left" label-width="auto"
-                    require-mark-placement="right-hanging" size="medium" :style="{
-                        maxWidth: '640px'
-                    }">
-                    <n-form-item label="音乐名称" path="musicName">
-                        <n-input v-model:value="music.musicName" placeholder="请输入音乐名称" />
-                    </n-form-item>
-                    <n-form-item label="音乐分类" path="sortId">
-                        <n-select v-model:value="music.sortId" :options="sortOptions" placeholder="请选择文章分类" clearable />
-                    </n-form-item>
-                    <n-form-item label="音乐封面" path="imgUrl">
-                        <ImgUpload v-model="music.imgUrl"></ImgUpload>
-                    </n-form-item>
-                    <n-form-item label="音乐文件" path="musicUrl">
-                        <FileUpload v-model="music.musicUrl"></FileUpload>
-                    </n-form-item>
-                </n-form>
-                <template #footer>
+        <n-modal v-model:show="musicShow" transform-origin="center">
+            <resuse-form ref="formRef" class="formClass" :formData="music" :formOption="formOption"
+                :formItemOption="selectOption" :rules="rules" labelPosition="right" labelWidth="140">
+                <template #ImgUpload>
+                    <ImgUpload v-model="music.imgUrl"></ImgUpload>
+                </template>
+                <template #FileUpload>
+                    <FileUpload v-model="music.musicUrl"></FileUpload>
+                </template>
+                <template #Footer>
                     <n-space>
-                        <n-button secondary round @click="MusicShow = false">
+                        <n-button secondary round @click="musicShow = false">
                             取消
                         </n-button>
                         <n-button type="info" secondary round @click="musicSubmit">
@@ -52,16 +42,17 @@
                         </n-button>
                     </n-space>
                 </template>
-            </n-card>
+            </resuse-form>
         </n-modal>
     </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
 import { listSort } from '@/api/musicSort'
 import { bySortList, addMusic } from '@/api/music'
-import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NEllipsis, NSelect, type FormInst } from 'naive-ui'
+import { useMessage, NModal, NButton, NSpace, NEllipsis, type FormInst } from 'naive-ui'
+import resuseForm from '@/components/reuseForm/index.vue'
 import MusicDetail from "@/components/MusicDetail.vue";
 import ImgUpload from '@/components/imgUpload/index.vue'
 import FileUpload from '@/components/fileUpload/index.vue'
@@ -73,6 +64,28 @@ interface MusicType {
     musicUrl: string;
     sortId: number | null;
 }
+//下拉框配置项
+const selectOption: any = reactive({
+    sortOptions: [] //音乐分类列表
+})
+//表单配置项
+const formOption = reactive([
+    {
+        type: "input", props: "musicName", label: "音乐名称", placeholder: "请输入音乐名称"
+    },
+    {
+        type: "select", selectProps: "sortOptions", props: "sortId", label: "分类名称", placeholder: "请选择分类名称"
+    },
+    {
+        type: "slot", slotName: "ImgUpload", props: "imgUrl", label: "音乐封面"
+    },
+    {
+        type: "slot", slotName: "FileUpload", props: "musicUrl", label: "音乐文件"
+    },
+    {
+        type: "slot", slotName: "Footer"
+    }
+]);
 const rules = ref({
     musicName: {
         required: true,
@@ -102,17 +115,15 @@ const rules = ref({
 //标题
 const title = ref("")
 //表单
-const formRef = ref<FormInst>()
+const formRef = ref<any | null>(null)
 //提示框
 const message = useMessage()
-//音乐分类列表
-const sortOptions = ref()
 //音乐选中下标
 const musicSortIndex = ref()
 //音乐列表
 const musicList = ref()
 //添加框是否显示
-const MusicShow = ref(false)
+const musicShow = ref(false)
 //添加音乐对象
 const music = ref<MusicType>({
     id: null,
@@ -129,15 +140,15 @@ onMounted(() => {
 })
 //初始化
 function init() {
-    listSort().then((res:any) => {
-        sortOptions.value = res.rows.map((item: any) => {
+    listSort().then((res: any) => {
+        selectOption.sortOptions = res.rows.map((item: any) => {
             return {
                 value: item.id,
                 label: item.sortName
             }
         });
         //设置初始下标
-        musicSortIndex.value = sortOptions.value[0].value;
+        musicSortIndex.value = selectOption.sortOptions[0].value;
         searchMusicList();
     })
 }
@@ -202,15 +213,15 @@ function openMusic() {
         musicUrl: "",
         sortId: null
     }
-    MusicShow.value = true;
+    musicShow.value = true;
 }
 //提交操作
 function musicSubmit() {
-    formRef.value?.validate((errors) => {
+    formRef.value?.ruleFormRef().validate((errors: any) => {
         if (!errors) {
             addMusic(music.value).then((res) => {
                 message.success("添加成功")
-                MusicShow.value = false;
+                musicShow.value = false;
             }).catch(() => {
                 message.error("添加失败")
             })
