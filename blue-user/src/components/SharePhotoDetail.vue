@@ -12,7 +12,7 @@
         <div class="item pointer" v-for="photo in photoList">
           <input type="checkbox" v-model="deletePhotoList" name="article" :value="photo.id">
           <span style="flex: 1;">
-            <n-ellipsis :line-clamp="1" style="max-width: 30px;">
+            <n-ellipsis :line-clamp="1" style="max-width: 55px;">
               {{ photo.photoName }}
             </n-ellipsis>
           </span>

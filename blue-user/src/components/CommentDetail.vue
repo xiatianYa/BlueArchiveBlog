@@ -144,7 +144,7 @@ function addLeaverComment() {
     //重新获取数据
     init();
   }).catch(error => {
-    message.success("请先登录!")
+    message.warning("请先登录!")
   })
   closeLeaverDialog();
 }

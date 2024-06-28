@@ -12,7 +12,7 @@
         <div class="item pointer" v-for="erchuang in ErchuangList">
           <input type="checkbox" v-model="deleteErchuangList" name="article" :value="erchuang.id">
           <span style="flex: 1;">
-            <n-ellipsis :line-clamp="1" style="max-width: 30px;">
+            <n-ellipsis :line-clamp="1" style="max-width: 55px;">
               {{ erchuang.ecName }}
             </n-ellipsis>
           </span>

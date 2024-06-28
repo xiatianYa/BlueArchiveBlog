@@ -12,7 +12,7 @@
                 <div class="item pointer" v-for="item in ArticleList">
                     <input type="checkbox" v-model="deleteArticleList" name="article" :value="item.id">
                     <span @click="changeArticle(item)" style="flex: 1;">
-                        <n-ellipsis :line-clamp="1" style="max-width: 30px;"
+                        <n-ellipsis :line-clamp="1" style="max-width: 55px;"
                             :style="item.id == ArticleIndex.id ? 'color: #00e0ff;' : ''">
                             {{ item.articleName }}
                         </n-ellipsis>
