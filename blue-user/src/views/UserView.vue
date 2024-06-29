@@ -34,7 +34,15 @@
             <n-input type="text" placeholder="用户名" v-model:value="userInfo.userName" />
             <n-input type="password" show-password-on="mousedown" placeholder="密码" v-model:value="userInfo.passWord" />
             <n-input type="text" placeholder="请输入验证码" v-model:value="userInfo.code" />
-            <n-image width="100%" :src="codeImg" preview-disabled @click="getCode" />
+            <n-image :src="codeImg" preview-disabled @click="getCode" />
+            <n-space justify="center">
+              <p style="font-size: 14px;font-weight: 400;color: #fff;">其他登录方式</p>
+            </n-space>
+            <n-space>
+              <svg aria-hidden="true" class="icon pointer" @click="qqLogin()">
+                <use xlink:href="#icon-QQ1"></use>
+              </svg>
+            </n-space>
           </n-space>
           <button @click="userLogin" v-show="!loading">登录</button>
           <button v-show="loading">
@@ -211,7 +219,15 @@ function goLogin() {
   registerBox.classList.add('hidden');
   loginBox.classList.remove('hidden');
 }
-
+//第三方登录
+function qqLogin() {
+  (window as any).QC.Login.showPopup({
+    appId: "102129326",// 填写在QQ互联上申请的AppId
+    redirectURI: "http://bluearchive.top/oauth2/callback/qq", //填写回调地址 登录成功后会自动跳往该地址
+  });
+  //关闭当前页面
+  window.close();
+}
 //切换用户头像
 function exchangeAvater(imgUrl: any) {
   userInfo.value.avatar = imgUrl
@@ -310,6 +326,10 @@ function goRegister() {
   flex-direction: column;
   align-items: center;
   width: 100%;
+
+  .icon {
+    font-size: 36px;
+  }
 
   button {
     display: flex;

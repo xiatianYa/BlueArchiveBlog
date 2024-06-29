@@ -2,7 +2,7 @@
   <transition name="fade">
     <div v-show="NavShow" class="header-box header-fixed">
       <div class="pc-menu">
-        <div class="header-log" @click="go('/home')">
+        <div class="header-log pointer" @click="go('/home')">
           <img src="https://edu-9556.oss-cn-hangzhou.aliyuncs.com/BlueAchive/config/logo.png" />
         </div>
         <div class="header-menu">

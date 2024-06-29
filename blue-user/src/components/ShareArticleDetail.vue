@@ -6,6 +6,7 @@
             </div>
             <div class="article-menu">
                 <span class="pointer" @click="handleArticleAdd">添加文章</span>
+                <span class="pointer">提交审核</span>
                 <span class="pointer" @click="handleArticleDelete">删除文章</span>
             </div>
             <div class="article-list">
@@ -295,8 +296,8 @@ function articleSubmit() {
                     message.success("修改成功")
                     ArticleShow.value = false;
                     init();
-                }).catch(() => {
-                    message.error("修改失败")
+                }).catch((error) => {
+                    message.error("修改失败:" + error)
                 })
             } else {
                 addArticle(article.value).then(() => {
@@ -332,9 +333,9 @@ function saveArticle() {
     })
 }
 //文章编辑器上传图片
-function handleUploadImage(insertImage: any, file: any) {
+function handleUploadImage(event: any, insertImage: any, files: any) {
     const formData = new FormData();
-    formData.append("file", file[0])
+    formData.append("file", files[0])
     uploadImages(formData).then(res => {
         insertImage({
             url: res.data.url,

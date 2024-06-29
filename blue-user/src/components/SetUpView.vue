@@ -11,6 +11,9 @@
         <svg class="icon pointer" aria-hidden="true" @click="openChart()" v-show="userStore.token">
           <use xlink:href="#icon-tongzhi"></use>
         </svg>
+        <svg class="icon pointer" aria-hidden="true">
+          <use xlink:href="#icon-erji1"></use>
+        </svg>
         <svg class="icon pointer" aria-hidden="true" v-show="globalStore.switch"
           @click="changSwitch(!globalStore.switch)">
           <use xlink:href="#icon-deng"></use>

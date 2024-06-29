@@ -206,6 +206,10 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         if (StringUtils.isNotNull(userId)){
             blueArticle.setUpdateBy(userId.toString());
         }
+        //如果文章已审核,则不能修改
+        if (AuditingStatus.DISABLE.getCode().equals(blueArticle.getStatus())){
+            throw new ServiceException("文章已审核,禁止修改,请联系管理员!");
+        }
         //设置文章修改时间
         blueArticle.setUpdateTime(DateUtils.getNowDate());
         //文章的标签列表

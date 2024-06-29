@@ -203,7 +203,6 @@ export default {
         handleClick(tab, event) {
             //每次切换则程序加载数据
             this.init()
-            console.log(tab, event);
         },
         init() {
             //获取网站信息

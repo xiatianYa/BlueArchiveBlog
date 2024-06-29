@@ -451,11 +451,11 @@ function goHref(url: string) {
             .online {
               width: 10%;
               display: flex;
-              padding: 5px;
+              margin: 5px;
               align-items: center;
 
               .avatar {
-                width: 100%;
+                width: 25px;
                 border-radius: 50%;
               }
             }
