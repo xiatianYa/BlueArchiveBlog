@@ -114,6 +114,27 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 根据OpenID查询用户信息
+     */
+    @InnerAuth
+    @GetMapping("/infoByOpenId/{openId}")
+    public R<LoginUser> getUserInfoByOpenId(@PathVariable(value = "openId") String openId){
+        SysUser sysUser = userService.selectUserByOpenId(openId);
+        if (StringUtils.isNull(sysUser)) {
+            return R.fail("当前用户不存在");
+        }
+        // 角色集合
+        Set<String> roles = permissionService.getRolePermission(sysUser);
+        // 权限集合
+        Set<String> permissions = permissionService.getMenuPermission(sysUser);
+        LoginUser sysUserVo = new LoginUser();
+        sysUserVo.setSysUser(sysUser);
+        sysUserVo.setRoles(roles);
+        sysUserVo.setPermissions(permissions);
+        return R.ok(sysUserVo);
+    }
+
+    /**
      * 注册用户信息
      */
     @InnerAuth

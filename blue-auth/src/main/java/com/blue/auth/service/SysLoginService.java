@@ -1,5 +1,8 @@
 package com.blue.auth.service;
 
+import com.alibaba.fastjson2.JSONObject;
+import com.blue.auth.form.OauthBody;
+import com.blue.auth.form.QQInfoBody;
 import com.blue.auth.form.RegisterBody;
 import com.blue.common.core.constant.CacheConstants;
 import com.blue.common.core.constant.Constants;
@@ -18,10 +21,16 @@ import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.domain.SysUser;
 import com.blue.system.api.model.LoginUser;
+import com.blue.system.api.model.UserVo;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -222,5 +231,77 @@ public class SysLoginService {
         redisService.setCacheObject(phone, phoneCode,(long)720*60, TimeUnit.SECONDS);
         redisService.setCacheObject(ipAddr,ipAddr,(long)720*60, TimeUnit.SECONDS);
         return "短信验证码发送成功";
+    }
+
+    public LoginUser oauthLogin(OauthBody form) {
+        //当用户form为空
+        if (StringUtils.isNull(form.getAccessToken()) || StringUtils.isNull(form.getType())){
+            throw new ServiceException("非法参数!");
+        }
+        try {
+            URL url = new URL("https://graph.qq.com/user/get_user_info?oauth_consumer_key=102129326&access_token="+form.getAccessToken()+"&openid="+form.getOpenId());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            QQInfoBody qqInfoBody=null;
+            // 读取响应
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    qqInfoBody= JSONObject.parseObject(line, QQInfoBody.class);
+                }
+            }
+            // 关闭连接
+            conn.disconnect();
+            //获取用户成功 如果是第一次登录 则进行注册 否则就返回Token给前端
+            if (StringUtils.isNotNull(qqInfoBody)){
+                R<LoginUser> userResult = remoteUserService.getUserInfoByOpenId(form.getOpenId(), SecurityConstants.INNER);
+                //用户不存在 则进行注册
+                if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData())) {
+                    recordLogService.recordLogininfor(form.getOpenId(),Constants.LOGIN_FAIL, "第三方登录用户未注册");
+                    // 注册用户信息
+                    SysUser sysUser = new SysUser();
+                    //设置OpenId
+                    sysUser.setOpenId(form.getOpenId());
+                    // 设置用户名称
+                    sysUser.setUserName(qqInfoBody.getNickname());
+                    //设置用户NickName
+                    sysUser.setNickName(qqInfoBody.getNickname());
+                    // 设置用户密码
+                    sysUser.setPassword(SecurityUtils.encryptPassword("123456"));
+                    // 设置用户头像
+                    if (StringUtils.isNotNull(qqInfoBody.getFigureurl_qq_2())){
+                        sysUser.setAvatar(qqInfoBody.getFigureurl_qq_2());
+                    }
+                    sysUser.setAvatar(qqInfoBody.getFigureurl_qq_1());
+                    //设置用户角色为普通用户
+                    sysUser.setRoleId(100L);
+                    R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
+                    if (R.FAIL == registerResult.getCode()) {
+                        throw new ServiceException(registerResult.getMsg());
+                    }
+                    //返回成功信息
+                    recordLogService.recordLogininfor(sysUser.getUserName(), Constants.REGISTER, "注册成功");
+                    //重新获取用户信息
+                    userResult = remoteUserService.getUserInfoByOpenId(form.getOpenId(), SecurityConstants.INNER);
+                    return userResult.getData();
+                }
+                //用户存在则返回token
+                LoginUser userInfo = userResult.getData();
+                SysUser user = userResult.getData().getSysUser();
+                if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
+                    recordLogService.recordLogininfor(user.getUserName(), Constants.LOGIN_FAIL, "对不起，您的账号已被删除");
+                    throw new ServiceException("对不起，您的账号：" + user.getUserName() + " 已被删除");
+                }
+                if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
+                    recordLogService.recordLogininfor(user.getUserName(), Constants.LOGIN_FAIL, "用户已停用，请联系管理员");
+                    throw new ServiceException("对不起，您的账号：" + user.getUserName() + " 已停用");
+                }
+                recordLogService.recordLogininfor(user.getNickName(), Constants.LOGIN_SUCCESS, "登录成功");
+                return userInfo;
+            }
+        } catch (Exception e) {
+            throw new ServiceException("获取第三方信息失败!");
+        }
+        return null;
     }
 }

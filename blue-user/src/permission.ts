@@ -6,6 +6,7 @@ router.beforeEach((to, from, next) => {
     let { userStore } = useStore()
     //没有token
     if (!getToken()) {
+        //判断用户当前路由 如果需要校权 则返回登录页
         next()
     } else {
         //没有用户信息

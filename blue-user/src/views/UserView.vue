@@ -74,14 +74,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { getCodeImg, getSms, login, register } from '@/api/login'
+import { getCodeImg, getSms, login, register, oauthLogin } from '@/api/login'
 import { listAvater } from '@/api/avater'
 import { setExpiresIn, setToken } from '@/utils/auth'
 import { useRouter } from "vue-router";
 import { useMessage, NInput, NSpace, NImage, NAvatar } from 'naive-ui'
 let { userStore } = useStore()
-import useStore from "@/store"
 let { globalStore } = useStore()
+import QC from '@/assets/js/qqAuth.js';
+import stringUtils from '@/utils/stringUtils'
+import useStore from "@/store"
 import Loading from '@/components/CssLoadingView02.vue'
 
 
@@ -122,6 +124,45 @@ let userInfo = ref<UserInfoType>({
 //是否加载Loading
 const loading = ref(false)
 onMounted(() => {
+  //检测用户是否确认登录
+  if (QC.Login.check()) {
+    //获取用户openId
+    QC.Login.getMe(function (openId: any, accessToken: any) {
+      //成功获取用户openId
+      if (openId !== undefined) {
+        //openId 是用户的唯一标识，也是需要存到数据库的
+        // 用JS SDK调用OpenAPI
+        const qqParam = {
+          accessToken: accessToken,
+          openId: openId,
+          type: 0
+        }
+        //调用后台接口 把用户存入数据库 并且返回token
+        oauthLogin(qqParam).then(res => {
+          let result = res.data
+          //设置Token
+          setToken(result.access_token)
+          //设置Token过期时间
+          setExpiresIn(result.expires_in)
+          //设置本地仓库Token
+          userStore.setToken(result.access_token)
+          //提示用户信息
+          message.success("登录成功")
+          //初始化socket连接
+          globalStore.initSocket();
+          //关闭加载
+          loading.value = false;
+          router.push({ path: "/menu" })
+        }).catch(error => {
+          //提示用户信息
+          message.error(error)
+          //关闭加载
+          loading.value = false;
+          getCode()
+        })
+      }
+    })
+  }
   //获取用户头像
   listAvater({ pageSize: 999 }).then((res: any) => {
     avaterUrls.value = res.rows
@@ -219,14 +260,13 @@ function goLogin() {
   registerBox.classList.add('hidden');
   loginBox.classList.remove('hidden');
 }
-//第三方登录
+//第三方QQ登录
 function qqLogin() {
-  (window as any).QC.Login.showPopup({
+  //调用第三方登录框
+  QC.Login.showPopup({
     appId: "102129326",// 填写在QQ互联上申请的AppId
-    redirectURI: "http://bluearchive.top/oauth2/callback/qq", //填写回调地址 登录成功后会自动跳往该地址
+    redirectURI: "http://www.bluearchive.top/user", //填写回调地址 登录成功后会自动跳往该地址
   });
-  //关闭当前页面
-  window.close();
 }
 //切换用户头像
 function exchangeAvater(imgUrl: any) {

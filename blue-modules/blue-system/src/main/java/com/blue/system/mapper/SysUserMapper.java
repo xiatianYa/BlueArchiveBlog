@@ -124,4 +124,11 @@ public interface SysUserMapper{
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+    /**
+     * 通过openId查询用户
+     *
+     * @param openId openId
+     * @return 用户对象信息
+     */
+    public SysUser selectUserByOpenId(String openId);
 }

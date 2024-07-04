@@ -1,41 +1,41 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
 // 查询用户个人信息
 export function getUserProfile() {
   return request({
-    url: '/system/user/profile',
-    method: 'get'
-  })
+    url: "/system/user/profile",
+    method: "get",
+  });
 }
 
 // 修改用户个人信息
-export function updateUserProfile(data:any) {
+export function updateUserProfile(data: any) {
   return request({
-    url: '/system/user/profile',
-    method: 'put',
-    data: data
-  })
+    url: "/system/user/profile",
+    method: "put",
+    data: data,
+  });
 }
 
 // 用户密码重置
-export function updateUserPwd(oldPassword:any, newPassword:any) {
+export function updateUserPwd(oldPassword: any, newPassword: any) {
   const data = {
     oldPassword,
-    newPassword
-  }
+    newPassword,
+  };
   return request({
-    url: '/system/user/profile/updatePwd',
-    method: 'put',
-    params: data
-  })
+    url: "/system/user/profile/updatePwd",
+    method: "put",
+    params: data,
+  });
 }
 
 // 用户头像上传
-export function uploadAvatar(data:any) {
+export function uploadAvatar(data: any) {
   return request({
-    url: '/system/user/profile/avatar',
-    method: 'post',
-    data: data
-  })
+    url: "/system/user/profile/avatar",
+    method: "post",
+    data: data,
+  });
 }
 

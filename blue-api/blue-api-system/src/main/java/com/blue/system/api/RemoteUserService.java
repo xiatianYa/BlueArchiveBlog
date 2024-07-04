@@ -37,6 +37,15 @@ public interface RemoteUserService {
     @GetMapping( "/user/infoById/{userId}")
     public R<UserVo> getUserInfoById(@PathVariable("userId") Long userId, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
     /**
+     * 通过用户名Id查询用户信息
+     *
+     * @param openId OpenId
+     * @param source   请求来源
+     * @return 结果
+     */
+    @GetMapping( "/user/infoByOpenId/{openId}")
+    public R<LoginUser> getUserInfoByOpenId(@PathVariable("openId") String openId, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    /**
      * 注册用户信息
      *
      * @param sysUser 用户信息

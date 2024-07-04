@@ -4,7 +4,7 @@
     <div class="filings">
       <span>Copyright © 2024 XiaTianYa</span>
       <img src="@/assets/images/badge.png">
-      <span>湘ICP备2024066741号</span>
+      <span>湘ICP备2024066741号-1</span>
     </div>
   </div>
 </template>

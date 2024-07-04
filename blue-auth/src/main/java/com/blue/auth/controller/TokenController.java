@@ -1,6 +1,7 @@
 package com.blue.auth.controller;
 
 import com.blue.auth.form.LoginBody;
+import com.blue.auth.form.OauthBody;
 import com.blue.auth.form.RegisterBody;
 import com.blue.auth.service.SysLoginService;
 import com.blue.common.core.domain.R;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URI;
 
 /**
  * token 控制
@@ -34,6 +38,13 @@ public class TokenController {
     public R<?> login(@RequestBody LoginBody form) {
         // 用户登录
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
+        // 获取登录token
+        return R.ok(tokenService.createToken(userInfo));
+    }
+    @PostMapping("oauth2/login")
+    public R<?> oauthLogin(@RequestBody OauthBody form) {
+        // 用户登录
+        LoginUser userInfo =sysLoginService.oauthLogin(form);
         // 获取登录token
         return R.ok(tokenService.createToken(userInfo));
     }

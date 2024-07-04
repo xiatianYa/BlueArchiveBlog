@@ -6,6 +6,7 @@
 
     <resultMap type="SysUser" id="SysUserResult">
         <id property="userId" column="user_id"/>
+        <id property="openId" column="open_id"/>
         <result property="deptId" column="dept_id"/>
         <result property="userName" column="user_name"/>
         <result property="nickName" column="nick_name"/>
@@ -47,7 +48,7 @@
     </resultMap>
 
     <sql id="selectUserVo">
-        select u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.avatar, u.phonenumber, u.password, u.sex,
+        select u.user_id,u.open_id, u.dept_id, u.user_name, u.nick_name, u.email, u.avatar, u.phonenumber, u.password, u.sex,
         u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
         d.dept_id, d.parent_id, d.ancestors, d.dept_name, d.order_num, d.leader, d.status as dept_status,
         r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
@@ -58,7 +59,7 @@
     </sql>
 
     <select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
-        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.status,
+        select u.user_id,u.open_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.status,
         u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader from sys_user
         u
         left join sys_dept d on u.dept_id = d.dept_id
@@ -90,7 +91,7 @@
     </select>
 
     <select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
-        select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
+        select distinct u.user_id,u.open_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -107,7 +108,7 @@
     </select>
 
     <select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
-        select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
+        select distinct u.user_id,u.open_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
         from sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         left join sys_user_role ur on u.user_id = ur.user_id
@@ -135,6 +136,11 @@
         where u.user_id = #{userId}
     </select>
 
+    <select id="selectUserByOpenId" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.open_id = #{openId}
+    </select>
+
     <select id="checkUserNameUnique" parameterType="String" resultMap="SysUserResult">
         select user_id, user_name from sys_user where user_name = #{userName} and del_flag = '0' limit 1
     </select>
@@ -150,6 +156,7 @@
     <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
         insert into sys_user(
         <if test="userId != null and userId != 0">user_id,</if>
+        <if test="openId != null and openId != ''">open_id,</if>
         <if test="deptId != null and deptId != 0">dept_id,</if>
         <if test="userName != null and userName != ''">user_name,</if>
         <if test="nickName != null and nickName != ''">nick_name,</if>
@@ -164,6 +171,7 @@
         create_time
         )values(
         <if test="userId != null and userId != ''">#{userId},</if>
+        <if test="openId != null and openId != ''">#{openId},</if>
         <if test="deptId != null and deptId != ''">#{deptId},</if>
         <if test="userName != null and userName != ''">#{userName},</if>
         <if test="nickName != null and nickName != ''">#{nickName},</if>
@@ -182,6 +190,7 @@
     <update id="updateUser" parameterType="SysUser">
         update sys_user
         <set>
+            <if test="openId != null and openId != ''">open_id = #{openId},</if>
             <if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
             <if test="userName != null and userName != ''">user_name = #{userName},</if>
             <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>

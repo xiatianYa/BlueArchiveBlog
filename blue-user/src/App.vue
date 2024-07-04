@@ -17,7 +17,7 @@ import useStore from "@/store"
 let { globalStore, userStore } = useStore()
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { NMessageProvider, NConfigProvider, zhCN, dateZhCN, darkTheme, lightTheme, NGlobalStyle, NThemeEditor } from 'naive-ui'
+import { NMessageProvider, NConfigProvider, zhCN, dateZhCN, darkTheme, lightTheme, NGlobalStyle } from 'naive-ui'
 import { getUserList } from '@/api/chat'
 
 //全局仓库
@@ -40,8 +40,6 @@ onMounted(() => {
       })
     }, 5000)
   }
-  //默认刷新后跳转到加载页
-  router.push('/');
 })
 onUnmounted(() => {
   if (timer) {
