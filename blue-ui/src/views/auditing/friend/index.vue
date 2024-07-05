@@ -125,7 +125,7 @@ export default {
   methods: {
     //通过
     success(friendInfo) {
-      friendInfo.status = 1
+      friendInfo.status = "1"
       updateFriend(friendInfo).then(res => {
         this.$modal.msgSuccess("修改成功");
       }).catch(error => {
@@ -135,7 +135,7 @@ export default {
     },
     //驳回
     danger(friendInfo) {
-      friendInfo.status = 2
+      friendInfo.status = "2"
       updateFriend(friendInfo).then(res => {
         this.$modal.msgSuccess("修改成功");
       }).catch(error => {

@@ -190,7 +190,7 @@ export default {
   methods: {
     /** 通过审核 */
     success(tv) {
-      tv.status = "1";
+      tv.status = "2";
       updateTv(tv).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList();
@@ -200,7 +200,7 @@ export default {
     },
     /** 不通过审核 */
     danger(tv) {
-      tv.status = "2";
+      tv.status = "3";
       updateTv(tv).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList();
@@ -213,7 +213,7 @@ export default {
       this.loading = true;
       //默认查询未审核
       if (!this.queryParams.status) {
-        this.queryParams.status = "0"
+        this.queryParams.status = "1"
       }
       listTv(this.queryParams).then(response => {
         this.tvList = response.rows;

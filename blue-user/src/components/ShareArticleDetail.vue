@@ -19,7 +19,7 @@
                         </n-ellipsis>
                     </span>
                     <span>{{
-                        item.status === 0 ? '审核中' : item.status === 1 ? '审核通过' : '审核未通过' }}
+                        item.status === 0 ? '审核中' : item.status === 1 ? '审核中' : item.status === 2 ? '审核通过' : '审核未通过' }}
                     </span>
                     <span class="pointer" @click="handleArticleUpdate(item.id)">修改文章</span>
                 </div>

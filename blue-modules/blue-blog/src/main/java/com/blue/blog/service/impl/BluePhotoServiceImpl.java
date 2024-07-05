@@ -142,7 +142,7 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     @Override
     public List<BluePhoto> selectBluePhotoListByUser(BluePhoto bluePhoto) {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        bluePhoto.setCreateBy(loginUser.getUserid().toString());
+        bluePhoto.setUserId(loginUser.getUserid());
         //查询用户相册列表
         List<BluePhoto> bluePhotos = bluePhotoMapper.selectBluePhotoList(bluePhoto);
         //设置用户名称

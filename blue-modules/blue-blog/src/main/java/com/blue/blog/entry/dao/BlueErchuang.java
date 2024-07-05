@@ -27,6 +27,10 @@ public class BlueErchuang extends BaseEntity
     /** ID */
     private Long id;
 
+    /** 用户id */
+    @Excel(name = "用户id")
+    private Long userId;
+
     /** 二创作者 */
     @Excel(name = "二创作者")
     private String ecAuthor;

@@ -16,7 +16,9 @@
               {{ photo.photoName }}
             </n-ellipsis>
           </span>
-          <span>{{ photo.status === 0 ? '审核中' : photo.status === 1 ? '审核通过' : '审核未通过' }}</span>
+          <span>{{
+            photo.status === 0 ? '审核中' : photo.status === 1 ? '审核中' : photo.status === 2 ? '审核通过' : '审核未通过'
+          }}</span>
           <span class="pointer" @click="handelPhotoUpdate(photo.id)">修改相册</span>
         </div>
       </div>

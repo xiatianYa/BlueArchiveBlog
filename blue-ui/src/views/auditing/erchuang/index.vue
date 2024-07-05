@@ -160,7 +160,7 @@ export default {
   methods: {
     /** 通过审核 */
     success(erchuang) {
-      erchuang.status = "1";
+      erchuang.status = "2";
       updateErchuang(erchuang).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList();
@@ -170,7 +170,7 @@ export default {
     },
     /** 不通过审核 */
     danger(erchuang) {
-      erchuang.status = "2";
+      erchuang.status = "3";
       updateErchuang(erchuang).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList();
@@ -183,7 +183,7 @@ export default {
       this.loading = true;
       //默认查询未审核
       if (!this.queryParams.status) {
-        this.queryParams.status = "0"
+        this.queryParams.status = "1"
       }
       listErchuang(this.queryParams).then(response => {
         this.erchuangList = response.rows;

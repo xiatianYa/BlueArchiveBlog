@@ -65,6 +65,7 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
     {
         Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
+            blueErchuang.setUserId(userId);
             blueErchuang.setCreateBy(String.valueOf(userId));
         }
         if (StringUtils.isNull(blueErchuang.getEcPublish())){
@@ -131,7 +132,7 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
     public List<BlueErchuang> selectBlueErchuangListByUser(BlueErchuang blueErchuang) {
         //添加查询体条件
         Long userid = SecurityUtils.getLoginUser().getUserid();
-        blueErchuang.setCreateBy(userid.toString());
+        blueErchuang.setUserId(userid);
         return blueErchuangMapper.selectBlueErchuangList(blueErchuang);
     }
     /**

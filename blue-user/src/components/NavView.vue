@@ -91,8 +91,9 @@
 import { onBeforeMount, onMounted, reactive, ref, watch } from 'vue'
 import { useMessage } from 'naive-ui'
 import { useRouter } from "vue-router";
-import useStore from "@/store"
 let { globalStore, userStore } = useStore()
+import useStore from "@/store"
+import QC from '@/assets/js/qqAuth.js';
 //提示框
 const message = useMessage()
 //路由
@@ -122,7 +123,12 @@ function logOut() {
   userStore.logOut()
   //清除Socket连接
   globalStore.closeSocket()
+  //清除第三方登录
+  QC.Login.signOut()
+  //提示
   message.success("退出成功")
+  //跳转路由去首页
+  router.push({ path: "/home" });
 }
 //跳转路由
 function go(newPath: string) {

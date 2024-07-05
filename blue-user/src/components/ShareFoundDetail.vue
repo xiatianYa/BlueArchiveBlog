@@ -16,7 +16,9 @@
               {{ erchuang.ecName }}
             </n-ellipsis>
           </span>
-          <span>{{ erchuang.status === 0 ? '审核中' : erchuang.status === 1 ? '审核通过' : '审核未通过' }}</span>
+          <span>{{
+            erchuang.status === 0 ? '审核中' : erchuang.status === 1 ? '审核中' : erchuang.status === 2 ? '审核通过' : '审核未通过'
+          }}</span>
           <span class="pointer" @click="handleErchuangUpdate(erchuang.id)">修改二创</span>
         </div>
       </div>

@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { addArticle, delArticle, getArticle, listArticle,auditingArticle } from "@/api/blog/article";
+import { addArticle, delArticle, getArticle, listArticle, auditingArticle } from "@/api/blog/article";
 import { listSort } from '@/api/sort/sort'
 
 export default {
@@ -126,10 +126,6 @@ export default {
   },
   created() {
     //获取分类列表
-    //默认查询未审核
-    if (!this.queryParams.status) {
-      this.queryParams.status = "0"
-    }
     listSort().then(res => {
       for (const item of res.rows) {
         this.sortDict.push({ value: item.id.toString(), label: item.sortName })
@@ -144,7 +140,7 @@ export default {
     },
     //通过
     success(article) {
-      article.status = "1";
+      article.status = "2";
       auditingArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList()
@@ -152,7 +148,7 @@ export default {
     },
     //驳回
     danger(article) {
-      article.status = "2";
+      article.status = "3";
       auditingArticle(article).then(res => {
         this.$modal.msgSuccess("修改成功");
         this.getList()
@@ -161,6 +157,10 @@ export default {
     /** 查询文章列表 */
     getList() {
       this.loading = true;
+      //默认查询未审核
+      if (!this.queryParams.status) {
+        this.queryParams.status = "1"
+      }
       listArticle(this.queryParams).then(response => {
         this.articleList = response.rows;
         this.total = response.total;

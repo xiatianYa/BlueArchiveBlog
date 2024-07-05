@@ -163,7 +163,7 @@ export default {
     methods: {
         /** 通过审核 */
         success(photo) {
-            photo.status = "1";
+            photo.status = "2";
             updatePhoto(photo).then(res => {
                 this.$modal.msgSuccess("修改成功");
                 this.getList();
@@ -173,7 +173,7 @@ export default {
         },
         /** 不通过审核 */
         danger(photo) {
-            photo.status = "2";
+            photo.status = "3";
             updatePhoto(photo).then(res => {
                 this.$modal.msgSuccess("修改成功");
                 this.getList();
@@ -186,7 +186,7 @@ export default {
             this.loading = true;
             //默认查询未审核
             if (!this.queryParams.status) {
-                this.queryParams.status = "0"
+                this.queryParams.status = "1"
             }
             listPhoto(this.queryParams).then(response => {
                 this.photoList = response.rows;

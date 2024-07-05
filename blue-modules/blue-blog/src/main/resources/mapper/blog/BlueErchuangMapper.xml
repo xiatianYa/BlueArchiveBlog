@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="BlueErchuang" id="BlueErchuangResult">
         <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
         <result property="ecAuthor"    column="ec_author"    />
         <result property="ecName"    column="ec_name"    />
         <result property="ecAvater"    column="ec_avater"    />
@@ -20,12 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBlueErchuangVo">
-        select id, ec_author, ec_name, ec_avater, ec_url, ec_publish, ec_synopsis, status, create_time, update_time, create_by, update_by from blue_erchuang
+        select id,user_id, ec_author, ec_name, ec_avater, ec_url, ec_publish, ec_synopsis, status, create_time, update_time, create_by, update_by from blue_erchuang
     </sql>
 
     <select id="selectBlueErchuangList" parameterType="BlueErchuang" resultMap="BlueErchuangResult">
         <include refid="selectBlueErchuangVo"/>
-        <where>  
+        <where>
+            <if test="userId != null"> and user_id = #{userId}</if>
             <if test="ecAuthor != null  and ecAuthor != ''"> and ec_author = #{ecAuthor}</if>
             <if test="ecName != null  and ecName != ''"> and ec_name like concat('%', #{ecName}, '%')</if>
             <if test="ecAvater != null  and ecAvater != ''"> and ec_avater = #{ecAvater}</if>
@@ -44,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertBlueErchuang" parameterType="BlueErchuang" useGeneratedKeys="true" keyProperty="id">
         insert into blue_erchuang
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
             <if test="ecAuthor != null and ecAuthor != ''">ec_author,</if>
             <if test="ecName != null and ecName != ''">ec_name,</if>
             <if test="ecAvater != null and ecAvater != ''">ec_avater,</if>
@@ -57,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
             <if test="ecAuthor != null and ecAuthor != ''">#{ecAuthor},</if>
             <if test="ecName != null and ecName != ''">#{ecName},</if>
             <if test="ecAvater != null and ecAvater != ''">#{ecAvater},</if>
@@ -74,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateBlueErchuang" parameterType="BlueErchuang">
         update blue_erchuang
         <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
             <if test="ecAuthor != null and ecAuthor != ''">ec_author = #{ecAuthor},</if>
             <if test="ecName != null and ecName != ''">ec_name = #{ecName},</if>
             <if test="ecAvater != null and ecAvater != ''">ec_avater = #{ecAvater},</if>

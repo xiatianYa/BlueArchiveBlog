@@ -82,7 +82,6 @@ import { useMessage, NInput, NSpace, NImage, NAvatar } from 'naive-ui'
 let { userStore } = useStore()
 let { globalStore } = useStore()
 import QC from '@/assets/js/qqAuth.js';
-import stringUtils from '@/utils/stringUtils'
 import useStore from "@/store"
 import Loading from '@/components/CssLoadingView02.vue'
 
@@ -152,7 +151,7 @@ onMounted(() => {
           globalStore.initSocket();
           //关闭加载
           loading.value = false;
-          router.push({ path: "/menu" })
+          router.push({ path: "/menu" });
         }).catch(error => {
           //提示用户信息
           message.error(error)
