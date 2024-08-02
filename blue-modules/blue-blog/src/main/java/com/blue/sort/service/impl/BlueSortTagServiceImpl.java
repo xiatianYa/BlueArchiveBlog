@@ -67,7 +67,7 @@ public class BlueSortTagServiceImpl implements IBlueSortTagService
                 if (blueArticleTag.getTagId().equals(sortTag.getId())){
                     //并且文章要已通过审核
                     BlueArticle blueArticle = blueArticleMapper.selectById(blueArticleTag.getArticleId());
-                    if (blueArticle.getStatus().equals(AuditingStatus.DISABLE.getCode())){
+                    if (StringUtils.isNotNull(blueArticle) && blueArticle.getStatus().equals(AuditingStatus.DISABLE.getCode())){
                         sortTag.setArticleTagNumber(sortTag.getArticleTagNumber()+1);
                     }
                 }

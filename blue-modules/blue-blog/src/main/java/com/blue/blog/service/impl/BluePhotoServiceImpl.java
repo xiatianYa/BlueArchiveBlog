@@ -83,8 +83,6 @@ public class BluePhotoServiceImpl implements IBluePhotoService
         bluePhoto.setDelFlag(0);
         //设置创建用户ID
         bluePhoto.setUserId(SecurityUtils.getLoginUser().getUserid());
-        bluePhoto.setCreateBy(SecurityUtils.getLoginUser().getUserid().toString());
-        bluePhoto.setCreateTime(DateUtils.getNowDate());
         return bluePhotoMapper.insert(bluePhoto);
     }
 
@@ -99,9 +97,6 @@ public class BluePhotoServiceImpl implements IBluePhotoService
     {
         //检测用户操作权限
         isCheckUser(bluePhoto.getUserId());
-        //设置修改用户ID
-        bluePhoto.setUpdateBy(SecurityUtils.getLoginUser().getUserid().toString());
-        bluePhoto.setUpdateTime(DateUtils.getNowDate());
         return bluePhotoMapper.updateBluePhoto(bluePhoto);
     }
 

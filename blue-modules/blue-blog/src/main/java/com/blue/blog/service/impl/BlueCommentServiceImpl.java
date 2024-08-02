@@ -104,12 +104,6 @@ public class BlueCommentServiceImpl implements IBlueCommentService
     @Override
     public int insertBlueComment(BlueComment blueComment)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        //设置用户ID
-        if (StringUtils.isNotNull(userId)){
-            blueComment.setCreateBy(userId.toString());
-        }
-        blueComment.setCreateTime(DateUtils.getNowDate());
         return blueCommentMapper.insertBlueComment(blueComment);
     }
 
@@ -122,12 +116,6 @@ public class BlueCommentServiceImpl implements IBlueCommentService
     @Override
     public int updateBlueComment(BlueComment blueComment)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        //设置用户ID
-        if (StringUtils.isNotNull(userId)){
-            blueComment.setUpdateBy(userId.toString());
-        }
-        blueComment.setUpdateTime(DateUtils.getNowDate());
         return blueCommentMapper.updateBlueComment(blueComment);
     }
 

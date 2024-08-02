@@ -66,7 +66,6 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
         Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
             blueErchuang.setUserId(userId);
-            blueErchuang.setCreateBy(String.valueOf(userId));
         }
         if (StringUtils.isNull(blueErchuang.getEcPublish())){
             blueErchuang.setEcPublish(DateUtils.getNowDate());
@@ -87,11 +86,6 @@ public class BlueErchuangServiceImpl implements IBlueErchuangService
     {
         //检测用户操作权限
         isCheckUser(blueErchuang.getId());
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            blueErchuang.setUpdateBy(String.valueOf(userId));
-        }
-        blueErchuang.setUpdateTime(DateUtils.getNowDate());
         return blueErchuangMapper.updateBlueErchuang(blueErchuang);
     }
 

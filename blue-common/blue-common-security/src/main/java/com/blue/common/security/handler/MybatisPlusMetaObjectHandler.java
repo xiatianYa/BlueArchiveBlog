@@ -7,6 +7,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * MyBatisPlus 字段自动注入填充器
@@ -20,43 +21,35 @@ import java.time.LocalDateTime;
 @Component
 public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
-    public static final String CREATE_USER = "createUser";
-    public static final String CREATE_USER_ID = "createUserId";
+    public static final String CREATE_BY = "createBy";
     public static final String CREATE_TIME = "createTime";
-    public static final String IS_DELETED = "isDeleted";
+    public static final String DEL_FLAG = "delFlag";
 
-    public static final String UPDATE_USER = "updateUser";
-    public static final String UPDATE_USER_ID = "updateUserId";
+    public static final String UPDATE_BY = "updateBy";
     public static final String UPDATE_TIME = "updateTime";
 
     @Override
     public void insertFill(MetaObject metaObject) {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (metaObject.hasGetter(CREATE_USER)) {
-            setFieldValByName(CREATE_USER, loginUser.getUsername(), metaObject);
-        }
-        if (metaObject.hasGetter(CREATE_USER_ID)) {
-            setFieldValByName(CREATE_USER_ID, loginUser.getUserid(), metaObject);
+        if (metaObject.hasGetter(CREATE_BY)) {
+            setFieldValByName(CREATE_BY, loginUser.getUserid().toString(), metaObject);
         }
         if (metaObject.hasGetter(CREATE_TIME)) {
-            setFieldValByName(CREATE_TIME, LocalDateTime.now(), metaObject);
+            setFieldValByName(CREATE_TIME, new Date(), metaObject);
         }
-        if (metaObject.hasGetter(IS_DELETED)) {
-            setFieldValByName(IS_DELETED, 0, metaObject);
+        if (metaObject.hasGetter(DEL_FLAG)) {
+            setFieldValByName(DEL_FLAG, 0, metaObject);
         }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (metaObject.hasGetter(UPDATE_USER)) {
-            this.setFieldValByName(UPDATE_USER, loginUser.getUsername(), metaObject);
-        }
-        if (metaObject.hasGetter(UPDATE_USER_ID)) {
-            this.setFieldValByName(UPDATE_USER_ID, loginUser.getUserid(), metaObject);
+        if (metaObject.hasGetter(UPDATE_BY)) {
+            this.setFieldValByName(UPDATE_BY, loginUser.getUserid().toString(), metaObject);
         }
         if (metaObject.hasGetter(UPDATE_TIME)) {
-            this.setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
+            this.setFieldValByName(UPDATE_TIME, new Date(), metaObject);
         }
     }
 }

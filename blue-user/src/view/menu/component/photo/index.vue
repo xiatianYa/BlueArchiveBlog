@@ -78,7 +78,7 @@ import { listSort } from '@/api/sort/photoSort'
 import { useMessage, NModal, NCard, NButton, NSpace, NInput, NForm, NFormItem, NSelect, NEllipsis, type FormInst } from 'naive-ui'
 import ImgUpload from '@/components/imgUpload/index.vue'
 import reusePagination from '@/components/reusePagination/index.vue'
-import PhotoDetail from '@/view/pixiv/component/PhotoDetail.vue'
+import PhotoDetail from '@/view/photo/component/PhotoDetail.vue'
 import resuseForm from '@/components/reuseForm/index.vue'
 //表单
 const formRef = ref<any | null>(null)

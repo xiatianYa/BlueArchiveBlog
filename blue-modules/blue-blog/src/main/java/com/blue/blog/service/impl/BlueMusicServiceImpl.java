@@ -68,13 +68,8 @@ public class BlueMusicServiceImpl implements IBlueMusicService
     @Override
     public int insertBlueMusic(BlueMusic blueMusic)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if(StringUtils.isNotNull(userId)){
-            blueMusic.setCreateBy(userId.toString());
-        }
         //设置音乐审核状态
         blueMusic.setStatus(AuditingStatus.OK.getCode());
-        blueMusic.setCreateTime(DateUtils.getNowDate());
         return blueMusicMapper.insertBlueMusic(blueMusic);
     }
 
@@ -87,11 +82,6 @@ public class BlueMusicServiceImpl implements IBlueMusicService
     @Override
     public int updateBlueMusic(BlueMusic blueMusic)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if(StringUtils.isNotNull(userId)){
-            blueMusic.setUpdateBy(userId.toString());
-        }
-        blueMusic.setUpdateTime(DateUtils.getNowDate());
         return blueMusicMapper.updateBlueMusic(blueMusic);
     }
 

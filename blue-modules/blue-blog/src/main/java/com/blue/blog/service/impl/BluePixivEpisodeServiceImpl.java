@@ -66,11 +66,6 @@ public class BluePixivEpisodeServiceImpl implements IBluePixivEpisodeService
         if (StringUtils.isNotNull(selectOne)){
             throw new ServiceException("番剧集存储已存在");
         }
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            bluePixivEpisode.setCreateBy(String.valueOf(userId));
-        }
-        bluePixivEpisode.setCreateTime(DateUtils.getNowDate());
         return bluePixivEpisodeMapper.insertBluePixivEpisode(bluePixivEpisode);
     }
 
@@ -83,11 +78,6 @@ public class BluePixivEpisodeServiceImpl implements IBluePixivEpisodeService
     @Override
     public int updateBluePixivEpisode(BluePixivEpisode bluePixivEpisode)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            bluePixivEpisode.setUpdateBy(String.valueOf(userId));
-        }
-        bluePixivEpisode.setUpdateTime(DateUtils.getNowDate());
         return bluePixivEpisodeMapper.updateBluePixivEpisode(bluePixivEpisode);
     }
 

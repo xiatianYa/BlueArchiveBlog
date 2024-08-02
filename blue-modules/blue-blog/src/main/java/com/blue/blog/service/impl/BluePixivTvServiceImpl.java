@@ -110,10 +110,6 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
         }
         //设置审核状态 默认为未通过
         bluePixivTv.setStatus(AuditingStatus.OK.getCode());
-        //设置创建时间
-        bluePixivTv.setCreateTime(DateUtils.getNowDate());
-        //设置创建者
-        bluePixivTv.setCreateBy(String.valueOf(userId));
         //设置默认播放数
         bluePixivTv.setPixivPlay(0);
         //如果是新增 就先插入值 获取返回ID
@@ -130,13 +126,6 @@ public class BluePixivTvServiceImpl implements IBluePixivTvService
     @Transactional
     public int updateBluePixivTv(BluePixivTv bluePixivTv)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            //设置修改时间
-            bluePixivTv.setUpdateBy(String.valueOf(userId));
-        }
-        //设置修改时间
-        bluePixivTv.setUpdateTime(DateUtils.getNowDate());
         return bluePixivTvMapper.updateBluePixivTv(bluePixivTv);
     }
 

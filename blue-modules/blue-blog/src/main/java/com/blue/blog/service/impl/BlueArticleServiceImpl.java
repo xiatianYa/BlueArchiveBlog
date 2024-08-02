@@ -118,10 +118,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
                 blueArticleInformation.setIsBrowse("1");
                 //设置是否点赞 默认未点赞
                 blueArticleInformation.setIsLike("0");
-                //设置创建时间
-                blueArticleInformation.setCreateTime(DateUtils.getNowDate());
-                //设置创建着
-                blueArticleInformation.setCreateBy(String.valueOf(userid));
                 blueArticleInformationMapper.insertBlueArticleInformation(blueArticleInformation);
             }
         }
@@ -164,8 +160,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         isCheckArticle(blueArticle);
         Long userId = SecurityUtils.getLoginUser().getUserid();
         if (StringUtils.isNotNull(userId)){
-            //设置创建者ID
-            blueArticle.setCreateBy(userId.toString());
             //设置用户ID
             blueArticle.setUserId(userId);
         }
@@ -182,8 +176,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         for (BlueArticleTag blueArticleTag : tagList) {
             //设置文章ID
             blueArticleTag.setArticleId(blueArticle.getId());
-            //设置创建人ID
-            blueArticleTag.setCreateBy(String.valueOf(userId));
             //向文章标签列表插入数据
             blueArticleTagMapper.insertBlueArticleTag(blueArticleTag);
         }
@@ -225,10 +217,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
         for (BlueArticleTag blueArticleTag : tagList) {
             //设置文章ID
             blueArticleTag.setArticleId(blueArticle.getId());
-            //设置创建人ID
-            blueArticleTag.setCreateBy(String.valueOf(userId));
-            //设置修改人ID
-            blueArticleTag.setUpdateBy(String.valueOf(userId));
             //然后重新插入新的数据
             blueArticleTagMapper.insertBlueArticleTag(blueArticleTag);
         }
@@ -381,10 +369,6 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     @Override
     @Transactional
     public int auditing(BlueArticle blueArticle) {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            blueArticle.setUpdateBy(userId.toString());
-        }
         //设置用户名称
         UserVo sysUser =
                 remoteUserService.getUserInfoById(blueArticle.getUserId(), SecurityConstants.FROM_SOURCE).getData();
@@ -567,23 +551,15 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticleInformation.setIsBrowse("1");
             //设置是否点赞 默认点赞
             blueArticleInformation.setIsLike("1");
-            //设置创建时间
-            blueArticleInformation.setCreateTime(DateUtils.getNowDate());
-            //设置创建着
-            blueArticleInformation.setCreateBy(String.valueOf(userid));
             blueArticleInformationMapper.insertBlueArticleInformation(blueArticleInformation);
             return "点赞成功";
         }else{
             if (blueArticleInformation.getIsLike().equals("1")){
                 blueArticleInformation.setIsLike("0");
-                blueArticleInformation.setUpdateBy(String.valueOf(userid));
-                blueArticleInformation.setUpdateTime(DateUtils.getNowDate());
                 blueArticleInformationMapper.updateBlueArticleInformation(blueArticleInformation);
                 return "取消点赞";
             }else{
                 blueArticleInformation.setIsLike("1");
-                blueArticleInformation.setUpdateBy(String.valueOf(userid));
-                blueArticleInformation.setUpdateTime(DateUtils.getNowDate());
                 blueArticleInformationMapper.updateBlueArticleInformation(blueArticleInformation);
                 return "点赞成功";
             }

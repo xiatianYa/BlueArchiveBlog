@@ -92,12 +92,6 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
                 !StringUtils.isNotEmpty(blueLeaveMessage.getUserAvater())){
             throw new ServiceException("出错了,请刷新页面");
         }
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        if(StringUtils.isNotNull(loginUser)){
-            Long userId = loginUser.getUserid();
-            blueLeaveMessage.setCreateBy(userId.toString());
-        }
-        blueLeaveMessage.setCreateTime(DateUtils.getNowDate());
         return blueLeaveMessageMapper.insertBlueLeaveMessage(blueLeaveMessage);
     }
 
@@ -110,11 +104,6 @@ public class BlueLeaveMessageServiceImpl implements IBlueLeaveMessageService
     @Override
     public int updateBlueLeaveMessage(BlueLeaveMessage blueLeaveMessage)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if(StringUtils.isNotNull(userId)){
-            blueLeaveMessage.setUpdateBy(userId.toString());
-        }
-        blueLeaveMessage.setUpdateTime(DateUtils.getNowDate());
         return blueLeaveMessageMapper.updateBlueLeaveMessage(blueLeaveMessage);
     }
 

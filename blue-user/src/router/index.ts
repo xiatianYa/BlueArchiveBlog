@@ -68,6 +68,11 @@ const router = createRouter({
           component: () => import("@/view/user/index.vue"),
         },
         {
+          path: "/editPreView",
+          name: "editPreView",
+          component: () => import("@/view/article/index.vue"),
+        },
+        {
           path: "/menu",
           name: "menu",
           redirect: "/menu/user",

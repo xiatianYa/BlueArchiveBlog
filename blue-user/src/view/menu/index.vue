@@ -34,7 +34,7 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
-            name: 'user',
+            name: 'menuUser',
             params: {
               lang: 'zh-CN'
             }
@@ -42,7 +42,7 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => '个人信息' }
       ),
-    key: 'user',
+    key: 'menuUser',
     icon: renderIcon(PersonIcon)
   },
   {
@@ -51,7 +51,7 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
-            name: 'article',
+            name: 'menuArticle',
             params: {
               lang: 'zh-CN'
             }
@@ -59,7 +59,7 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => '文章管理' }
       ),
-    key: 'article',
+    key: 'menuArticle',
     icon: renderIcon(FileTrayIcon)
   },
   {
@@ -68,7 +68,7 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
-            name: 'photo',
+            name: 'menuPhoto',
             params: {
               lang: 'zh-CN'
             }
@@ -76,7 +76,7 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => '相册管理' }
       ),
-    key: 'photo',
+    key: 'menuPhoto',
     icon: renderIcon(ImagesIcon)
   },
   {
@@ -85,7 +85,7 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
-            name: 'music',
+            name: 'menuMusic',
             params: {
               lang: 'zh-CN'
             }
@@ -93,7 +93,7 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => '歌单管理' }
       ),
-    key: 'music',
+    key: 'menuMusic',
     icon: renderIcon(HeadsetIcon)
   },
   {
@@ -102,7 +102,7 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
-            name: 'erchuang',
+            name: 'menuErchuang',
             params: {
               lang: 'zh-CN'
             }
@@ -110,7 +110,7 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => '二创管理' }
       ),
-    key: 'erchuang',
+    key: 'menuErchuang',
     icon: renderIcon(ShareIcon)
   },
 ]

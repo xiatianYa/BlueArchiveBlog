@@ -57,14 +57,8 @@ public class BlueFriendServiceImpl implements IBlueFriendService
     @Override
     public int insertBlueFriend(BlueFriend blueFriend)
     {
-        //设置创建人
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            blueFriend.setCreateBy(String.valueOf(userId));
-        }
         //设置申请状态
         blueFriend.setStatus(AuditingStatus.OK.getCode());
-        blueFriend.setCreateTime(DateUtils.getNowDate());
         return blueFriendMapper.insertBlueFriend(blueFriend);
     }
 
@@ -77,12 +71,6 @@ public class BlueFriendServiceImpl implements IBlueFriendService
     @Override
     public int updateBlueFriend(BlueFriend blueFriend)
     {
-        //设置修改人
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            blueFriend.setUpdateBy(String.valueOf(userId));
-        }
-        blueFriend.setUpdateTime(DateUtils.getNowDate());
         return blueFriendMapper.updateBlueFriend(blueFriend);
     }
 

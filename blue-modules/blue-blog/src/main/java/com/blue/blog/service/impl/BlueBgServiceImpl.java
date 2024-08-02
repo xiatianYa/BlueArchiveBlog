@@ -56,11 +56,6 @@ public class BlueBgServiceImpl implements IBlueBgService
     @Override
     public int insertBlueBg(BlueBg blueBg)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if(StringUtils.isNotNull(userId)){
-            blueBg.setCreateBy(userId.toString());
-        }
-        blueBg.setCreateTime(DateUtils.getNowDate());
         return blueBgMapper.insertBlueBg(blueBg);
     }
 
@@ -73,11 +68,6 @@ public class BlueBgServiceImpl implements IBlueBgService
     @Override
     public int updateBlueBg(BlueBg blueBg)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if(StringUtils.isNotNull(userId)){
-            blueBg.setUpdateBy(userId.toString());
-        }
-        blueBg.setUpdateTime(DateUtils.getNowDate());
         return blueBgMapper.updateBlueBg(blueBg);
     }
 

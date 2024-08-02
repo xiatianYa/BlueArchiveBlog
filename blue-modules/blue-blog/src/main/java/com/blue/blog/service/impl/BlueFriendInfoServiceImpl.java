@@ -56,11 +56,6 @@ public class BlueFriendInfoServiceImpl implements IBlueFriendInfoService
     @Override
     public int insertBlueFriendInfo(BlueFriendInfo blueFriendInfo)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            blueFriendInfo.setCreateBy(String.valueOf(userId));
-        }
-        blueFriendInfo.setCreateTime(DateUtils.getNowDate());
         return blueFriendInfoMapper.insertBlueFriendInfo(blueFriendInfo);
     }
 
@@ -73,11 +68,6 @@ public class BlueFriendInfoServiceImpl implements IBlueFriendInfoService
     @Override
     public int updateBlueFriendInfo(BlueFriendInfo blueFriendInfo)
     {
-        Long userId = SecurityUtils.getLoginUser().getUserid();
-        if (StringUtils.isNotNull(userId)){
-            blueFriendInfo.setUpdateBy(String.valueOf(userId));
-        }
-        blueFriendInfo.setUpdateTime(DateUtils.getNowDate());
         return blueFriendInfoMapper.updateBlueFriendInfo(blueFriendInfo);
     }
 

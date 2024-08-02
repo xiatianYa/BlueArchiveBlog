@@ -53,7 +53,7 @@ import { listSort } from '@/api/musicSort'
 import { bySortList, addMusic } from '@/api/music'
 import { useMessage, NModal, NButton, NSpace, NEllipsis, type FormInst } from 'naive-ui'
 import resuseForm from '@/components/reuseForm/index.vue'
-import MusicDetail from "@/components/MusicDetail.vue";
+import MusicDetail from "@/view/music/component/MusicDetail.vue";
 import ImgUpload from '@/components/imgUpload/index.vue'
 import FileUpload from '@/components/fileUpload/index.vue'
 // 定义Music的类型  

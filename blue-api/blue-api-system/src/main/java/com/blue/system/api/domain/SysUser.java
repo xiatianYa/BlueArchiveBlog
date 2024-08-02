@@ -89,11 +89,6 @@ public class SysUser extends BaseEntity {
     private String status;
 
     /**
-     * 删除标志（0代表存在 2代表删除）
-     */
-    private String delFlag;
-
-    /**
      * 最后登录IP
      */
     @Excel(name = "最后登录IP", type = Type.EXPORT)
@@ -238,14 +233,6 @@ public class SysUser extends BaseEntity {
         this.status = status;
     }
 
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
-    }
-
     public String getLoginIp() {
         return loginIp;
     }
@@ -324,7 +311,6 @@ public class SysUser extends BaseEntity {
                 ", avatar='" + avatar + '\'' +
                 ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
-                ", delFlag='" + delFlag + '\'' +
                 ", loginIp='" + loginIp + '\'' +
                 ", loginDate=" + loginDate +
                 ", dept=" + dept +

@@ -94,8 +94,4 @@ public class BlueArticle extends BaseEntity
     /** 文章点赞数 */
     @TableField(exist = false)
     private Integer like;
-
-    /** 逻辑删除 */
-    @TableField("del_flag")
-    private Integer delFlag;
 }
