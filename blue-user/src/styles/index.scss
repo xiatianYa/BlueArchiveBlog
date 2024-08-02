@@ -1,0 +1,242 @@
+/* 浮动方式 */
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clear {
+  overflow: hidden;
+  clear: both;
+  height: 0;
+  font-size: 0;
+}
+
+.clearfix::after {
+  display: block;
+  visibility: hidden;
+  clear: both;
+  height: 0;
+  font-size: 0;
+  content: "";
+}
+
+/* 定位方式 */
+.pr {
+  position: relative;
+}
+
+.pa {
+  position: absolute;
+}
+
+.pf {
+  position: fixed;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+/* 对齐方式 */
+.tal {
+  text-align: left;
+}
+
+.tac {
+  text-align: center;
+}
+
+.tar {
+  text-align: right;
+}
+
+.taj {
+  text-align: justify;
+}
+
+/* 居中定位 */
+.abs-ct {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.abs-cx {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.abs-cy {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 弹性布局 */
+.d_flex {
+  display: flex !important;
+}
+
+.d_flex_ac {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.d_flex_sb {
+  justify-content: space-between !important;
+}
+
+.d_flex_sa {
+  justify-content: space-around !important;
+}
+
+.d_flex_c {
+  justify-content: center !important;
+}
+
+.d_flex_start {
+  justify-content: flex-start !important;
+}
+
+.d_flex_end {
+  justify-content: flex-end !important;
+}
+
+.d_flex_column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* 动画模式 */
+.td-camera {
+  perspective: 1000;
+}
+
+.td-space {
+  transform-style: preserve-3d;
+}
+
+.td-box {
+  backface-visibility: hidden;
+}
+
+.gpu-speed {
+  transform: translate3d(0, 0, 0);
+}
+
+/* 其他 */
+.fullscreen {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.page-at {
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.page-fs {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.round {
+  border-radius: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+//  外边距
+$px: 5;
+
+@for $i from 1 through 40 {
+  .m-#{$i * $px} {
+    margin: 5px * $i !important;
+  }
+
+  .mt-#{$i * $px} {
+    margin-top: 5px * $i !important;
+  }
+
+  .mr-#{$i * $px} {
+    margin-right: 5px * $i !important;
+  }
+
+  .mb-#{$i * $px} {
+    margin-bottom: 5px * $i !important;
+  }
+
+  .ml-#{$i * $px} {
+    margin-left: 5px * $i !important;
+  }
+
+  .pt-#{$i * $px} {
+    padding-top: 5px * $i !important;
+  }
+
+  .pr-#{$i * $px} {
+    padding-right: 5px * $i !important;
+  }
+
+  .pb-#{$i * $px} {
+    padding-bottom: 5px * $i !important;
+  }
+
+  .pl-#{$i * $px} {
+    padding-left: 5px * $i !important;
+  }
+
+  .p-#{$i * $px} {
+    padding: 5px * $i !important;
+  }
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+// 单行文本显示隐藏
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// 多行 文本显示隐藏
+.multi-line-ellipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.csp {
+  cursor: pointer;
+}
+
+.vhtml {
+  white-space: pre-line;
+  word-wrap: break-word;
+}

@@ -1,0 +1,171 @@
+/** 首页齿轮动画 */
+@keyframes revolve {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/** 加载动漫人物动画 */
+@keyframes Alonadupown {
+  0% {
+    transform: translateY(-15%);
+  }
+
+  50% {
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(-15%);
+  }
+}
+
+/** 首页打字机动画 */
+@keyframes grow {
+  0% {
+    width: 0;
+  }
+
+  30% {
+    width: 325px
+  }
+
+  50% {
+    width: 325px;
+  }
+
+  80% {
+    width: 0;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+/** 首页箭头动画 */
+@keyframes updown {
+  0% {
+    transform: translateY(0%);
+  }
+
+  20% {
+    opacity: 0.7;
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+/** 首页海浪动画 */
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+/** 首页通知动画 */
+@keyframes scaleDraw {
+  0% {
+    scale: 1.1;
+  }
+
+  25% {
+    scale: 1;
+  }
+
+  50% {
+    scale: 1.1;
+  }
+
+  75% {
+    scale: 1;
+  }
+
+  100% {
+    scale: 1.1;
+  }
+}
+
+.scaleDraw {
+  animation-name: scaleDraw;
+  /*关键帧名称*/
+  animation-timing-function: ease-in-out;
+  /*动画的速度曲线*/
+  animation-iteration-count: infinite;
+  /*动画所花费的时间*/
+  animation-duration: 3s;
+}
+
+/** 留言弹幕动画 */
+@keyframes BarrageMove {
+  from {
+    transform: translateX(100vw);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/** 音乐风车动画 */
+@keyframes rotateAll {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/** 底栏渐变背景动画 */
+@keyframes LinearGradient {
+  0% {
+    background-color: #ffcccc;
+  }
+
+  /* 开始颜色 */
+  50% {
+    background-color: #66ccff;
+  }
+
+  /* 中间颜色 */
+  100% {
+    background-color: #ffcccc;
+  }
+
+  /* 结束颜色 */
+}
+
+//导航用户菜单动画
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+//提示框动画
+@keyframes moveTop {
+  0% {
+    top: 0%;
+  }
+
+  100% {
+    top: 20%;
+  }
+}
