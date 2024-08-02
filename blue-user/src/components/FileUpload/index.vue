@@ -21,7 +21,7 @@ const props = defineProps({
     // 大小限制(MB)
     fileSize: {
         type: Number,
-        default: 30,
+        default: 2048,
     },
     fileType: {
         type: Array,

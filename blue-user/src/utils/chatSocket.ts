@@ -1,4 +1,4 @@
-let wsUrl = "ws://bluearchive.top:8080/websocket/server/";
+let wsUrl = "ws://127.0.0.1:8080/websocket/server/";
 import useStore from "@/store";
 import chatEnum from "@/utils/chatEnum";
 import { createDiscreteApi } from "naive-ui";

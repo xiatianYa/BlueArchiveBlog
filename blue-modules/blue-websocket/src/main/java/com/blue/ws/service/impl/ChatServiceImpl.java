@@ -1,12 +1,9 @@
 package com.blue.ws.service.impl;
 
 import com.blue.common.core.constant.SecurityConstants;
-import com.blue.common.core.exception.ServiceException;
-import com.blue.common.core.utils.StringUtils;
-import com.blue.common.security.utils.SecurityUtils;
 import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.model.UserVo;
-import com.blue.ws.config.WebSocketServer;
+import com.blue.ws.server.ChatWebSocketServer;
 import com.blue.ws.service.ChatService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +19,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<UserVo> getUserList() {
         //在线用户ID列表
-        List<Long> userIdList = WebSocketServer.getUserIdList();
+        List<Long> userIdList = ChatWebSocketServer.getUserIdList();
         //返回对象列表
         List<UserVo> userVoList=new ArrayList<>();
         //获取用户信息

@@ -1,4 +1,4 @@
-package com.blue.ws.config;
+package com.blue.ws.server;
 
 
 import com.alibaba.fastjson2.JSONObject;
@@ -18,7 +18,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.websocket.*;
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -30,12 +33,12 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author summer
  */
-@ServerEndpoint("/server/{token}")
+@ServerEndpoint("/gameServer")
 @Component
-public class WebSocketServer {
+public class GameWebSocketServer {
     /**concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。*/
-    private static final ConcurrentHashMap<Long,WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
-    private static final Logger log = LoggerFactory.getLogger(WebSocketServer.class);
+    private static final ConcurrentHashMap<Long, GameWebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(GameWebSocketServer.class);
     /**与某个客户端的连接会话，需要通过它来给客户端发送数据*/
     private Session session;
     /**登录用户信息*/
@@ -45,7 +48,7 @@ public class WebSocketServer {
 
     @Autowired
     public void setRedisService(RedisService redisService) {
-        WebSocketServer.redisService = redisService;
+        GameWebSocketServer.redisService = redisService;
     }
     /**
      * 连接建立成功调用的方法*/
@@ -146,7 +149,7 @@ public class WebSocketServer {
             //Json实例化对象
             String jsonString = JSONObject.toJSONString(sendMessageVo);
             //获取该用户连接实例
-            WebSocketServer webSocketServer = webSocketMap.get(sendMessageVo.getToUserId());
+            GameWebSocketServer webSocketServer = webSocketMap.get(sendMessageVo.getToUserId());
             if(StringUtils.isNull(webSocketServer)){
                 errorMessageVo error = errorMessageVo.builder()
                         .data("此用户未登录")

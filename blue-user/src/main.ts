@@ -6,8 +6,14 @@ import { createApp } from 'vue'
 //Github热力图
 import VueCalendarHeatmap from 'vue3-calendar-heatmap'
 
-//全局css
-import './assets/main.scss'
+// 引入重置样式
+import "@/styles/reset.scss";
+// 引入基础样式
+import "@/styles/index.scss";
+// 引入全局样式
+import "@/styles/global.scss";
+// 引入全局动画
+import "@/styles/animation.scss"
 //自定义字体css
 import '@/assets/iconfont/iconfont.css'
 //自定义字体js

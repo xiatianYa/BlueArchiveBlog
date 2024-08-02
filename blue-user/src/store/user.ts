@@ -1,30 +1,10 @@
 import { defineStore } from "pinia";
 import { getToken, removeToken } from "@/utils/auth";
 import { getInfo, refreshToken } from "@/api/login";
-
-export interface User {
-  //用户Token
-  token: string;
-  //用户id
-  id: number | null;
-  //用户昵称
-  nickName: string;
-  //用户头像
-  avatar: string;
-  //用户邮箱
-  email: string;
-  //用户手机号
-  phone: string;
-  //用户创建实际
-  createTime: string;
-  //用户权限
-  roles: [];
-  //用户身份
-  permissions: [];
-}
+import { type UserType } from "@/types";
 export const useUserStore = defineStore("user", {
   // 真正存储数据的地方
-  state: (): User => {
+  state: (): UserType => {
     return {
       token: getToken() || "",
       id: null,

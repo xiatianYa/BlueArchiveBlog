@@ -1,17 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-import FoundView from "../views/FoundView.vue";
-import SortView from "../views/SortView.vue";
-import PhotoView from "../views/PhotoView.vue";
-import FriendChainView from "../views/FriendChainView.vue";
-import LeaveMessageView from "../views/LeaveMessageView.vue";
-import MusicView from "../views/MusicView.vue";
-import UserView from "../views/UserView.vue";
-import PixivView from "../views/PixivView.vue";
-import MenuView from "../views/MenuView.vue";
-import LoadingVuew from "../components/LoadingView.vue";
-import ArticlePreview from "../components/ArticlePreview.vue";
-import ChatView from "../views/ChatView.vue";
+import Layout from "@/view/layout/index.vue";
+import Loading from "@/view/loading/LoadingView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
@@ -21,70 +10,99 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "loading",
-      component: LoadingVuew,
+      component: Loading,
     },
     {
-      path: "/home",
-      name: "home",
-      component: HomeView,
-    },
-    {
-      path: "/found",
-      name: "found",
-      component: FoundView,
-    },
-    {
-      path: "/sort",
-      name: "sort",
-      component: SortView,
-    },
-    {
-      path: "/photo",
-      name: "photo",
-      component: PhotoView,
-    },
-    {
-      path: "/friend",
-      name: "friend",
-      component: FriendChainView,
-    },
-    {
-      path: "/leave",
-      name: "leave",
-      component: LeaveMessageView,
-    },
-    {
-      path: "/music",
-      name: "music",
-      component: MusicView,
-    },
-    {
-      path: "/user",
-      name: "user",
-      component: UserView,
-    },
-    {
-      path: "/editPreView",
-      name: "editPreView",
-      component: ArticlePreview,
-    },
-    {
-      path: "/pixivView",
-      name: "pixivView",
-      component: PixivView,
-    },
-    {
-      path: "/menu",
-      name: "menu",
-      component: MenuView,
-      meta: { requiresAuth: true },
-    },
-    {
-      path: "/chat",
-      name: "chat",
-      component: ChatView,
-      meta: { requiresAuth: true },
+      path: "/layout",
+      component: Layout,
+      redirect: "/main",
+      children: [
+        {
+          path: "/main",
+          name: "main",
+          component: () => import("@/view/home/index.vue"),
+        },
+        {
+          path: "/found",
+          name: "found",
+          component: () => import("@/view/found/index.vue"),
+        },
+        {
+          path: "/sort",
+          name: "sort",
+          component: () => import("@/view/sort/index.vue"),
+        },
+        {
+          path: "/photo",
+          name: "photo",
+          component: () => import("@/view/photo/index.vue"),
+        },
+        {
+          path: "/chat",
+          name: "chat",
+          component: () => import("@/view/chat/index.vue"),
+        },
+        {
+          path: "/friend",
+          name: "friend",
+          component: () => import("@/view/friend/index.vue"),
+        },
+        {
+          path: "/leave",
+          name: "leave",
+          component: () => import("@/view/leave/index.vue"),
+        },
+        {
+          path: "/music",
+          name: "music",
+          component: () => import("@/view/music/index.vue"),
+        },
+        {
+          path: "/pixiv",
+          name: "pixiv",
+          component: () => import("@/view/pixiv/index.vue"),
+        },
+        {
+          path: "/user",
+          name: "user",
+          component: () => import("@/view/user/index.vue"),
+        },
+        {
+          path: "/menu",
+          name: "menu",
+          redirect: "/menu/user",
+          component: () => import("@/view/menu/index.vue"),
+          children: [
+            {
+              path: "user",
+              name: "menuUser",
+              component: () => import("@/view/menu/component/user/index.vue"),
+            },
+            {
+              path: "article",
+              name: "menuArticle",
+              component: () =>
+                import("@/view/menu/component/article/index.vue"),
+            },
+            {
+              path: "music",
+              name: "menuMusic",
+              component: () => import("@/view/menu/component/music/index.vue"),
+            },
+            {
+              path: "photo",
+              name: "menuPhoto",
+              component: () => import("@/view/menu/component/photo/index.vue"),
+            },
+            {
+              path: "erchuang",
+              name: "menuErchuang",
+              component: () =>
+                import("@/view/menu/component/erchuang/index.vue"),
+            },
+          ],
+        },
+      ],
     },
   ],
 });

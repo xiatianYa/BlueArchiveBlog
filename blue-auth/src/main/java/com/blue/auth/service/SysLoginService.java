@@ -172,7 +172,7 @@ public class SysLoginService {
         }
         //校验用户名是否已存在
         R<LoginUser> userResult = remoteUserService.getUserInfo(registerBody.getUserName(), SecurityConstants.INNER);
-        if (StringUtils.isNotNull(userResult) || StringUtils.isNotNull(userResult.getData())) {
+        if (StringUtils.isNotNull(userResult) && StringUtils.isNotNull(userResult.getData())) {
             recordLogService.recordLogininfor(registerBody.getUserName(), Constants.LOGIN_FAIL, "登录用户名已存在");
             throw new ServiceException("登录用户：" + registerBody.getUserName() + " 已存在");
         }
@@ -229,7 +229,7 @@ public class SysLoginService {
         if (StringUtils.isNotNull(cacheCode)){
             throw new ServiceException("验证码已发送(保存时间12小时),请稍后再试");
         }
-        String phoneCode = RandomUtils.getRandom(6);
+        String phoneCode = RandomUtils.getRandom(4);
         Map<String,String> map=new HashMap<>(2);
         map.put("phone",phone);
         map.put("phoneCode",phoneCode);

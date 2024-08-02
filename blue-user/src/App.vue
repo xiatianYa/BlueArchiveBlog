@@ -1,18 +1,12 @@
 <template>
   <n-config-provider :locale="zhCN" :date-locale="dateZhCN" :theme="globalStore.switch ? lightTheme : darkTheme">
     <n-message-provider>
-      <NavView v-if="navShow"></NavView>
       <RouterView />
-      <FooterView v-if="navShow"></FooterView>
-      <setUpView></setUpView>
       <n-global-style />
     </n-message-provider>
   </n-config-provider>
 </template>
 <script setup lang="ts">
-import NavView from '@/components/NavView.vue'
-import FooterView from '@/components/FooterView.vue'
-import setUpView from '@/components/SetUpView.vue'
 import useStore from "@/store"
 let { globalStore, userStore } = useStore()
 import { ref, watch, onMounted, onUnmounted } from 'vue'
