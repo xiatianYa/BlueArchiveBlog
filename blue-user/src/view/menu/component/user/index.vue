@@ -149,21 +149,21 @@ const userPwd = ref<userPwdType>({
 })
 const userHeatMapData = ref([])
 onMounted(() => {
-    console.log(userPwd.value);
-    let { id, nickName, phone, email, avatar, createTime } = userStore
-    user.value = {
-        id,
-        name: nickName,
-        phone,
-        email,
-        avatar,
-        createTime
-    }
+    setTimeout(() => {
+        let { id, nickName, phone, email, avatar, createTime } = userStore
+        user.value = {
+            id,
+            name: nickName,
+            phone,
+            email,
+            avatar,
+            createTime
+        }
+    }, 500)
     //获取用户热力图信息
     selectUserHeatMapData().then(res => {
         userHeatMapData.value = res.data
     })
-    console.log(userPwd.value);
 })
 //保存用户信息
 function saveUserInfo() {

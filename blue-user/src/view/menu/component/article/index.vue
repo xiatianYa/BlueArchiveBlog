@@ -6,7 +6,7 @@
             </div>
             <div class="article-menu">
                 <span class="pointer" @click="handleArticleAdd">添加文章</span>
-                <span class="pointer">提交审核</span>
+                <span class="pointer" @click="handleArticleExamine">提交审核</span>
                 <span class="pointer" @click="handleArticleDelete">删除文章</span>
             </div>
             <div class="article-list">
@@ -72,12 +72,28 @@
                 </template>
             </n-card>
         </n-modal>
+        <!-- 提交审核框 -->
+        <n-modal v-model:show="ArticleExamineShow" transform-origin="center">
+            <resuse-form ref="formRef" class="formClass" :formOption="examineOption" :formItemOption="selectOption"
+                :rules="examineRules" labelPosition="right" labelWidth="140">
+                <template #Footer>
+                    <n-space>
+                        <n-button secondary round @click="ArticleShow = false">
+                            取消
+                        </n-button>
+                        <n-button type="info" secondary round @click="examineSubmit">
+                            提交
+                        </n-button>
+                    </n-space>
+                </template>
+            </resuse-form>
+        </n-modal>
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, watch, nextTick, reactive, computed } from 'vue'
-import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle } from '@/api/article'
+import { addArticle, delArticle, getArticle, listArticleByUser, updateArticle, dexamineArticle } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { uploadImages } from "@/api/file";
 import { useMessage, NModal, NCard, NButton, NSpace, NEllipsis } from 'naive-ui'
@@ -85,13 +101,11 @@ import resuseForm from '@/components/reuseForm/index.vue'
 import ImgUpload from '@/components/imgUpload/index.vue'
 import FileUpload from '@/components/fileUpload/index.vue'
 
-function handleUpdateValue(val: any) {
-    article.value.tagList = val;
-}
 //下拉框配置项
 const selectOption: any = reactive({
     sortTypeList: [], //分类列表
     tagTypeList: [], //标签列表
+    examineList: [] //文章审核下拉列表
 })
 //表单配置项
 const formOption = reactive([
@@ -105,7 +119,7 @@ const formOption = reactive([
         type: "select", selectProps: "sortTypeList", props: "sortId", label: "文章分类", placeholder: "请选择文章分类"
     },
     {
-        type: "mredio", selectProps: "tagTypeList", props: "tagList", handleUpdate: handleUpdateValue, label: "文章标签", placeholder: "请选择文章标签"
+        type: "mredio", selectProps: "tagTypeList", props: "tagList", handleUpdate: handleUpdate, label: "文章标签", placeholder: "请选择文章标签"
     },
     {
         type: "slot", slotName: "ImgUpload", props: "cover", label: "文章图片"
@@ -117,6 +131,14 @@ const formOption = reactive([
         type: "slot", slotName: "Footer"
     }
 ]);
+const examineOption = reactive([
+    {
+        type: "mredio", selectProps: "examineList", props: "articleExamineList", handleUpdate: handleExamineUpdate, label: "文章标签", placeholder: "请选择文章标签"
+    },
+    {
+        type: "slot", slotName: "Footer"
+    }
+])
 //表单
 const formRef = ref<any | null>(null)
 // 定义Article的类型  
@@ -169,6 +191,16 @@ const rules = ref({
         message: '请上传文章视频'
     }
 })
+const examineRules = ref({
+    articleExamineList: {
+        required: true,
+        trigger: ['blur', '审核列表'],
+        message: '请选择要审核的文章',
+        validator(rule: any, value: number[]) {
+            return !value.length ? false : true;
+        }
+    },
+})
 //提示框标签
 const title = ref()
 //提示框
@@ -177,6 +209,8 @@ const message = useMessage()
 const ArticleList = ref<ArticleType[]>([])
 //添加文章框是否显示
 const ArticleShow = ref(false)
+//提交审核框
+const ArticleExamineShow = ref(false)
 //被选中的文章
 const ArticleIndex = ref<any>({ content: "" })
 //添加文章对象
@@ -188,6 +222,16 @@ const article = ref<ArticleType>({
     cover: "",
     videoUrl: ""
 })
+//提交审核文章列表
+const articleExamineList = ref([])
+//多选
+function handleUpdate(val: any) {
+    article.value.tagList = val;
+}
+//多选
+function handleExamineUpdate(val: any) {
+    articleExamineList.value = val;
+}
 //删除列表
 const deleteArticleList = ref([])
 //删除提示框
@@ -203,6 +247,20 @@ onMounted(() => {
     //初始化数据
     init();
 })
+//提交审核
+function handleArticleExamine() {
+    //获取未审核的文章列表
+    selectOption.examineList = ArticleList.value.filter((item: any) => {
+        return item.status === 0 || item.status === 3;
+    }).map((item: any) => {
+        let { id, articleName } = item;
+        return {
+            key: id,
+            label: articleName
+        };
+    });
+    ArticleExamineShow.value = true;
+}
 //复制代码
 function handleCopyCodeSuccess() {
     message.success("复制成功")
@@ -317,8 +375,20 @@ function articleSubmit() {
 //删除文章
 function deleteArticleSubmit() {
     delArticle(deleteArticleList.value).then(() => {
+        deleteArticleList.value = []
         ArticleDeleteShow.value = false;
         message.success("删除成功")
+        init();
+    }).catch((error) => {
+        message.error(error)
+    })
+}
+//提交审核文章
+function examineSubmit() {
+    dexamineArticle(articleExamineList.value).then(() => {
+        articleExamineList.value = []
+        ArticleExamineShow.value = false;
+        message.success("提交成功")
         init();
     }).catch((error) => {
         message.error(error)

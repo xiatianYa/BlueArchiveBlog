@@ -572,6 +572,7 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     public List<BlueArticleBySortVo> listByHome() {
         //获取所有分类
         List<BlueSort> blueSortList = blueSortMapper.selectList(new LambdaQueryWrapper<>());
+        //返回列表
         List<BlueArticleBySortVo> blueArticleBySortVo = new ArrayList<>();
         //查询分类下的文章 每个分类只查询6个
         blueSortList.forEach(blueSort -> {
@@ -597,6 +598,18 @@ public class BlueArticleServiceImpl implements IBlueArticleService
             blueArticleBySortVo.add(bySortVo);
         });
         return blueArticleBySortVo;
+    }
+
+    @Override
+    public void examine(Long[] ids) {
+        if (StringUtils.isNull(ids) || ids.length == 0) throw new ServiceException("审核列表为空");
+        for (Long id : ids) {
+            BlueArticle article = isCheckUser(id);
+            if (article.getStatus().equals(AuditingStatus.OK.getCode()) || article.getStatus().equals(AuditingStatus.DELETED.getCode())){
+                article.setStatus(AuditingStatus.WAIT.getCode());
+            }
+            blueArticleMapper.updateById(article);
+        }
     }
 
     /**
@@ -698,16 +711,17 @@ public class BlueArticleServiceImpl implements IBlueArticleService
     /**
      * 检测用户操作是否合法
      */
-    public void isCheckUser(Long articleId){
+    public BlueArticle isCheckUser(Long articleId){
         Long userId = SecurityUtils.getLoginUser().getUserid();
+        BlueArticle blueArticle = blueArticleMapper.selectById(articleId);
         //管理员操作
         if(SecurityUtils.isAdmin(userId)){
-            return;
+            return blueArticle;
         }
-        BlueArticle blueArticle = blueArticleMapper.selectById(articleId);
         //非本人操作
         if (!userId.equals(blueArticle.getUserId())){
             throw new ServiceException("您没有权限操作该文章...");
         }
+        return blueArticle;
     }
 }

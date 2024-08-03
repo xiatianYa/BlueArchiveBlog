@@ -74,7 +74,23 @@
                   推荐文章
                 </p>
               </div>
-              <div class="recommend-row" v-for="article in recommendArticleList" @click="goArticlePreview(article.id)">
+              <div class="recommend-row" v-for="item in 3" v-if="skeletonLoading">
+                <div class="recommend-message pointer">
+                  <div class="recommend-img">
+                    <n-skeleton height="100px" width="100%" />
+                  </div>
+                  <div class="recommend-info">
+                    <n-skeleton height="10px" round />
+                    <n-skeleton height="10px" round />
+                    <n-skeleton height="10px" round />
+                  </div>
+                </div>
+                <div class="recommend-time">
+                  <n-skeleton width="50%" round />
+                </div>
+              </div>
+              <div class="recommend-row" v-else v-for="article in recommendArticleList"
+                @click="goArticlePreview(article.id)">
                 <div class="recommend-message pointer">
                   <div class="recommend-img">
                     <img :src="article.cover" />
@@ -148,7 +164,19 @@
                   <span>More</span>
                 </div>
               </div>
-              <div class="category-body">
+              <div class="category-body" v-if="skeletonLoading">
+                <div class="category-list">
+                  <div class="category-detail" v-for="item in 6">
+                    <n-skeleton height="170px" width="100%" />
+                    <n-skeleton height="20px" round style="margin-top: 10px;" />
+                    <n-skeleton height="20px" round style="margin-top: 10px;" />
+                    <n-skeleton height="20px" round style="margin-top: 10px;" />
+                    <n-skeleton height="20px" round style="margin-top: 10px;" />
+                    <n-skeleton height="25px" width="20%" style="margin-top: 10px;" :sharp="false" />
+                  </div>
+                </div>
+              </div>
+              <div class="category-body" v-else>
                 <div class="category-list">
                   <CategoryDetail class="test" :article="article" v-for="article in sort.articleList" />
                 </div>
@@ -220,7 +248,7 @@ import { listNotice } from '@/api/notice'
 import { listArticle, searchArticleList, listByHome } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { useRouter } from 'vue-router'
-import { NEllipsis, NScrollbar, NPopover } from 'naive-ui'
+import { NEllipsis, NScrollbar, NPopover, NSkeleton } from 'naive-ui'
 let { globalStore, userStore } = useStore()
 import CategoryDetail from '@/view/home/component/CategoryDetail.vue'
 import Loading from '@/components/loading/CssLoadingView01.vue'
@@ -255,17 +283,19 @@ const queryParams = ref({
   pageSize: 10,
   searchValue: ""
 })
-onMounted(() => {
+//骨架屏加载
+const skeletonLoading = ref(true)
+onMounted(async () => {
   //获取公告
-  listNotice().then((res: any) => {
+  await listNotice().then((res: any) => {
     noticeInfo.value = res.rows[0]
   })
   //获取分类
-  listSort().then((res: any) => {
+  await listSort().then((res: any) => {
     sortList.value = res.rows
   })
   //获取首页文章
-  listByHome().then(res => {
+  await listByHome().then(res => {
     res.data.forEach((articleVo: any) => {
       sortList.value.forEach((sort: any) => {
         if (sort.id === articleVo.sortId) {
@@ -275,9 +305,10 @@ onMounted(() => {
     })
   })
   //获取推荐文章
-  listArticle().then((res: any) => {
+  await listArticle().then((res: any) => {
     recommendArticleList.value = res.rows.slice(0, 3)
   })
+  skeletonLoading.value = false;
 })
 //前往文章浏览页
 function goArticlePreview(articleId: number) {

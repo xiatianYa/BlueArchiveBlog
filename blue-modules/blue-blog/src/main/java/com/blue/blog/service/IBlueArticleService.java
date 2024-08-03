@@ -6,6 +6,7 @@ import com.blue.blog.entry.dto.BlueArticleDTO;
 import com.blue.blog.entry.dto.BlueArticleSearchDTO;
 import com.blue.blog.entry.vo.BlueArticleBySortVo;
 import com.blue.blog.entry.vo.BlueArticleSearchVo;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public interface IBlueArticleService
      * @param blueArticle 文章
      * @return 结果
      */
+    @Transactional
     public int insertBlueArticle(BlueArticle blueArticle);
 
     /**
@@ -47,6 +49,7 @@ public interface IBlueArticleService
      * @param blueArticle 文章
      * @return 结果
      */
+    @Transactional
     public int updateBlueArticle(BlueArticle blueArticle);
 
     /**
@@ -55,6 +58,7 @@ public interface IBlueArticleService
      * @param ids 需要删除的文章主键集合
      * @return 结果
      */
+    @Transactional
     public int deleteBlueArticleByIds(Long[] ids);
 
     /**
@@ -73,15 +77,15 @@ public interface IBlueArticleService
      */
 
     List<BlueArticle> selectBlueArticleListByUser();
+
     /**
      * 搜索文章根据分类ID
      */
-
     List<BlueArticle> listBySortId(Long sortId);
     /**
      * 文章审核
      */
-
+    @Transactional
     int auditing(BlueArticle blueArticle);
     /**
      * 搜索文章列表
@@ -103,9 +107,13 @@ public interface IBlueArticleService
     /**
      * 文章点赞
      */
+    @Transactional
     String addLike(Long id);
     /**
      * 获取首页每个分类展示文章列表
      */
     List<BlueArticleBySortVo> listByHome();
+
+    @Transactional
+    void examine(Long[] ids);
 }

@@ -171,4 +171,13 @@ public class BlueArticleController extends BaseController
         List<BlueArticleBySortVo> blueArticleBySortVo = blueArticleService.listByHome();
         return AjaxResult.success(blueArticleBySortVo);
     }
+    /**
+     * 用户提交文章审核
+     */
+    @PostMapping("/examine/{ids}")
+    @RequiresPermissions("blog:article:edit")
+    public AjaxResult examine(@PathVariable Long[] ids){
+        blueArticleService.examine(ids);
+        return AjaxResult.success();
+    }
 }
