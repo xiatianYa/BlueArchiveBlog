@@ -1,8 +1,14 @@
 package com.blue.game.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
+import com.blue.common.core.domain.Server;
+import com.blue.common.core.utils.udp.GameServerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +44,6 @@ public class BlueGameServerController extends BaseController
     /**
      * 查询游戏服务器列表
      */
-    @RequiresPermissions("game:server:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueGameServer blueGameServer)
     {
@@ -63,7 +68,6 @@ public class BlueGameServerController extends BaseController
     /**
      * 获取游戏服务器详细信息
      */
-    @RequiresPermissions("game:server:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {

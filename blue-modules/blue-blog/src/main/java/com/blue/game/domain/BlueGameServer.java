@@ -29,6 +29,10 @@ public class BlueGameServer extends BaseEntity
     @Excel(name = "服务器IP")
     private String ip;
 
+    /** 服务器IP */
+    @Excel(name = "服务器名称")
+    private String name;
+
     /** 服务器端口 */
     @Excel(name = "服务器端口")
     private String port;
@@ -40,4 +44,7 @@ public class BlueGameServer extends BaseEntity
     /** 模式ID */
     @Excel(name = "模式ID")
     private Long modeId;
+
+    //模式名称
+    private String modeName;
 }

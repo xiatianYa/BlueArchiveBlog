@@ -38,7 +38,6 @@ public class BlueGameCommunityController extends BaseController
     /**
      * 查询游戏社区列表
      */
-    @RequiresPermissions("game:community:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueGameCommunity blueGameCommunity)
     {
@@ -63,7 +62,6 @@ public class BlueGameCommunityController extends BaseController
     /**
      * 获取游戏社区详细信息
      */
-    @RequiresPermissions("game:community:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {

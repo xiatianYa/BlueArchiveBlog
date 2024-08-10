@@ -32,7 +32,7 @@
 
     <el-table v-loading="loading" :data="communityList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
+      <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="社区名称" align="center" prop="name" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -53,8 +53,8 @@
         <el-form-item label="社区名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入社区名称" />
         </el-form-item>
-        <el-form-item label="是否删除(0:否,1:是)" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入是否删除(0:否,1:是)" />
+        <el-form-item label="是否删除" prop="delFlag">
+          <el-input v-model="form.delFlag" placeholder="请输入是否删除" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

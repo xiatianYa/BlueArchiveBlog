@@ -26,21 +26,21 @@ public class BaseEntity implements Serializable {
     private String searchValue;
 
     /** 创建者 */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT,exist = false)
     private String createBy;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT,exist = false)
     private Date createTime;
 
     /** 更新者 */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.UPDATE,exist = false)
     private String updateBy;
 
     /** 更新时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.UPDATE,exist = false)
     private Date updateTime;
 
     /** 备注 */

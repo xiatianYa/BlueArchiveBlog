@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.game.domain.BlueGameCommunity;
-import com.blue.game.domain.BlueGameMode;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -74,7 +74,7 @@
         <el-form-item label="模式ID" prop="modeId">
           <el-input v-model="form.modeId" placeholder="请输入模式ID" />
         </el-form-item>
-        <el-form-item label="是否删除(0:否,1:是)" prop="delFlag">
+        <el-form-item label="是否删除" prop="delFlag">
           <el-input v-model="form.delFlag" placeholder="请输入是否删除(0:否,1:是)" />
         </el-form-item>
       </el-form>

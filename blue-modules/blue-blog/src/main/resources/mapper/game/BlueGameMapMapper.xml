@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.game.mapper.BlueGameMapMapper">
+    
+    <resultMap type="BlueGameMap" id="BlueGameMapResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="label"    column="label"    />
+        <result property="mapUrl"    column="map_url"    />
+        <result property="modeId"    column="mode_id"    />
+        <result property="type"    column="type"    />
+        <result property="tag"    column="tag"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBlueGameMapVo">
+        select id, name, label, map_url, mode_id, type, tag, del_flag from blue_game_map
+    </sql>
+
+    <select id="selectBlueGameMapList" parameterType="BlueGameMap" resultMap="BlueGameMapResult">
+        <include refid="selectBlueGameMapVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="label != null  and label != ''"> and label = #{label}</if>
+            <if test="mapUrl != null  and mapUrl != ''"> and map_url = #{mapUrl}</if>
+            <if test="modeId != null "> and mode_id = #{modeId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="tag != null  and tag != ''"> and tag = #{tag}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueGameMapById" parameterType="Long" resultMap="BlueGameMapResult">
+        <include refid="selectBlueGameMapVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueGameMap" parameterType="BlueGameMap" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_game_map
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="label != null and label != ''">label,</if>
+            <if test="mapUrl != null">map_url,</if>
+            <if test="modeId != null">mode_id,</if>
+            <if test="type != null">type,</if>
+            <if test="tag != null and tag != ''">tag,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="label != null and label != ''">#{label},</if>
+            <if test="mapUrl != null">#{mapUrl},</if>
+            <if test="modeId != null">#{modeId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="tag != null and tag != ''">#{tag},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueGameMap" parameterType="BlueGameMap">
+        update blue_game_map
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="label != null and label != ''">label = #{label},</if>
+            <if test="mapUrl != null">map_url = #{mapUrl},</if>
+            <if test="modeId != null">mode_id = #{modeId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="tag != null and tag != ''">tag = #{tag},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueGameMapById" parameterType="Long">
+        delete from blue_game_map where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueGameMapByIds" parameterType="String">
+        delete from blue_game_map where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

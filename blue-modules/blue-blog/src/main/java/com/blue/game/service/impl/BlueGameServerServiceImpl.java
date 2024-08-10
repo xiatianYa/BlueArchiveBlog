@@ -1,6 +1,8 @@
 package com.blue.game.service.impl;
 
 import java.util.List;
+
+import com.blue.common.core.enums.GameModeStatus;
 import com.blue.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,11 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
     @Override
     public List<BlueGameServer> selectBlueGameServerList(BlueGameServer blueGameServer)
     {
-        return blueGameServerMapper.selectBlueGameServerList(blueGameServer);
+        List<BlueGameServer> blueGameServers = blueGameServerMapper.selectBlueGameServerList(blueGameServer);
+        blueGameServers.forEach(item->{
+            item.setModeName(GameModeStatus.getInfoByCode(item.getModeId()));
+        });
+        return blueGameServers;
     }
 
     /**
