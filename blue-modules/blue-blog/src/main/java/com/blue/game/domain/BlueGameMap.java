@@ -12,7 +12,7 @@ import com.blue.common.core.web.domain.BaseEntity;
  * 游戏地图对象 blue_game_map
  * 
  * @author ruoyi
- * @date 2024-08-10
+ * @date 2024-08-24
  */
 @Data
 @AllArgsConstructor
@@ -21,7 +21,7 @@ public class BlueGameMap extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** id */
     private Long id;
 
     /** 地图名称 */
@@ -36,21 +36,25 @@ public class BlueGameMap extends BaseEntity
     @Excel(name = "图片路径")
     private String mapUrl;
 
-    /** 模式ID */
-    @Excel(name = "模式ID")
+    /** 模式名称 */
+    @Excel(name = "模式名称")
     private Long modeId;
 
     /** 地图难度 */
     @Excel(name = "地图难度")
     private Long type;
 
-    /** 难度名称 */
+    /** 地图难度名称 */
+    @Excel(name = "地图难度名称")
     private String typeName;
 
     /** 地图标签 */
     @Excel(name = "地图标签")
-    private Long tag;
+    private String tag;
 
-    /** 标签名称 */
+    /** 地图标签名称 */
+    @Excel(name = "地图标签名称")
     private String tagName;
+
+
 }

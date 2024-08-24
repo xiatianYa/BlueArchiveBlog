@@ -69,8 +69,6 @@ public class GameWebSocketServer {
     @OnMessage
     public void onMessage(String message, Session session) {
         try {
-            // 获取当前时间（开始时间）
-            long startTime = System.currentTimeMillis();
             //Json实例化对象
             gameServerMessageVo requestParam = JSONObject.parseObject(message, gameServerMessageVo.class);
             byte[] responseData = GameServerUtil.sendAndReceiveUDP(requestParam.getIp(), requestParam.getPort());
@@ -97,10 +95,6 @@ public class GameWebSocketServer {
                     .type(ChatConstants.ServerMessageSuccessType)
                     .build();
             session.getBasicRemote().sendText(JSONObject.toJSONString(response));
-            long endTime = System.currentTimeMillis();
-            long elapsedTime = endTime - startTime;
-            // 输出方法执行时间
-            System.out.println("获取服务器信息耗时 : " + elapsedTime + "毫秒");
         }catch (Exception e){
             System.out.println("服务器消息发送失败!");
         }

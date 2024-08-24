@@ -2,8 +2,9 @@ package com.blue.game.service.impl;
 
 import java.util.List;
 
-import com.blue.common.core.enums.GameTagStatus;
+import com.blue.common.core.enums.GameMapTagStatus;
 import com.blue.common.core.enums.GameTypeStatus;
+import com.blue.common.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.blue.game.mapper.BlueGameMapMapper;
@@ -14,7 +15,7 @@ import com.blue.game.service.IBlueGameMapService;
  * 游戏地图Service业务层处理
  * 
  * @author ruoyi
- * @date 2024-08-10
+ * @date 2024-08-24
  */
 @Service
 public class BlueGameMapServiceImpl implements IBlueGameMapService 
@@ -45,8 +46,21 @@ public class BlueGameMapServiceImpl implements IBlueGameMapService
     {
         List<BlueGameMap> blueGameMaps = blueGameMapMapper.selectBlueGameMapList(blueGameMap);
         blueGameMaps.forEach(item -> {
-            item.setTagName(GameTagStatus.getInfoByCode(item.getTag()));
-            item.setTypeName(GameTypeStatus.getInfoByCode(item.getType()));
+            item.setTagName("");
+            if (StringUtils.isNotNull(item.getTag())){
+                String[] tags = item.getTag().split(",");
+                if (StringUtils.isNotEmpty(tags)){
+                    for (String tag : tags) {
+                        String tagName = GameMapTagStatus.getInfoByCode(Long.valueOf(tag));
+                        if (StringUtils.isNotNull(tagName)){
+                            item.setTagName(item.getTagName() + tagName + ",");
+                        }
+                    }
+                }
+            }
+            if (StringUtils.isNotNull(item.getType())){
+                item.setTypeName(GameTypeStatus.getInfoByCode(item.getType()));
+            }
         });
         return blueGameMaps;
     }
@@ -60,6 +74,7 @@ public class BlueGameMapServiceImpl implements IBlueGameMapService
     @Override
     public int insertBlueGameMap(BlueGameMap blueGameMap)
     {
+        blueGameMap.setDelFlag(0);
         return blueGameMapMapper.insertBlueGameMap(blueGameMap);
     }
 

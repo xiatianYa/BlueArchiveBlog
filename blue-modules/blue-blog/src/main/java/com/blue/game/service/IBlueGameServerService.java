@@ -1,5 +1,6 @@
 package com.blue.game.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import com.blue.game.domain.BlueGameServer;
 
@@ -58,4 +59,6 @@ public interface IBlueGameServerService
      * @return 结果
      */
     public int deleteBlueGameServerById(Long id);
+
+    String getSteamApi(List<String> paths);
 }

@@ -1,6 +1,9 @@
 # Tomcat
 server:
   port: 9207
+  ssl:
+    key-store: classpath:cert/bluearchive.top.jks
+    key-store-password: xlntre7p
 
 # Spring
 spring:
@@ -14,10 +17,10 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: 47.113.197.48:8848
+        server-addr: bluearchive.top:8848
       config:
         # 配置中心地址
-        server-addr: 47.113.197.48:8848
+        server-addr: bluearchive.top:8848
         # 配置文件格式
         file-extension: yml
         # 共享配置

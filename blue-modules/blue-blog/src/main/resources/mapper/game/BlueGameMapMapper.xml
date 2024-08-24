@@ -24,10 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="label != null  and label != ''"> and label = #{label}</if>
-            <if test="mapUrl != null  and mapUrl != ''"> and map_url = #{mapUrl}</if>
             <if test="modeId != null "> and mode_id = #{modeId}</if>
             <if test="type != null "> and type = #{type}</if>
-            <if test="tag != null  and tag != ''"> and tag = #{tag}</if>
+            <if test="tag != null ">
+                FIND_IN_SET(#{tag}, tag) > 0
+             </if>
+            and del_flag = 0
         </where>
     </select>
     
@@ -44,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="mapUrl != null">map_url,</if>
             <if test="modeId != null">mode_id,</if>
             <if test="type != null">type,</if>
-            <if test="tag != null and tag != ''">tag,</if>
+            <if test="tag != null">tag,</if>
             <if test="delFlag != null">del_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -53,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="mapUrl != null">#{mapUrl},</if>
             <if test="modeId != null">#{modeId},</if>
             <if test="type != null">#{type},</if>
-            <if test="tag != null and tag != ''">#{tag},</if>
+            <if test="tag != null">#{tag},</if>
             <if test="delFlag != null">#{delFlag},</if>
          </trim>
     </insert>
@@ -66,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="mapUrl != null">map_url = #{mapUrl},</if>
             <if test="modeId != null">mode_id = #{modeId},</if>
             <if test="type != null">type = #{type},</if>
-            <if test="tag != null and tag != ''">tag = #{tag},</if>
+            <if test="tag != null">tag = #{tag},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
         </trim>
         where id = #{id}

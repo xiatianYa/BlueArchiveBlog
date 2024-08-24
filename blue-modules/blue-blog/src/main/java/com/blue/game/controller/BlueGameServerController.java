@@ -1,23 +1,10 @@
 package com.blue.game.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.io.IOException;
-import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
-import com.blue.common.core.domain.Server;
-import com.blue.common.core.utils.udp.GameServerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
 import com.blue.common.security.annotation.RequiresPermissions;
@@ -105,5 +92,13 @@ public class BlueGameServerController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(blueGameServerService.deleteBlueGameServerByIds(ids));
+    }
+
+    /**
+     * 搜索服务器信息
+     */
+    @GetMapping("/steamApi")
+    public String getSteamApi(@RequestParam List<String> paths){
+        return blueGameServerService.getSteamApi(paths);
     }
 }

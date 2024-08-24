@@ -7,7 +7,7 @@ import com.blue.game.domain.BlueGameMap;
  * 游戏地图Mapper接口
  * 
  * @author ruoyi
- * @date 2024-08-10
+ * @date 2024-08-24
  */
 public interface BlueGameMapMapper 
 {

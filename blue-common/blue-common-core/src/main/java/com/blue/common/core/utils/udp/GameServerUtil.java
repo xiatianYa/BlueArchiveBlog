@@ -54,9 +54,7 @@ public class GameServerUtil {
 
             receivedData = new byte[sendPacket.getLength()];
             System.arraycopy(buffer, 6, receivedData, 0, sendPacket.getLength());
-
-            System.out.println("收到服务器响应：" + new String(receivedData));
-
+            
             //关闭连接
             socket.close();
             return findSequence(receivedData, (byte) -38, (byte) 2);

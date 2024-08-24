@@ -1,8 +1,8 @@
 package com.blue.common.core.enums;
 
+
 /** 游戏标签枚举类 */
 public enum GameTypeStatus {
-    //T1,T2,T3,T4,T5,56,T7
     T1(1L, "简单"),
     T2(2L, "普通"),
     T3(3L, "困难"),
@@ -18,6 +18,14 @@ public enum GameTypeStatus {
     GameTypeStatus(Long code, String info) {
         this.code = code;
         this.info = info;
+    }
+
+    public static java.util.Map<Long, String> toMap() {
+        java.util.Map<Long, String> map = new java.util.HashMap<Long, String>(GameTypeStatus.values().length);
+        for (GameTypeStatus type : GameTypeStatus.values()) {
+            map.put(type.getCode(), type.getInfo());
+        }
+        return map;
     }
 
     //通过Code 返回 Info

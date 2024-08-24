@@ -26,7 +26,7 @@ import com.blue.common.core.web.page.TableDataInfo;
  * 游戏地图Controller
  * 
  * @author ruoyi
- * @date 2024-08-10
+ * @date 2024-08-24
  */
 @RestController
 @RequestMapping("/map")
@@ -62,6 +62,7 @@ public class BlueGameMapController extends BaseController
     /**
      * 获取游戏地图详细信息
      */
+    @RequiresPermissions("game:map:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {

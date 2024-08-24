@@ -1,14 +1,23 @@
 package com.blue.game.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.rmi.ServerException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.blue.common.core.enums.GameModeStatus;
 import com.blue.common.core.utils.DateUtils;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.blue.game.mapper.BlueGameServerMapper;
 import com.blue.game.domain.BlueGameServer;
 import com.blue.game.service.IBlueGameServerService;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * 游戏服务器Service业务层处理
@@ -98,5 +107,20 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
     public int deleteBlueGameServerById(Long id)
     {
         return blueGameServerMapper.deleteBlueGameServerById(id);
+    }
+
+    @Override
+    public String getSteamApi(List<String> pathList) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            StringBuilder paths= new StringBuilder();
+            for (String path : pathList) {
+                paths.append("paths=").append(path).append("&");
+            }
+            return restTemplate.getForObject(new URI("http://inadvertently.top/steamApi/?"+ paths), String.class);
+        }catch (Exception e){
+            System.out.println("服务器信息获取失败!");
+            return null;
+        }
     }
 }
