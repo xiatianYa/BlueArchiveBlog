@@ -68,7 +68,6 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
     @Override
     public int insertBlueGameServer(BlueGameServer blueGameServer)
     {
-        blueGameServer.setCreateTime(DateUtils.getNowDate());
         return blueGameServerMapper.insertBlueGameServer(blueGameServer);
     }
 
@@ -81,7 +80,6 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
     @Override
     public int updateBlueGameServer(BlueGameServer blueGameServer)
     {
-        blueGameServer.setUpdateTime(DateUtils.getNowDate());
         return blueGameServerMapper.updateBlueGameServer(blueGameServer);
     }
 

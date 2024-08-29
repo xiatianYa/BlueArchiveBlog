@@ -1,7 +1,9 @@
 <template>
   <n-config-provider :locale="zhCN" :date-locale="dateZhCN" :theme="globalStore.switch ? lightTheme : darkTheme">
     <n-message-provider>
-      <RouterView />
+      <n-dialog-provider>
+        <RouterView />
+      </n-dialog-provider>
       <n-global-style />
     </n-message-provider>
   </n-config-provider>
@@ -11,7 +13,7 @@ import useStore from "@/store"
 let { globalStore, userStore } = useStore()
 import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { NMessageProvider, NConfigProvider, zhCN, dateZhCN, darkTheme, lightTheme, NGlobalStyle } from 'naive-ui'
+import { NMessageProvider, NConfigProvider, NDialogProvider, zhCN, dateZhCN, darkTheme, lightTheme, NGlobalStyle } from 'naive-ui'
 import { getUserList } from '@/api/chat'
 
 //全局仓库

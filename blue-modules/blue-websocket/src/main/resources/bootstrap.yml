@@ -3,7 +3,7 @@ server:
   port: 9207
   ssl:
     key-store: classpath:cert/bluearchive.top.jks
-    key-store-password: xlntre7p
+    key-store-password: ywaoiq5o
 
 # Spring
 spring:

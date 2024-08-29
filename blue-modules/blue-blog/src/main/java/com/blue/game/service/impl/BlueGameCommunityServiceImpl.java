@@ -53,7 +53,6 @@ public class BlueGameCommunityServiceImpl implements IBlueGameCommunityService
     @Override
     public int insertBlueGameCommunity(BlueGameCommunity blueGameCommunity)
     {
-        blueGameCommunity.setCreateTime(DateUtils.getNowDate());
         return blueGameCommunityMapper.insertBlueGameCommunity(blueGameCommunity);
     }
 
@@ -66,7 +65,6 @@ public class BlueGameCommunityServiceImpl implements IBlueGameCommunityService
     @Override
     public int updateBlueGameCommunity(BlueGameCommunity blueGameCommunity)
     {
-        blueGameCommunity.setUpdateTime(DateUtils.getNowDate());
         return blueGameCommunityMapper.updateBlueGameCommunity(blueGameCommunity);
     }
 

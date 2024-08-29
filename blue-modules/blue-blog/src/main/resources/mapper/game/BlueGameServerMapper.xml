@@ -10,11 +10,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="port"    column="port"    />
         <result property="communityId"    column="community_id"    />
         <result property="modeId"    column="mode_id"    />
-        <result property="delFlag"    column="del_flag"    />
     </resultMap>
 
     <sql id="selectBlueGameServerVo">
-        select id,name,ip, port, community_id, mode_id, del_flag from blue_game_server
+        select id,name,ip, port, community_id, mode_id from blue_game_server
     </sql>
 
     <select id="selectBlueGameServerList" parameterType="BlueGameServer" resultMap="BlueGameServerResult">
@@ -40,7 +39,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="port != null and port != ''">port,</if>
             <if test="communityId != null">community_id,</if>
             <if test="modeId != null">mode_id,</if>
-            <if test="delFlag != null">del_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">#{name},</if>
@@ -48,7 +46,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="port != null and port != ''">#{port},</if>
             <if test="communityId != null">#{communityId},</if>
             <if test="modeId != null">#{modeId},</if>
-            <if test="delFlag != null">#{delFlag},</if>
          </trim>
     </insert>
 
@@ -60,7 +57,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="port != null and port != ''">port = #{port},</if>
             <if test="communityId != null">community_id = #{communityId},</if>
             <if test="modeId != null">mode_id = #{modeId},</if>
-            <if test="delFlag != null">del_flag = #{delFlag},</if>
         </trim>
         where id = #{id}
     </update>

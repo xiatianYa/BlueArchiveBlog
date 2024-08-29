@@ -2,6 +2,7 @@ package com.blue.game.mapper;
 
 import java.util.List;
 import com.blue.game.domain.BlueGameMap;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 游戏地图Mapper接口
@@ -9,6 +10,7 @@ import com.blue.game.domain.BlueGameMap;
  * @author ruoyi
  * @date 2024-08-24
  */
+@Mapper
 public interface BlueGameMapMapper 
 {
     /**

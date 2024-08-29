@@ -248,7 +248,7 @@ import { listNotice } from '@/api/notice'
 import { listArticle, searchArticleList, listByHome } from '@/api/article'
 import { listSort } from '@/api/sort/sort'
 import { useRouter } from 'vue-router'
-import { NEllipsis, NScrollbar, NPopover, NSkeleton } from 'naive-ui'
+import { NEllipsis, NScrollbar, NPopover, NSkeleton, useDialog } from 'naive-ui'
 let { globalStore, userStore } = useStore()
 import CategoryDetail from '@/view/home/component/CategoryDetail.vue'
 import Loading from '@/components/loading/CssLoadingView01.vue'
@@ -256,6 +256,7 @@ import useStore from "@/store"
 
 //路由
 const router = useRouter()
+const dialog = useDialog()
 //公告
 const noticeInfo = ref({
   noticeTitle: "",
@@ -307,6 +308,16 @@ onMounted(async () => {
   //获取推荐文章
   await listArticle().then((res: any) => {
     recommendArticleList.value = res.rows.slice(0, 3)
+  })
+  //公告
+  dialog.warning({
+    title: '警告',
+    content: '服务器查询已迁移,是否进行跳转',
+    positiveText: '确定跳转',
+    negativeText: '取消跳转',
+    onPositiveClick: () => {
+      goHref("https://www.bluearchive.top/blue-game")
+    },
   })
   skeletonLoading.value = false;
 })

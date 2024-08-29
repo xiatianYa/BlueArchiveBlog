@@ -7,11 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="BlueGameCommunity" id="BlueGameCommunityResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
-        <result property="delFlag"    column="del_flag"    />
     </resultMap>
 
     <sql id="selectBlueGameCommunityVo">
-        select id, name, del_flag from blue_game_community
+        select id, name from blue_game_community
     </sql>
 
     <select id="selectBlueGameCommunityList" parameterType="BlueGameCommunity" resultMap="BlueGameCommunityResult">
@@ -30,11 +29,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into blue_game_community
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">name,</if>
-            <if test="delFlag != null">del_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">#{name},</if>
-            <if test="delFlag != null">#{delFlag},</if>
          </trim>
     </insert>
 
@@ -42,7 +39,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update blue_game_community
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>
-            <if test="delFlag != null">del_flag = #{delFlag},</if>
         </trim>
         where id = #{id}
     </update>

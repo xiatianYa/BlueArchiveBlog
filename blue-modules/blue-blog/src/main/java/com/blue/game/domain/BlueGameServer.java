@@ -18,7 +18,7 @@ import com.blue.common.core.web.domain.BaseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlueGameServer extends BaseEntity
+public class BlueGameServer
 {
     private static final long serialVersionUID = 1L;
 

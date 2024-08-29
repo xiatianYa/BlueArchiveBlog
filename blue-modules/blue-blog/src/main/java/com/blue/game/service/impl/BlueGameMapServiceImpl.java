@@ -74,7 +74,6 @@ public class BlueGameMapServiceImpl implements IBlueGameMapService
     @Override
     public int insertBlueGameMap(BlueGameMap blueGameMap)
     {
-        blueGameMap.setDelFlag(0);
         return blueGameMapMapper.insertBlueGameMap(blueGameMap);
     }
 
