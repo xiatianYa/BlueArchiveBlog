@@ -6,9 +6,12 @@ import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.blue.common.core.enums.GameModeStatus;
 import com.blue.common.core.utils.DateUtils;
+import com.blue.common.core.utils.SteamUtils;
+import com.blue.common.redis.service.RedisService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import com.blue.game.service.IBlueGameServerService;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.Resource;
+
 /**
  * 游戏服务器Service业务层处理
  * 
@@ -28,8 +33,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class BlueGameServerServiceImpl implements IBlueGameServerService 
 {
-    @Autowired
+    @Resource
     private BlueGameServerMapper blueGameServerMapper;
+    @Resource
+    private RedisService redisService;
 
     /**
      * 查询游戏服务器
@@ -108,17 +115,8 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
     }
 
     @Override
-    public String getSteamApi(List<String> pathList) {
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            StringBuilder paths= new StringBuilder();
-            for (String path : pathList) {
-                paths.append("paths=").append(path).append("&");
-            }
-            return restTemplate.getForObject(new URI("http://inadvertently.top/steamApi/?"+ paths), String.class);
-        }catch (Exception e){
-            System.out.println("服务器信息获取失败!");
-            return null;
-        }
+    public String getSteamApi(String countryId) {
+        Map<String, String> serverJson = redisService.getCacheMap("server_json");
+        return serverJson.get(countryId);
     }
 }

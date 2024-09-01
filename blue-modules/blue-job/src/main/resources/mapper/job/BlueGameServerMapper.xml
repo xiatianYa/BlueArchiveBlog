@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.job.mapper.BlueGameServerMapper">
+    
+    <resultMap type="BlueGameServer" id="BlueGameServerResult">
+        <result property="id"    column="id"    />
+        <result property="ip"    column="ip"    />
+        <result property="port"    column="port"    />
+        <result property="communityId"    column="community_id"    />
+        <result property="modeId"    column="mode_id"    />
+    </resultMap>
+
+    <sql id="selectBlueGameServerVo">
+        select id,name,ip, port, community_id, mode_id from blue_game_server
+    </sql>
+
+    <select id="selectBlueGameServerList" parameterType="BlueGameServer" resultMap="BlueGameServerResult">
+        <include refid="selectBlueGameServerVo"/>
+        <where>  
+            <if test="ip != null  and ip != ''"> and ip = #{ip}</if>
+            <if test="port != null  and port != ''"> and port = #{port}</if>
+            <if test="communityId != null "> and community_id = #{communityId}</if>
+            <if test="modeId != null "> and mode_id = #{modeId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueGameServerById" parameterType="Long" resultMap="BlueGameServerResult">
+        <include refid="selectBlueGameServerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueGameServer" parameterType="BlueGameServer" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_game_server
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="ip != null and ip != ''">ip,</if>
+            <if test="port != null and port != ''">port,</if>
+            <if test="communityId != null">community_id,</if>
+            <if test="modeId != null">mode_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="ip != null and ip != ''">#{ip},</if>
+            <if test="port != null and port != ''">#{port},</if>
+            <if test="communityId != null">#{communityId},</if>
+            <if test="modeId != null">#{modeId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueGameServer" parameterType="BlueGameServer">
+        update blue_game_server
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="ip != null and ip != ''">ip = #{ip},</if>
+            <if test="port != null and port != ''">port = #{port},</if>
+            <if test="communityId != null">community_id = #{communityId},</if>
+            <if test="modeId != null">mode_id = #{modeId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueGameServerById" parameterType="Long">
+        delete from blue_game_server where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueGameServerByIds" parameterType="String">
+        delete from blue_game_server where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

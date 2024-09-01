@@ -98,7 +98,7 @@ public class BlueGameServerController extends BaseController
      * 搜索服务器信息
      */
     @GetMapping("/steamApi")
-    public String getSteamApi(@RequestParam List<String> paths){
-        return blueGameServerService.getSteamApi(paths);
+    public String getSteamApi(@RequestParam String countryId){
+        return blueGameServerService.getSteamApi(countryId);
     }
 }

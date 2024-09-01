@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.job.mapper.BlueGameCommunityMapper">
+    
+    <resultMap type="BlueGameCommunity" id="BlueGameCommunityResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+    </resultMap>
+
+    <sql id="selectBlueGameCommunityVo">
+        select id, name from blue_game_community
+    </sql>
+
+    <select id="selectBlueGameCommunityList" parameterType="BlueGameCommunity" resultMap="BlueGameCommunityResult">
+        <include refid="selectBlueGameCommunityVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueGameCommunityById" parameterType="Long" resultMap="BlueGameCommunityResult">
+        <include refid="selectBlueGameCommunityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueGameCommunity" parameterType="BlueGameCommunity" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_game_community
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueGameCommunity" parameterType="BlueGameCommunity">
+        update blue_game_community
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueGameCommunityById" parameterType="Long">
+        delete from blue_game_community where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueGameCommunityByIds" parameterType="String">
+        delete from blue_game_community where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

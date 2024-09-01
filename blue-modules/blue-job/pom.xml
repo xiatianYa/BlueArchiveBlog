@@ -88,6 +88,11 @@
             <groupId>com.blue</groupId>
             <artifactId>blue-common-swagger</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 

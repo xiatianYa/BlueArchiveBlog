@@ -1,16 +1,19 @@
-package com.blue.game.service;
+package com.blue.job.mapper;
 
-import java.io.UnsupportedEncodingException;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.blue.job.domain.BlueGameServer;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
-import com.blue.game.domain.BlueGameServer;
 
 /**
- * 游戏服务器Service接口
+ * 游戏服务器Mapper接口
  * 
  * @author ruoyi
  * @date 2024-08-04
  */
-public interface IBlueGameServerService 
+@Mapper
+public interface BlueGameServerMapper extends BaseMapper<BlueGameServer>
 {
     /**
      * 查询游戏服务器
@@ -45,20 +48,18 @@ public interface IBlueGameServerService
     public int updateBlueGameServer(BlueGameServer blueGameServer);
 
     /**
-     * 批量删除游戏服务器
-     * 
-     * @param ids 需要删除的游戏服务器主键集合
-     * @return 结果
-     */
-    public int deleteBlueGameServerByIds(Long[] ids);
-
-    /**
-     * 删除游戏服务器信息
+     * 删除游戏服务器
      * 
      * @param id 游戏服务器主键
      * @return 结果
      */
     public int deleteBlueGameServerById(Long id);
 
-    String getSteamApi(String countryId);
+    /**
+     * 批量删除游戏服务器
+     * 
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteBlueGameServerByIds(Long[] ids);
 }

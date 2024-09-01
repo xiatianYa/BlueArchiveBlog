@@ -30,7 +30,7 @@ import java.util.List;
  * @author Summer
  */
 @Component("ArticleTask")
-public class ArticleTask {
+public class   ArticleTask {
     private static final Logger log = LoggerFactory.getLogger(ArticleTask.class);
     @Resource
     private BlueArticleMapper blueArticleMapper;

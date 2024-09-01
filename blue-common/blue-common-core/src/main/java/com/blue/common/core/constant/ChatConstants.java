@@ -30,4 +30,8 @@ public class ChatConstants {
      * 服务器消息获取成功
      */
     public static final Integer ServerMessageSuccessType = 206;
+    /**
+     * 服务器推送服务器数据
+     */
+    public static final Integer ServerPushServerDataType = 207;
 }
