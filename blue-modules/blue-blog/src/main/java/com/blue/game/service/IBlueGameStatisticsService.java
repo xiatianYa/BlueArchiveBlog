@@ -2,6 +2,8 @@ package com.blue.game.service;
 
 import java.util.List;
 import com.blue.game.domain.BlueGameStatistics;
+import com.blue.game.domain.vo.PersonnelDataVo;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 数据统计Service接口
@@ -58,4 +60,6 @@ public interface IBlueGameStatisticsService
      * @return 结果
      */
     public int deleteBlueGameStatisticsById(Long id);
+
+    PersonnelDataVo selectBlueGameStatisticsListAll();
 }

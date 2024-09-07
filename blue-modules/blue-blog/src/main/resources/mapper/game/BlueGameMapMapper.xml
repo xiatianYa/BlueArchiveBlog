@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBlueGameMapVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="label != null  and label != ''"> and label = #{label}</if>
+            <if test="label != null  and label != ''"> and label like concat('%', #{label}, '%') or name like concat('%', #{label}, '%')</if>
             <if test="modeId != null "> and mode_id = #{modeId}</if>
             <if test="type != null "> and type = #{type}</if>
             <if test="tag != null ">

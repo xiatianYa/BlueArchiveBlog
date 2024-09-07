@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +44,7 @@ public class PollServerMessagesTask {
         LambdaQueryWrapper<BlueGameServer> blueGameServerLambdaQueryWrapper = new LambdaQueryWrapper<>();
         List<BlueGameServer> blueGameServers = blueGameServerMapper.selectList(blueGameServerLambdaQueryWrapper);
         //存储至Redis的Map
-        HashMap<String, String> serverMap = new HashMap<>();
+        Map<String, String> serverMap = new HashMap<>();
         // 创建一个固定大小的线程池
         ExecutorService executor = Executors.newFixedThreadPool(blueGameCommunities.size());
         // 存储Future对象的列表，以便稍后获取结果

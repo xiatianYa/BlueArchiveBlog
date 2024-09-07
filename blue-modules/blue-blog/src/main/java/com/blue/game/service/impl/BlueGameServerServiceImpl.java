@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.blue.common.core.enums.GameModeStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.SteamUtils;
+import com.blue.common.core.utils.StringUtils;
 import com.blue.common.redis.service.RedisService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -116,6 +118,9 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
 
     @Override
     public String getSteamApi(String countryId) {
+        if (StringUtils.isNull(countryId)){
+            return JSON.toJSONString(redisService.getCacheMap("server_json"));
+        }
         Map<String, String> serverJson = redisService.getCacheMap("server_json");
         return serverJson.get(countryId);
     }

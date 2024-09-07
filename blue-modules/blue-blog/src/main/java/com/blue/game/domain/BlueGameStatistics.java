@@ -19,7 +19,7 @@ import com.blue.common.core.web.domain.BaseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlueGameStatistics extends BaseEntity
+public class BlueGameStatistics
 {
     private static final long serialVersionUID = 1L;
 
@@ -32,11 +32,13 @@ public class BlueGameStatistics extends BaseEntity
 
     /** 社区在线人数 */
     @Excel(name = "社区在线人数")
-    private Long communityPlay;
+    private Integer communityPlay;
 
     /** 统计时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "统计时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Excel(name = "统计时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
     private Date time;
 
+    /** 图表统计时间 */
+    private String timeMinute;
 }

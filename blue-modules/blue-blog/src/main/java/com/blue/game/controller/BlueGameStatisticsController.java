@@ -3,6 +3,8 @@ package com.blue.game.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.blue.game.domain.vo.PersonnelDataVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,13 +40,21 @@ public class BlueGameStatisticsController extends BaseController
     /**
      * 查询数据统计列表
      */
-    @RequiresPermissions("game:statistics:list")
     @GetMapping("/list")
     public TableDataInfo list(BlueGameStatistics blueGameStatistics)
     {
         startPage();
         List<BlueGameStatistics> list = blueGameStatisticsService.selectBlueGameStatisticsList(blueGameStatistics);
         return getDataTable(list);
+    }
+
+    /**
+     * 查询全部数据统计列表
+     */
+    @GetMapping("/listAll")
+    public AjaxResult listAll()
+    {
+        return success(blueGameStatisticsService.selectBlueGameStatisticsListAll());
     }
 
     /**

@@ -1,7 +1,11 @@
 package com.blue.game.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.game.domain.BlueGameStatistics;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 数据统计Mapper接口
@@ -9,7 +13,8 @@ import com.blue.game.domain.BlueGameStatistics;
  * @author ruoyi
  * @date 2024-09-01
  */
-public interface BlueGameStatisticsMapper 
+@Mapper
+public interface BlueGameStatisticsMapper  extends BaseMapper<BlueGameStatistics>
 {
     /**
      * 查询数据统计
@@ -58,4 +63,7 @@ public interface BlueGameStatisticsMapper
      * @return 结果
      */
     public int deleteBlueGameStatisticsByIds(Long[] ids);
+
+    @Select("SELECT community_id,MAX(community_play) AS communityPlay, DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS timeMinute FROM blue_game_statistics GROUP BY community_id, timeMinute ORDER BY community_id, timeMinute")
+    List<BlueGameStatistics> selectBlueGameStatisticsListAll();
 }
