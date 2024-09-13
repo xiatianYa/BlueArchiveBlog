@@ -121,8 +121,19 @@ public class GameWebSocketServer {
                     .type(ChatConstants.ServerMessageSuccessType)
                     .build();
             session.getBasicRemote().sendText(JSONObject.toJSONString(response));
-        }catch (Exception e){
-            System.out.println("服务器消息发送失败!");
+        }catch (Exception e) {
+            String responseJson;
+            //返回数据为null 获取失败
+            errorMessageVo error = errorMessageVo.builder()
+                    .data("服务器信息获取失败!")
+                    .type(ChatConstants.MessageFailType)
+                    .build();
+            responseJson = JSONObject.toJSONString(error);
+            try {
+                session.getBasicRemote().sendText(responseJson);
+            } catch (IOException ex) {
+                System.out.println("服务器推送消息失败!");
+            }
         }
     }
 
@@ -147,7 +158,18 @@ public class GameWebSocketServer {
                         .build();
                 v.session.getBasicRemote().sendText(JSONObject.toJSONString(build));
             } catch (IOException e) {
-                System.out.println("服务器推送消息失败!");
+                String responseJson;
+                //返回数据为null 获取失败
+                errorMessageVo error = errorMessageVo.builder()
+                        .data("服务器信息获取失败!")
+                        .type(ChatConstants.MessageFailType)
+                        .build();
+                responseJson = JSONObject.toJSONString(error);
+                try {
+                    session.getBasicRemote().sendText(responseJson);
+                } catch (IOException ex) {
+                    System.out.println("服务器推送消息失败!");
+                }
             }
         });
     }

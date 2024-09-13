@@ -76,7 +76,7 @@ public class BlueGameLiveServiceImpl implements IBlueGameLiveService
             @Override
             public int compare(BiliUserDataVo o1, BiliUserDataVo o2) {
                 // 假设你想要升序排序
-                return o1.getLiveStatus().compareTo(o2.getLiveStatus());
+                return o2.getOnline().compareTo(o1.getOnline());
             }
         });
         return biliUserDataVos;
