@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blue.game.mapper.BlueGameLiveMapper">
+    
+    <resultMap type="BlueGameLive" id="BlueGameLiveResult">
+        <result property="id"    column="id"    />
+        <result property="uid"    column="uid"    />
+    </resultMap>
+
+    <sql id="selectBlueGameLiveVo">
+        select id, uid from blue_game_live
+    </sql>
+
+    <select id="selectBlueGameLiveList" parameterType="BlueGameLive" resultMap="BlueGameLiveResult">
+        <include refid="selectBlueGameLiveVo"/>
+        <where>  
+            <if test="uid != null  and uid != ''"> and uid = #{uid}</if>
+        </where>
+    </select>
+    
+    <select id="selectBlueGameLiveById" parameterType="Long" resultMap="BlueGameLiveResult">
+        <include refid="selectBlueGameLiveVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBlueGameLive" parameterType="BlueGameLive" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_game_live
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null and uid != ''">uid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null and uid != ''">#{uid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBlueGameLive" parameterType="BlueGameLive">
+        update blue_game_live
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uid != null and uid != ''">uid = #{uid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBlueGameLiveById" parameterType="Long">
+        delete from blue_game_live where id = #{id}
+    </delete>
+
+    <delete id="deleteBlueGameLiveByIds" parameterType="String">
+        delete from blue_game_live where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
