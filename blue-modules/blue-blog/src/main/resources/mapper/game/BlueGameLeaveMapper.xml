@@ -1,39 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blue.game.mapper.BlueGameLeaveMapper">
-    
+
     <resultMap type="BlueGameLeave" id="BlueGameLeaveResult">
-        <result property="id"    column="id"    />
-        <result property="leaveType"    column="leave_type"    />
-        <result property="leaveMessage"    column="leave_message"    />
-        <result property="leaveImages"    column="leave_images"    />
-        <result property="leaveStart"    column="leave_start"    />
-        <result property="leaveEnd"    column="leave_end"    />
-        <result property="createBy"    column="create_by"    />
+        <result property="id" column="id"/>
+        <result property="leaveType" column="leave_type"/>
+        <result property="leaveMessage" column="leave_message"/>
+        <result property="leaveImages" column="leave_images"/>
+        <result property="leaveStart" column="leave_start"/>
+        <result property="leaveEnd" column="leave_end"/>
+        <result property="createBy" column="create_by"/>
     </resultMap>
 
     <sql id="selectBlueGameLeaveVo">
-        select id, leave_type, leave_message, leave_images, leave_start, leave_end, create_by from blue_game_leave
+        select id, leave_type, leave_message, leave_images, leave_start, leave_end, create_by
+        from blue_game_leave
     </sql>
 
     <select id="selectBlueGameLeaveList" parameterType="BlueGameLeave" resultMap="BlueGameLeaveResult">
         <include refid="selectBlueGameLeaveVo"/>
-        <where>  
-            <if test="leaveType != null "> and leave_type = #{leaveType}</if>
-            <if test="leaveMessage != null  and leaveMessage != ''"> and leave_message = #{leaveMessage}</if>
-            <if test="leaveImages != null  and leaveImages != ''"> and leave_images = #{leaveImages}</if>
-            <if test="leaveStart != null "> and leave_start = #{leaveStart}</if>
-            <if test="leaveEnd != null "> and leave_end = #{leaveEnd}</if>
+        <where>
+            <if test="leaveType != null ">and leave_type = #{leaveType}</if>
+            <if test="leaveMessage != null  and leaveMessage != ''">and leave_message = #{leaveMessage}</if>
+            <if test="leaveImages != null  and leaveImages != ''">and leave_images = #{leaveImages}</if>
+            <if test="leaveStart != null ">and leave_start = #{leaveStart}</if>
+            <if test="leaveEnd != null ">and leave_end = #{leaveEnd}</if>
         </where>
     </select>
-    
+
     <select id="selectBlueGameLeaveById" parameterType="Long" resultMap="BlueGameLeaveResult">
         <include refid="selectBlueGameLeaveVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectBlueGameLeaveListV2" parameterType="BlueGameLeave" resultType="com.blue.game.domain.dto.BlueGameLeaveResDto">
+        select leaveInfo.id,
+        leaveInfo.leave_type,
+        leaveInfo.leave_message,
+        leaveInfo.leave_images,
+        leaveInfo.leave_start,
+        leaveInfo.leave_end,
+        leaveInfo.create_by,
+        usr.avatar,
+        usr.nick_name
+        from blue_game_leave leaveInfo
+        left join sys_user usr on usr.user_id = leaveInfo.create_by
+        <where>
+            <if test="leaveType != null ">and leaveInfo.leave_type = #{leaveType}</if>
+            <if test="leaveMessage != null  and leaveMessage != ''">and leaveInfo.leave_message = #{leaveMessage}</if>
+            <if test="leaveImages != null  and leaveImages != ''">and leaveInfo.leave_images = #{leaveImages}</if>
+            <if test="leaveStart != null ">and leaveInfo.leave_start = #{leaveStart}</if>
+            <if test="leaveEnd != null ">and leaveInfo.leave_end = #{leaveEnd}</if>
+        </where>
+        ORDER BY
+        leaveInfo.leave_start DESC
+    </select>
+
     <insert id="insertBlueGameLeave" parameterType="BlueGameLeave" useGeneratedKeys="true" keyProperty="id">
         insert into blue_game_leave
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -43,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="leaveStart != null">leave_start,</if>
             <if test="leaveEnd != null">leave_end,</if>
             <if test="createBy != null">create_by,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="leaveType != null">#{leaveType},</if>
             <if test="leaveMessage != null and leaveMessage != ''">#{leaveMessage},</if>
@@ -51,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="leaveStart != null">#{leaveStart},</if>
             <if test="leaveEnd != null">#{leaveEnd},</if>
             <if test="createBy != null">#{createBy},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateBlueGameLeave" parameterType="BlueGameLeave">
@@ -68,11 +92,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteBlueGameLeaveById" parameterType="Long">
-        delete from blue_game_leave where id = #{id}
+        delete
+        from blue_game_leave
+        where id = #{id}
     </delete>
 
     <delete id="deleteBlueGameLeaveByIds" parameterType="String">
-        delete from blue_game_leave where id in 
+        delete from blue_game_leave where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

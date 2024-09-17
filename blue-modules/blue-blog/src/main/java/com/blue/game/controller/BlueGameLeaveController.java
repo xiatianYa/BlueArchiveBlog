@@ -4,6 +4,8 @@ import java.util.List;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import com.blue.game.domain.dto.BlueGameLeaveResDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +27,13 @@ import com.blue.common.core.web.page.TableDataInfo;
 
 /**
  * 游戏留言Controller
- * 
+ *
  * @author ruoyi
  * @date 2024-09-17
  */
 @RestController
 @RequestMapping("/leave")
-public class BlueGameLeaveController extends BaseController
-{
+public class BlueGameLeaveController extends BaseController {
     @Resource
     private IBlueGameLeaveService blueGameLeaveService;
 
@@ -41,10 +42,19 @@ public class BlueGameLeaveController extends BaseController
      */
     @RequiresPermissions("game:leave:list")
     @GetMapping("/list")
-    public TableDataInfo list(BlueGameLeave blueGameLeave)
-    {
+    public TableDataInfo list(BlueGameLeave blueGameLeave) {
         startPage();
         List<BlueGameLeave> list = blueGameLeaveService.selectBlueGameLeaveList(blueGameLeave);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询游戏留言列表，联表查询用户信息
+     */
+    @GetMapping("/list/v2")
+    public TableDataInfo listV2(BlueGameLeave blueGameLeave) {
+        startPage();
+        List<BlueGameLeaveResDto> list = blueGameLeaveService.selectBlueGameLeaveListV2(blueGameLeave);
         return getDataTable(list);
     }
 
@@ -54,8 +64,7 @@ public class BlueGameLeaveController extends BaseController
     @RequiresPermissions("game:leave:export")
     @Log(title = "游戏留言", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, BlueGameLeave blueGameLeave)
-    {
+    public void export(HttpServletResponse response, BlueGameLeave blueGameLeave) {
         List<BlueGameLeave> list = blueGameLeaveService.selectBlueGameLeaveList(blueGameLeave);
         ExcelUtil<BlueGameLeave> util = new ExcelUtil<BlueGameLeave>(BlueGameLeave.class);
         util.exportExcel(response, list, "游戏留言数据");
@@ -66,8 +75,7 @@ public class BlueGameLeaveController extends BaseController
      */
     @RequiresPermissions("game:leave:query")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(blueGameLeaveService.selectBlueGameLeaveById(id));
     }
 
@@ -77,8 +85,7 @@ public class BlueGameLeaveController extends BaseController
     @RequiresPermissions("game:leave:add")
     @Log(title = "游戏留言", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BlueGameLeave blueGameLeave)
-    {
+    public AjaxResult add(@RequestBody BlueGameLeave blueGameLeave) {
         return toAjax(blueGameLeaveService.insertBlueGameLeave(blueGameLeave));
     }
 
@@ -88,8 +95,7 @@ public class BlueGameLeaveController extends BaseController
     @RequiresPermissions("game:leave:edit")
     @Log(title = "游戏留言", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BlueGameLeave blueGameLeave)
-    {
+    public AjaxResult edit(@RequestBody BlueGameLeave blueGameLeave) {
         return toAjax(blueGameLeaveService.updateBlueGameLeave(blueGameLeave));
     }
 
@@ -98,9 +104,8 @@ public class BlueGameLeaveController extends BaseController
      */
     @RequiresPermissions("game:leave:remove")
     @Log(title = "游戏留言", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(blueGameLeaveService.deleteBlueGameLeaveByIds(ids));
     }
 }
