@@ -30,6 +30,15 @@ public class BlueGameLive
     @Excel(name = "BiliBili用户Uid")
     private String uid;
 
+    @Excel(name = "用户头像")
+    private String avatar;
+
+    @Excel(name = "背景图")
+    private String bgUrl;
+
+    @Excel(name = "创建的用户ID")
+    private Long createBy;
+
     @TableField(exist = false)
     private BiliUserDataVo biliUserDataVo;
 }

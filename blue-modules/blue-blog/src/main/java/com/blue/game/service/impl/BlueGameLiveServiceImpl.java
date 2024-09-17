@@ -2,22 +2,21 @@ package com.blue.game.service.impl;
 
 import java.util.*;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.blue.common.core.exception.ServiceException;
 import com.blue.common.core.utils.BiliUtils;
+import com.blue.common.core.utils.StringUtils;
 import com.blue.common.core.utils.file.ImageUtils;
+import com.blue.common.security.utils.SecurityUtils;
 import com.blue.game.domain.vo.BiliUserDataVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.blue.game.mapper.BlueGameLiveMapper;
 import com.blue.game.domain.BlueGameLive;
 import com.blue.game.service.IBlueGameLiveService;
 
 import javax.annotation.Resource;
+
 
 /**
  * 游戏直播Service业务层处理
@@ -55,21 +54,16 @@ public class BlueGameLiveServiceImpl implements IBlueGameLiveService
         //返回列表
         List<BiliUserDataVo> biliUserDataVos = new ArrayList<>();
         List<BlueGameLive> blueGameLives = blueGameLiveMapper.selectList(new LambdaQueryWrapper<>());
-        List<String> uids=new ArrayList<>();
-        for (BlueGameLive item : blueGameLives) {
-            uids.add(item.getUid());
-        }
-        JSONObject roomIds = JSONObject
-                .parseObject(BiliUtils.getBiliLiveApi(uids))
-                .getJSONObject("data")
-                .getJSONObject("by_room_ids");
-        for (String key : roomIds.keySet()){
-            BiliUserDataVo biliUserDataVo = roomIds.getObject(key, BiliUserDataVo.class);
-            //获取封面
-            biliUserDataVo.setCoverByte(ImageUtils.getImage(biliUserDataVo.getCover()));
-            //获取主播头像
-            biliUserDataVo.setUserCoverByte(BiliUtils.getBiliLiveUserInfoApi(biliUserDataVo.getRoomId()));
-            System.out.println(biliUserDataVo);
+        for (BlueGameLive gameLive : blueGameLives) {
+            JSONObject jsonObject = JSONObject
+                    .parseObject(BiliUtils.getBiliLiveApi(gameLive.getUid()))
+                    .getJSONObject("data")
+                    .getJSONObject("by_room_ids")
+                    .getJSONObject(gameLive.getUid());
+            BiliUserDataVo biliUserDataVo = JSONObject.parseObject(jsonObject.toJSONString(), BiliUserDataVo.class);
+            biliUserDataVo.setAvatarUrl(gameLive.getAvatar());
+            biliUserDataVo.setBgUrl(gameLive.getBgUrl());
+            gameLive.setBiliUserDataVo(biliUserDataVo);
             biliUserDataVos.add(biliUserDataVo);
         }
         biliUserDataVos.sort(new Comparator<BiliUserDataVo>() {
@@ -91,7 +85,39 @@ public class BlueGameLiveServiceImpl implements IBlueGameLiveService
     @Override
     public int insertBlueGameLive(BlueGameLive blueGameLive)
     {
-        return blueGameLiveMapper.insertBlueGameLive(blueGameLive);
+        Long userId = SecurityUtils.getLoginUser().getUserid();
+        LambdaQueryWrapper<BlueGameLive> getOne = new LambdaQueryWrapper<>();
+        getOne.eq(BlueGameLive::getCreateBy, userId);
+        BlueGameLive one = blueGameLiveMapper.selectOne(getOne);
+        if (StringUtils.isNotNull(one)){
+            throw new ServiceException("你添加过直播间了,无法再次添加!");
+        }
+        LambdaQueryWrapper<BlueGameLive> getUid = new LambdaQueryWrapper<>();
+        getUid.eq(BlueGameLive::getUid, blueGameLive.getUid());
+        BlueGameLive uidOne = blueGameLiveMapper.selectOne(getUid);
+        if (StringUtils.isNotNull(uidOne)){
+            throw new ServiceException("大主播已入驻,请问重复添加!");
+        }
+        try{
+            String biliLiveApi = BiliUtils.getBiliLiveApi(blueGameLive.getUid());
+            String bgPath  = JSONObject
+                    .parseObject(biliLiveApi)
+                    .getJSONObject("data")
+                    .getJSONObject("by_room_ids")
+                    .getJSONObject(blueGameLive.getUid())
+                    .getString("cover");
+            String avatarPath = BiliUtils.getBiliLiveUserInfoApi(blueGameLive.getUid());
+            //获取主播头像
+            String avatarUrl = ImageUtils.downloadImageAsResource(avatarPath, "/home/blueArchive/uploadPath/live/", blueGameLive.getUid() + ".jpg");
+            //获取背景
+            String bgUrl = ImageUtils.downloadImageAsResource(bgPath,"/home/blueArchive/uploadPath/live/", blueGameLive.getUid()+"bg.jpg");
+            blueGameLive.setCreateBy(userId);
+            blueGameLive.setAvatar(avatarUrl);
+            blueGameLive.setBgUrl(bgUrl);
+            return blueGameLiveMapper.insertBlueGameLive(blueGameLive);
+        }catch (Exception e){
+            throw new ServiceException("请检查uid是否正确");
+        }
     }
 
     /**

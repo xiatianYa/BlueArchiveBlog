@@ -7,14 +7,14 @@ package com.blue.common.core.constant;
  */
 public class CacheConstants {
     /**
-     * 缓存有效期，默认720（分钟）
+     * 缓存有效期，默认14400（分钟）
      */
-    public final static long EXPIRATION = 720;
+    public final static long EXPIRATION = 14400;
 
     /**
-     * 缓存刷新时间，默认120（分钟）
+     * 缓存刷新时间，默认14400（分钟）
      */
-    public final static long REFRESH_TIME = 120;
+    public final static long REFRESH_TIME = 14400;
 
     /**
      * 密码最大错误次数

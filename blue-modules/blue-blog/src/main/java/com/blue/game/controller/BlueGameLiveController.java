@@ -1,11 +1,10 @@
 package com.blue.game.controller;
 
 import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+import javax.annotation.Resource;
 
+import com.blue.common.security.annotation.RequiresLogin;
 import com.blue.game.domain.vo.BiliUserDataVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,8 +20,6 @@ import com.blue.game.domain.BlueGameLive;
 import com.blue.game.service.IBlueGameLiveService;
 import com.blue.common.core.web.controller.BaseController;
 import com.blue.common.core.web.domain.AjaxResult;
-import com.blue.common.core.utils.poi.ExcelUtil;
-import com.blue.common.core.web.page.TableDataInfo;
 
 /**
  * 游戏直播Controller
@@ -34,7 +31,7 @@ import com.blue.common.core.web.page.TableDataInfo;
 @RequestMapping("/live")
 public class BlueGameLiveController extends BaseController
 {
-    @Autowired
+    @Resource
     private IBlueGameLiveService blueGameLiveService;
 
     /**
@@ -60,7 +57,7 @@ public class BlueGameLiveController extends BaseController
     /**
      * 新增游戏直播
      */
-    @RequiresPermissions("game:live:add")
+    @RequiresLogin
     @Log(title = "游戏直播", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlueGameLive blueGameLive)

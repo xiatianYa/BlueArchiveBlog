@@ -1,14 +1,24 @@
 package com.blue.common.core.utils.file;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
 import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 图片处理工具类
@@ -63,6 +73,31 @@ public class ImageUtils {
             return null;
         } finally {
             IOUtils.closeQuietly(in);
+        }
+    }
+    // 下载网络图片 获取byte[]
+    public static String downloadImageAsResource(String imageUrl, String targetDir, String fileName) {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<Resource> responseEntity = restTemplate.exchange(
+                    imageUrl,
+                    HttpMethod.GET,
+                    null,
+                    Resource.class
+            );
+
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                try (InputStream inputStream = responseEntity.getBody().getInputStream()) {
+                    Path path = Paths.get(targetDir, fileName);
+                    Files.createDirectories(path.getParent());
+                    Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+                    return "https://bluearchive.top:9500/statics/live/" + fileName;
+                }
+            } else {
+                throw new RuntimeException("Failed to download image: " + responseEntity.getStatusCode());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error downloading image", e);
         }
     }
 }
