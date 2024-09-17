@@ -3,10 +3,7 @@ package com.blue.game.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.rmi.ServerException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
 import com.blue.common.core.enums.GameModeStatus;
@@ -65,6 +62,7 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
         blueGameServers.forEach(item->{
             item.setModeName(GameModeStatus.getInfoByCode(item.getModeId()));
         });
+        blueGameServers.sort(Comparator.comparing(BlueGameServer::getModeId));
         return blueGameServers;
     }
 
@@ -116,6 +114,12 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
         return blueGameServerMapper.deleteBlueGameServerById(id);
     }
 
+    /**
+     * 通过SteamApi获取服务器信息
+     *
+     * @param countryId 社区ID
+     * @return 结果
+     */
     @Override
     public String getSteamApi(String countryId) {
         if (StringUtils.isNull(countryId)){

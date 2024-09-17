@@ -7,10 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="BlueGameLive" id="BlueGameLiveResult">
         <result property="id"    column="id"    />
         <result property="uid"    column="uid"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="bgUrl"    column="bg_url"    />
+        <result property="createBy"    column="create_by"    />
     </resultMap>
 
     <sql id="selectBlueGameLiveVo">
-        select id, uid from blue_game_live
+        select id, uid,avatar,bg_url,create_by from blue_game_live
     </sql>
 
     <select id="selectBlueGameLiveList" parameterType="BlueGameLive" resultMap="BlueGameLiveResult">
@@ -29,9 +32,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into blue_game_live
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="uid != null and uid != ''">uid,</if>
+            <if test="avatar != null and avatar != ''">avatar,</if>
+            <if test="bgUrl != null and bgUrl != ''">bg_url,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="uid != null and uid != ''">#{uid},</if>
+            <if test="avatar != null and avatar != ''">#{avatar},</if>
+            <if test="bgUrl != null and bgUrl != ''">#{bgUrl},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
          </trim>
     </insert>
 
@@ -39,6 +48,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update blue_game_live
         <trim prefix="SET" suffixOverrides=",">
             <if test="uid != null and uid != ''">uid = #{uid},</if>
+            <if test="avatar != null and avtar != ''">avatar = #{avatar},</if>
+            <if test="bgUrl != null and bgUrl != ''">bg_url = #{bgUrl},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
         </trim>
         where id = #{id}
     </update>
