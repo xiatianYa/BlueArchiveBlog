@@ -1,5 +1,6 @@
 package com.blue.game.controller;
 
+import com.blue.common.core.enums.GameLeaveTypeStatus;
 import com.blue.common.core.enums.GameModeStatus;
 import com.blue.common.core.enums.GameMapTagStatus;
 import com.blue.common.core.enums.GameTypeStatus;
@@ -46,6 +47,16 @@ public class BlueGameEnumController {
     public AjaxResult type()
     {
         Map<Long, String> map = GameTypeStatus.toMap();
+        return AjaxResult.success(map);
+    }
+
+    /**
+     * 查询留言类型
+     */
+    @GetMapping("/leaveType")
+    public AjaxResult leaveType()
+    {
+        Map<Long, String> map = GameLeaveTypeStatus.toMap();
         return AjaxResult.success(map);
     }
 }

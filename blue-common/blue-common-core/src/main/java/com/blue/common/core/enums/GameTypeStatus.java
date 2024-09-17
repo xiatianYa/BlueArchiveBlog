@@ -1,6 +1,8 @@
 package com.blue.common.core.enums;
 
 
+import java.util.Map;
+
 /** 游戏标签枚举类 */
 public enum GameTypeStatus {
     T1(1L, "简单"),
@@ -20,7 +22,7 @@ public enum GameTypeStatus {
         this.info = info;
     }
 
-    public static java.util.Map<Long, String> toMap() {
+    public static Map<Long, String> toMap() {
         java.util.Map<Long, String> map = new java.util.HashMap<Long, String>(GameTypeStatus.values().length);
         for (GameTypeStatus type : GameTypeStatus.values()) {
             map.put(type.getCode(), type.getInfo());

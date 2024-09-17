@@ -1,7 +1,10 @@
 package com.blue.game.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.game.domain.BlueGameLeave;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 游戏留言Mapper接口
@@ -9,7 +12,8 @@ import com.blue.game.domain.BlueGameLeave;
  * @author ruoyi
  * @date 2024-09-17
  */
-public interface BlueGameLeaveMapper 
+@Mapper
+public interface BlueGameLeaveMapper extends BaseMapper<BlueGameLeave>
 {
     /**
      * 查询游戏留言

@@ -1,7 +1,12 @@
 package com.blue.game.domain;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.blue.common.core.annotation.Excel;
@@ -13,7 +18,10 @@ import com.blue.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2024-09-17
  */
-public class BlueGameLeave extends BaseEntity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class BlueGameLeave
 {
     private static final long serialVersionUID = 1L;
 
@@ -42,71 +50,10 @@ public class BlueGameLeave extends BaseEntity
     @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date leaveEnd;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
+    /** 创建用户ID */
+    @Excel(name = "用户ID")
+    private Integer createBy;
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setLeaveType(Long leaveType) 
-    {
-        this.leaveType = leaveType;
-    }
-
-    public Long getLeaveType() 
-    {
-        return leaveType;
-    }
-    public void setLeaveMessage(String leaveMessage) 
-    {
-        this.leaveMessage = leaveMessage;
-    }
-
-    public String getLeaveMessage() 
-    {
-        return leaveMessage;
-    }
-    public void setLeaveImages(String leaveImages) 
-    {
-        this.leaveImages = leaveImages;
-    }
-
-    public String getLeaveImages() 
-    {
-        return leaveImages;
-    }
-    public void setLeaveStart(Date leaveStart) 
-    {
-        this.leaveStart = leaveStart;
-    }
-
-    public Date getLeaveStart() 
-    {
-        return leaveStart;
-    }
-    public void setLeaveEnd(Date leaveEnd) 
-    {
-        this.leaveEnd = leaveEnd;
-    }
-
-    public Date getLeaveEnd() 
-    {
-        return leaveEnd;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("leaveType", getLeaveType())
-            .append("leaveMessage", getLeaveMessage())
-            .append("leaveImages", getLeaveImages())
-            .append("leaveStart", getLeaveStart())
-            .append("leaveEnd", getLeaveEnd())
-            .append("createBy", getCreateBy())
-            .toString();
-    }
+    @TableField(exist = false)
+    private String nickName;
 }

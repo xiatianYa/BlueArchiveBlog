@@ -1,6 +1,7 @@
 package com.blue.game.controller;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import com.blue.common.core.web.page.TableDataInfo;
 @RequestMapping("/server")
 public class BlueGameServerController extends BaseController
 {
-    @Autowired
+    @Resource
     private IBlueGameServerService blueGameServerService;
 
     /**

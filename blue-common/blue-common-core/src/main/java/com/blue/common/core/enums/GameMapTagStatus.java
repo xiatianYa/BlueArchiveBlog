@@ -30,7 +30,7 @@ public enum GameMapTagStatus {
     }
 
     //获取全部枚举 返回Map
-    public static java.util.Map<Long, String> toMap() {
+    public static Map<Long, String> toMap() {
         Map<Long, String> map = new HashMap<Long, String>(GameMapTagStatus.values().length);
         for (GameMapTagStatus type : GameMapTagStatus.values()) {
             map.put(type.getCode(), type.getInfo());

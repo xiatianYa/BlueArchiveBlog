@@ -7,6 +7,8 @@ import com.blue.game.mapper.BlueGameLeaveMapper;
 import com.blue.game.domain.BlueGameLeave;
 import com.blue.game.service.IBlueGameLeaveService;
 
+import javax.annotation.Resource;
+
 /**
  * 游戏留言Service业务层处理
  * 
@@ -16,7 +18,7 @@ import com.blue.game.service.IBlueGameLeaveService;
 @Service
 public class BlueGameLeaveServiceImpl implements IBlueGameLeaveService 
 {
-    @Autowired
+    @Resource
     private BlueGameLeaveMapper blueGameLeaveMapper;
 
     /**
@@ -40,7 +42,9 @@ public class BlueGameLeaveServiceImpl implements IBlueGameLeaveService
     @Override
     public List<BlueGameLeave> selectBlueGameLeaveList(BlueGameLeave blueGameLeave)
     {
-        return blueGameLeaveMapper.selectBlueGameLeaveList(blueGameLeave);
+        //获取留言列表
+        List<BlueGameLeave> blueGameLeaves = blueGameLeaveMapper.selectBlueGameLeaveList(blueGameLeave);
+        return blueGameLeaves;
     }
 
     /**

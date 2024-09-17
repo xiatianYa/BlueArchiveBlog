@@ -2,6 +2,7 @@ package com.blue.game.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import com.blue.game.domain.vo.PersonnelDataVo;
@@ -34,7 +35,7 @@ import com.blue.common.core.web.page.TableDataInfo;
 @RequestMapping("/statistics")
 public class BlueGameStatisticsController extends BaseController
 {
-    @Autowired
+    @Resource
     private IBlueGameStatisticsService blueGameStatisticsService;
 
     /**

@@ -2,6 +2,7 @@ package com.blue.game.controller;
 
 import java.util.List;
 import java.io.IOException;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ import com.blue.common.core.web.page.TableDataInfo;
 @RequestMapping("/map")
 public class BlueGameMapController extends BaseController
 {
-    @Autowired
+    @Resource
     private IBlueGameMapService blueGameMapService;
 
     /**
