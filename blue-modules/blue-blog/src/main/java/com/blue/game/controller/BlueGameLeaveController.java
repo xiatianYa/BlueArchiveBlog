@@ -1,12 +1,9 @@
 package com.blue.game.controller;
 
 import java.util.List;
-import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import com.blue.game.domain.dto.BlueGameLeaveResDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,7 +20,6 @@ import com.blue.game.service.IBlueGameLeaveService;
 import com.blue.common.core.web.controller.BaseController;
 import com.blue.common.core.web.domain.AjaxResult;
 import com.blue.common.core.utils.poi.ExcelUtil;
-import com.blue.common.core.web.page.TableDataInfo;
 
 /**
  * 游戏留言Controller
@@ -42,20 +38,8 @@ public class BlueGameLeaveController extends BaseController {
      */
     @RequiresPermissions("game:leave:list")
     @GetMapping("/list")
-    public TableDataInfo list(BlueGameLeave blueGameLeave) {
-        startPage();
-        List<BlueGameLeave> list = blueGameLeaveService.selectBlueGameLeaveList(blueGameLeave);
-        return getDataTable(list);
-    }
-
-    /**
-     * 查询游戏留言列表，联表查询用户信息
-     */
-    @GetMapping("/list/v2")
-    public TableDataInfo listV2(BlueGameLeave blueGameLeave) {
-        startPage();
-        List<BlueGameLeaveResDto> list = blueGameLeaveService.selectBlueGameLeaveListV2(blueGameLeave);
-        return getDataTable(list);
+    public AjaxResult list(BlueGameLeave blueGameLeave) {
+        return AjaxResult.success(blueGameLeaveService.selectBlueGameLeaveList(blueGameLeave));
     }
 
     /**
@@ -82,7 +66,6 @@ public class BlueGameLeaveController extends BaseController {
     /**
      * 新增游戏留言
      */
-    @RequiresPermissions("game:leave:add")
     @Log(title = "游戏留言", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlueGameLeave blueGameLeave) {

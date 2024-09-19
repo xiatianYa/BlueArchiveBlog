@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.game.domain.BlueGameLeave;
-import com.blue.game.domain.dto.BlueGameLeaveResDto;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * 游戏留言Mapper接口
@@ -63,6 +61,4 @@ public interface BlueGameLeaveMapper extends BaseMapper<BlueGameLeave> {
      * @return 结果
      */
     public int deleteBlueGameLeaveByIds(Long[] ids);
-
-    List<BlueGameLeaveResDto> selectBlueGameLeaveListV2(BlueGameLeave blueGameLeave);
 }

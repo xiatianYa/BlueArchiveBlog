@@ -40,20 +40,16 @@ public class BlueGameLeave
     @Excel(name = "留言图片")
     private String leaveImages;
 
-    /** 开始时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date leaveStart;
-
-    /** 结束时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date leaveEnd;
-
     /** 创建用户ID */
     @Excel(name = "用户ID")
-    private Integer createBy;
+    private Long createBy;
+
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date createTime;
 
     @TableField(exist = false)
     private String nickName;
+
+    @TableField(exist = false)
+    private String userAvatar;
 }

@@ -9,13 +9,12 @@
         <result property="leaveType" column="leave_type"/>
         <result property="leaveMessage" column="leave_message"/>
         <result property="leaveImages" column="leave_images"/>
-        <result property="leaveStart" column="leave_start"/>
-        <result property="leaveEnd" column="leave_end"/>
         <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectBlueGameLeaveVo">
-        select id, leave_type, leave_message, leave_images, leave_start, leave_end, create_by
+        select id, leave_type, leave_message, leave_images,create_by,create_time
         from blue_game_leave
     </sql>
 
@@ -25,8 +24,6 @@
             <if test="leaveType != null ">and leave_type = #{leaveType}</if>
             <if test="leaveMessage != null  and leaveMessage != ''">and leave_message = #{leaveMessage}</if>
             <if test="leaveImages != null  and leaveImages != ''">and leave_images = #{leaveImages}</if>
-            <if test="leaveStart != null ">and leave_start = #{leaveStart}</if>
-            <if test="leaveEnd != null ">and leave_end = #{leaveEnd}</if>
         </where>
     </select>
 
@@ -35,46 +32,21 @@
         where id = #{id}
     </select>
 
-    <select id="selectBlueGameLeaveListV2" parameterType="BlueGameLeave" resultType="com.blue.game.domain.dto.BlueGameLeaveResDto">
-        select leaveInfo.id,
-        leaveInfo.leave_type,
-        leaveInfo.leave_message,
-        leaveInfo.leave_images,
-        leaveInfo.leave_start,
-        leaveInfo.leave_end,
-        leaveInfo.create_by,
-        usr.avatar,
-        usr.nick_name
-        from blue_game_leave leaveInfo
-        left join sys_user usr on usr.user_id = leaveInfo.create_by
-        <where>
-            <if test="leaveType != null ">and leaveInfo.leave_type = #{leaveType}</if>
-            <if test="leaveMessage != null  and leaveMessage != ''">and leaveInfo.leave_message = #{leaveMessage}</if>
-            <if test="leaveImages != null  and leaveImages != ''">and leaveInfo.leave_images = #{leaveImages}</if>
-            <if test="leaveStart != null ">and leaveInfo.leave_start = #{leaveStart}</if>
-            <if test="leaveEnd != null ">and leaveInfo.leave_end = #{leaveEnd}</if>
-        </where>
-        ORDER BY
-        leaveInfo.leave_start DESC
-    </select>
-
     <insert id="insertBlueGameLeave" parameterType="BlueGameLeave" useGeneratedKeys="true" keyProperty="id">
         insert into blue_game_leave
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="leaveType != null">leave_type,</if>
             <if test="leaveMessage != null and leaveMessage != ''">leave_message,</if>
             <if test="leaveImages != null">leave_images,</if>
-            <if test="leaveStart != null">leave_start,</if>
-            <if test="leaveEnd != null">leave_end,</if>
             <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="leaveType != null">#{leaveType},</if>
             <if test="leaveMessage != null and leaveMessage != ''">#{leaveMessage},</if>
             <if test="leaveImages != null">#{leaveImages},</if>
-            <if test="leaveStart != null">#{leaveStart},</if>
-            <if test="leaveEnd != null">#{leaveEnd},</if>
             <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
@@ -84,9 +56,8 @@
             <if test="leaveType != null">leave_type = #{leaveType},</if>
             <if test="leaveMessage != null and leaveMessage != ''">leave_message = #{leaveMessage},</if>
             <if test="leaveImages != null">leave_images = #{leaveImages},</if>
-            <if test="leaveStart != null">leave_start = #{leaveStart},</if>
-            <if test="leaveEnd != null">leave_end = #{leaveEnd},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time =#{createTime},</if>
         </trim>
         where id = #{id}
     </update>

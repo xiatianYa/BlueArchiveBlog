@@ -2,7 +2,6 @@ package com.blue.game.service;
 
 import java.util.List;
 import com.blue.game.domain.BlueGameLeave;
-import com.blue.game.domain.dto.BlueGameLeaveResDto;
 
 /**
  * 游戏留言Service接口
@@ -60,5 +59,4 @@ public interface IBlueGameLeaveService
      */
     public int deleteBlueGameLeaveById(Long id);
 
-    List<BlueGameLeaveResDto> selectBlueGameLeaveListV2(BlueGameLeave blueGameLeave);
 }

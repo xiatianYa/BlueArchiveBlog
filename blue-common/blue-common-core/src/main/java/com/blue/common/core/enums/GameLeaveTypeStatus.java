@@ -5,9 +5,11 @@ import java.util.Map;
 
 public enum GameLeaveTypeStatus {
    //普通留言
-    T1(1L, "普通留言"),
+    T1(1L, "闲聊"),
     //活动留言
-    T2(2L, "活动留言");
+    T2(2L, "问题"),
+    //活动留言
+    T3(3L, "活动");
 
 
     private final Long code;

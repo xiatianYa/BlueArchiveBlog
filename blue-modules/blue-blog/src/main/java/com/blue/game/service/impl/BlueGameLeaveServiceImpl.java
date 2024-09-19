@@ -1,11 +1,13 @@
 package com.blue.game.service.impl;
 
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import com.blue.game.domain.dto.BlueGameLeaveResDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.blue.common.core.constant.SecurityConstants;
+import com.blue.common.core.utils.StringUtils;
+import com.blue.common.security.utils.SecurityUtils;
+import com.blue.system.api.RemoteUserService;
+import com.blue.system.api.model.UserVo;
 import org.springframework.stereotype.Service;
 import com.blue.game.mapper.BlueGameLeaveMapper;
 import com.blue.game.domain.BlueGameLeave;
@@ -23,6 +25,8 @@ import javax.annotation.Resource;
 public class BlueGameLeaveServiceImpl implements IBlueGameLeaveService {
     @Resource
     private BlueGameLeaveMapper blueGameLeaveMapper;
+    @Resource
+    private RemoteUserService remoteUserService;
 
     /**
      * 查询游戏留言
@@ -45,6 +49,16 @@ public class BlueGameLeaveServiceImpl implements IBlueGameLeaveService {
     public List<BlueGameLeave> selectBlueGameLeaveList(BlueGameLeave blueGameLeave) {
         //获取留言列表
         List<BlueGameLeave> blueGameLeaves = blueGameLeaveMapper.selectBlueGameLeaveList(blueGameLeave);
+        for (BlueGameLeave blueGameLeaf : blueGameLeaves) {
+            UserVo userVo =
+                    remoteUserService.getUserInfoById(blueGameLeaf.getCreateBy(), SecurityConstants.FROM_SOURCE).getData();
+            if (StringUtils.isNotNull(userVo.getUserNickName())){
+                blueGameLeaf.setNickName(userVo.getUserNickName());
+                blueGameLeaf.setUserAvatar(userVo.getUserAvatar());
+            }else{
+                blueGameLeaf.setNickName("未知用户");
+            }
+        }
         return blueGameLeaves;
     }
 
@@ -56,6 +70,9 @@ public class BlueGameLeaveServiceImpl implements IBlueGameLeaveService {
      */
     @Override
     public int insertBlueGameLeave(BlueGameLeave blueGameLeave) {
+        Long userid = SecurityUtils.getLoginUser().getUserid();
+        blueGameLeave.setCreateBy(userid);
+        blueGameLeave.setCreateTime(new Date());
         return blueGameLeaveMapper.insertBlueGameLeave(blueGameLeave);
     }
 
@@ -90,19 +107,5 @@ public class BlueGameLeaveServiceImpl implements IBlueGameLeaveService {
     @Override
     public int deleteBlueGameLeaveById(Long id) {
         return blueGameLeaveMapper.deleteBlueGameLeaveById(id);
-    }
-
-    @Override
-    public List<BlueGameLeaveResDto> selectBlueGameLeaveListV2(BlueGameLeave blueGameLeave) {
-        //获取留言列表，联表查询用户信息
-        List<BlueGameLeaveResDto> leaveResDtos = blueGameLeaveMapper.selectBlueGameLeaveListV2(blueGameLeave);
-        // 转一下集合，尽量不让前端去操作
-        leaveResDtos = leaveResDtos.stream().map(item -> {
-            if (item.getLeaveImages() != null && !item.getLeaveMessage().isEmpty()) {
-                item.setLstImages(item.getLeaveImages().split(","));
-            }
-            return item;
-        }).collect(Collectors.toList());
-        return leaveResDtos;
     }
 }
