@@ -16,6 +16,7 @@ import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -211,6 +212,26 @@ public class ChatWebSocketServer {
         sendMessageVo.setFromUserAvatar(loginUser.getSysUser().getAvatar());
         sendMessageVo.setFromUserNickName(loginUser.getSysUser().getNickName());
         sendMessageVo.setData(loginUser.getUsername()+"上线了");
+        webSocketMap.forEach((k,v)->{
+            try {
+                v.session.getBasicRemote().sendText(JSONObject.toJSONString(sendMessageVo));
+            } catch (IOException e) {
+                errorMessageVo error = errorMessageVo.builder()
+                        .data("消息发送失败")
+                        .type(ChatConstants.MessageFailType)
+                        .build();
+                onError(JSONObject.toJSONString(error),v.session);
+            }
+        });
+    }
+    /**
+     * 服务器推送在线用户给玩家
+     */
+    @Scheduled(fixedRate = 10000)
+    public void sendAllUserMessage(){
+        sendMessageVo sendMessageVo = new sendMessageVo();
+        sendMessageVo.setType(ChatConstants.OnLineType);
+        sendMessageVo.setData("系统定时推送消息");
         webSocketMap.forEach((k,v)->{
             try {
                 v.session.getBasicRemote().sendText(JSONObject.toJSONString(sendMessageVo));

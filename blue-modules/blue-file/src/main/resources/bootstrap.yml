@@ -1,9 +1,6 @@
 # Tomcat
 server:
   port: 9500
-  ssl:
-    key-store: classpath:cert/bluearchive.top.jks
-    key-store-password: t7hg9odi
 
 # Spring
 spring:

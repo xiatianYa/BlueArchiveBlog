@@ -148,7 +148,7 @@ public class GameWebSocketServer {
      * 服务器推送地图数据给服务器端
      */
     @Scheduled(fixedRate = 2000)
-    public void sendServerMessage() throws IOException{
+    public void sendServerMessage(){
         Map<String, String> serverJson = redisService.getCacheMap("server_json");
         webSocketMap.forEach((k,v)->{
             try {
