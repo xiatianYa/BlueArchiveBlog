@@ -56,6 +56,7 @@ public class GameWebSocketServer {
             this.userId=Long.valueOf(random);
             webSocketMap.put(this.userId,this);
             System.out.println("用户"+this.userId+"连接成功");
+            System.out.println("当前在线用户"+webSocketMap.size());
             //发送消息给用户
             sendMessage(JSONObject.toJSONString(messageVo));
         }catch (Exception e){
@@ -120,7 +121,9 @@ public class GameWebSocketServer {
                     .build()))
                     .type(ChatConstants.ServerMessageSuccessType)
                     .build();
-            session.getBasicRemote().sendText(JSONObject.toJSONString(response));
+            synchronized (session) {
+                session.getBasicRemote().sendText(JSONObject.toJSONString(response));
+            }
         }catch (Exception e) {
             String responseJson;
             //返回数据为null 获取失败
@@ -147,7 +150,7 @@ public class GameWebSocketServer {
     /**
      * 服务器推送地图数据给服务器端
      */
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 3000)
     public void sendServerMessage(){
         Map<String, String> serverJson = redisService.getCacheMap("server_json");
         webSocketMap.forEach((k,v)->{
@@ -156,7 +159,9 @@ public class GameWebSocketServer {
                         .data(JSONObject.toJSONString(serverJson))
                         .type(ChatConstants.ServerPushServerDataType)
                         .build();
-                v.session.getBasicRemote().sendText(JSONObject.toJSONString(build));
+                synchronized (v.session) {
+                    v.session.getBasicRemote().sendText(JSONObject.toJSONString(build));
+                }
             } catch (IOException e) {
                 String responseJson;
                 //返回数据为null 获取失败
@@ -166,7 +171,7 @@ public class GameWebSocketServer {
                         .build();
                 responseJson = JSONObject.toJSONString(error);
                 try {
-                    session.getBasicRemote().sendText(responseJson);
+                    v.session.getBasicRemote().sendText(responseJson);
                 } catch (IOException ex) {
                     System.out.println("服务器推送消息失败!");
                 }

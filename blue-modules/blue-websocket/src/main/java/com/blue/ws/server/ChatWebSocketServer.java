@@ -82,7 +82,7 @@ public class ChatWebSocketServer {
      */
     @OnClose
     public void onClose() {
-        if(webSocketMap.containsKey(loginUser.getUserid())){
+        if(StringUtils.isNotNull(loginUser) && webSocketMap.containsKey(loginUser.getUserid())){
             //删除当前连接
             webSocketMap.remove(loginUser.getUserid());
             //用户断开

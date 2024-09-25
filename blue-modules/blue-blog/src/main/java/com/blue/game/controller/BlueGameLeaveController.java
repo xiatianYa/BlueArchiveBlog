@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.blue.common.security.annotation.RequiresLogin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,7 +37,6 @@ public class BlueGameLeaveController extends BaseController {
     /**
      * 查询游戏留言列表
      */
-    @RequiresPermissions("game:leave:list")
     @GetMapping("/list")
     public AjaxResult list(BlueGameLeave blueGameLeave) {
         return AjaxResult.success(blueGameLeaveService.selectBlueGameLeaveList(blueGameLeave));
@@ -66,6 +66,7 @@ public class BlueGameLeaveController extends BaseController {
     /**
      * 新增游戏留言
      */
+    @RequiresLogin
     @Log(title = "游戏留言", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlueGameLeave blueGameLeave) {

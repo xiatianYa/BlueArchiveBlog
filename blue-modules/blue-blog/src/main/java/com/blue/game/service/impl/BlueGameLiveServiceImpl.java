@@ -108,9 +108,9 @@ public class BlueGameLiveServiceImpl implements IBlueGameLiveService
                     .getString("cover");
             String avatarPath = BiliUtils.getBiliLiveUserInfoApi(blueGameLive.getUid());
             //获取主播头像
-            String avatarUrl = ImageUtils.downloadImageAsResource(avatarPath, "/home/blueArchive/uploadPath/live/", blueGameLive.getUid() + ".jpg");
+            String avatarUrl = ImageUtils.downloadImageAsResource(avatarPath, "D:/blueArchive/uploadPath/live/", blueGameLive.getUid() + ".jpg");
             //获取背景
-            String bgUrl = ImageUtils.downloadImageAsResource(bgPath,"/home/blueArchive/uploadPath/live/", blueGameLive.getUid()+"bg.jpg");
+            String bgUrl = ImageUtils.downloadImageAsResource(bgPath,"D:/blueArchive/uploadPath/live/", blueGameLive.getUid()+"bg.jpg");
             blueGameLive.setCreateBy(userId);
             blueGameLive.setAvatar(avatarUrl);
             blueGameLive.setBgUrl(bgUrl);

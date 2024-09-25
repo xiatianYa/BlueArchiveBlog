@@ -62,7 +62,8 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
         blueGameServers.forEach(item->{
             item.setModeName(GameModeStatus.getInfoByCode(item.getModeId()));
         });
-        blueGameServers.sort(Comparator.comparing(BlueGameServer::getModeId));
+        blueGameServers.sort(Comparator.comparing(BlueGameServer::getModeId)
+                .thenComparing(BlueGameServer::getName));
         return blueGameServers;
     }
 

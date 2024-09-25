@@ -1,11 +1,13 @@
 package com.blue.game.service.impl;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import com.blue.common.core.constant.SecurityConstants;
 import com.blue.common.core.utils.StringUtils;
 import com.blue.common.security.utils.SecurityUtils;
+import com.blue.game.domain.BlueGameServer;
 import com.blue.system.api.RemoteUserService;
 import com.blue.system.api.model.UserVo;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,7 @@ public class BlueGameLeaveServiceImpl implements IBlueGameLeaveService {
                 blueGameLeaf.setNickName("未知用户");
             }
         }
+        blueGameLeaves.sort(Comparator.comparing(BlueGameLeave::getCreateTime));
         return blueGameLeaves;
     }
 

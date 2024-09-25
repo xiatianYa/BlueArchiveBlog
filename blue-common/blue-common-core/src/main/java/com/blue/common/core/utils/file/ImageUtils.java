@@ -91,7 +91,7 @@ public class ImageUtils {
                     Path path = Paths.get(targetDir, fileName);
                     Files.createDirectories(path.getParent());
                     Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-                    return "https://bluearchive.top:9500/statics/live/" + fileName;
+                    return "https://bluearchive.top/statics/live/" + fileName;
                 }
             } else {
                 throw new RuntimeException("Failed to download image: " + responseEntity.getStatusCode());
