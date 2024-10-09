@@ -58,4 +58,6 @@ public interface IBlueGameMapService
      * @return 结果
      */
     public int deleteBlueGameMapById(Long id);
+
+    List<BlueGameMap> listAll();
 }

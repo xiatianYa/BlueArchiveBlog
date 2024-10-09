@@ -1,7 +1,9 @@
 package com.blue.game.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.common.core.enums.GameMapTagStatus;
 import com.blue.common.core.enums.GameTypeStatus;
 import com.blue.common.core.utils.StringUtils;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.blue.game.mapper.BlueGameMapMapper;
 import com.blue.game.domain.BlueGameMap;
 import com.blue.game.service.IBlueGameMapService;
+
+import javax.annotation.Resource;
 
 /**
  * 游戏地图Service业务层处理
@@ -20,7 +24,7 @@ import com.blue.game.service.IBlueGameMapService;
 @Service
 public class BlueGameMapServiceImpl implements IBlueGameMapService 
 {
-    @Autowired
+    @Resource
     private BlueGameMapMapper blueGameMapMapper;
 
     /**
@@ -111,5 +115,28 @@ public class BlueGameMapServiceImpl implements IBlueGameMapService
     public int deleteBlueGameMapById(Long id)
     {
         return blueGameMapMapper.deleteBlueGameMapById(id);
+    }
+
+    @Override
+    public List<BlueGameMap> listAll() {
+        List<BlueGameMap> blueGameMaps = blueGameMapMapper.selectList(new LambdaQueryWrapper<>());
+        blueGameMaps.forEach(item -> {
+            item.setTagName("");
+            if (StringUtils.isNotNull(item.getTag())){
+                String[] tags = item.getTag().split(",");
+                if (StringUtils.isNotEmpty(tags)){
+                    for (String tag : tags) {
+                        String tagName = GameMapTagStatus.getInfoByCode(Long.valueOf(tag));
+                        if (StringUtils.isNotNull(tagName)){
+                            item.setTagName(item.getTagName() + tagName + ",");
+                        }
+                    }
+                }
+            }
+            if (StringUtils.isNotNull(item.getType())){
+                item.setTypeName(GameTypeStatus.getInfoByCode(item.getType()));
+            }
+        });
+        return blueGameMaps;
     }
 }

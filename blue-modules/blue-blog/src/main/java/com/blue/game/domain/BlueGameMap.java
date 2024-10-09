@@ -1,5 +1,6 @@
 package com.blue.game.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
+
+import java.io.Serializable;
 
 /**
  * 游戏地图对象 blue_game_map
@@ -17,7 +20,7 @@ import com.blue.common.core.web.domain.BaseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlueGameMap
+public class BlueGameMap implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -46,6 +49,7 @@ public class BlueGameMap
 
     /** 地图难度名称 */
     @Excel(name = "地图难度名称")
+    @TableField(exist = false)
     private String typeName;
 
     /** 地图标签 */
@@ -54,6 +58,7 @@ public class BlueGameMap
 
     /** 地图标签名称 */
     @Excel(name = "地图标签名称")
+    @TableField(exist = false)
     private String tagName;
 
 

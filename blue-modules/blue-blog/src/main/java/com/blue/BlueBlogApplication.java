@@ -5,6 +5,7 @@ import com.blue.common.security.annotation.EnableRyFeignClients;
 import com.blue.common.swagger.annotation.EnableCustomSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * 博客模块
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringBootApplication
+@EnableCaching
 public class BlueBlogApplication {
     public static void main(String[] args) {
         SpringApplication.run(BlueBlogApplication.class, args);

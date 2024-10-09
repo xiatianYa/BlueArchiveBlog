@@ -4,7 +4,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import com.blue.game.domain.BlueGameMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import com.blue.common.log.annotation.Log;
 import com.blue.common.log.enums.BusinessType;
@@ -33,11 +36,22 @@ public class BlueGameServerController extends BaseController
      * 查询游戏服务器列表
      */
     @GetMapping("/list")
+    @Cacheable("serverAllCache")
     public TableDataInfo list(BlueGameServer blueGameServer)
     {
         startPage();
         List<BlueGameServer> list = blueGameServerService.selectBlueGameServerList(blueGameServer);
         return getDataTable(list);
+    }
+
+    /**
+     * 查询全部游戏服务器
+     *
+     */
+    @GetMapping("/listAll")
+    public AjaxResult listAll(){
+        List<BlueGameServer> list = blueGameServerService.listAll();
+        return AjaxResult.success(list);
     }
 
     /**
@@ -65,6 +79,7 @@ public class BlueGameServerController extends BaseController
     /**
      * 新增游戏服务器
      */
+    @CacheEvict("serverAllCache")
     @RequiresPermissions("game:server:add")
     @Log(title = "游戏服务器", businessType = BusinessType.INSERT)
     @PostMapping
@@ -76,6 +91,7 @@ public class BlueGameServerController extends BaseController
     /**
      * 修改游戏服务器
      */
+    @CacheEvict("serverAllCache")
     @RequiresPermissions("game:server:edit")
     @Log(title = "游戏服务器", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -87,6 +103,7 @@ public class BlueGameServerController extends BaseController
     /**
      * 删除游戏服务器
      */
+    @CacheEvict("serverAllCache")
     @RequiresPermissions("game:server:remove")
     @Log(title = "游戏服务器", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")

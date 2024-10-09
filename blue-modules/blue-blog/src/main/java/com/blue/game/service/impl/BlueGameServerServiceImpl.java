@@ -6,6 +6,7 @@ import java.rmi.ServerException;
 import java.util.*;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.blue.common.core.enums.GameModeStatus;
 import com.blue.common.core.utils.DateUtils;
 import com.blue.common.core.utils.SteamUtils;
@@ -128,5 +129,10 @@ public class BlueGameServerServiceImpl implements IBlueGameServerService
         }
         Map<String, String> serverJson = redisService.getCacheMap("server_json");
         return serverJson.get(countryId);
+    }
+
+    @Override
+    public List<BlueGameServer> listAll() {
+        return blueGameServerMapper.selectList(new LambdaQueryWrapper<>());
     }
 }

@@ -1,10 +1,11 @@
 package com.blue.game.controller;
 
 import java.util.List;
-import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,6 +49,17 @@ public class BlueGameMapController extends BaseController
     }
 
     /**
+     * 查询全部游戏地图列表
+     *
+     */
+    @GetMapping("/listAll")
+    @Cacheable("mapAllCache")
+    public AjaxResult listAll(){
+        List<BlueGameMap> list = blueGameMapService.listAll();
+        return AjaxResult.success(list);
+    }
+
+    /**
      * 导出游戏地图列表
      */
     @RequiresPermissions("game:map:export")
@@ -73,6 +85,7 @@ public class BlueGameMapController extends BaseController
     /**
      * 新增游戏地图
      */
+    @CacheEvict("mapAllCache")
     @RequiresPermissions("game:map:add")
     @Log(title = "游戏地图", businessType = BusinessType.INSERT)
     @PostMapping
@@ -84,6 +97,7 @@ public class BlueGameMapController extends BaseController
     /**
      * 修改游戏地图
      */
+    @CacheEvict("mapAllCache")
     @RequiresPermissions("game:map:edit")
     @Log(title = "游戏地图", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -95,6 +109,7 @@ public class BlueGameMapController extends BaseController
     /**
      * 删除游戏地图
      */
+    @CacheEvict("mapAllCache")
     @RequiresPermissions("game:map:remove")
     @Log(title = "游戏地图", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")

@@ -64,6 +64,6 @@ public interface BlueGameStatisticsMapper  extends BaseMapper<BlueGameStatistics
      */
     public int deleteBlueGameStatisticsByIds(Long[] ids);
 
-    @Select("SELECT community_id,MAX(community_play) AS communityPlay, DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS timeMinute FROM blue_game_statistics GROUP BY community_id, timeMinute ORDER BY community_id, timeMinute")
+    @Select("SELECT community_id,MAX(community_play) AS communityPlay,DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS timeMinute FROM blue_game_statistics WHERE time >= NOW() - INTERVAL 1 DAY GROUP BY community_id,DATE_FORMAT(time, '%Y-%m-%d %H:%i') ORDER BY community_id,timeMinute")
     List<BlueGameStatistics> selectBlueGameStatisticsListAll();
 }

@@ -1,6 +1,8 @@
 package com.blue.game.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blue.game.domain.BlueGameMap;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2024-08-24
  */
 @Mapper
-public interface BlueGameMapMapper 
+public interface BlueGameMapMapper extends BaseMapper<BlueGameMap>
 {
     /**
      * 查询游戏地图

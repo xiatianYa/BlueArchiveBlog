@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.blue.common.core.annotation.Excel;
 import com.blue.common.core.web.domain.BaseEntity;
 
+import java.io.Serializable;
+
 /**
  * 游戏服务器对象 blue_game_server
  * 
@@ -18,7 +20,7 @@ import com.blue.common.core.web.domain.BaseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlueGameServer
+public class BlueGameServer implements Serializable
 {
     private static final long serialVersionUID = 1L;
 

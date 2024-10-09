@@ -61,4 +61,6 @@ public interface IBlueGameServerService
     public int deleteBlueGameServerById(Long id);
 
     String getSteamApi(String countryId);
+
+    List<BlueGameServer> listAll();
 }
