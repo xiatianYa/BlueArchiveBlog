@@ -9,6 +9,8 @@ import com.blue.common.core.utils.udp.GameServerUtil;
 import com.blue.common.redis.service.RedisService;
 import com.blue.ws.entry.*;
 import lombok.SneakyThrows;
+import net.jodah.expiringmap.ExpirationPolicy;
+import net.jodah.expiringmap.ExpiringMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -30,6 +33,19 @@ public class GameWebSocketServer {
     private Session session;
     /**concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。*/
     private static final ConcurrentHashMap<Long, GameWebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    private final static ExpiringMap<String, byte[]> expireCacheMap = ExpiringMap.builder()
+            // 设置最大值,添加第11个entry时，会导致第1个立马过期(即使没到过期时间)。默认 Integer.MAX_VALUE
+            .maxSize(20)
+            // 允许 Map 元素具有各自的到期时间，并允许更改到期时间。
+            .variableExpiration()
+            // 设置过期时间，如果key不设置过期时间，key永久有效。
+            .expiration(3, TimeUnit.SECONDS)
+            .asyncExpirationListener((key, value) -> {
+                System.out.println("expireCacheMap key数据被删除了 -> key = "+key);
+            })
+            //设置 Map 的过期策略
+            .expirationPolicy(ExpirationPolicy.CREATED)
+            .build();
     /**登录用户信息*/
     private Long userId;
     /**RedisService*/
@@ -98,7 +114,17 @@ public class GameWebSocketServer {
         try {
             //Json实例化对象
             gameServerMessageVo requestParam = JSONObject.parseObject(message, gameServerMessageVo.class);
-            byte[] responseData = GameServerUtil.sendAndReceiveUDP(requestParam.getIp(), requestParam.getPort());
+            byte[] responseData = expireCacheMap.get(requestParam.getName());
+            if(StringUtils.isNull(responseData)){
+                responseData= GameServerUtil.sendAndReceiveUDP(requestParam.getIp(), requestParam.getPort());
+                //某些狗社区设置单独的CD
+                if(requestParam.getCommunityId().equals(4)){
+                    expireCacheMap.put(requestParam.getName(),responseData,4500,TimeUnit.MILLISECONDS);
+                }else{
+                    //其他社区 缓存200ms
+                    expireCacheMap.put(requestParam.getName(),responseData,100,TimeUnit.MILLISECONDS);
+                }
+            }
             String responseJson;
             //返回数据为null 获取失败
             if (StringUtils.isNull(responseData)) {

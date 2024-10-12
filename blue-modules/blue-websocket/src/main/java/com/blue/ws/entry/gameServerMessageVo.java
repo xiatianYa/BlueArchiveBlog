@@ -14,6 +14,10 @@ public class gameServerMessageVo {
     private String ip;
     //端口
     private Integer port;
+    //社区ID
+    private Integer communityId;
+    //服务器名称
+    private String name;
     //最小在线人数
     private Integer minPlayers;
     //返回码

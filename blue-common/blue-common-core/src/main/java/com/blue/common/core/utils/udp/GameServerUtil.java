@@ -59,7 +59,11 @@ public class GameServerUtil {
             socket.close();
             return findSequence(receivedData, (byte) -38, (byte) 2);
         } catch (Exception e) {
-            return null;
+            //返回一个byte [64,64]
+            byte[] result = new byte[2];
+            result[0]=64;
+            result[1]=64;
+            return result;
         }
     }
 

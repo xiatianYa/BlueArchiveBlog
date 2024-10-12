@@ -5,19 +5,20 @@ import java.util.Map;
 
 /** 游戏标签枚举类 */
 public enum GameModeStatus {
-    ZOMBIE_ESCAPE(1L, "僵尸逃跑"),
-    ZOMBIE_INFECTION(2L, "僵尸感染"),
-    HIDE_THE_CAT(3L, "躲猫猫"),
+    ZOMBIE_ESCAPE_2(1L, "CS2 - 僵尸逃跑"),
+    ZOMBIE_INFECTION(2L, "CS2 - 僵尸感染"),
+    HIDE_THE_CAT(3L, "CS2 - 躲猫猫"),
     FULL_TEN(4L, "满十"),
     MG(5L, "MG"),
-    MIXED_BATTLE(6L, "混战"),
+    MIXED_BATTLE(6L, "C混战"),
     TTT(7L, "TTT"),
     ON_HOOK(8L, "挂机大厅"),
     INSCRIPTION_VIEW(9L, "饰品检视"),
     GAME_MODE_STATUS_RELAXATION_COMBAT(10L, "休闲对抗"),
     GAME_MODE_STATUS_ESCAPE_GAME(11L, "越狱搞基"),
     GAME_MODE_STATUS_CLIMBING_SPEED(12L, "攀岩竞速"),
-    GAME_MODE_STATUS_CLOTHING_MIXED_BATTLE(13L, "女装混战");
+    GAME_MODE_STATUS_CLOTHING_MIXED_BATTLE(13L, "女装混战"),
+    ZOMBIE_ESCAPE(14L, "CS - 僵尸逃跑");
 
 
 
